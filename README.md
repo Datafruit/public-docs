@@ -9,7 +9,7 @@ cd public-docs
 
 # 先安装nodejs和npm（略）
 # 安装gitbook
-npm i -g gitbook
+npm i -g gitbook-cli
 
 # 安装gitbook插件
 gitbook install
