@@ -1,7 +1,7 @@
 # public-docs
 数果产品文档，使用gitbook发布
 
-## 如何编辑
+## 开始使用
 
 ```bash
 git clone git@github.com:Datafruit/public-docs.git
@@ -16,7 +16,11 @@ gitbook install
 
 # 预览
 gitbook serve
+# 然后浏览器访问http://localhost:4000
+```
 
+## 编辑并提交内容
+```bash
 # 从master创建分支再编辑
 git checkout master
 git pull
@@ -33,7 +37,6 @@ git push
 
 #然后创建pull request, 并通知管理员review 你编辑的内容，合并到master分支并且更新到服务器
 
-# 然后浏览器访问http://localhost:4000
 ```
 
 ## 更新到docs.sugo.io
