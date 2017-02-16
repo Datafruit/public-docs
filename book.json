@@ -1,12 +1,12 @@
 {
-    "structure": {
-        "readme": "book-index.md"
-    },
-    "plugins": ["anchorjs"],
-    "pluginsConfig": {
-        "anchorjs": {
-            "placement": "left",
-            "visible": "always"
-        }
+  "structure": {
+    "readme": "book-index.md"
+  },
+  "plugins": ["anchorjs"],
+  "pluginsConfig": {
+    "anchorjs": {
+      "placement": "left",
+      "visible": "always"
     }
+  }
 }

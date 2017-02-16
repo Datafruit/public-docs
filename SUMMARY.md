@@ -1,7 +1,6 @@
 # Summary
 
-* [数果星盘使用手册](README.md)
-* [数果智能帮助文档简介](shu_guo_zhi_neng_bang_zhu_wen_dang_jian_jie.md)
+* [数果智能帮助文档简介](book-index.md)
 * [快速使用](kuai_su_shi_yong/README.md)
   * [准备工作：建立场景项目](kuai_su_shi_yong/zhun_bei_gong_zuo_ff1a_jian_li_chang_jing_xiang_mu.md)
   * [准备工作：数据接入](kuai_su_shi_yong/zhun_bei_gong_zuo_ff1a_shu_ju_jie_ru/README.md)
