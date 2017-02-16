@@ -2,7 +2,7 @@
 
 **维度区域**
 
-维度，就是我们常说的字段，覆盖了数据表里面的相应字段名称。其主要由字符串、日期、数值等三种格式的维度构成。其中，RBC代表字符串维度、#代表数值维度、(../assets/cuserslenovoappdataroamingten.png)时间维度。
+维度，就是我们常说的字段，覆盖了数据表里面的相应字段名称。其主要由字符串、日期、数值等三种格式的维度构成。其中，RBC代表字符串维度、#代表数值维度、![C:\Users\lenovo\AppData\Roaming\Tencent\Users\372566580\QQ\WinTemp\RichOle\3`{%9WGVOPU%7R}C}Y(LLJ7.png](../assets/cuserslenovoappdataroamingten.png)时间维度。
 
 **预设数值区域**
 
