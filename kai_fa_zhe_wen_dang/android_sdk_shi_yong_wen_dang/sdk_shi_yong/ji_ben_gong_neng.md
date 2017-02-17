@@ -7,6 +7,7 @@
 * eventId : 事件 id
 * eventName : 事件名称
 * properties : 事件的属性
+
 ```
 SugoAPI sugoAPI = SugoAPI.getInstance(context);
 
@@ -18,9 +19,11 @@ props.put("Plan", "Premium");
 
 sugoAPI.track("Plan Selected", props);
 ```
+
 ## 时长事件
 
 调用SugoAPI.timeEvent()来追踪一个事件发生的时长，例如统计一次图片上传所消耗的时间
+
 ```
 SugoAPI sugoAPI = SugoAPI.getInstance(context);
 
@@ -36,6 +39,7 @@ sugoAPI.track("Image Upload");
 
 }
 ```
+
 ## 开启 H5 埋点
 
 ### **1.WebView 支持**
