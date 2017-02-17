@@ -1,33 +1,36 @@
-### Aggregations {#aggregations}
+# Aggregations
 
-&lt;a id=&quot;COUNT&quot; href=&quot;#COUNT&quot;&gt;#&lt;/a&gt; **COUNT**(expr?)
+```javascript
 
-如果在没有表达式的情况下使用（或者作为COUNT(*)）返回行数的计数。 当提供表达式时，返回expr不为null的行的计数。
+&lt;a id="COUNT" href="\#COUNT"&gt;\#&lt;/a&gt; **COUNT**\(expr?\)
 
-&lt;a id=&quot;COUNT&quot; href=&quot;#COUNT&quot;&gt;#&lt;/a&gt; **COUNT**(**DISTINCT** expr), **COUNT_DISTINCT**(expr)
+如果在没有表达式的情况下使用（或者作为COUNT\(\*\)）返回行数的计数。 当提供表达式时，返回expr不为null的行的计数。
+
+&lt;a id="COUNT" href="\#COUNT"&gt;\#&lt;/a&gt; **COUNT**\(**DISTINCT** expr\), **COUNT\_DISTINCT**\(expr\)
 
 返回具有不同expr值的行数的计数。
 
-&lt;a id=&quot;SUM&quot; href=&quot;#SUM&quot;&gt;#&lt;/a&gt; **SUM**(expr)
+&lt;a id="SUM" href="\#SUM"&gt;\#&lt;/a&gt; **SUM**\(expr\)
 
 返回所有expr值的总和。
 
-&lt;a id=&quot;MIN&quot; href=&quot;#MIN&quot;&gt;#&lt;/a&gt; **MIN**(expr)
+&lt;a id="MIN" href="\#MIN"&gt;\#&lt;/a&gt; **MIN**\(expr\)
 
 返回所有expr值的最小值。
 
-&lt;a id=&quot;MAX&quot; href=&quot;#MAX&quot;&gt;#&lt;/a&gt; **MAX**(expr)
+&lt;a id="MAX" href="\#MAX"&gt;\#&lt;/a&gt; **MAX**\(expr\)
 
 返回所有expr值的最大值。
 
-&lt;a id=&quot;AVG&quot; href=&quot;#AVG&quot;&gt;#&lt;/a&gt; **AVG**(expr)
+&lt;a id="AVG" href="\#AVG"&gt;\#&lt;/a&gt; **AVG**\(expr\)
 
 返回所有expr值的平均值。
 
-&lt;a id=&quot;QUANTILE&quot; href=&quot;#QUANTILE&quot;&gt;#&lt;/a&gt; **QUANTILE**(expr, quantile)
+&lt;a id="QUANTILE" href="\#QUANTILE"&gt;\#&lt;/a&gt; **QUANTILE**\(expr, quantile\)
 
 返回所有expr值的上层分位数。
 
-&lt;a id=&quot;CUSTOM&quot; href=&quot;#CUSTOM&quot;&gt;#&lt;/a&gt; **CUSTOM**(custom_name)
+&lt;a id="CUSTOM" href="\#CUSTOM"&gt;\#&lt;/a&gt; **CUSTOM**\(custom\_name\)
 
-返回名为custom_name的用户定义聚合。
+返回名为custom\_name的用户定义聚合。
+```

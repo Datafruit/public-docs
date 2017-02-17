@@ -1,21 +1,26 @@
-### 页面停留事件
+# 页面停留事件
 
-sugoio.init(&#039;YOUR_TOKEN&#039;, {
+sugoio.init\('YOUR\_TOKEN', {
 
-project_id: &#039;YOUR_PROJECT_ID&#039;,
+project\_id: 'YOUR\_PROJECT\_ID',
 
-loaded: **function**(lib) {
+loaded: **function**\(lib\) {
 
-sugoio.time_event(&#039;停留&#039;)
+sugoio.time\_event\('停留'\)
 
-sugoio._.register_event(window, &#039;beforeunload&#039;, **function**(){
+sugoio.\_.register\_event\(window, 'beforeunload', **function**\(\){
 
-sugoio.track(&#039;停留&#039;, {path_name: location.pathname})
+sugoio.track\('停留', {path\_name: location.pathname}\)
 
-}, false, true)
+}, false, true\)
 
 }
 
 ....
 
-});
+}\);
+
+#### sugoio.register\_once\(object\) {#sugoio-register-once-object}
+
+在 Cookie 中永久保存属性，如果存在这个属性了则不覆盖
+

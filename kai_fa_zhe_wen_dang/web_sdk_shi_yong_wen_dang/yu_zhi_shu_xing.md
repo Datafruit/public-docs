@@ -1,123 +1,126 @@
-### 预置属性
+# 预置属性
+```javascript
 
-[&#039;sugo_nation&#039;, &#039;国家&#039;], //用户所在国家(ip反解析)
+\['sugo\_nation', '国家'\], //用户所在国家\(ip反解析\)
 
-[&#039;sugo_province&#039;, &#039;省份&#039;], //用户所在省份(ip反解析)
+\['sugo\_province', '省份'\], //用户所在省份\(ip反解析\)
 
-[&#039;sugo_city&#039;, &#039;城市&#039;], //用户所在城市(ip反解析)
+\['sugo\_city', '城市'\], //用户所在城市\(ip反解析\)
 
-[&#039;sugo_district&#039;, &#039;地区&#039;], //用户所在地区(ip反解析)
+\['sugo\_district', '地区'\], //用户所在地区\(ip反解析\)
 
-[&#039;sugo_area&#039;, &#039;区域&#039;], //用户所在区域(ip反解析)
+\['sugo\_area', '区域'\], //用户所在区域\(ip反解析\)
 
-[&#039;sugo_latitude&#039;, &#039;纬度&#039;], //纬度(ip反解析)
+\['sugo\_latitude', '纬度'\], //纬度\(ip反解析\)
 
-[&#039;sugo_longitude&#039;, &#039;经度&#039;], //经度(ip反解析)
+\['sugo\_longitude', '经度'\], //经度\(ip反解析\)
 
-[&#039;sugo_city_timezone&#039;, &#039;城市时区&#039;], //所在时区代表城市(ip反解析)
+\['sugo\_city\_timezone', '城市时区'\], //所在时区代表城市\(ip反解析\)
 
-[&#039;sugo_timezone&#039;, &#039;时区&#039;], //所在时区(ip反解析)
+\['sugo\_timezone', '时区'\], //所在时区\(ip反解析\)
 
-[&#039;sugo_phone_code&#039;, &#039;国际区号&#039;], //国际区号(ip反解析)
+\['sugo\_phone\_code', '国际区号'\], //国际区号\(ip反解析\)
 
-[&#039;sugo_nation_code&#039;, &#039;国家代码&#039;], //国家代码(ip反解析)
+\['sugo\_nation\_code', '国家代码'\], //国家代码\(ip反解析\)
 
-[&#039;sugo_continent&#039;, &#039;所在大洲&#039;], //所在大洲(ip反解析)
+\['sugo\_continent', '所在大洲'\], //所在大洲\(ip反解析\)
 
-[&#039;sugo_administrative&#039;, &#039;行政区划代码&#039;], //中国行政区划代码(ip反解析)
+\['sugo\_administrative', '行政区划代码'\], //中国行政区划代码\(ip反解析\)
 
-[&#039;sugo_operator&#039;, &#039;运营商&#039;], //用户所在运营商(ip反解析)
+\['sugo\_operator', '运营商'\], //用户所在运营商\(ip反解析\)
 
-[&#039;sugo_ip&#039;, &#039;客户端IP&#039;], //客户端IP(nginx)
+\['sugo\_ip', '客户端IP'\], //客户端IP\(nginx\)
 
-[&#039;sugo_http_forward&#039;, &#039;客户端真实IP&#039;], //客户端真实ip(nginx)
+\['sugo\_http\_forward', '客户端真实IP'\], //客户端真实ip\(nginx\)
 
-[&#039;sugo_http_refer&#039;, &#039;Referer&#039;], //Referer(nginx)
+\['sugo\_http\_refer', 'Referer'\], //Referer\(nginx\)
 
-[&#039;sugo_user_agent&#039;, &#039;浏览器标识&#039;], //浏览器标识(nginx)
+\['sugo\_user\_agent', '浏览器标识'\], //浏览器标识\(nginx\)
 
-[&#039;brower, &#039;浏览器名称&#039;], //浏览器名称
+\['brower, '浏览器名称'\], //浏览器名称
 
-[&#039;brower_version&#039;, &#039;浏览器版本&#039;], //浏览器版本
+\['brower\_version', '浏览器版本'\], //浏览器版本
 
-[&#039;sugo_args&#039;, &#039;请求参数&#039;], //请求参数(nginx)
+\['sugo\_args', '请求参数'\], //请求参数\(nginx\)
 
-[&#039;sugo_http_cookie&#039;, &#039;HttpCookie&#039;], //HttpCookie(nginx)
+\['sugo\_http\_cookie', 'HttpCookie'\], //HttpCookie\(nginx\)
 
-[&#039;app_name&#039;, &#039;系统名称&#039;], //系统或app的系统名称
+\['app\_name', '系统名称'\], //系统或app的系统名称
 
-[&#039;app_version&#039;, &#039;系统版本&#039;], //系统或app的系统版本
+\['app\_version', '系统版本'\], //系统或app的系统版本
 
-[&#039;app_build_number&#039;, &#039;android build number&#039;], //android build number
+\['app\_build\_number', 'android build number'\], //android build number
 
-[&#039;session_id&#039;,&#039;会话ID&#039;], //会话id
+\['session\_id','会话ID'\], //会话id
 
-[&#039;network&#039;, &#039;网络类型&#039;], //用户使用的网络
+\['network', '网络类型'\], //用户使用的网络
 
-[&#039;device_id&#039;,&#039;设备ID&#039;], //浏览器cookies（首次访问时生成)/Android或ios device id
+\['device\_id','设备ID'\], //浏览器cookies（首次访问时生成\)/Android或ios device id
 
-[&#039;bluetooth_version&#039;, &#039;蓝牙版本&#039;], //用户蓝牙版本
+\['bluetooth\_version', '蓝牙版本'\], //用户蓝牙版本
 
-[&#039;has_bluetooth&#039;, &#039;蓝牙版本&#039;], //用户是否有蓝牙
+\['has\_bluetooth', '蓝牙版本'\], //用户是否有蓝牙
 
-[&#039;device_brand&#039;, &#039;品牌&#039;], //用户电脑、平板、或手机牌子
+\['device\_brand', '品牌'\], //用户电脑、平板、或手机牌子
 
-[&#039;device_model&#039;, &#039;品牌型号&#039;], //用户电脑、平板、或手机型号
+\['device\_model', '品牌型号'\], //用户电脑、平板、或手机型号
 
-[&#039;system_name&#039;, &#039;浏览器/android/ios&#039;], //用户系统、平板或手机OS
+\['system\_name', '浏览器/android/ios'\], //用户系统、平板或手机OS
 
-[&#039;system_version&#039;, &#039;操作系统版本&#039;], //用户平板或手机OS版本
+\['system\_version', '操作系统版本'\], //用户平板或手机OS版本
 
-[&#039;radio&#039;, &#039;通信协议&#039;], //通信协议
+\['radio', '通信协议'\], //通信协议
 
-[&#039;carrier&#039;, &#039;运营商&#039;], //运营商
+\['carrier', '运营商'\], //运营商
 
-[&#039;screen_dpi&#039;, &#039;分辨率&#039;], //客户端分辨率
+\['screen\_dpi', '分辨率'\], //客户端分辨率
 
-[&#039;screen_height&#039;, &#039;屏幕高度&#039;], //客户端屏幕高度
+\['screen\_height', '屏幕高度'\], //客户端屏幕高度
 
-[&#039;screen_width&#039;, &#039;屏幕宽度&#039;], //客户端屏幕宽度
+\['screen\_width', '屏幕宽度'\], //客户端屏幕宽度
 
-[&#039;event_time&#039;, &#039;客户端事件时间&#039;, 4], //客户端事件发生时间（unix毫秒数)
+\['event\_time', '客户端事件时间', 4\], //客户端事件发生时间（unix毫秒数\)
 
-[&#039;current_url&#039;, &#039;当前请求地址&#039;], //客户端当前请求地址
+\['current\_url', '当前请求地址'\], //客户端当前请求地址
 
-[&#039;referrer&#039;, &#039;客户引荐&#039;], //客户引荐
+\['referrer', '客户引荐'\], //客户引荐
 
-[&#039;referring_domain&#039;, &#039;客户引荐域名&#039;], //客户引荐域名
+\['referring\_domain', '客户引荐域名'\], //客户引荐域名
 
-[&#039;host&#039;, &#039;客户端域名&#039;], //客户端域名
+\['host', '客户端域名'\], //客户端域名
 
-[&#039;distinct_id&#039;, &#039;用户唯一ID&#039;], //用户唯一ID
+\['distinct\_id', '用户唯一ID'\], //用户唯一ID
 
-[&#039;has_nfc&#039;, &#039;NFC功能&#039;], //NFC功能
+\['has\_nfc', 'NFC功能'\], //NFC功能
 
-[&#039;has_telephone&#039;, &#039;电话功能&#039;], //电话功能
+\['has\_telephone', '电话功能'\], //电话功能
 
-[&#039;has_wifi&#039;, &#039;WIFI功能&#039;], //wifi功能
+\['has\_wifi', 'WIFI功能'\], //wifi功能
 
-[&#039;manufacturer&#039;, &#039;设备制造商&#039;], //设备制造商
+\['manufacturer', '设备制造商'\], //设备制造商
 
-[&#039;duration&#039;, &#039;停留时间&#039;, 1], //页面停留时间
+\['duration', '停留时间', 1\], //页面停留时间
 
-[&#039;sdk_version&#039;, &#039;SDK版本&#039;], //sdk版本
+\['sdk\_version', 'SDK版本'\], //sdk版本
 
-[&#039;page_name&#039;, &#039;页面名称&#039;], //页面名称或屏幕名称
+\['page\_name', '页面名称'\], //页面名称或屏幕名称
 
-[&#039;path_name&#039;, &#039;页面路径&#039;], //页面路径
+\['path\_name', '页面路径'\], //页面路径
 
-[&#039;event_id&#039;, &#039;事件ID&#039;], //事件ID
+\['event\_id', '事件ID'\], //事件ID
 
-[&#039;event_name&#039;, &#039;事件名称&#039;], //事件名称
+\['event\_name', '事件名称'\], //事件名称
 
-[&#039;event_type&#039;, &#039;事件类型&#039;], //事件类型click、focus、submit、change
+\['event\_type', '事件类型'\], //事件类型click、focus、submit、change
 
-[&#039;event_label&#039;, &#039;事件源文本&#039;], //事件源文本
+\['event\_label', '事件源文本'\], //事件源文本
 
-[&#039;sugo_lib&#039;, &#039;sdk类型&#039;], //sdk类型 web、ios、android
+\['sugo\_lib', 'sdk类型'\], //sdk类型 web、ios、android
 
-[&#039;token&#039;, &#039;应用ID&#039;], //应用ID
+\['token', '应用ID'\], //应用ID
 
-[&#039;from_binding&#039;, &#039;是否绑定事件&#039;], //是否绑定事件（用于区分是绑定的，还是系统自动上报的，比如浏览、启动为自动上报，绑定取值1，自动上报取值0）
+\['from\_binding', '是否绑定事件'\], //是否绑定事件（用于区分是绑定的，还是系统自动上报的，比如浏览、启动为自动上报，绑定取值1，自动上报取值0）
 
-[&#039;google_play_services&#039;, &#039;GooglePlay服务&#039;], //GooglePlay服务
+\['google\_play\_services', 'GooglePlay服务'\], //GooglePlay服务
+
+```

@@ -1,4 +1,4 @@
-### 示例
+# 示例
 
 这些例子我们查询一个Druid的broker节点：192.168.60.100 端口： 8082.
 
@@ -6,19 +6,20 @@
 
 MYSQL 查询Druid数据源列表
 
-plyql -h 192.168.60.100:8082 -q &#039;**SHOW** **TABLES**&#039;
+plyql -h 192.168.60.100:8082 -q '**SHOW** **TABLES**'
+```javascript
 
 HTTP接口请求
 
-http://192.168.60.100:8082/api/plyql/sql
+[http://192.168.60.100:8082/api/plyql/sql](http://192.168.60.100:8082/api/plyql/sql)
 
 post请求: application/json 参数
 
 {
 
-&quot;query&quot;:
+"query":
 
-&quot;SHOW TABLES&quot;
+"SHOW TABLES"
 
 }
 
@@ -26,179 +27,179 @@ post请求: application/json 参数
 
 {
 
-&quot;result&quot;: [
+"result": \[
 
 {
 
-&quot;Tables_in_database&quot;: &quot;wikipedia&quot;
+"Tables\_in\_database": "wikipedia"
 
 },
 
 ....
 
-]
+\]
 
 }
 
 查询Druid数据源表数据结构
 
-plyql -h 192.168.60.100:8082 -q &#039;**DESCRIBE** wikipedia&#039;
+plyql -h 192.168.60.100:8082 -q '**DESCRIBE** wikipedia'
 
 返回数据源的列定义：
 
-[
+\[
 
 {
 
-&quot;name&quot;: &quot;__time&quot;,
+"name": "\_\_time",
 
-&quot;type&quot;: &quot;TIME&quot;
+"type": "TIME"
 
 },
 
 {
 
-&quot;name&quot;: &quot;added&quot;,
+"name": "added",
 
-&quot;type&quot;: &quot;NUMBER&quot;,
+"type": "NUMBER",
 
-&quot;unsplitable&quot;: true
-
-},
-
-{
-
-&quot;name&quot;: &quot;channel&quot;,
-
-&quot;type&quot;: &quot;STRING&quot;
+"unsplitable": true
 
 },
 
 {
 
-&quot;name&quot;: &quot;cityName&quot;,
+"name": "channel",
 
-&quot;type&quot;: &quot;STRING&quot;
-
-},
-
-{
-
-&quot;name&quot;: &quot;comment&quot;,
-
-&quot;type&quot;: &quot;STRING&quot;
+"type": "STRING"
 
 },
 
 {
 
-&quot;name&quot;: &quot;commentLength&quot;,
+"name": "cityName",
 
-&quot;type&quot;: &quot;STRING&quot;
-
-},
-
-{
-
-&quot;name&quot;: &quot;count&quot;,
-
-&quot;type&quot;: &quot;NUMBER&quot;,
-
-&quot;unsplitable&quot;: true
+"type": "STRING"
 
 },
 
 {
 
-&quot;name&quot;: &quot;countryIsoCode&quot;,
+"name": "comment",
 
-&quot;type&quot;: &quot;STRING&quot;
-
-},
-
-{
-
-&quot;name&quot;: &quot;countryName&quot;,
-
-&quot;type&quot;: &quot;STRING&quot;
+"type": "STRING"
 
 },
 
 {
 
-&quot;name&quot;: &quot;deleted&quot;,
+"name": "commentLength",
 
-&quot;type&quot;: &quot;NUMBER&quot;,
-
-&quot;unsplitable&quot;: true
+"type": "STRING"
 
 },
 
 {
 
-&quot;name&quot;: &quot;delta&quot;,
+"name": "count",
 
-&quot;type&quot;: &quot;NUMBER&quot;,
+"type": "NUMBER",
 
-&quot;unsplitable&quot;: true
-
-},
-
-{
-
-&quot;name&quot;: &quot;deltaByTen&quot;,
-
-&quot;type&quot;: &quot;NUMBER&quot;,
-
-&quot;unsplitable&quot;: true
+"unsplitable": true
 
 },
 
 {
 
-&quot;name&quot;: &quot;delta_hist&quot;,
+"name": "countryIsoCode",
 
-&quot;type&quot;: &quot;NUMBER&quot;,
-
-&quot;special&quot;: &quot;histogram&quot;
+"type": "STRING"
 
 },
 
-&quot;... results omitted ...&quot;
+{
 
-]
+"name": "countryName",
 
-这里是一个简单的查询，获取最大的__time信息。此查询显示数据库中最新事件的时间。
+"type": "STRING"
 
-plyql -h 192.168.60.100:8082 -q &#039;**SELECT** **MAX**(__time) **AS** maxTime **FROM** wikipedia&#039;
+},
+
+{
+
+"name": "deleted",
+
+"type": "NUMBER",
+
+"unsplitable": true
+
+},
+
+{
+
+"name": "delta",
+
+"type": "NUMBER",
+
+"unsplitable": true
+
+},
+
+{
+
+"name": "deltaByTen",
+
+"type": "NUMBER",
+
+"unsplitable": true
+
+},
+
+{
+
+"name": "delta\_hist",
+
+"type": "NUMBER",
+
+"special": "histogram"
+
+},
+
+"... results omitted ..."
+
+\]
+
+这里是一个简单的查询，获取最大的\_\_time信息。此查询显示数据库中最新事件的时间。
+
+plyql -h 192.168.60.100:8082 -q '**SELECT** **MAX**\(\_\_time\) **AS** maxTime **FROM** wikipedia'
 
 返回:
 
-[
+\[
 
 {
 
-&quot;maxTime&quot;: {
+"maxTime": {
 
-&quot;type&quot;: &quot;TIME&quot;,
+"type": "TIME",
 
-&quot;value&quot;: &quot;2015-09-12T23:59:00.000Z&quot;
-
-}
+"value": "2015-09-12T23:59:00.000Z"
 
 }
 
-]
+}
+
+\]
 
 现在你可能要检查，不同的标签趋势。
 
 您可能会在这样的页面列上做分组：
 
-plyql -h 192.168.60.100:8082 -q &#039;
+plyql -h 192.168.60.100:8082 -q '
 
 **SELECT** page **as** pg,
 
-**COUNT**() **as** cnt
+**COUNT**\(\) **as** cnt
 
 **FROM** wikipedia
 
@@ -208,7 +209,7 @@ plyql -h 192.168.60.100:8082 -q &#039;
 
 **LIMIT** 5;
 
-&#039;
+'
 
 这将抛出一个错误，因为没有时间过滤指定plyql查询的范围。
 
@@ -216,15 +217,15 @@ plyql -h 192.168.60.100:8082 -q &#039;
 
 再试一次，用一个时间过滤器：
 
-plyql -h 192.168.60.100:8082 -q &#039;
+plyql -h 192.168.60.100:8082 -q '
 
 **SELECT** page **as** pg,
 
-**COUNT**() **as** cnt
+**COUNT**\(\) **as** cnt
 
 **FROM** wikipedia
 
-**WHERE** &quot;2015-09-12T00:00:00&quot; &lt;= __time **AND** __time &lt; &quot;2015-09-13T00:00:00&quot;
+**WHERE** "2015-09-12T00:00:00" &lt;= **time AND **time &lt; "2015-09-13T00:00:00"
 
 **GROUP** **BY** page
 
@@ -232,61 +233,61 @@ plyql -h 192.168.60.100:8082 -q &#039;
 
 **LIMIT** 5;
 
-&#039;
+'
 
 结果集:
 
-[
+\[
 
 {
 
-&quot;cnt&quot;: 314,
+"cnt": 314,
 
-&quot;pg&quot;: &quot;Jeremy Corbyn&quot;
+"pg": "Jeremy Corbyn"
 
 },
 
 {
 
-&quot;cnt&quot;: 255,
+"cnt": 255,
 
-&quot;pg&quot;: &quot;User:Cyde/List of candidates for speedy deletion/Subpage&quot;
-
-},
-
-{
-
-&quot;cnt&quot;: 228,
-
-&quot;pg&quot;: &quot;Wikipedia:Administrators&#039; noticeboard/Incidents&quot;
+"pg": "User:Cyde/List of candidates for speedy deletion/Subpage"
 
 },
 
 {
 
-&quot;cnt&quot;: 186,
+"cnt": 228,
 
-&quot;pg&quot;: &quot;Wikipedia:Vandalismusmeldung&quot;
+"pg": "Wikipedia:Administrators' noticeboard/Incidents"
 
 },
 
 {
 
-&quot;cnt&quot;: 160,
+"cnt": 186,
 
-&quot;pg&quot;: &quot;Total Drama Presents: The Ridonculous Race&quot;
+"pg": "Wikipedia:Vandalismusmeldung"
+
+},
+
+{
+
+"cnt": 160,
+
+"pg": "Total Drama Presents: The Ridonculous Race"
 
 }
 
-]
+\]
 
-Plyql有一个选项 --interval (-i) 自动过滤器加上interval间隔时间。 如果您不想键入时间筛选器，则这样设置非常有用。
+Plyql有一个选项 --interval \(-i\) 自动过滤器加上interval间隔时间。 如果您不想键入时间筛选器，则这样设置非常有用。
 
-plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
+plyql -h 192.168.60.100:8082 -i P1Y -q '
 
 **SELECT** page **as** pg,
 
-**COUNT**() **as** cnt
+**COUNT**\(\) **as** cnt
 
 **FROM** wikipedia
 
@@ -296,35 +297,35 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 **LIMIT** 5;
 
-&#039;
+'
 
-通过TIME_BUCKET函数可以对时间分解
+通过TIME\_BUCKET函数可以对时间分解
 
-plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
+plyql -h 192.168.60.100:8082 -i P1Y -q '
 
-**SELECT** **SUM**(added) **as** TotalAdded
+**SELECT** **SUM**\(added\) **as** TotalAdded
 
 **FROM** wikipedia
 
-**GROUP** **BY** TIME_BUCKET(__time, PT6H, &quot;Etc/UTC&quot;);
+**GROUP** **BY** TIME\_BUCKET\(\_\_time, PT6H, "Etc/UTC"\);
 
-&#039;
+'
 
 返回:
 
-[
+\[
 
 {
 
-&quot;TotalAdded&quot;: 15426936,
+"TotalAdded": 15426936,
 
-&quot;split0&quot;: {
+"split0": {
 
-&quot;start&quot;: &quot;2015-09-12T00:00:00.000Z&quot;,
+"start": "2015-09-12T00:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T06:00:00.000Z&quot;,
+"end": "2015-09-12T06:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
 
 }
 
@@ -332,31 +333,31 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 {
 
-&quot;TotalAdded&quot;: 25996165,
+"TotalAdded": 25996165,
 
-&quot;split0&quot;: {
+"split0": {
 
-&quot;start&quot;: &quot;2015-09-12T06:00:00.000Z&quot;,
+"start": "2015-09-12T06:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T12:00:00.000Z&quot;,
+"end": "2015-09-12T12:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
 
 }
 
 },
 
-&quot;... 结果省略了 ...&quot;
+"... 结果省略了 ..."
 
-]
+\]
 
-注意分组列如果没有选择但仍有返回, 列如TIME_BUCKET(__time, PT1H, &#039;Etc/UTC&#039;) as &#039;split&#039; 是查询列中的一个。 时间分割也支持，这里是一个例子：
+注意分组列如果没有选择但仍有返回, 列如TIME\_BUCKET\(\_\_time, PT1H, 'Etc/UTC'\) as 'split' 是查询列中的一个。 时间分割也支持，这里是一个例子：
 
-plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
+plyql -h 192.168.60.100:8082 -i P1Y -q '
 
-**SELECT** TIME_PART(__time, HOUR_OF_DAY, &quot;Etc/UTC&quot;) **as** HourOfDay,
+**SELECT** TIME\_PART\(\_\_time, HOUR\_OF\_DAY, "Etc/UTC"\) **as** HourOfDay,
 
-**SUM**(added) **as** TotalAdded
+**SUM**\(added\) **as** TotalAdded
 
 **FROM** wikipedia
 
@@ -364,59 +365,59 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 **ORDER** **BY** TotalAdded **DESC** **LIMIT** 3;
 
-&#039;
+'
 
 注意，这个 GROUP BY 指的是选择中的第一列。 这将返回：
 
-[
+\[
 
 {
 
-&quot;TotalAdded&quot;: 8077302,
+"TotalAdded": 8077302,
 
-&quot;HourOfDay&quot;: 10
+"HourOfDay": 10
 
 },
 
 {
 
-&quot;TotalAdded&quot;: 5998730,
+"TotalAdded": 5998730,
 
-&quot;HourOfDay&quot;: 17
+"HourOfDay": 17
 
 },
 
 {
 
-&quot;TotalAdded&quot;: 5210222,
+"TotalAdded": 5210222,
 
-&quot;HourOfDay&quot;: 18
+"HourOfDay": 18
 
 }
 
-]
+\]
 
 支持对直方图的分位数。 假设您想要使用直方图计算 0.95 分位数的三角洲筛选的城市是旧金山。
 
-plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
+plyql -h 192.168.60.100:8082 -i P1Y -q '
 
 **SELECT**
 
-QUANTILE(delta_hist **WHERE** cityName = &quot;San Francisco&quot;, 0.95) **as** P95
+QUANTILE\(delta\_hist **WHERE** cityName = "San Francisco", 0.95\) **as** P95
 
 **FROM** wikipedia;
 
-&#039;
+'
 
 它也是可能做到多维度分组查询的
 
-plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
+plyql -h 192.168.60.100:8082 -i P1Y -q '
 
-**SELECT** TIME_BUCKET(__time, PT1H, &quot;Etc/UTC&quot;) **as** **Hour**,
+**SELECT** TIME\_BUCKET\(\_\_time, PT1H, "Etc/UTC"\) **as** **Hour**,
 
 page **as** PageName,
 
-**SUM**(added) **as** TotalAdded
+**SUM**\(added\) **as** TotalAdded
 
 **FROM** wikipedia
 
@@ -426,25 +427,25 @@ page **as** PageName,
 
 **LIMIT** 3;
 
-&#039;
+'
 
 返回:
 
-[
+\[
 
 {
 
-&quot;TotalAdded&quot;: 242211,
+"TotalAdded": 242211,
 
-&quot;PageName&quot;: &quot;Wikipedia‐ノート:即時削除の方針/過去ログ16&quot;,
+"PageName": "Wikipedia‐ノート:即時削除の方針/過去ログ16",
 
-&quot;Hour&quot;: {
+"Hour": {
 
-&quot;start&quot;: &quot;2015-09-12T15:00:00.000Z&quot;,
+"start": "2015-09-12T15:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T16:00:00.000Z&quot;,
+"end": "2015-09-12T16:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
 
 }
 
@@ -452,17 +453,17 @@ page **as** PageName,
 
 {
 
-&quot;TotalAdded&quot;: 232941,
+"TotalAdded": 232941,
 
-&quot;PageName&quot;: &quot;Користувач:SuomynonA666/Заготовка&quot;,
+"PageName": "Користувач:SuomynonA666/Заготовка",
 
-&quot;Hour&quot;: {
+"Hour": {
 
-&quot;start&quot;: &quot;2015-09-12T14:00:00.000Z&quot;,
+"start": "2015-09-12T14:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T15:00:00.000Z&quot;,
+"end": "2015-09-12T15:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
 
 }
 
@@ -470,43 +471,43 @@ page **as** PageName,
 
 {
 
-&quot;TotalAdded&quot;: 214017,
+"TotalAdded": 214017,
 
-&quot;PageName&quot;: &quot;User talk:Estela.rs&quot;,
+"PageName": "User talk:Estela.rs",
 
-&quot;Hour&quot;: {
+"Hour": {
 
-&quot;start&quot;: &quot;2015-09-12T12:00:00.000Z&quot;,
+"start": "2015-09-12T12:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T13:00:00.000Z&quot;,
+"end": "2015-09-12T13:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
-
-}
+"type": "TIME\_RANGE"
 
 }
 
-]
+}
+
+\]
 
 这里是一个高级的示例，获取前 5 页编辑时间。 PlyQL 的一个显著特征是它对待 （aka 表） 的数据集作为可以嵌套在另一个表的只是另一种数据类型。 这使我们能够嵌套查询数据像这样︰
 
-plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
+plyql -h 192.168.60.100:8082 -i P1Y -q '
 
 **SELECT** page **as** Page,
 
-**COUNT**() **as** cnt,
+**COUNT**\(\) **as** cnt,
 
-(
+\(
 
 **SELECT**
 
-**SUM**(added) **as** TotalAdded
+**SUM**\(added\) **as** TotalAdded
 
-**GROUP** **BY** TIME_BUCKET(__time, PT1H, &quot;Etc/UTC&quot;)
+**GROUP** **BY** TIME\_BUCKET\(\_\_time, PT1H, "Etc/UTC"\)
 
 **LIMIT** 3 _-- only get the first 3 hours to keep this example output small_
 
-) **as** &quot;ByTime&quot;
+\) **as** "ByTime"
 
 **FROM** wikipedia
 
@@ -516,31 +517,31 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 **LIMIT** 5;
 
-&#039;
+'
 
 返回:
 
-[
+\[
 
 {
 
-&quot;cnt&quot;: 314,
+"cnt": 314,
 
-&quot;Page&quot;: &quot;Jeremy Corbyn&quot;,
+"Page": "Jeremy Corbyn",
 
-&quot;ByTime&quot;: [
+"ByTime": \[
 
 {
 
-&quot;TotalAdded&quot;: 1075,
+"TotalAdded": 1075,
 
-&quot;split0&quot;: {
+"split0": {
 
-&quot;start&quot;: &quot;2015-09-12T01:00:00.000Z&quot;,
+"start": "2015-09-12T01:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T02:00:00.000Z&quot;,
+"end": "2015-09-12T02:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
 
 }
 
@@ -548,59 +549,15 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 {
 
-&quot;TotalAdded&quot;: 0,
+"TotalAdded": 0,
 
-&quot;split0&quot;: {
+"split0": {
 
-&quot;start&quot;: &quot;2015-09-12T07:00:00.000Z&quot;,
+"start": "2015-09-12T07:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T08:00:00.000Z&quot;,
+"end": "2015-09-12T08:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
-
-}
-
-},
-
-{
-
-&quot;TotalAdded&quot;: 10553,
-
-&quot;split0&quot;: {
-
-&quot;start&quot;: &quot;2015-09-12T08:00:00.000Z&quot;,
-
-&quot;end&quot;: &quot;2015-09-12T09:00:00.000Z&quot;,
-
-&quot;type&quot;: &quot;TIME_RANGE&quot;
-
-}
-
-}
-
-]
-
-},
-
-{
-
-&quot;cnt&quot;: 255,
-
-&quot;Page&quot;: &quot;User:Cyde/List of candidates for speedy deletion/Subpage&quot;,
-
-&quot;ByTime&quot;: [
-
-{
-
-&quot;TotalAdded&quot;: 73,
-
-&quot;split0&quot;: {
-
-&quot;start&quot;: &quot;2015-09-12T00:00:00.000Z&quot;,
-
-&quot;end&quot;: &quot;2015-09-12T01:00:00.000Z&quot;,
-
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
 
 }
 
@@ -608,15 +565,43 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 {
 
-&quot;TotalAdded&quot;: 3363,
+"TotalAdded": 10553,
 
-&quot;split0&quot;: {
+"split0": {
 
-&quot;start&quot;: &quot;2015-09-12T01:00:00.000Z&quot;,
+"start": "2015-09-12T08:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T02:00:00.000Z&quot;,
+"end": "2015-09-12T09:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
+"type": "TIME\_RANGE"
+
+}
+
+}
+
+\]
+
+},
+
+{
+
+"cnt": 255,
+
+"Page": "User:Cyde/List of candidates for speedy deletion/Subpage",
+
+"ByTime": \[
+
+{
+
+"TotalAdded": 73,
+
+"split0": {
+
+"start": "2015-09-12T00:00:00.000Z",
+
+"end": "2015-09-12T01:00:00.000Z",
+
+"type": "TIME\_RANGE"
 
 }
 
@@ -624,24 +609,41 @@ plyql -h 192.168.60.100:8082 -i P1Y -q &#039;
 
 {
 
-&quot;TotalAdded&quot;: 336,
+"TotalAdded": 3363,
 
-&quot;split0&quot;: {
+"split0": {
 
-&quot;start&quot;: &quot;2015-09-12T02:00:00.000Z&quot;,
+"start": "2015-09-12T01:00:00.000Z",
 
-&quot;end&quot;: &quot;2015-09-12T03:00:00.000Z&quot;,
+"end": "2015-09-12T02:00:00.000Z",
 
-&quot;type&quot;: &quot;TIME_RANGE&quot;
-
-}
+"type": "TIME\_RANGE"
 
 }
-
-]
 
 },
 
-&quot;... results omitted ...&quot;
+{
 
-]
+"TotalAdded": 336,
+
+"split0": {
+
+"start": "2015-09-12T02:00:00.000Z",
+
+"end": "2015-09-12T03:00:00.000Z",
+
+"type": "TIME\_RANGE"
+
+}
+
+}
+
+\]
+
+},
+
+"... results omitted ..."
+
+\]
+```

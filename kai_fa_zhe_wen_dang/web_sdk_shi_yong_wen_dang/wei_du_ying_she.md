@@ -1,14 +1,14 @@
-### 维度映射
+# 维度映射
 
-sugoio.init(&#039;YOUR_TOKEN&#039;, {
+sugoio.init\('YOUR\_TOKEN', {
 
-project_id: &#039;YOUR_PROJECT_ID&#039;,
+project\_id: 'YOUR\_PROJECT\_ID',
 
 dimensions: {
 
-has_wifi: &#039;wifi&#039;,
+has\_wifi: 'wifi',
 
-sdk_version: &#039;appVersion&#039;
+sdk\_version: 'appVersion'
 
 ...
 
@@ -16,4 +16,5 @@ sdk_version: &#039;appVersion&#039;
 
 ...
 
-});
+}\);
+
