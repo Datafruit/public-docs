@@ -1,6 +1,6 @@
 # Aggregations
 
-```javascript
+
 
 &lt;a id="COUNT" href="\#COUNT"&gt;\#&lt;/a&gt; **COUNT**\(expr?\)
 
@@ -33,4 +33,4 @@
 &lt;a id="CUSTOM" href="\#CUSTOM"&gt;\#&lt;/a&gt; **CUSTOM**\(custom\_name\)
 
 返回名为custom\_name的用户定义聚合。
-```
+

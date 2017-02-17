@@ -1,56 +1,55 @@
 # SDK 配置
 
 请先登录您的【数果智能】管理台，在数据管理-埋点项目-新建项目-新建应用中，创建您的应用，以获取对应的 Token 等。
-```javascript
 
 ## AndroidManifest.xml 基本配置
+```
+<manifest xmlns:android="[http://schemas.android.com/apk/res/android"](http://schemas.android.com/apk/res/android&quot);
 
-&lt;manifest xmlns:android="[http://schemas.android.com/apk/res/android"](http://schemas.android.com/apk/res/android&quot);
+>
 
-&gt;
+_<!-- 必要的权限 -->_
 
-_&lt;!-- 必要的权限 --&gt;_
+<uses-permission android:name="android.permission.INTERNET"/>
 
-&lt;uses-permission android:name="android.permission.INTERNET"/&gt;
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-&lt;uses-permission android:name="android.permission.ACCESS\_NETWORK\_STATE"/&gt;
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-&lt;uses-permission android:name="android.permission.ACCESS\_WIFI\_STATE"/&gt;
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-&lt;uses-permission android:name="android.permission.READ\_PHONE\_STATE"/&gt;
+<uses-permission android:name="android.permission.BLUETOOTH"/>
 
-&lt;uses-permission android:name="android.permission.BLUETOOTH"/&gt;
-
-&lt;application
-
-...
-
-&gt;
+<application
 
 ...
 
-&lt;meta-data
+>
+
+...
+
+<meta-data
 
 android:name="io.sugo.android.SGConfig.EnableDebugLogging"
 
-android:value="false"/&gt;
+android:value="false"/>
 
-&lt;meta-data
+<meta-data
 
 android:name="io.sugo.android.SGConfig.token"
 
-android:value="{YOUR\_TOKEN}" /&gt;
+android:value="{YOUR_TOKEN}" />
 
-&lt;meta-data
+<meta-data
 
 android:name="io.sugo.android.SGConfig.ProjectId"
 
-android:value="{YOUR\_PROJECT}" /&gt;
+android:value="{YOUR_PROJECT}" />
 
-&lt;/application&gt;
+</application>
 
-&lt;/manifest&gt;
-
+</manifest>
+```
 * SDK 配置说明
 
 以下配置不包括{}，填入配置时，请删除大括号{}
@@ -60,83 +59,83 @@ android:value="{YOUR\_PROJECT}" /&gt;
 调试模式
 
 开启调试模式，可以输出 SugoSDK 的日志
-
-&lt;meta-data
+```
+<meta-data
 
 android:name="io.sugo.android.SGConfig.EnableDebugLogging"
 
-android:value="true"/&gt;
-
+android:value="true"/>
+```
 Token 设置
 
 必填
-
-&lt;meta-data
+```
+<meta-data
 
 android:name="io.sugo.android.SGConfig.token"
 
-android:value="{YOUR\_TOKEN}" /&gt;
-
+android:value="{YOUR_TOKEN}" />
+```
 Project Id 配置
 
 必填
-
-&lt;meta-data
+```
+<meta-data
 
 android:name="io.sugo.android.SGConfig.ProjectId"
 
-android:value="{YOUR\_PROJECT}" /&gt;
-
+android:value="{YOUR_PROJECT}" />
+```
 如果是私有云，请换成该配置
-
-&lt;meta-data
+```
+<meta-data
 
 android:name="io.sugo.android.SGConfig.EventsEndpoint"
 
-android:value="{EVENTS\_ENDPOINT}?locate={YOUR\_PROJECT}" /&gt;
-
+android:value="{EVENTS_ENDPOINT}?locate={YOUR_PROJECT}" />
+```
 部署地址配置
 
 仅私有云配置
-
-&lt;meta-data
+```
+<meta-data
 
 android:name="io.sugo.android.SGConfig.DecideEndpoint"
 
-android:value="{DECIDE\_ENDPOINT}" /&gt;
-
+android:value="{DECIDE_ENDPOINT}" />
+```
 可视化埋点链接地址配置
 
 仅私有云配置
-
-&lt;meta-data
+```
+<meta-data
 
 android:name="io.sugo.android.SGConfig.EditorUrl"
 
-android:value="{EDITOR\_URL} /&gt;
-
+android:value="{EDITOR_URL} />
+```
 代码混淆
 
 如果您的应用使用了代码混淆， 请添加
+```
+-keepclassmembers **class** * {
 
--keepclassmembers **class** \* {
-
-public &lt;init&gt; \(org.json.JSONObject\);
-
-}
-
--keepclassmembers **enum** \* {
-
-public static \*\*\[\] values\(\);
-
-public static \*\* valueOf\(java.lang.String\);
+public <init> (org.json.JSONObject);
 
 }
 
--keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoAPI** { \*; }
+-keepclassmembers **enum** * {
 
--keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoWebEventListener** { \*; }
+public static **[] values();
 
--keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoWebNodeReporter** { \*; }
+public static ** valueOf(java.lang.String);
+
+}
+
+-keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoAPI** { *; }
+
+-keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoWebEventListener** { *; }
+
+-keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoWebNodeReporter** { *; }
 
 ```

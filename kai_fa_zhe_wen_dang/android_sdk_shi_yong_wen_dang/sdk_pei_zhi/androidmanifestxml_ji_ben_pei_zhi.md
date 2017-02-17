@@ -1,50 +1,51 @@
 #### AndroidManifest.xml 基本配置 {#androidmanifest-xml}
+```
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+>
 
-&gt;
+_<!-- 必要的权限 -->_
 
-_&lt;!-- 必要的权限 --&gt;_
+<uses-permission android:name="android.permission.INTERNET"/>
 
-&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt;
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt;
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt;
+<uses-permission android:name="android.permission.BLUETOOTH"/>
 
-&lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot;/&gt;
-
-&lt;application
-
-...
-
-&gt;
+<application
 
 ...
 
-&lt;meta-data
+>
 
-android:name=&quot;io.sugo.android.SGConfig.EnableDebugLogging&quot;
+...
 
-android:value=&quot;false&quot;/&gt;
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.EnableDebugLogging"
 
-android:name=&quot;io.sugo.android.SGConfig.token&quot;
+android:value="false"/>
 
-android:value=&quot;{YOUR_TOKEN}&quot; /&gt;
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.token"
 
-android:name=&quot;io.sugo.android.SGConfig.ProjectId&quot;
+android:value="{YOUR_TOKEN}" />
 
-android:value=&quot;{YOUR_PROJECT}&quot; /&gt;
+<meta-data
 
-&lt;/application&gt;
+android:name="io.sugo.android.SGConfig.ProjectId"
 
-&lt;/manifest&gt;
+android:value="{YOUR_PROJECT}" />
+
+</application>
+
+</manifest>
+```
 
 *   SDK 配置说明
 
@@ -55,68 +56,68 @@ android:value=&quot;{YOUR_PROJECT}&quot; /&gt;
 调试模式
 
 开启调试模式，可以输出 SugoSDK 的日志
+```
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.EnableDebugLogging"
 
-android:name=&quot;io.sugo.android.SGConfig.EnableDebugLogging&quot;
-
-android:value=&quot;true&quot;/&gt;
-
+android:value="true"/>
+```
 Token 设置
 
 必填
+```
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.token"
 
-android:name=&quot;io.sugo.android.SGConfig.token&quot;
-
-android:value=&quot;{YOUR_TOKEN}&quot; /&gt;
-
+android:value="{YOUR_TOKEN}" />
+```
 Project Id 配置
 
 必填
+```
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.ProjectId"
 
-android:name=&quot;io.sugo.android.SGConfig.ProjectId&quot;
-
-android:value=&quot;{YOUR_PROJECT}&quot; /&gt;
-
+android:value="{YOUR_PROJECT}" />
+```
 如果是私有云，请换成该配置
+```
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.EventsEndpoint"
 
-android:name=&quot;io.sugo.android.SGConfig.EventsEndpoint&quot;
-
-android:value=&quot;{EVENTS_ENDPOINT}?locate={YOUR_PROJECT}&quot; /&gt;
-
+android:value="{EVENTS_ENDPOINT}?locate={YOUR_PROJECT}" />
+```
 部署地址配置
 
 仅私有云配置
+```
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.DecideEndpoint"
 
-android:name=&quot;io.sugo.android.SGConfig.DecideEndpoint&quot;
-
-android:value=&quot;{DECIDE_ENDPOINT}&quot; /&gt;
-
+android:value="{DECIDE_ENDPOINT}" />
+```
 可视化埋点链接地址配置
 
 仅私有云配置
+```
+<meta-data
 
-&lt;meta-data
+android:name="io.sugo.android.SGConfig.EditorUrl"
 
-android:name=&quot;io.sugo.android.SGConfig.EditorUrl&quot;
-
-android:value=&quot;{EDITOR_URL} /&gt;
-
+android:value="{EDITOR_URL} />
+```
 代码混淆
 
 如果您的应用使用了代码混淆， 请添加
-
+```
 -keepclassmembers **class** * {
 
-public &lt;init&gt; (org.json.JSONObject);
+public <init> (org.json.JSONObject);
 
 }
 
@@ -133,3 +134,4 @@ public static ** valueOf(java.lang.String);
 -keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoWebEventListener** { *; }
 
 -keep **class** **io**.**sugo**.**android**.**mpmetrics**.**SugoWebNodeReporter** { *; }
+```

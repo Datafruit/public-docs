@@ -65,7 +65,7 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 **2.添加SDK对象初始化代码**
 
 把以下代码复制到AppDelegate.m中，并填入已获得的项目ID与Token：
-
+```
 - (void)initSugo {
 
 NSString *projectID = @&quot;Add_Your_Project_ID_Here&quot;;
@@ -81,11 +81,11 @@ NSString *appToken = @&quot;Add_Your_App_Token_Here&quot;;
 [[Sugo sharedInstance] identify:[Sugo sharedInstance].distinctId];
 
 }
-
+```
 **3.调用SDK对象初始化代码**
 
 添加initSugo后，在AppDelegate方法中调用，如下：
-
+```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 // Override point for customization after application launch.
@@ -95,7 +95,7 @@ NSString *appToken = @&quot;Add_Your_App_Token_Here&quot;;
 return YES;
 
 }
-
+```
 #### 扫码进入可视化埋点模式 {#-2}
 
 **1.配置App的URL Types**
