@@ -74,7 +74,6 @@
     * [示例](kai_fa_zhe_wen_dang/jie_kou_wen_dang/shi_li.md)
     * [运算符](kai_fa_zhe_wen_dang/jie_kou_wen_dang/yun_suan_fu.md)
     * [函数](kai_fa_zhe_wen_dang/jie_kou_wen_dang/han_shu/README.md)
-      * [Mathematical Functions](kai_fa_zhe_wen_dang/jie_kou_wen_dang/han_shu/mathematical_functions.md)
     * [Aggregations](kai_fa_zhe_wen_dang/jie_kou_wen_dang/aggregations.md)
   * [plyql](kai_fa_zhe_wen_dang/web_sdk_shi_yong_wen_dang/plyql.md)
 

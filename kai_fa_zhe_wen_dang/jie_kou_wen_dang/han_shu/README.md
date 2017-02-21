@@ -80,7 +80,7 @@
 
 检查 *expr1* 和 *expr2* 是否重叠
 
-### Mathematical Functions
+### 数学函数
 
 <a id="ABS" href="#ABS">#</a>**ABS**(*expr*)
 
@@ -102,7 +102,7 @@
 
 返回 e（自然对数的基数） 的值*expr*的幂。
 
-## Aggregations
+## 聚合函数
 
 <a id="COUNT" href="#COUNT">#</a>**COUNT**(*expr?*)
 
