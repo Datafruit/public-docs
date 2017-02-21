@@ -1,6 +1,6 @@
 # 函数
 
-&lt;a id="TIME\_BUCKET" href="\#TIME\_BUCKET"&gt;\#&lt;/a&gt; **TIME\_BUCKET**\(operand, duration, timezone\)
+&lt;a id="TIME\_BUCKET" href="\#TIME\_BUCKET"&gt;\#&lt;/a&gt; **TIME\_BUCKET**\(operand, duration, timezone\)![](/assets/查询接口-Sugo PlyqL.md)
 
 将时间在给定的timezone\(时区\)中按给定的duration\(粒度\)查询
 
