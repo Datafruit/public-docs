@@ -71,9 +71,7 @@
     * [SDK的进阶调用](kai_fa_zhe_wen_dang/ios_sdk_shi_yong_wen_dang/sdkde_jin_jie_diao_yong/README.3.md)
     * [ 反馈](kai_fa_zhe_wen_dang/ios_sdk_shi_yong_wen_dang/fan_kui.md)
   * [接口文档](kai_fa_zhe_wen_dang/jie_kou_wen_dang/README.4.md)
-    * [示例](kai_fa_zhe_wen_dang/jie_kou_wen_dang/shi_li.md)
+    * [Sugo Plyql 使用文档](kai_fa_zhe_wen_dang/jie_kou_wen_dang/shi_li.md)
     * [运算符](kai_fa_zhe_wen_dang/jie_kou_wen_dang/yun_suan_fu.md)
     * [函数](kai_fa_zhe_wen_dang/jie_kou_wen_dang/han_shu/README.md)
-    * [Aggregations](kai_fa_zhe_wen_dang/jie_kou_wen_dang/aggregations.md)
-  * [plyql](kai_fa_zhe_wen_dang/web_sdk_shi_yong_wen_dang/plyql.md)
 
