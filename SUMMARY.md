@@ -72,5 +72,6 @@
     * [反馈](developer/ios/feedback.md)
   * [接口文档](developer/interfaces/README.md)
     * [Sugo Plyql 使用文档](developer/interfaces/sugo-plyql.md)
+    * [JDBC 驱动文档](developer/interfaces/jdbc.md)
 
 

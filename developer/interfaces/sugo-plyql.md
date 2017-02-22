@@ -11,17 +11,22 @@ plyql只支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
 
 首先，我们可以为数据源列表发出一个`SHOW TABLES`查询，我们将其传递到`--query` 或者 `-q`
 
-MYSQL 查询Druid数据源列表
+MYSQL 客户端查询Druid数据源列表
 ```sql
 plyql -h 192.168.60.100:8082 -q 'SHOW TABLES'
 ```
 
+启动HTTP REST APi
+```
+plyql -h 192.168.60.100  --json-server  8001
+```
+
 HTTP接口请求
 ```http
-http://192.168.60.100:8082/api/plyql/sql
+http://192.168.60.100:8001/plyql/
 post请求: application/json 参数
 {
-  "query": 
+  "sql":
   "SHOW TABLES"
 }
 ```

@@ -8,7 +8,7 @@
 
 SDK接入主要是应用在做可视化埋点上，主要是采集web、Android和IOS的埋点数据，并且收集埋点数据和相应的维度指标数据，用于做诸如用户路径等分析。
 
-请您邀请工程师接入一段 SDK 代码，作为接下来数据采集和分析的准备：[WEB SDK使用文档](/developer/web/README.md)／[Android SDK使用文档](/developer/android/README.2.md)／[IOS SDK使用文档](/developer/ios/README.3.md)。
+请您邀请工程师接入一段 SDK 代码，作为接下来数据采集和分析的准备：[WEB SDK使用文档](/developer/web/README.md)／[Android SDK使用文档](/developer/android/README.md)／[IOS SDK使用文档](/developer/ios/README.md)。
 
 在接入 SDK 前，选择创建项目还是应用时，需要注意的是：
 
