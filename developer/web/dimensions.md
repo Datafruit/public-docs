@@ -2,20 +2,20 @@
 ```javascript
 
   ['__time', '服务端时间', 4],                     //服务端时间
-  ['sugo_nation', '国家'],                        //用户所在国家(ip反解析)
-  ['sugo_province', '省份'],                      //用户所在省份(ip反解析)
-  ['sugo_city', '城市'],                          //用户所在城市(ip反解析)
-  ['sugo_district', '地区'],                      //用户所在地区(ip反解析)
-  ['sugo_area', '区域'],                          //用户所在区域(ip反解析)
-  ['sugo_latitude', '纬度'],                      //纬度(ip反解析)
-  ['sugo_longitude', '经度'],                     //经度(ip反解析)
-  ['sugo_city_timezone', '城市时区'],              //所在时区代表城市(ip反解析)
-  ['sugo_timezone', '时区'],                      //所在时区(ip反解析)
-  ['sugo_phone_code', '国际区号'],                 //国际区号(ip反解析)
-  ['sugo_nation_code', '国家代码'],                //国家代码(ip反解析)
-  ['sugo_continent', '所在大洲'],                  //所在大洲(ip反解析)
-  ['sugo_administrative', '行政区划代码'],          //中国行政区划代码(ip反解析)
-  ['sugo_operator', '运营商'],                     //用户所在运营商(ip反解析)
+  ['sugo_nation', '国家'],                        //用户所在国家
+  ['sugo_province', '省份'],                      //用户所在省份
+  ['sugo_city', '城市'],                          //用户所在城市
+  ['sugo_district', '地区'],                      //用户所在地区
+  ['sugo_area', '区域'],                          //用户所在区域
+  ['sugo_latitude', '纬度'],                      //纬度
+  ['sugo_longitude', '经度'],                     //经度
+  ['sugo_city_timezone', '城市时区'],              //所在时区代表城市
+  ['sugo_timezone', '时区'],                      //所在时区
+  ['sugo_phone_code', '国际区号'],                 //国际区号
+  ['sugo_nation_code', '国家代码'],                //国家代码
+  ['sugo_continent', '所在大洲'],                  //所在大洲
+  ['sugo_administrative', '行政区划代码'],          //中国行政区划代码
+  ['sugo_operator', '运营商'],                     //用户所在运营商
   ['sugo_ip', '客户端IP'],                         //客户端IP(nginx)
   ['sugo_http_forward', '客户端真实IP'],            //客户端真实ip(nginx)
   ['sugo_http_refer', 'Referer'],                 //Referer(nginx)
