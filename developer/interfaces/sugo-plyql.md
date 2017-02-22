@@ -5,18 +5,25 @@ plyql是类似SQL的语言，可以解析成sugo-plywood的表达并执行。
 
 plyql只支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
 
+- 调用方式目前支持：
+  - JDBC驱动模式
+  - HTTP REST API模式
+  - 终端命令模式
+
 ## 示例
 
 这些例子我们查询一个Druid的broker节点：`192.168.60.100` 端口： `8082`.
 
 首先，我们可以为数据源列表发出一个`SHOW TABLES`查询，我们将其传递到`--query` 或者 `-q`
 
-MYSQL 客户端查询Druid数据源列表
+### - 终端命令模式
+- MYSQL 客户端查询Druid数据源列表
 ```sql
 plyql -h 192.168.60.100:8082 -q 'SHOW TABLES'
 ```
 
-启动HTTP REST APi
+### - HTTP REST API模式
+- 启动HTTP REST APi
 ```
 plyql -h 192.168.60.100  --json-server  8001
 ```
@@ -43,6 +50,8 @@ post请求: application/json 参数
   ]
 }
 ```
+
+## 以下使用实例以终端为例子，其他模式支持度一样
 
 查询Druid数据源表数据结构
 ```sql
