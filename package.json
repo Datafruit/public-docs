@@ -1,0 +1,28 @@
+{
+  "name": "public-docs",
+  "version": "1.0.0",
+  "description": "sugo-docs",
+  "main": "index.js",
+  "dependencies": {
+    "gitbook-plugin-anchorjs": "^1.1.1",
+    "gitbook-plugin-expandable-chapters": "^0.2.0",
+    "gitbook-plugin-tbfed-pagefooter": "0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Datafruit/public-docs.git"
+  },
+  "keywords": [
+    "sugoio"
+  ],
+  "author": "WuQic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Datafruit/public-docs/issues"
+  },
+  "homepage": "https://github.com/Datafruit/public-docs#readme"
+}

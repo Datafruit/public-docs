@@ -2,11 +2,20 @@
   "structure": {
     "readme": "book-index.md"
   },
-  "plugins": ["anchorjs"],
+  "plugins": [
+    "anchorjs",
+    "expandable-chapters",
+    "tbfed-pagefooter"
+  ],
   "pluginsConfig": {
     "anchorjs": {
       "placement": "left",
       "visible": "always"
+    },
+    "tbfed-pagefooter": {
+      "copyright":"&copy 广东数果",
+      "modify_label": "",
+      "modify_format": "YYYY-MM-DD HH:mm:ss"
     }
   }
 }
