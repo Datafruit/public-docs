@@ -66,6 +66,10 @@
     * [反馈](developer/ios/feedback.md)
   * [接口文档](developer/interfaces/README.md)
     * [Sugo Plyql 使用文档](developer/interfaces/sugo-plyql.md)
-    * [JDBC 驱动文档](developer/interfaces/jdbc.md)
+      * [示例](developer/interfaces/sugo-plyql.md#example)
+      * [操作符](developer/interfaces/sugo-plyql.md#operators)
+      * [函数](developer/interfaces/sugo-plyql.md#functions)
+      * [聚合](developer/interfaces/sugo-plyql.md#aggregations)
+      * [JDBC 驱动文档](developer/interfaces/jdbc.md)
 
 
