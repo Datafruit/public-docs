@@ -38,8 +38,8 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
   
   > `注：暂不支持多表JOIN查询，只支持单表查询，具体可参考下面示例`
 
-  - [查询所有数据源列表](#show-tables)
-  - [查询数据源列定义结构](#desc)
+  - [查询数据源](#show-tables)
+    - [查询数据源列定义结构](#desc)
   - [SQL查询调用](#query)
     - [普通查询](#query-normal)
     - [条件过滤查询](#query-where)
