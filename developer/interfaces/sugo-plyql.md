@@ -35,13 +35,18 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
   > 我们将地址（192.168.60.100:8082）传递给`--host`（`-h`）选项。
 
   > 将所有的SQL比如`SHOW TABLES`，`DESCRIBE TABLE_NAME`，`SELECT COUNT(*) FROM TABLE_NAME`传递给`--query`（`-q`）选项。
+  
+  > `注：暂不支持多表JOIN查询，只支持单表查询，具体可参考下面示例`
 
   - [查询所有数据源列表](#show-tables)
   - [查询数据源列定义结构](#desc)
   - [SQL查询调用](#query)
-    - [获取最大时间](#query-max)
-    - [综合使用SQL查询](#query-group-by)
-    - [QUANTILE函数](#QUANTILE)
+    - [普通查询](#query-normal)
+    - [条件过滤查询](#query-where)
+    - [分组查询](#query-group-by)
+    - [聚合查询](#query-aggregation)
+    - [函数查询](#query-function)
+    - [having查询](#query-having)
     - [高级查询](#adv-query)
 
 ### <a id="dos" href="#dos"></a> 终端命令模式
@@ -95,48 +100,61 @@ plyql -h 192.168.60.100:8082 -q 'DESCRIBE sugo'
 
 <a id="query" href="query"></a>
 
-#### <a id="query-max" href="query-max"></a> 获取最大时间
+#### <a id="query-normal" href="query-normal"></a> 普通查询
 
-这里是一个简单的查询，获取最大的` __time `信息。此查询显示数据库中最新事件的时间。
+这里是一个简单的查询，获取所以的原始明细数据限定2条。
 
 ```sql
-plyql -h 192.168.60.100:8082 -q 'SELECT MAX(__time) AS maxTime FROM sugo'
+plyql -h 192.168.60.100:8082 -q 'SELECT * FROM sugo limit 2'
 ```
 
 返回:
 
 ```
-┌──────────────────────┐
-│ maxTime              │
-├──────────────────────┤
-│ 2016-09-19T06:36:43Z │
-└──────────────────────┘
+┌────────────┬───────────────┬──────────────────────┬─────────────────────┬──────────┬───────────┬──────────────┬──────────────────────┐
+│ HEAD_ARGS  │ HEAD_IP       │ __time               │ app_id              │ duration │ is_active │ is_installed │ client_time          │
+├────────────┼───────────────┼──────────────────────┼─────────────────────┼──────────┼───────────┼──────────────┼──────────────────────┤
+│ topic=sugo │ 192.168.0.210 │ 2016-09-19T06:36:43Z │ 6284164581582112235 │ 7682     │ 1         │ 1            │ 2016-12-24T16:00:00Z │
+│ topic=sugo │ 192.168.0.210 │ 2016-09-19T06:36:43Z │ 6284164581582112235 │ 7682     │ 1         │ 1            │ 2016-12-24T16:00:00Z │
+└────────────┴───────────────┴──────────────────────┴─────────────────────┴──────────┴───────────┴──────────────┴──────────────────────┘
 ```
 
-#### <a id="query-group-by" href="query-group-by"></a> 综合使用SQL查询
+#### <a id="query-where" href="query-where"></a> 条件过滤查询
+
+查询某个时间段范围的数据
+
+> 注意这里的时间ISO格式
 
 ```sql
 plyql -h 192.168.60.100:8082 -q '
 SELECT page as pg, 
-COUNT() as cnt 
-FROM sugo 
-GROUP BY page 
-ORDER BY cnt DESC 
-LIMIT 5;
+is_active as flag 
+FROM sugo
+WHERE is_active='1' AND __time > "2016-01-24T16:00:00Z" AND __time < "2016-09-24T16:00:00Z"
+LIMIT 4
 '
 ```
 
-上面的查询会存在一个问题，因为没有指定plyql查询的时间过滤范围。
-
-这种行为可以禁用使用`--allow eternity`，但不推荐这样做，这样做时，当数据量过大时，它可以发出计算禁止查询。
-
-再试一次，用一个时间过滤器：
+结果集:
   
+```
+┌─────────────────────┬─────┐
+│ pg                  │flag │
+├─────────────────────┼─────┤
+│ Jeremy Corbyn       │ 1   │
+│ Jeremy 111111       │ 1   │
+│ Jeremy 222222       │ 1   │
+│ Jeremy 333333       │ 1   │
+└─────────────────────┴─────┘
+```
+
+#### <a id="query-group-by" href="query-group-by"></a> 分组查询
+
 ```sql
 plyql -h 192.168.60.100:8082 -q '
 SELECT page as pg, 
 COUNT() as cnt 
-FROM wikipedia 
+FROM sugo_test 
 WHERE "2015-09-12T00:00:00" <= __time AND __time < "2015-09-13T00:00:00"
 GROUP BY page 
 ORDER BY cnt DESC 
@@ -157,61 +175,40 @@ LIMIT 5;
 └─────────────────────┴─────┘
 ```
 
-##### --interval 参数
-
-Plyql有一个选项 `--interval` (`-i`) 自动过滤器加上`interval`间隔时间。
-
-如果您不想键入时间筛选器，则这样设置非常有用。
-
-```sql
-plyql -h 192.168.60.100:8082 -i P1Y -q '
-SELECT page as pg, 
-COUNT() as cnt 
-FROM wikipedia 
-GROUP BY page 
-ORDER BY cnt DESC 
-LIMIT 5;
-'
-```
-
 ##### 时间分组
 
 通过`TIME_BUCKET`函数可以对时间分解
 
 ```sql
 plyql -h 192.168.60.100:8082 -i P1Y -q '
-SELECT SUM(added) as TotalAdded 
-FROM wikipedia 
+SELECT SUM(added) as total 
+FROM sugo_test 
 GROUP BY TIME_BUCKET(__time, PT6H, "Asia/Shanghai");
 '
 ```
 
 返回:
 
-```json
-[
-  {
-    "TotalAdded": 15426936,
-    "split0": {
-      "start": "2015-09-12T00:00:00.000Z",
-      "end": "2015-09-12T06:00:00.000Z",
-      "type": "TIME_RANGE"
-    }
-  },
-  {
-    "TotalAdded": 25996165,
-    "split0": {
-      "start": "2015-09-12T06:00:00.000Z",
-      "end": "2015-09-12T12:00:00.000Z",
-      "type": "TIME_RANGE"
-    }
-  },
-  "... 结果省略了 ..."
-]
+```
+┌─────────────────────────────────────────────┬───────┐
+│ split0                                      │ total │
+├─────────────────────────────────────────────┼───────┤
+│ [2017-02-06T22:00:00Z,2017-02-07T04:00:00Z] │ 8337  │
+│ [2017-02-07T04:00:00Z,2017-02-07T10:00:00Z] │ 21600 │
+│ [2017-02-07T10:00:00Z,2017-02-07T16:00:00Z] │ 21600 │
+│ [2017-02-07T16:00:00Z,2017-02-07T22:00:00Z] │ 21600 │
+│ [2017-02-07T22:00:00Z,2017-02-08T04:00:00Z] │ 21600 │
+│ [2017-02-08T04:00:00Z,2017-02-08T10:00:00Z] │ 21600 │
+│ [2017-02-08T10:00:00Z,2017-02-08T16:00:00Z] │ 21600 │
+│ [2017-02-08T16:00:00Z,2017-02-08T22:00:00Z] │ 21600 │
+│ [2017-02-08T22:00:00Z,2017-02-09T04:00:00Z] │ 21600 │
+└─────────────────────────────────────────────┴───────┘
 ```
 
 注意分组列如果没有选择但仍有返回, 列如`TIME_BUCKET(__time, PT1H, 'Asia/Shanghai') as 'split'`
+
 是查询列中的一个。
+
 时间分割也支持，这里是一个例子：
 ```sql
 plyql -h 192.168.60.100:8082 -i P1Y -q '
@@ -222,36 +219,19 @@ GROUP BY 1
 ORDER BY TotalAdded DESC LIMIT 3;
 '
 ```
+
 注意，这个 `GROUP BY` 指的是选择中的第一列。
+
 这将返回：
+
 ```json
-[
-  {
-    "TotalAdded": 8077302,
-    "HourOfDay": 10
-  },
-  {
-    "TotalAdded": 5998730,
-    "HourOfDay": 17
-  },
-  {
-    "TotalAdded": 5210222,
-    "HourOfDay": 18
-  }
-]
-```
-#### QUANTILE函数
-
-支持对直方图的分位数。
-
-假设您想要使用直方图计算 0.95 分位数的三角洲筛选的城市是旧金山。
-
-```sql
-plyql -h 192.168.60.100:8082 -i P1Y -q '
-SELECT 
-QUANTILE(delta_hist WHERE cityName = "San Francisco", 0.95) as P95 
-FROM wikipedia;
-'
+┌────────────┬───────────┐
+│ TotalAdded │ HourOfDay │
+├────────────┼───────────┤
+│ 8077302    │ 10        │
+│ 5998730    │ 17        │
+│ 5210222    │ 18        │
+└────────────┴───────────┘
 ```
 
 它也是可能做到多维度分组查询的
@@ -301,10 +281,105 @@ LIMIT 3;
   }
 ]
 ```
+
+#### <a id="query-aggregation" href="query-aggregation"></a> 聚合查询
+
+```sql
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT province as pro, 
+SUM(added) as sumAdded,
+MAX(__time) as maxTime,
+AVG(added) as avgAdded
+FROM sugo_test
+LIMIT 5;
+'
+```
+返回：
+
+```
+┌──────────┬───────────────┬──────────┐
+│ sumAdded │ maxTime       │ avgAdded │
+├──────────┼───────────────┼──────────┤
+│ 2160     │ 1487812861000 │ 1920     │
+└──────────┴───────────────┴──────────┘
+```
+
+#### <a id="query-function" href="query-function"></a> 函数查询
+
+```sql
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT
+SUBSTR(Province, 1, 1) subPro, 
+CONCAT(Province, "_SUFF")
+FROM sugo_test
+LIMIT 5;
+'
+```
+返回：
+
+```
+┌────────┬─────────────┐
+│ subPro │ pro         │
+├────────┼─────────────┤
+│ 宁     │ 辽宁省_SUFF │
+│ 西     │ 广西省_SUFF │
+│ 西     │ 陕西省_SUFF │
+│ 建     │ 福建省_SUFF │
+│ 苏     │ 江苏省_SUFF │
+└────────┴─────────────┘
+```
+
+##### QUANTILE函数
+
+支持对直方图的分位数。
+
+假设您想要使用直方图计算 0.95 分位数的三角洲筛选的城市是旧金山。
+
+```sql
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT 
+QUANTILE(delta_hist WHERE cityName = "San Francisco", 0.95) as P95 
+FROM wikipedia;
+'
+```
+
+#### <a id="query-having" href="query-having"></a> having查询
+
+这里的HAVING条件跟传统的SQL有点区别，就是只能指定SELET里聚合过的或者数值列类型的
+
+```sql
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT province as pro, 
+COUNT() as cnt 
+FROM sugo_test 
+GROUP BY province 
+HAVING cnt > 1
+ORDER BY cnt DESC 
+LIMIT 5;
+'
+```
+
+返回:
+
+```
+┌────────┬───────┐
+│ pro    │ cnt   │
+├────────┼───────┤
+│ 局域网  │ 49311 │
+│ 广东   │ 30407 │
+│ 广西   │ 9213  │
+│ 福建   │ 3134  │
+│ 香港   │ 956   │
+└────────┴───────┘
+```
+
+
 #### <a id="adv-query" href="adv-query"></a> 高级查询
 
 这里是一个高级的示例，获取前 5 页编辑时间。
+
 PlyQL 的一个显著特征是它对待 （aka 表） 的数据集作为可以嵌套在另一个表的只是另一种数据类型。
+
 这使我们能够嵌套查询数据像这样︰
 ```sql
 plyql -h 192.168.60.100:8082 -i P1Y -q '
@@ -389,6 +464,24 @@ LIMIT 5;
   },
   "... results omitted ..."
 ]
+```
+
+
+##### --interval 参数
+
+Plyql有一个选项 `--interval` (`-i`) 自动过滤器加上`interval`间隔时间。
+
+如果您不想键入时间筛选器，则这样设置非常有用。
+
+```sql
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT page as pg, 
+COUNT() as cnt 
+FROM wikipedia 
+GROUP BY page 
+ORDER BY cnt DESC 
+LIMIT 5;
+'
 ```
 
 ## <a id="operators" href=“operators”></a> 运算符
