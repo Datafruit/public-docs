@@ -89,7 +89,7 @@ Json文件格式：
 
 - **`url:`** 数据类似`url`参数串，如：`name=jack&age=21&score=78.5&the_date= 1489131528601`
 
-- **`ataSchema.parser.parseSpec.timestampSpec:`** 时间戳列以及时间的格式  
+- **`dataSchema.parser.parseSpec.timestampSpec:`** 时间戳列以及时间的格式  
 - **`dataSchema.parser.parseSpec.timestampSpec.format`** 时间格式类型：推荐`millis`  
 	> `yy-MM-dd HH:mm:ss`: 自定义的时间格式  
 	> `auto`: 自动识别时间，支持iso和millis格式  
