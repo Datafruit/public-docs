@@ -73,7 +73,7 @@
       * [聚合](developer/interfaces/sugo-plyql.md#aggregations)
       * [JDBC 驱动文档](developer/interfaces/jdbc.md)
     * 数据接入
-      * [Kafka接入](developer/data-access/kakfa-druid.md)  
-      * [Csv文件接入](developer/data-access/csv-druid.md)  
+      * [Kafka接入](developer/data-access/kakfa-druid.md)
+      * [Csv文件接入](developer/data-access/csv-druid.md)
 
 
