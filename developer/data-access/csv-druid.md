@@ -5,13 +5,16 @@
 2. 参照以下json说明，修改json配置文件。 
 3. 发送http post请求，启动task
 
-`curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverloadIP}:8090/druid/indexer/v1/task `
+`curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverloadIP}:8090/druid/indexer/v1/task`
+
 4. 查看task的日志信息。进入overload服务的任务列表页面，查看数据导入情况。
 
 `http://{OverloadIP}:8090/console.html`
+
 5. 在需要停止task时，可以发送如下http post请求停止task任务
 
 `curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid/indexer/v1/task/{taskId}/shutdown`
+
 
 
 
