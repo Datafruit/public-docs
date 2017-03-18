@@ -11,6 +11,8 @@
 
    > **OverloadIP:** druid的overload节点ip地址
 
+   > **task-spec.json** task配置文件，详见下文
+
 4. 查看task的日志信息。进入overload服务的任务列表页面，查看数据导入情况。
 
   ```javascript
