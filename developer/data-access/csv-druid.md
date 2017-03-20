@@ -121,7 +121,7 @@
   - [ ] **`posix:`** 从1970年1月1日开始所经过的秒数,10位的数字
   - [ ] **`millis:`** 从1970年1月1日开始所经过的毫秒数，13位数字
 
-- **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，每个维度的格式为：```{“name”: “age”, “type”:”string”}```。Type支持的类型：`string`、`int`、`float`、`long`、`datetime`
+- **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，每个维度的格式为：```{“name”: “age”, “type”:”string”}```。Type支持的类型：`string`、`int`、`float`、`long`、`date`
 
 - **`spec.dataSchema.parser.parseSpec.listDelimiter:`** csv列分隔符
 - **`spec.dataSchema.parser.parseSpec.columns:`** 维度列表，包含时间戳列，`eg:["ts","ProductID"]`

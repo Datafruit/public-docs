@@ -46,7 +46,7 @@ Json文件格式：
             },
             {
               "name": "create_time",
-              "type": "datetime"
+              "type": "date"
             }
           ],
           "dimensionExclusions": [],
@@ -96,7 +96,7 @@ Json文件格式：
   > `iso`：iso标准时间格式，如”2016-08-03T12:53:51.999Z”  
   > `posix`：从1970年1月1日开始所经过的秒数,10位的数字  
   > `millis`：从1970年1月1日开始所经过的毫秒数，13位数字  
-- **`dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，每个维度的格式为：`{“name”: “age”, “type”:”string”}`。Type支持的类型：`string`、`int`、`float`、`long`、`datetime`  
+- **`dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，每个维度的格式为：`{“name”: “age”, “type”:”string”}`。Type支持的类型：`string`、`int`、`float`、`long`、`date`  
 
 - **`json:`** json格式数据
 	- 数据格式：`{"name":"jack","age": 21,"score": 78.5,"the_date": 1489131528601}`
