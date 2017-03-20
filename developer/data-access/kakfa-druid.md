@@ -46,7 +46,8 @@ Json文件格式：
             },
             {
               "name": "create_time",
-              "type": "date"
+              "type": "date"，
+	      "format":"yyyy-MM-dd HH:mm:ss"（如果是时间戳或utc时间格式，则不需要设置format）
             }
           ],
           "dimensionExclusions": [],
