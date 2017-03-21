@@ -12,10 +12,13 @@
 然后使用curl命令发送post请求。假设json文件名为wiki.json，curl命令如下：
 
 ```shell
-curl -X POST -H 'Content-Type: application/json' -d @/tmp/json/wiki.json http://overlord_ip:8090/druid/indexer/v1/supervisor
+  curl -X POST -H 'Content-Type: application/json' -d @/tmp/json/wiki.json http://overlord_ip:8090/druid/indexer/v1/supervisor
 ```
 
-Json文件格式：
+> **/tmp/json/wiki.json：** 详见下文  
+> **overlord_ip：** 为druid的overload节点ip地址  
+
+## wiki.json文件内容：
 
 ```javascript
 {
@@ -47,7 +50,7 @@ Json文件格式：
             {
               "name": "create_time",
               "type": "date"，
-	      "format":"yyyy-MM-dd HH:mm:ss"（如果是时间戳或utc时间格式，则不需要设置format）
+	            "format":"yyyy-MM-dd HH:mm:ss" //（如果是时间戳或utc时间格式，则不需要设置format）
             }
           ],
           "dimensionExclusions": [],
