@@ -60,7 +60,7 @@
     * [SDK 配置](developer/android/config.md)
     * [SDK 使用](developer/android/use.md)
       * [基本功能](developer/android/basic.md)
-  * [IOS SDK 使用文档](developer/ios/README.md)
+  * [iOS SDK 使用文档](developer/ios/README.md)
     * [集成与手动安装](developer/ios/integration.md)
     * [SDK的基础调用](developer/ios/basic-use.md)
     * [SDK的进阶调用](developer/ios/adv-use.md)
