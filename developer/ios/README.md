@@ -1,4 +1,4 @@
-# IOS SDK 使用文档
+# iOS SDK 使用文档
 
 欢迎集成使用由sugo.io提供的iOS端Objective-C版采集并分析用户行为。
 
