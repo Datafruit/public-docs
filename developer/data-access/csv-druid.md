@@ -1,9 +1,52 @@
 # 直接从csv将数据导入druid后台
 
-将CSV文件导入到druid平台，需要执行以下步骤：
-1. 将csv文件上传到MiddleManage服务所在服务器的特定目录下；
-2. 参照以下json说明，修改json配置文件。
-3. 发送http post请求，启动task
+## 导入CSV过程步骤：
+
+![](/assets/datacsv/datacsv1.png)
+
+以下以广东数果科技有限公司为例，从cvs导入到csv落地全过程操作指引：
+
+## 第一步：找MiddleManagers服务IP
+
+![](/assets/datacsv/datacsv2.png)
+
+## 第二步：到MiddleManagers服务器上上传csv、json文件
+
+![](/assets/datacsv/datacsv3.png)
+
+- 通过shell登录后，输入命令：cd  /data1/tmp/druid   
+注:/data1/tmp/druid 根据taskspec.json文件中指定的路径  
+
+## 创建、编辑、保存taskspec.json文件说明：  
+在 data1/tmp/druid 目录下，vim  taskspec.json , 将 下面json配置说明 内容拷贝，然后 点击键盘ESC按键退出编辑， 再输入 wq 命令 退出并保存。
+
+![](/assets/datacsv/datacsv4.png)
+
+### 编辑taskspec.json文件中data类型说明：
+
+ 1. 定义taskspec.json文件中的时间戳格式
+
+- csv文件导入有时间列，定义时间戳要求：  
+ **`timestampSpec:`** {"column": "ts","format": "yyyyMM"},  
+- csv文件导入没有时间列，定义时间戳要求：  
+ **`timestampSpec:`** {"column": "ts","format": "yyyyMM"},改成  "timestampSpec": {”missingValue”: "2017-03-12T12:00:00Z"},  
+2. 时间格式类型要求说明：  
+  - CSV文件导入数据源有data类型，要对taskspec.json文件data类型按要求定义：
+    - Data类型格式2017-01-01 00:00，则定义为："date","format":"yy-MM-dd HH:mm"
+    - Data类型格式2017-01-01 00:00:00，则定义为："date","format":"yy-MM-dd HH:mm:ss"
+    - Data类型格式2017-01-01，则定义为："date","format":"yy-MM-dd"
+    - Data类型格式2017-01，则定义为："date","format":"yyyyMM"
+    - Data类型格式2017，则定义为："date","format":"yyyy"
+    - Data类型格式是从1970年1月1日开始所经过的秒数,10位的数字，则定义为："date","format":"posix"
+    - Data类型格式是从1970年1月1日开始所经过的毫秒数，13位数字，则定义为："date","format":"millis"
+
+![](/assets/datacsv/datacsv5.png)
+
+## 第三步：执行命令上传csv文件
+
+![](/assets/datacsv/datacsv6.png)
+
+csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/tmp/druid  目录下，执行：
 
   ```shell
   curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverloadIP}:8090/druid/indexer/v1/task
@@ -13,7 +56,9 @@
 
    > **task-spec.json** task配置文件，详见下文
 
-4. 查看task的日志信息。进入overload服务的任务列表页面，查看数据导入情况。
+## 第四步：查看csv文件上传task的日志信息。进入overload服务的任务列表页面，查看数据导入情况。
+
+![](/assets/datacsv/datacsv7.png)
 
   ```javascript
   http://{OverloadIP}:8090/console.html
@@ -21,7 +66,7 @@
 
   > **OverloadIP:** druid的overload节点ip地址
 
-5. 在需要停止task时，可以发送如下http post请求停止task任务
+## 第五步：在需要停止task时，可以发送如下http post请求停止task任务
 
   ```shell
   curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
@@ -36,79 +81,81 @@
 
 ```javascript
 {
-	"type": "lucene_index_realtime",
-	"spec": {
-		"dataSchema": {
-			"metricsSpec": [],
-			"parser": {
-				"parseSpec": {
-					"format": "csv",
-					"timestampSpec": {"column": "ts","format": "yyyyMM"},
-					"dimensionsSpec": {
-						"dimensionExclusions": [],
-						"spatialDimensions": [],
-						"dimensions": [
-						{"name": "cardNum","type": "string"},
-						{"name": "leftNode","type": "string"},
-						{"name": "rightNode","type": "string"},
-						{"name": "level","type": "int"},
-						{"name": "profit","type": "float"}]
-					},
-					"listDelimiter": ",",
-					"columns": ["ts","cardNum","leftNode","rightNode","level","profit"]
-				}
-			},
-			"granularitySpec": {
-				"intervals": ["2001-01-01/2020-01-01"],
-				"segmentGranularity": "YEAR",
-				"queryGranularity": "NONE",
-				"type": "uniform"
-			},
-			"dataSource": "com_HyoaKhQMl_project_r1U1FDLjg"
-		},
-		"ioConfig": {
-			"firehose": {
-				"type": "local",
-				"filter": "*",
-				"baseDir": "/data1/tmp/druid/",
-				"parser": {
-					"parseSpec": {
-						"format": "csv",
-						"timestampSpec": {"column": "ts","format": "yyyyMM"},
-						"dimensionsSpec": {
-							"dimensionExclusions": [],
-							"spatialDimensions": [],
-							"dimensions": [
-							{"name": "cardNum","type": "string"},
-							{"name": "leftNode","type": "string"},
-							{"name": "rightNode","type": "string"},
-							{"name": "level","type": "int"},
-							{"name": "profit","type": "float"}]
-						},
-						"listDelimiter": ",",
-						"columns": ["ts","cardNum","leftNode","rightNode","level","profit"]
-					}
-				}
-			},
-			"type": "realtime"
-		},
-		"tuningConfig": {
-			"type": "realtime",
-			"maxRowsInMemory": 500000,
-			"intermediatePersistPeriod": "PT10M",
-			"basePersistDirectory": "/data1/tmp/task/storage/wxj",
-			"windowPeriod": "PT6000M",
-			"rejectionPolicy": {
-				"type": "none"
-			},
-			"buildV9Directly": true,
-			"consumerThreadCount": 2
-		}
-	},
-	"context": {
-		"debug": true
-	}
+    "type": "lucene_index_realtime",
+    "spec": {
+        "dataSchema": {
+            "metricsSpec": [],
+            "parser": {
+                "parseSpec": {
+                    "format": "csv",
+                    "timestampSpec": {"column": "ts","format": "yyyyMM"},
+                    "dimensionsSpec": {
+                        "dimensionExclusions": [],
+                        "spatialDimensions": [],
+                        "dimensions": [
+                        {"name": "cardNum","type": "string"},
+                        {"name": "leftNode","type": "string"},
+                        {"name": "rightNode","type": "string"},
+                        {"name": "level","type": "int"},
+                        {"name": "profit","type": "float"}]
+                    },
+                    "listDelimiter": ",",
+                    "columns": ["ts","cardNum","leftNode","rightNode","level","profit"]
+                }
+            },
+            "granularitySpec": {
+                "intervals": ["2001-01-01/2020-01-01"],
+                "segmentGranularity": "YEAR",
+                "queryGranularity": "NONE",
+                "type": "uniform"
+            },
+            "dataSource": "com_HyoaKhQMl_project_r1U1FDLjg"
+        },
+        "ioConfig": {
+            "firehose": {
+                "type": "local",
+                "filter": "*.csv",
+                "baseDir": "/data1/tmp/druid/",
+                "parser": {
+                    "parseSpec": {
+                        "format": "csv",
+                        "timestampSpec": {"column": "ts","format": "yyyyMM"},
+                        "dimensionsSpec": {
+                            "dimensionExclusions": [],
+                            "spatialDimensions": [],
+                            "dimensions": [
+                            {"name": "cardNum","type": "string"},
+                            {"name": "leftNode","type": "string"},
+                            {"name": "rightNode","type": "string"},
+                            {"name": "level","type": "int"},
+                            {"name": "profit","type": "float"}]
+                        },
+                        "listDelimiter": ",",
+                        "columns": ["ts","cardNum","leftNode","rightNode","level","profit"]
+                    }
+                }
+            },
+            "type": "realtime"
+        },
+        "tuningConfig": {
+            "type": "realtime",
+            "maxRowsInMemory": 500000,
+            "intermediatePersistPeriod": "PT10M",
+            "basePersistDirectory": "/data1/tmp/task/storage/wxj",
+            "windowPeriod": "PT6000M",
+            "reportParseExceptions":true,
+            "rejectionPolicy": {
+                "type": "none"
+            },
+            "buildV9Directly": true,
+            "consumerThreadCount": 2
+        }
+    },
+    "context": {
+        "debug": true
+    }
 }
+
 ```
 
 - **`spec.dataSchema.parser.parseSpec.timestampSpec.column:`** 时间戳列
