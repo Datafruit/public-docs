@@ -52,26 +52,20 @@
               "type": "date"，
 	            "format":"yyyy-MM-dd HH:mm:ss" //（如果是时间戳或utc时间格式，则不需要设置format）
             }
-          ],
-          "dimensionExclusions": [],
-          "spatialDimensions": []
+          ]
         }
       }
     },
-    "metricsSpec": [],
     "granularitySpec": {
       "type": "uniform",
-      "segmentGranularity": "YEAR",
-      "queryGranularity": "NONE"
+      "segmentGranularity": "YEAR"
     }
   },
   "tuningConfig": {
     "type": "kafka",
     "maxRowsInMemory": 500000,
     "maxRowsPerSegment": 20000000,
-    "intermediatePersistPeriod": "PT20M",
-    "basePersistDirectory": "/data/druidTask/storage/wiki",
-    "buildV9Directly": true
+    "basePersistDirectory": "/data/druidTask/storage/wiki"
   },
   "ioConfig": {
     "topic": "wiki",
