@@ -34,6 +34,7 @@
   - CSV文件导入数据源有data类型，要对taskspec.json文件data类型按要求定义：
     - Data类型格式2017-01-01 00:00，则定义为："date","format":"yy-MM-dd HH:mm"
     - Data类型格式2017-01-01 00:00:00，则定义为："date","format":"yy-MM-dd HH:mm:ss"
+    - Data类型格式2017-01-01 00:00:00，则定义为:"date","format":"yyyyMMddHHmmssfff"
     - Data类型格式2017-01-01，则定义为："date","format":"yy-MM-dd"
     - Data类型格式2017-01，则定义为："date","format":"yyyyMM"
     - Data类型格式2017，则定义为："date","format":"yyyy"
