@@ -88,15 +88,14 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
             "parser": {
                 "parseSpec": {
                     "format": "csv",
-                    "timestampSpec": {"column": "ts","format": "yyyyMM"},
+                    "timestampSpec": {"column": "ts","format": "yy-MM-dd HH:mm:ss.SSS"},
                     "dimensionsSpec": {
-                        "dimensionExclusions": [],
-                        "spatialDimensions": [],
                         "dimensions": [
                         {"name": "cardNum","type": "string"},
                         {"name": "leftNode","type": "string"},
                         {"name": "rightNode","type": "string"},
                         {"name": "level","type": "int"},
+                        {"name": "create_time","type": "date", "format":"yy-MM-dd HH:mm:ss.SSS"},
                         {"name": "profit","type": "float"}]
                     },
                     "listDelimiter": ",",
@@ -106,7 +105,6 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
             "granularitySpec": {
                 "intervals": ["2001-01-01/2020-01-01"],
                 "segmentGranularity": "YEAR",
-                "queryGranularity": "NONE",
                 "type": "uniform"
             },
             "dataSource": "com_HyoaKhQMl_project_r1U1FDLjg"
@@ -115,39 +113,17 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
             "firehose": {
                 "type": "local",
                 "filter": "*.csv",
-                "baseDir": "/data1/tmp/druid/",
-                "parser": {
-                    "parseSpec": {
-                        "format": "csv",
-                        "timestampSpec": {"column": "ts","format": "yyyyMM"},
-                        "dimensionsSpec": {
-                            "dimensionExclusions": [],
-                            "spatialDimensions": [],
-                            "dimensions": [
-                            {"name": "cardNum","type": "string"},
-                            {"name": "leftNode","type": "string"},
-                            {"name": "rightNode","type": "string"},
-                            {"name": "level","type": "int"},
-                            {"name": "profit","type": "float"}]
-                        },
-                        "listDelimiter": ",",
-                        "columns": ["ts","cardNum","leftNode","rightNode","level","profit"]
-                    }
-                }
+                "baseDir": "/data1/tmp/druid/"
             },
             "type": "realtime"
         },
         "tuningConfig": {
             "type": "realtime",
-            "maxRowsInMemory": 500000,
-            "intermediatePersistPeriod": "PT10M",
             "basePersistDirectory": "/data1/tmp/task/storage/wxj",
-            "windowPeriod": "PT6000M",
             "reportParseExceptions":true,
             "rejectionPolicy": {
                 "type": "none"
             },
-            "buildV9Directly": true,
             "consumerThreadCount": 2
         }
     },
@@ -162,7 +138,7 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
 
 - **`spec.dataSchema.parser.parseSpec.timestampSpec.format:时间格式类型:`** 推荐`millis`
 
-  - [ ] **`yy-MM-dd HH:mm:ss:`** 自定义的时间格式
+  - [ ] **`yy-MM-dd HH:mm:ss.SSS:`** 自定义的时间格式
   - [ ] **`auto:`** 自动识别时间，支持`iso`和`millis`格式
   - [ ] **`iso:`** iso标准时间格式，如`2016-08-03T12:53:51.999Z`
   - [ ] **`posix:`** 从1970年1月1日开始所经过的秒数,10位的数字
