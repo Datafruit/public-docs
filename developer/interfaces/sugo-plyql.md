@@ -737,6 +737,14 @@ cd sugo-plyql/cmds
 ./rest/reload
 ```
 
+> 启动rest服务后可发送post请求到：**`http://192.168.0.212:8001/plyql`**
+  > - 参数格式：
+  ```
+    {
+      "sql": "show tables" // 这里为sql查询语句
+    }
+  ```
+
 #### JDBC驱动模式
 
  > - 启动PM2集群模式服务（启动前先修改druid的broker节点信息)
@@ -753,3 +761,8 @@ cd sugo-plyql/cmds
 #重启jdbc服务
 ./jdbc/reload
 ```
+> 启动mysql驱动服务后可以用mysql客户端工具连接执行sql查询  
+  > - host: 192.168.0.212  
+  > - port: 13307  
+  > - user: root  
+  > - password: ''  
