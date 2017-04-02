@@ -4,7 +4,7 @@
 
  2.点击项目管理菜单下的“数据接入”
 
- 3.点击项目列表的“数据接入”按钮 \(如果未创建项目，先点击“新建项目”\) ![image](../../assets/image.png)4.点击主分析表下的 “添加数据接入方式”
+ 3.点击项目列表的“数据接入”按钮 (如果未创建项目，先点击“新建项目”) ![image](../../assets/image.png)4.点击主分析表下的 “添加数据接入方式”
 
 5.选择平台「网站」
 
@@ -45,22 +45,22 @@
 # init参数配置
 
 ```javascript
-  sugoio.init\('YOUR\_TOKEN', { // 项目TOKEN
-    project\_id: 'YOUR\_PROJECT\_ID', // 项目ID
+  sugoio.init('YOUR_TOKEN', { // 项目TOKEN
+    project_id: 'YOUR_PROJECT_ID', // 项目ID
     api_host: '', // sugoio-latest.min.js文件以及数据上报的地址
     app_host: '', // 可视化配置时服务端地址
     decide_host: '', // 加载已埋点配置地址
-    loaded: function\(**lib**\) { }, // **sugoio** **sdk** 加载完成回调函数
+    loaded: function(lib) { }, // **sugoio** **sdk** 加载完成回调函数
     dimensions: { }, // 上报维度自定义映射配置参数
     DEBUG: false // 是否启用debug
-  }\);
+  });
 ```
 
-* **YOUR\_TOKEN：** 为项目TOKEN。
-* **YOUR\_PROJECT\_ID：** 为项目ID。
-* **api\_host：** sugoio-latest.min.js文件以及数据上报的地址。
-* **app\_host：** 可视化配置时服务端地址。
-* **decide\_host：** 加载已埋点配置地址。
+* **YOUR_TOKEN：** 为项目TOKEN。
+* **YOUR_PROJECT_ID：** 为项目ID。
+* **api_host：** sugoio-latest.min.js文件以及数据上报的地址。
+* **app_host：** 可视化配置时服务端地址。
+* **decide_host：** 加载已埋点配置地址。
 * **loaded：** sugoio sdk 加载完成回调函数。
 * **dimensions：** 上报维度自定义映射配置参数， 下文详细说明。
 * **DEBUG：** 是否启用debug。
@@ -69,7 +69,7 @@
 
 数果智能 的数据分析工具本身提供了例如 “访问来源”，“城市”,“操作系统"，”浏览器“等等这些维度。这些维度都可以和用户创建的指标进行多维的分析。但是往往不能满足用户对数据多维度分析的要求，因为每个公司的产品都有各自的用户维度，比如客户所服务的公司，用户正在使用的产品版本等等。 数果智能 为了能够让数据分析变得更加的灵活，我们在 JS SDK 中提供了用户自定义维度的API接口:
 
-### **自定义事件上报\(代码埋点上报\)**
+### **自定义事件上报(代码埋点上报)**
 
 第一次接入 数果智能时，建议先追踪 3~5 个关键的事件，只需要几行代码，便能体验 数果智能 的分析功能。例如：
 
@@ -78,18 +78,18 @@
 
 数果智能 SDK 初始化成功后，即可以通过 sugoio.track\(event\_name, \[properties\], \[callback\]\) 记录事件：
 
-* **event\_name**: string，必选。表示要追踪的事件名。
+* **event_name**: string，必选。表示要追踪的事件名。
 * **properties**: object，可选。表示这个事件的属性。
 * **callback**: function，可选。表示已经发送完数据之后的回调。
 
-```
+```javascript
   // 追踪浏览商品事件
-  sugoio.track\('ViewProduct', {
+  sugoio.track('ViewProduct', {
     'ProductId': 123456，
     'ProductCatalog': "Laptop Computer",
     'ProductName': 'MacBook Pro',
     'ProductPrice': 888.88,
-    'ViewDateTime': +**new** Date()
+    'ViewDateTime': +new Date()
   });
 ```
 
