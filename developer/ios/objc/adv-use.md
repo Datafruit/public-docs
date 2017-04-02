@@ -125,4 +125,4 @@ Sugo *sugo = [Sugo sharedInstance];
 ```
 sugo.timeEvent(event_name);					// 在开始统计时长的时候调用
 sugo.track(event_id, event_name, props);	// 准备把自定义事件发送到服务器时
-``
+```
