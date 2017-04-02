@@ -49,7 +49,7 @@
 在Xcode中，点击App的`xcodeproj`文件，进入`info`便签页，添加`URL Types`。
 
 * Identifier: Sugo
-* URL Schemes: sugo.*	(“*”位置替换成Token)
+* URL Schemes: sugo.\*	(“*”位置替换成Token)
 * Icon: (可随意)
 * Role: Editor
 
