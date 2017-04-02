@@ -18,6 +18,7 @@ pod 'sugo-objc-sdk'
 #### 1.1.2 执行集成命令
 
 关闭Xcode，并在`Podfile`目录下执行以下命令：
+
 ```
 pod install
 ```
