@@ -8,23 +8,27 @@
 
 ### **1.配置Podfile**
 
-请在项目根目录下的Podfile （如无，请创建或从我们提供的SugoDemo目录中[获取](https://github.com/Datafruit/sugo-objc-sdk/blob/master/SugoDemo/Podfile)并作出相应修改）文件中添加以下字符串：
+请在项目根目录下的`Podfile` （如无，请创建或从我们提供的SugoDemo目录中[获取](https://github.com/Datafruit/sugo-objc-sdk/blob/master/SugoDemo/Podfile)并作出相应修改）文件中添加以下字符串：
 
+```
 pod 'sugo-objc-sdk'
+```
 
 ### **2.执行集成命令**
 
-关闭Xcode，并在Podfile目录下执行以下命令：
+关闭Xcode，并在`Podfile`目录下执行以下命令：
 
+```
 pod install
+```
 
 ### **3.完成**
 
-运行完毕后，打开集成后的xcworkspace文件即可。
+运行完毕后，打开集成后的`xcworkspace`文件即可。
 
 ## 手动安装
 
-为了帮助开发者集成最新且稳定的SDK，我们建议通过Cocoapods来集成，这不仅简单而且易于管理。 然而，为了方便其他集成状况，我们也提供手动安装此SDK的方法。
+为了帮助开发者集成最新且稳定的SDK，我们建议通过`Cocoapods`来集成，这不仅简单而且易于管理。 然而，为了方便其他集成状况，我们也提供手动安装此SDK的方法。
 
 ### **1.以子模块的形式添加**
 
