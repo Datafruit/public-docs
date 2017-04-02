@@ -2,33 +2,31 @@
 
 ## 获取SDK配置信息
 
-登陆数果智能后，可在平台界面中创建项目和数据接入方式，创建数据接入方式时，即可获得项目ID与Token。
+登陆数果智能后，可在平台界面中创建项目和数据接入方式，创建数据接入方式时，即可获得项目`ID`与`Token`。
 
 ## 配置并获取SDK对象
 
 ### **1.添加头文件**
 
-在集成了SDK的项目中，打开AppDelegate.m，在文件头部添加：
+在集成了SDK的项目中，打开`AppDelegate.m`，在文件头部添加：
 
+```
 @import Sugo;
+```
 
 ### **2.添加SDK对象初始化代码**
 
-把以下代码复制到AppDelegate.m中，并填入已获得的项目ID与Token：
+把以下代码复制到`AppDelegate.m`中，并填入已获得的项目`ID`与`Token`：
+
 ```
-* (void)initSugo {
+- (void)initSugo {
 
-NSString *projectID = @"Add_Your_Project_ID_Here";
-
-NSString *appToken = @"Add_Your_App_Token_Here";
-
-[Sugo sharedInstanceWithID:projectID token:appToken launchOptions:nil];
-
-[[Sugo sharedInstance] setEnableLogging:YES]; // 如果需要查看SDK的Log，请设置为true
-
-[[Sugo sharedInstance] setFlushInterval:5]; // 被绑定的事件数据往服务端上传的事件间隔，单位是秒，如若不设置，默认时间是60秒
-
-[[Sugo sharedInstance] identify:[Sugo sharedInstance].distinctId];
+    NSString *projectID = @"Add_Your_Project_ID_Here";
+    NSString *appToken = @"Add_Your_App_Token_Here";
+    [Sugo sharedInstanceWithID:projectID token:appToken launchOptions:nil];
+    [[Sugo sharedInstance] setEnableLogging:YES]; // 如果需要查看SDK的Log，请设置为true
+    [[Sugo sharedInstance] setFlushInterval:5]; // 被绑定的事件数据往服务端上传的事件间隔，单位是秒，如若不设置，默认时间是60秒
+    [[Sugo sharedInstance] setCacheInterval:60];// 从服务端拉取的绑定事件配置时间间隔，单位是秒，如若不设置，默认时间是1小时
 
 }
 ```
