@@ -51,7 +51,7 @@
       * [相关区域及操作介绍](usergroup/insight-desc.md)
       * [应用场景](usergroup/insight-use-case.md)
   * [企业管理](mana-company.md)
-* 开发者文档
+* [开发者文档](kai-fa-zhe-wen-dang.md)
   * [WEB SDK 使用文档](developer/web/README.md)
     * [获取JS SDK](developer/web/get-sdk.md)
     * [预置属性](developer/web/dimensions.md)
@@ -75,5 +75,4 @@
     * 数据接入
       * [Kafka接入](developer/data-access/kakfa-druid.md)
       * [Csv文件接入](developer/data-access/csv-druid.md)
-
 
