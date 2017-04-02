@@ -32,17 +32,19 @@ pod install
 
 ### **1.以子模块的形式添加**
 
-以子模块的形式把sugo-objc-sdk添加进本地仓库中:
+以子模块的形式把`sugo-objc-sdk`添加进本地仓库中:
 
+```
 git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
+```
 
-现在在仓库中能看见Sugo项目文件Sugo.xcodeproj了。
+现在在仓库中能看见`Sugo`项目文件`Sugo.xcodeproj`了。
 
 ### **2.把Sugo.xcodeproj拖到你的项目（或工作空间）中**
 
-把Sugo.xcodeproj拖到需要被集成使用的项目文件中。
+把`Sugo.xcodeproj`拖到需要被集成使用的项目文件中。
 
 ### **3.嵌入框架（Embed the framework）**
 
-选择需要被集成此SDK的项目target，把Sugo.framework以embeded binary形式添加进去。
+选择需要被集成此SDK的项目target，把`Sugo.framework`以`embeded binary`形式添加进去。
 
