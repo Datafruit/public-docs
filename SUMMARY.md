@@ -78,6 +78,8 @@
       * [函数](developer/interfaces/sugo-plyql.md#functions)
       * [聚合](developer/interfaces/sugo-plyql.md#aggregations)
       * [JDBC 驱动文档](developer/interfaces/jdbc.md)
+      * [下载部署sugo-plyql](/developer/interfaces/download-plyql.md)
+      * [路线图](developer/interfaces/plyql-roadmap.md)
     * 数据接入
       * [Kafka接入](developer/data-access/kakfa-druid.md)
       * [Csv文件接入](developer/data-access/csv-druid.md)

@@ -3,7 +3,7 @@
 
 先启动sugo-plyql的mysql 网关模式:
 ```
-./bin/plyql -h 192.168.0.212 [--druid-time-attribute time --force-boolean isNew] --experimental-mysql-gateway 13307
+./cmds/plyql -h 192.168.0.212 --experimental-mysql-gateway 13307
 ```
 
 - [MySQL驱动下载地址](https://search.maven.org/#search%7Cgav%7C1%7Cg:%22mysql%22%20AND%20a:%22mysql-connector-java%22)
@@ -52,3 +52,5 @@ class DruidQuery
 mysql --host=127.0.0.1 --port=13307 -e "SELECT 1+1"
 ```
 具体的函数支持或者调用请看[Sugo Plyql 使用文档](/developer/interfaces/sugo-plyql.md)
+
+- [下载部署sugo-plyql](/developer/interfaces/download-plyql.md)
