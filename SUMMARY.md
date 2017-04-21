@@ -27,7 +27,7 @@
       * [场景3：授权管理](visual-track/measures-auth.md)
       * [场景4：指标打标签，进行标签化管理](visual-track/measures-tags.md)
   * [场景数据设置](analytics/README.md)
-* 功能介绍
+* 功能介绍(场景应用)
   * [概览](overview.md)
   * [我的订阅](my-subscribes.md)
   * [数据分析](analytics/data-index.md)
@@ -54,6 +54,16 @@
       * [RFM模型介绍](rfm/background.md)
       * [应用场景](rfm/index.md)  
   * [企业管理](mana-company.md)
+* 功能介绍(智能运营)
+  * [概览](overview.md)
+  * [我的订阅](my-subscribes.md)
+  * [数据分析](analytics/data-index.md)
+    * [相关区域及概念介绍](analytics/intro.md)
+    * [数据分析功能使用简介](analytics/desc.md)
+  * [单图概述](analytics/slices.md)
+    * [相关区域及概念介绍](analytics/sclie-intro.md)
+    * [单图功能使用简介](analytics/sclie-desc.md)
+    * [RFM客户细分](rfm)
 * 开发者文档
   * [WEB SDK 使用文档](developer/web/README.md)
     * [获取JS SDK](developer/web/get-sdk.md)
@@ -85,6 +95,4 @@
       * [路线图](developer/interfaces/plyql-roadmap.md)
     * 数据接入
       * [Kafka接入](developer/data-access/kakfa-druid.md)
-      * [Csv文件接入](developer/data-access/csv-druid.md)
-
-
+      * [Csv文件接入](developer/data-access/csv-druid.md
