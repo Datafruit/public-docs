@@ -50,7 +50,7 @@
       * [相关区域及功能介绍](usergroup/insight-intro.md)
       * [相关区域及操作介绍](usergroup/insight-desc.md)
       * [应用场景](usergroup/insight-use-case.md)
-    * [RFM客户细分](rfm)
+    * [RFM客户细分](rfm/index.md)
   * [企业管理](mana-company.md)
 * 开发者文档
   * [WEB SDK 使用文档](developer/web/README.md)
@@ -84,6 +84,5 @@
     * 数据接入
       * [Kafka接入](developer/data-access/kakfa-druid.md)
       * [Csv文件接入](developer/data-access/csv-druid.md)
-    * [RFM](rmf/ff.md)
-    
+
 
