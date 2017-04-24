@@ -50,7 +50,9 @@
       * [相关区域及功能介绍](usergroup/insight-intro.md)
       * [相关区域及操作介绍](usergroup/insight-desc.md)
       * [应用场景](usergroup/insight-use-case.md)
-    * [RFM客户细分](rfm/index.md)
+    * [RFM客户细分](rfm/intro.md)
+      * [RFM模型介绍](rfm/background.md)
+      * [应用场景](rfm/index.md)  
   * [企业管理](mana-company.md)
 * 开发者文档
   * [WEB SDK 使用文档](developer/web/README.md)
