@@ -63,7 +63,6 @@
   * [单图概述](analytics/slices.md)
     * [相关区域及概念介绍](analytics/sclie-intro.md)
     * [单图功能使用简介](analytics/sclie-desc.md)
-    * [RFM客户细分](rfm)
 * 开发者文档
   * [WEB SDK 使用文档](developer/web/README.md)
     * [获取JS SDK](developer/web/get-sdk.md)
