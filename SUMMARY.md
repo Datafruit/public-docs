@@ -27,7 +27,7 @@
       * [场景3：授权管理](visual-track/measures-auth.md)
       * [场景4：指标打标签，进行标签化管理](visual-track/measures-tags.md)
   * [场景数据设置](analytics/README.md)
-* 功能介绍(场景应用)
+* 常规功能介绍
   * [概览](overview.md)
   * [我的订阅](my-subscribes.md)
   * [数据分析](analytics/data-index.md)
@@ -36,6 +36,7 @@
   * [单图概述](analytics/slices.md)
     * [相关区域及概念介绍](analytics/sclie-intro.md)
     * [单图功能使用简介](analytics/sclie-desc.md)
+* 场景应用
   * [行为事件分析](insight-application/behavior-event.md)
     * [概念介绍](insight-application/behavior-intro.md)
     * [相关功能介绍](insight-application/behavior-case.md) 
@@ -57,7 +58,7 @@
   * [用户画像](insight-application/user-portrait.md)
       * [相关功能介绍](insight-application/user-desc.md)
       * [用户画像使用简介](insight-application/user-case.md)   
-* 功能介绍(智能运营)
+* 智能运营
   * [流失预测](insight-application/loss-analysis.md)
       * [概念介绍](insight-application/loss-intro.md)
       * [相关功能介绍](insight-application/loss-desc.md)
