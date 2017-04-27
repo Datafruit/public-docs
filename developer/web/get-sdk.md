@@ -2,23 +2,27 @@
 
 1.登录 数果智能
 
- 2.点击项目管理菜单下的“数据接入”
+2.点击项目管理菜单下的“数据接入”
 
- 3.点击项目列表的“数据接入”按钮 (如果未创建项目，先点击“新建项目”) ![image](../../assets/image.png)4.点击主分析表下的 “添加数据接入方式”
+3.点击项目列表的“数据接入”按钮 (如果未创建项目，先点击“新建项目”) 
+
+ ![](/assets/web-maidian/1.png)
+ 
+4.点击主分析表下的 “添加数据接入方式”
 
 5.选择平台「网站」
 
-![image](../../assets/image.png)
+![](/assets/web-maidian/2.png)
 
 6.安装SDK
 
-![image](../../assets/image.png)
+![](/assets/web-maidian/3.png)
 
 
 # 整合JS SDK至web 环境
 
-将我们提供给您的 JS SDK 加入到您所需要分析的页面，请将我们给您提供的 JS SDK 复制到 &lt;head&gt; 和 &lt;/head&gt; 标签之间即可, 请务必更改“YOUR_TOKEN” , “YOUR_PROJECT_ID” 参数。您可以在数果智能 Web应用程序的项目管理的具体项目下的编辑界面的“查看设置”看到对应的TOKEN和PROJECT_ID。例如： ![image](../../assets/image.png)
-
+将我们提供给您的 JS SDK 加入到您所需要分析的页面，请将我们给您提供的 JS SDK 复制到 &lt;head&gt; 和 &lt;/head&gt; 标签之间即可, 请务必更改“YOUR_TOKEN” , “YOUR_PROJECT_ID” 参数。您可以在数果智能 Web应用程序的项目管理的具体项目下的编辑界面的“查看设置”看到对应的TOKEN和PROJECT_ID。例如：   
+![](/assets/web-maidian/4.png)
 # 异步载入
 ```
 <head>
