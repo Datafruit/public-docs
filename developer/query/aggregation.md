@@ -31,7 +31,7 @@ aggregations.type=lucene_count 时，参数：
 可以计算行的数量，相当于`count()`
 
 ### 最大值（double）
-aggregations.type=lucene_doubleMax 时，参数：
+aggregations.type=lucene_doubleMax 时，参数： 
 ```
 {
     "type":"lucene_doubleMax",
