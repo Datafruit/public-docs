@@ -4,22 +4,22 @@
 
 目前产品提供如下主要功能：
 
-* 场景项目管理
-* 可视化埋点和埋点管理
-* 维度管理
-* 指标管理
-* 单图管理
-* 数据看板管理
-* 自助分析
-* 行为事件分析
-* 漏斗分析
-* 留存分析
-* 用户分群
-* 用户画像
-* 流失预测
-* RFM客户细分
-* 用户细查以及路径分析
-* 用户权限管理
+* [场景项目管理](manage-projects.md)
+* [可视化埋点和埋点管理](visual-track/README.md)
+* [维度管理](visual-track/mana-dimensions.md)
+* [指标管理](visual-track/mana-measures.md)
+* [单图管理](analytics/slices.md)
+* [数据看板管理]()
+* [自助分析](quik-guide/analytics.md)
+* [行为事件分析](insight-application/behavior-event.md)
+* [漏斗分析](analytics/funnel.md)
+* [留存分析](analytics/retation.md)
+* [用户分群](usergroup/README.md)
+* [用户画像](insight-application/user-portrait.md)
+* [流失预测](insight-application/loss-analysis.md)
+* [RFM客户细分](rfm/intro.md)
+* [用户细查以及路径分析](usergroup/insight.md)
+* [用户权限管理](mana-company.md)
 
 通过数果智能强大的功能，可以驱动平台运营，帮您最终实现增长。
 
