@@ -11,6 +11,7 @@
 * [单图管理](analytics/slices.md)
 * [数据看板管理]()
 * [自助分析](quik-guide/analytics.md)
+* [流量分析](analytics/traffic.md)
 * [行为事件分析](insight-application/behavior-event.md)
 * [漏斗分析](analytics/funnel.md)
 * [留存分析](analytics/retation.md)
