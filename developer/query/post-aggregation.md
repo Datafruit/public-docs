@@ -1,5 +1,7 @@
+# Tindex-Query-Json `post-aggregation`属性详情如下
+
 ##  postAggregation聚合
-postAggregations.type 可选项: arithmetic , buckets, constant , customBuckets ,  equalBuckets ,  fieldAccess , hyperUniqueCardinality , javascript , max , min , sketchEstimate , sketchSetOper
+postAggregations.type 可选项: `arithmetic` , `buckets`, `constant` , `customBuckets` ,  `equalBuckets` ,  `fieldAccess` , `hyperUniqueCardinality` , `javascript` , `max` , `min` , `sketchEstimate` , `sketchSetOper`
 
 ### 算术
 

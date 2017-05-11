@@ -1,3 +1,5 @@
+# Tindex-Query-Json `dataSource`属性详情如下
+
 ## 数据源
 
 数据源相当于数据库中的表     
@@ -9,7 +11,7 @@ dataSource.type=table 时，参数：
 ```
 {
     "type":"table",  
-    "name":"<string_value>"   
+    "name":"<string_value>"
 }
 ```
 最常用的数据源，`<string_value>`为源数据源的名称，类似关系数据库中的表名。

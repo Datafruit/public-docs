@@ -1,10 +1,12 @@
+# Tindex-Query-Json `dimension`属性详情如下
+
 ## 维度
 可以在查询中使用以下JSON字段来操作维度值。  
-dimensions.type 可选项： default, extraction , regexFiltered , listFiltered , lookup ，也可以是一个对象  
+dimensions.type 可选项： `default`, `extraction` , `regexFiltered` , `listFiltered` , `lookup`，也可以是一个对象  
 
 ### 默认
 dimensions.type=default 时，参数：
-```
+```javascript
 {
     "type":"default",
     "dimension":"<dimension>",
@@ -15,7 +17,7 @@ dimensions.type=default 时，参数：
 
 ### 提取
 dimensions.type=extraction 时，参数：
-```
+```javascript
 {
     "type":"extraction",
     "dimension":"<dimension>",
@@ -32,7 +34,7 @@ dimensions.type=extraction 时，参数：
 
 ### 正则表达式
 dimensions.type=regexFiltered 时，参数：
-```
+```javascript
 {
     "type":"regex",
     "delegate":{
@@ -46,7 +48,7 @@ dimensions.type=regexFiltered 时，参数：
 
 ### 过滤
 dimensions.type=listFiltered 时，参数：
-```
+```javascript
 {
     "type":"listFiltered",
     "delegate":{
@@ -62,7 +64,7 @@ dimensions.type=listFiltered 时，参数：
 
 ### 查找
 dimensions.type=lookup 时，参数：
-```
+```javascript
 {
     "type":"lookup",
     "dimension":"<dimensionName>",
