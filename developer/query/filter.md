@@ -1,3 +1,5 @@
+# Tindex-Query-Json `filter`属性详情如下
+
 ## 过滤器
 一个过滤器是一个JSON对象，指示在查询的计算中应该包括哪些数据行。它基本上等同于SQL中的WHERE子句。  
 
