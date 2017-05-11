@@ -1,228 +1,15 @@
-# 查询
+# 查询 Tindex-Query-Json
 
-## groupBy
-```
-{
-	"queryType":"lucene_groupBy",   
-	"dataSource":"com_HyoaKhQMl_project_rJIXzFOpe",
-	"intervals":[
-			 "2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
-	],
-	"filter":{
-		"type":"and",	
-		"fields":[
-			<filter>,<filter>,...
-		]
-	}, 
-	"granularity": "all", 
-	"dimension": ["name"],
-	"aggregations": [
-	    {
-	    	"type": "lucene_filtered",
-	      	"aggregator": {
-		        "type": "lucene_thetaSketch",
-		        "name": "userTotal",
-		        "fieldName": "UserID"  
-	      	},
-	      	"filter": {
-		        "type": "bound",
-		        "dimension": "__time",
-		        "lower": "1451577600000",
-		        "upper": "1492185599999",
-		        "lowerStrict": true,
-		        "upperStrict": true
-	      	}
-	    },
-	    {
-	      	"type": "lucene_filtered",
-	      	"aggregator": {
-		        "type": "lucene_thetaSketch",
-		        "name": "prevUserTotal",
-		        "fieldName": "UserID"
-	      	},
-	      	"filter": {
-		        "type": "bound",
-		        "dimension": "__time",
-		        "lower": "1451577600000",
-		        "upper": "1492099199999",
-		        "lowerStrict": true,
-		        "upperStrict": true
-	      	}
-	    }
-  	],
-	"postAggregations":[
-		<postAggregator>,<postAggregator>,...
-	],
-	"having":{
-		"type":"and",
-		"havingSpecs":[
-			<havingSpec>,<havingSpec>,...
-		]
-	},
-	"limitSpec":{
-		"type":"default",
-		"columns":[
-			{
-				"dimension":"nation",
-				"direction":"ASCENDING", 
-				"dimensionOrder":"lexicographic"
-			}
-		],
-		"limit":50
-	},
-	"context":{
-		"key": "value"
-	}
-}
-```
-- queryType: 查询的类型，区分不同的查询  
-- dataSource: 数据源的名称，类似关系数据库中的表名  
-- intervals: 查询的时间段  
-- filter: 过滤条件  
-- filter.type: 过滤类型  
-- filter.fields: and过滤条件的参数  
-- granularity:查询粒度  
-    all： 将所有内容都装入一个bucke中。  
-    none： 没有数据桶（它实际上使用了索引的粒度最小在none这是毫秒的粒度）。目前不推荐none在TimeseriesQuery中使用（系统将尝试生成不存在的所有毫秒的0值，这通常是很多的）。
-- dimension: 分组的维度  
-- aggregations: 聚合函数  
-- postAggregations: 基于聚合函数的结果进一步处理  
-- having: having条件  
-- having.type: having的类型  
-- having.havingSpecs: and类型的Having的参数  
-- limitSpec.type: limit的类型    
-- limitSpec.limit: 数量限制  
-- limitSpec.columns: 排序的维度  
-- limitSpec.columns.dimension:排序的维度  
-- limitSpec.columns.direction:正序或倒序，ASCENDING or DESCENDING;  
-- limitSpec.columns.dimensionOrder:排序的方式，lexicographic、alphanumeric、numeric、strlen  
-- context: 其他context参数
+- [timeseries](#timeseries)  
+- [groupBy](#groupBy)  
+- [search](#search)  
+- [segmentMetadata](#segmentMetadata)  
+- [select](#select)  
+- [timeBoundary](#timeBoundary)  
+- [topN](#topN)  
 
-## search
-queryType=lucene_search 时，参数：
-```
-{
-	"queryType":"lucene_search",
-	"dataSource": "com_HyoaKhQMl_project_rJIXzFOpe", 
-	"filter":{
-		"type":"and",	
-		"fields":[
-			<filter>,<filter>,...
-		]
-	},
-	"granularity":"all", 
-	"limit":50, 
-	"intervals": [
-    	"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
-  	],
-	"searchDimensions":[
-		"name"
-	],
-	"sort":{
-		"type":"lexicographic"
-	},
-	"context":{
-		"key": "value"
-	}
-}
-```
-- searchDimensions:搜索的维度
+## <a id="timeseries" href="timeseries"></a> timeseries
 
-## segmentMetadata
-queryType=lucene_segmentMetadata 时，参数：
-```
-{
-	"queryType":"lucene_segmentMetadata",
-	"dataSource": "com_HyoaKhQMl_project_rJIXzFOpe",
-	"intervals": [
-    	"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
-  	],
-	"toInclude":{
-		"type":"none"
-	},
-	"merge":true,
-	"context":{
-		//Map<String, Object>
-	},  
-	"analysisTypes":[
-		//EnumSet<AnalysisType> analysisTypes
-	],
-	"usingDefaultInterval":true,
-	"lenientAggregatorMerge":true
-}
-```
-- toInclude.type: none,不包含  
-- toInclude.type: all,包含所有,默认选项  
-- toInclude.type: list，包含指定项，此时需要toInclude.columns参数，值为["name", "age"]     
-- merge:是否合并所有元数据，默认为false  
-- analysisTypes:默认不填写，可以使用如下选项：  
-    CARDINALITY,    
-    SIZE,  
-    INTERVAL,  
-    AGGREGATORS,  
-    MINMAX,  
-    QUERYGRANULARITY;
-
-## select
-queryType=lucene_select 时，参数：
-```
-{
-    "queryType":"queryType=lucene_select",
-    "dataSource": "wuxianjiRT",
-    "intervals": "2017-02-10T02:00:00.000Z/2017-02-10T10:00:00.000Z",
-    "descending":true,
-    "filter":{
-		"type":"and",	
-		"fields":[
-			<filter>,<filter>,...
-		]
-    },
-    "granularity": "all",
-    "dimensions": [
-	    {
-		    "type": "default",
-		    "dimension": "ClientDeviceID",
-		    "outputName": "ClientDeviceId"      
-	    }
-    ],
-    "pagingSpec": {
-	    "pagingIdentifiers": {
-		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z_3": -13,
-		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z_2": -13,
-		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z_1": -12,
-		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z": -12
-	    },
-    	"threshold": 50,
-    	"fromNext":true
-    },
-    "context": {
-	    "timeout": 600000
-    }
-}
-```
-- pagingSpec:分页信息  
-- pagingSpec.pagingIdentifiers:段信息，一般第一次查询时不填写，需要查第n页时，从上一次查询中获取该信息。  
-- pagingSpec.threshold：分页大小  
-- pagingSpec.fromNext：下一页从下一条记录开始，需要设置为true  
-- context.timeout:查询超时时间
-
-## timeBoundary
-queryType=lucene_timeBoundary 时，参数：
-```
-{
-    "dataSource": "com_HyoaKhQMl_project_rJIXzFOpe",
-    "intervals": [
-    	"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
-    ],
-    "bound": "bound_string", 
-    "context": {
-	    "timeout": 600000
-    }
-}
-```
-- bound：最小最大时间，maxTime or minTime
-
-## timeseries
 queryType=lucene_timeseries 时，参数：
 ```
 {
@@ -292,7 +79,241 @@ queryType=lucene_timeseries 时，参数：
 }
 ```
 
-## topN
+|属性|描述|必选项?|
+|--------|-----------|---------|
+|queryType|查询类型，表示这是一个什么查询比如：groupBy，timeseries等|是|
+|dataSource|定义要查询的数据源的字符串或对象，非常类似于关系数据库中的表。请参阅[`dataSource`](/developer/query/datasource.md)以获取更多信息。|是|
+|descending|是否降序排序结果。默认为false（升序）。|否|
+|intervals|表示ISO-8601间隔的JSON对象。这定义了运行查询的时间范围。详见[`interval`](/developer/query/interval.md)|是|
+|granularity|定义查询结果的粒度。|是|
+|filter|过滤条件。详见[`filter`](/developer/query/filter.md)|否|
+|aggregations|聚合查询。详见[`aggregation`](/developer/query/aggregation.md)|否|
+|postAggregations|请参阅后期汇总[`post-aggregation`](/developer/query/post-aggregation.md)|否|
+|context|查询上下文参数，一个额外的JSON对象，可用于指定某些标志。|否|
+
+## <a id="groupBy" href="groupBy"></a> groupBy
+```
+{
+	"queryType":"lucene_groupBy",   
+	"dataSource":"com_HyoaKhQMl_project_rJIXzFOpe",
+	"intervals":[
+			 "2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
+	],
+	"filter":{
+		"type":"and",	
+		"fields":[
+			<filter>,<filter>,...
+		]
+	},
+	"granularity": "all", 
+	"dimension": ["name"],
+	"aggregations": [
+	    {
+	    	"type": "lucene_filtered",
+	      	"aggregator": {
+		        "type": "lucene_thetaSketch",
+		        "name": "userTotal",
+		        "fieldName": "UserID"  
+	      	},
+	      	"filter": {
+		        "type": "bound",
+		        "dimension": "__time",
+		        "lower": "1451577600000",
+		        "upper": "1492185599999",
+		        "lowerStrict": true,
+		        "upperStrict": true
+	      	}
+	    },
+	    {
+	      	"type": "lucene_filtered",
+	      	"aggregator": {
+		        "type": "lucene_thetaSketch",
+		        "name": "prevUserTotal",
+		        "fieldName": "UserID"
+	      	},
+	      	"filter": {
+		        "type": "bound",
+		        "dimension": "__time",
+		        "lower": "1451577600000",
+		        "upper": "1492099199999",
+		        "lowerStrict": true,
+		        "upperStrict": true
+	      	}
+	    }
+  	],
+	"postAggregations":[
+		<postAggregator>,<postAggregator>,...
+	],
+	"having":{
+		"type":"and",
+		"havingSpecs":[
+			<havingSpec>,<havingSpec>,...
+		]
+	},
+	"limitSpec":{
+		"type":"default",
+		"columns":[
+			{
+				"dimension":"nation",
+				"direction":"ASCENDING", 
+				"dimensionOrder":"lexicographic"
+			}
+		],
+		"limit":50
+	},
+	"context":{
+		"key": "value"
+	}
+}
+```
+- `queryType:` 查询的类型，区分不同的查询  
+- `dataSource:` 数据源的名称，类似关系数据库中的表名  
+- `intervals:` 查询的时间段  
+- `filter:` 过滤条件  
+- `filter.type:` 过滤类型  
+- `filter.fields:` and过滤条件的参数  
+- `granularity:`查询粒度  
+    `all：` 将所有内容都装入一个bucke中。  
+    `none：` 没有数据桶（它实际上使用了索引的粒度最小在none这是毫秒的粒度）。目前不推荐none在TimeseriesQuery中使用（系统将尝试生成不存在的所有毫秒的0值，这通常是很多的）。
+- `dimension:` 分组的维度  
+- `aggregations:` 聚合函数  
+- `postAggregations:` 基于聚合函数的结果进一步处理  
+- `having:` having条件  
+- `having.type:` having的类型  
+- `having.havingSpecs:` and类型的Having的参数  
+- `limitSpec.type:` limit的类型
+- `limitSpec.limit:` 数量限制  
+- `limitSpec.columns:` 排序的维度  
+- `limitSpec.columns.dimension:` 排序的维度  
+- `limitSpec.columns.direction:` 正序或倒序，`ASCENDING` or `DESCENDING`;  
+- `limitSpec.columns.dimensionOrder:` 排序的方式，`lexicographic`、`alphanumeric`、`numeric`、`strlen`
+- `context:` 其他context参数
+
+## <a id="search" href="search"></a> search
+queryType=lucene_search 时，参数：
+```
+{
+	"queryType":"lucene_search",
+	"dataSource": "com_HyoaKhQMl_project_rJIXzFOpe", 
+	"filter":{
+		"type":"and",	
+		"fields":[
+			<filter>,<filter>,...
+		]
+	},
+	"granularity":"all", 
+	"limit":50, 
+	"intervals": [
+    	"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
+  	],
+	"searchDimensions":[
+		"name"
+	],
+	"sort":{
+		"type":"lexicographic"
+	},
+	"context":{
+		"key": "value"
+	}
+}
+```
+- searchDimensions:搜索的维度
+
+##  <a id="segmentMetadata" href="segmentMetadata"></a> segmentMetadata
+queryType=lucene_segmentMetadata 时，参数：
+```
+{
+	"queryType":"lucene_segmentMetadata",
+	"dataSource": "com_HyoaKhQMl_project_rJIXzFOpe",
+	"intervals": [
+    	"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
+  	],
+	"toInclude":{
+		"type":"none"
+	},
+	"merge":true,
+	"context":{
+		//Map<String, Object>
+	},  
+	"analysisTypes":[
+		//EnumSet<AnalysisType> analysisTypes
+	],
+	"usingDefaultInterval":true,
+	"lenientAggregatorMerge":true
+}
+```
+- toInclude.type: none,不包含  
+- toInclude.type: all,包含所有,默认选项  
+- toInclude.type: list，包含指定项，此时需要toInclude.columns参数，值为["name", "age"]     
+- merge:是否合并所有元数据，默认为false  
+- analysisTypes:默认不填写，可以使用如下选项：  
+    CARDINALITY,    
+    SIZE,  
+    INTERVAL,  
+    AGGREGATORS,  
+    MINMAX,  
+    QUERYGRANULARITY;
+
+## <a id="select" href="select"></a> select
+queryType=lucene_select 时，参数：
+```
+{
+    "queryType":"queryType=lucene_select",
+    "dataSource": "wuxianjiRT",
+    "intervals": "2017-02-10T02:00:00.000Z/2017-02-10T10:00:00.000Z",
+    "descending":true,
+    "filter":{
+		"type":"and",	
+		"fields":[
+			<filter>,<filter>,...
+		]
+    },
+    "granularity": "all",
+    "dimensions": [
+	    {
+		    "type": "default",
+		    "dimension": "ClientDeviceID",
+		    "outputName": "ClientDeviceId"      
+	    }
+    ],
+    "pagingSpec": {
+	    "pagingIdentifiers": {
+		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z_3": -13,
+		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z_2": -13,
+		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z_1": -12,
+		    "wuxianjiRT_2017-02-10T02:00:00.000Z_2017-02-10T10:00:00.000Z_2017-02-10T00:00:00.896Z": -12
+	    },
+    	"threshold": 50,
+    	"fromNext":true
+    },
+    "context": {
+	    "timeout": 600000
+    }
+}
+```
+- pagingSpec:分页信息  
+- pagingSpec.pagingIdentifiers:段信息，一般第一次查询时不填写，需要查第n页时，从上一次查询中获取该信息。  
+- pagingSpec.threshold：分页大小  
+- pagingSpec.fromNext：下一页从下一条记录开始，需要设置为true  
+- context.timeout:查询超时时间
+
+##  <a id="timeBoundary" href="timeBoundary"></a> timeBoundary
+queryType=lucene_timeBoundary 时，参数：
+```
+{
+    "dataSource": "com_HyoaKhQMl_project_rJIXzFOpe",
+    "intervals": [
+    	"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
+    ],
+    "bound": "bound_string", 
+    "context": {
+	    "timeout": 600000
+    }
+}
+```
+- bound：最小最大时间，maxTime or minTime
+
+## <a id="topN" href="topN"></a> topN
 TopN查询根据某些条件返回给定维度中的值的排序集合。  
 
 queryType=lucene_topN 时，参数：
