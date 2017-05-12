@@ -39,6 +39,10 @@
   * [数据看板概述](analytics/board.md)
     * [数据看板功能使用简介](analytics/board-desc.md)
 * 场景应用
+  * [流量分析](analytics/traffic.md)
+    * [概念介绍](analytics/traffic-intro.md)
+    * [相关区域介绍](analytics/traffic-case.md)
+    * [流量分析功能使用简介](analytics/traffic-desc.md)
   * [行为事件分析](insight-application/behavior-event.md)
     * [概念介绍](insight-application/behavior-intro.md)
     * [相关功能介绍](insight-application/behavior-case.md) 
