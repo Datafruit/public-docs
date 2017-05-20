@@ -82,13 +82,13 @@ queryType=lucene_timeseries 时，参数：
 |属性|描述|必选项?|
 |--------|-----------|---------|
 |queryType|查询类型，表示这是一个什么查询比如：groupBy，timeseries等|是|
-|dataSource|定义要查询的数据源的字符串或对象，非常类似于关系数据库中的表。请参阅[`dataSource`](/developer/query/datasource.md)以获取更多信息。|是|
+|dataSource|定义要查询的数据源的字符串或对象，非常类似于关系数据库中的表。请参阅[`dataSource`](/developer/query/#datasource)以获取更多信息。|是|
 |descending|是否降序排序结果。默认为false（升序）。|否|
-|intervals|表示ISO-8601间隔的JSON对象。这定义了运行查询的时间范围。详见[`interval`](/developer/query/interval.md)|是|
+|intervals|表示ISO-8601间隔的JSON对象。这定义了运行查询的时间范围。详见[`interval`](/developer/query/#interval)|是|
 |granularity|定义查询结果的粒度。|是|
-|filter|过滤条件。详见[`filter`](/developer/query/filter.md)|否|
-|aggregations|聚合查询。详见[`aggregation`](/developer/query/aggregation.md)|否|
-|postAggregations|请参阅后期汇总[`post-aggregation`](/developer/query/post-aggregation.md)|否|
+|filter|过滤条件。详见[`filter`](/developer/query/#filter)|否|
+|aggregations|聚合查询。详见[`aggregation`](/developer/query/#aggregation)|否|
+|postAggregations|请参阅后期汇总[`post-aggregation`](/developer/query/#post-aggregation)|否|
 |context|查询上下文参数，一个额外的JSON对象，可用于指定某些标志。|否|
 
 ## <a id="groupBy" href="groupBy"></a> groupBy
