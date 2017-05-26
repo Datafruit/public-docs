@@ -651,6 +651,7 @@ OR                      | 逻辑或
 <a href="cast" id="cast">#</a>
 **CAST** (*expr1*, *op*)
 将expr1转换为其他类型, `op包含：'CHAR'(string), 'SIGNED'(number)`; 例如将字符串转换为number类型： CAST(expr1, 'SIGNED')
+`SELECT CAST(\`commentLength\` AS CHAR) as castedString, CAST(\`commentLengthStr\` AS SIGNED) as castedNumber FROM \`wiki\``
 
 <a id="otherFunc" href="#otherFunc">#</a>
 
