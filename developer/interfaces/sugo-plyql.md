@@ -5,6 +5,7 @@
  - [示例](#example)
  - [操作符](#operators)
  - [函数](#functions)
+ - [其他函数](#otherFunc)
  - [聚合](#aggregations)
  - [JDBC 驱动文档](/developer/interfaces/jdbc.md)
  - [下载部署sugo-plyql](/developer/interfaces/download-plyql.md)
@@ -646,6 +647,15 @@ OR                      | 逻辑或
 **CUSTOM_TRANSFORM(*expr1*, *custom_name*)**
 
 调用自定义转换函数处理数据
+
+<a href="cast" id="cast">#</a>
+**CAST** (*expr1*, *op*)
+将expr1转换为其他类型, `op包含：'CHAR'(string), 'SIGNED'(number)`; 例如将字符串转换为number类型： CAST(expr1, 'SIGNED')
+
+<a id="otherFunc" href="#otherFunc">#</a>
+
+### 其他函数
+`DATE_FORMAT`, `YEAR`, `MONTH`, `WEEK_OF_YEAR` `DAY_OF_YEAR` `DAY_OF_MONTH` `DAY_OF_WEEK` `HOUR` `MINUTE` `SECOND` `DATE` `TIMESTAMP` `DATE_ADD` `DATE_SUB` `FROM_UNIXTIME` `UNIX_TIMESTAMP`
 
 ### 数学函数
 
