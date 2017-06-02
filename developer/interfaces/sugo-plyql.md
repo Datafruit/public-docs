@@ -49,8 +49,10 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
     - [聚合查询](#query-aggregation)
     - [聚合查询带where](#agg-where)
     - [函数查询](#query-function)
+    - [CASE-WHEN查询](#case-when)
     - [having查询](#query-having)
     - [高级查询](#adv-query)
+    - [所有查询示例](#query-all)
 
 ### <a id="dos" href="#dos"></a> 终端命令模式
 
@@ -386,15 +388,57 @@ FROM wikipedia;
 '
 ```
 
+#### <a id="case-when" href="case-when"></a> CASE WHEN 查询
+
+```shell
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT
+CASE Province WHEN "广东省" THEN "广东省" ELSE "其他省份" END AS caseProvince,
+COUNT(*) AS "Count"
+FROM sugo_test
+WHERE Nation = "中国"
+GROUP BY 1
+ORDER BY Count DESC 
+LIMIT 3;
+'
+```
+
+或者
+
+```shell
+plyql -h 192.168.60.100:8082 -i P1Y -q '
+SELECT
+CASE WHEN Province="广东省" THEN "广东省" ELSE "其他省份" END AS caseProvince, 
+COUNT(*) AS 'Count'
+FROM wuxianjiRT
+WHERE Nation = "中国" 
+GROUP BY 1 
+ORDER BY Count DESC 
+LIMIT 3;
+'
+```
+
+返回:
+
+```
+┌──────────────┬───────────┐
+│ caseProvince │ Count     │
+├──────────────┼───────────┤
+│ 其他省份      │ 216958713 │
+│ 广东省        │ 6781726   │
+└──────────────┴───────────┘
+```
+
+
 #### <a id="query-having" href="query-having"></a> having查询
 
 这里的HAVING条件跟传统的SQL有点区别，就是只能指定SELET里聚合过的或者数值列类型的
 
-```sql
+```shell
 plyql -h 192.168.60.100:8082 -i P1Y -q '
 SELECT province as pro, 
 COUNT() as cnt 
-FROM sugo_test 
+FROM sugo_test
 GROUP BY province 
 HAVING cnt > 1
 ORDER BY cnt DESC 
@@ -507,6 +551,53 @@ LIMIT 5;
   },
   "... results omitted ..."
 ]
+```
+
+#### <a id="query-all" href="query-all"></a> 所有查询示例
+
+```sql
+   SELECT
+    a = b AS aISb1,
+    a IS b AS aISb2,
+    a <=> b AS aISb3,
+    COUNT() Count1,
+    COUNT(*) AS Count2,
+    COUNT(1) AS Count3,
+    COUNT(\`visitor\`) AS Count4,
+    MATCH(\`visitor\`, "[0-9A-F]") AS 'Match',
+    CUSTOM_TRANSFORM(\`visitor\`, "visitor_custom") AS 'CustomTransform',
+    SUM(added) AS 'TotalAdded',
+    DATE '2014-01-02' AS 'Date',
+    SUM(\`wiki\`.\`added\`) / 4 AS TotalAddedOver4,
+    NOT(true) AS 'False',
+    -SUM(added) AS MinusAdded,
+    ABS(MinusAdded) AS AbsAdded,
+    ABSOLUTE(MinusAdded) AS AbsoluteAdded,
+    POWER(MinusAdded, 0.5) AS SqRtAdded,
+    POW(MinusAdded, 0.5) AS SqRtAdded2,
+    SQRT(TotalAddedOver4) AS SquareRoot,
+    EXP(0) AS One,
+    +SUM(added) AS SimplyAdded,
+    QUANTILE(added, 0.5) AS Median,
+    QUANTILE(added, 0.5, "resolution=400") AS MedianTuned,
+    COUNT_DISTINCT(visitor) AS 'Unique1',
+    COUNT( DISTINCT visitor) AS 'Unique2',
+    COUNT(DISTINCT(visitor)) AS 'Unique3',
+    TIME_BUCKET(time, PT1H) AS 'TimeBucket',
+    TIME_FLOOR(time, PT1H) AS 'TimeFloor',
+    TIME_SHIFT(time, PT1H) AS 'TimeShift1',
+    TIME_SHIFT(time, PT1H, 3) AS 'TimeShift3',
+    TIME_RANGE(time, PT1H) AS 'TimeRange1',
+    TIME_RANGE(time, PT1H, 3) AS 'TimeRange3',
+    OVERLAP(x, y) AS 'Overlap',
+    IF(x, "hello", \`world\`) AS 'If1',
+    CASE moon WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END AS 'Case1',
+    CASE WHEN moon > 13 THEN 'T' ELSE 'F' END AS 'Case2',
+    CASE WHEN moon = 13 THEN 'TheOne' END AS 'Case3',
+    CUSTOM('blah') AS 'Custom1',
+    CUSTOM_AGGREGATE('blah') AS 'Custom2'
+    FROM \`wiki\`
+    WHERE \`language\`="en"  ;  -- This is just some comment
 ```
 
 
