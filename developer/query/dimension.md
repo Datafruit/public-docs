@@ -1,23 +1,23 @@
 # Tindex-Query-Json `dimension`属性详情如下
 
-## 维度
-可以在查询中使用以下JSON字段来操作维度值。  
-dimensions.type 可选项： `default`, `extraction` , `regexFiltered` , `listFiltered` , `lookup`，也可以是一个对象  
+## Dimension 维度
+&#160; &#160; &#160; &#160;Dimensino ,即维度，可以在查询中使用以下JSON字段来操作维度值。 
 
-### 默认
-dimensions.type=default 时，参数：
-```javascript
+### 1. Default Dimension
+&#160; &#160; &#160; &#160;Default Dimension 返回维度值，并可选择对维度进行重命名。JSON 示例如下：
+```
 {
     "type":"default",
     "dimension":"<dimension>",
     "outputName":"<output_name>"
 }
 ```
-返回维度值，并可选择对维度进行重命名。
 
-### 提取
-dimensions.type=extraction 时，参数：
-```javascript
+
+### 2. Extraction Dimension
+&#160; &#160; &#160; &#160;Extraction Dimension 返回使用给定提取函数转换的维度值。JSON示例如下：
+
+```
 {
     "type":"extraction",
     "dimension":"<dimension>",
@@ -30,11 +30,11 @@ dimensions.type=extraction 时，参数：
     }
 }
 ```
-返回使用给定提取函数转换的维度值。
 
-### 正则表达式
-dimensions.type=regexFiltered 时，参数：
-```javascript
+
+### 3. Regex Dimension
+&#160; &#160; &#160; &#160;Regex Dimension 返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。JSON示例如下：
+```
 {
     "type":"regex",
     "delegate":{
@@ -43,12 +43,12 @@ dimensions.type=regexFiltered 时，参数：
     "pattern":"pattern_string"
 }
 ```
-返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。  
-例如，使用`"expr" : "(\\w\\w\\w).*"`将改变'Monday'，'Tuesday'，'Wednesday'成'Mon'，'Tue'，'Wed'。
+ 
+&#160; &#160; &#160; &#160;例如，使用`"expr" : "(\\w\\w\\w).*"`将改变'Monday'，'Tuesday'，'Wednesday'成'Mon'，'Tue'，'Wed'。
 
-### 过滤
-dimensions.type=listFiltered 时，参数：
-```javascript
+### 4. ListFiltered Dimension
+&#160; &#160; &#160; &#160;ListFiltered Dimension 仅适用于多值维度。JSON示例如下：
+```
 {
     "type":"listFiltered",
     "delegate":{
@@ -60,11 +60,11 @@ dimensions.type=listFiltered 时，参数：
     "isWhitelist":true
 }
 ```
-仅适用于多值维度。如果您在druid中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值“v1” 发送groupBy / topN查询分组。在响应中，您将获得包含“v1”，“v2”和“v3”的3行。对于某些用例，此行为可能不直观。
+&#160; &#160; &#160; &#160;如果您在druid中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值“v1” 发送groupBy / topN查询分组。在响应中，您将获得包含“v1”，“v2”和“v3”的3行。对于某些用例，此行为可能不直观。
 
-### 查找
-dimensions.type=lookup 时，参数：
-```javascript
+### 5. Lookup Dimension
+&#160; &#160; &#160; &#160;Lookup Dimension 允许在执行提取时使用的一组键和值。JSON示例如下：
+```
 {
     "type":"lookup",
     "dimension":"<dimensionName>",
@@ -83,8 +83,6 @@ dimensions.type=lookup 时，参数：
     "optimize":true
 }
 ```
-可用于将查找实现直接定义为维度规范。  
-
-在查询时可以指定属性retainMissingValue为false，并通过设置replaceMissingValueWith提示如何处理缺失值。  
-retainMissingValue如果在查找中找不到，设置为true将使用维度的原始值。
-默认值是replaceMissingValueWith = null，retainMissingValue = false并且导致丢失的值被视为丢失值。
+&#160; &#160; &#160; &#160;在查询时可以指定属性 retainMissingValue 为false，并通过设置 replaceMissingValueWith 提示如何处理缺失值。  
+&#160; &#160; &#160; &#160;retainMissingValue 如果在查找中找不到，设置为true将使用维度的原始值。
+默认是 replaceMissingValueWith = null，retainMissingValue = false 并且导致丢失的值被视为丢失值。

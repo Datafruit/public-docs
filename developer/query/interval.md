@@ -1,44 +1,35 @@
 # Tindex-Query-Json `interval`属性详情如下
 
-## 区间
+## Interval 时间区间
 
-intervals.type可选项： intervals , segments , 也可以是一个字符串，比如"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
+&#160; &#160; &#160; &#160;在查询中指定时间区间。Interval中的时间是ISO-8601格式。对于中国用户，所在时区为东8区，因此需要在时间中加入“+08:00”。 如"2015-12-31T16:00:00+08:00 / 2017-04-14T15:59:59+08:00"。
 
-### intervals
-intervals.type=intervals时，参数：
+
+### 1. Intervals Interval
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
-	"type":"intervals",
-	"intervals":[
-    	    <interval>,<interval>,...
-	]
+    "type":"intervals",
+    "intervals":[<interval>,<interval>,...]
 }
 ```
-- intervals:可以定义多个区间
 
-
-### 段
-intervals.type=segments时，参数：
+### 2. Segments Interval
+&#160; &#160; &#160; &#160;Segments Interval 可以定义多个段，JSON示例如下：
 ```
 {
     "type":"segments",
     "segments":[
     	{
-        	"itvl":{
-			<interval>
-		},
-		"ver":"<version>",
-		"part":100
-	},
-	{
-		"itvl":{
-			<interval>
-		},
-		"ver":"<version>",
-		"part":200
-	},...
+            "itvl":{<interval>},
+            "ver":"version",
+            "part":100
+        },
+        {
+            "itvl":{<interval>},
+            "ver":"version",
+            "part":200
+        }
     ]
 }
 ```
-可定义多个段
-

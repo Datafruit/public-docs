@@ -1,106 +1,167 @@
 # Tindex-Query-Json `filter`属性详情如下
 
-## 过滤器
-一个过滤器是一个JSON对象，指示在查询的计算中应该包括哪些数据行。它基本上等同于SQL中的WHERE子句。  
+## Filter 过滤器
 
-filter.type可选项: all ，and , not , or , in , lookup , lucene , selector , regex , search , javascript ,  bound
+&#160; &#160; &#160; &#160;Filter,即过滤器，在查询语句中是一个JSON对象，用来对维度进行筛选，表示维度满足Filter的行是我们需要的数据。它基本上等同于SQL中的WHERE子句。Filter包含如下类型。  
 
-### 选择过滤器
-
-选择器过滤器将与具体值匹配,可用作更复杂过滤器的基本过滤器。  
-
-上面的参数设置这相当于 `WHERE <dimension_string> = '<value_string>'`。
-
-支持使用提取功能。
-
-filter.type=selector 时，参数：
+### 1. Seletor Filter
+&#160; &#160; &#160; &#160;Seletor Filter是最简单的过滤器，它将与具体值匹配，功能类似于SQL中的where key=value，支持提取功能。Seletor Filter的JSON示例如下：
 ```
-{
+"filter":{
     "type":"selector",
-    "dimension":"dimension_string",
-    "value":"value_string",
-    "extractionFn": {
-    	"type":"time",
-    	"timeFormat":"timeformat_string",
-    	"resultFormat":"resultformat_string"
-    }
+    "dimension":<dimension_string>,
+    "value":<value_string>,
+    "extractionFn":{<extractionFn>}
 }
 ```
+&#160; &#160; &#160; &#160;上面的参数设置这相当于 `WHERE <dimension_string> = <value_string>`   。 
 
+### 2. Regex Filter
+&#160; &#160; &#160; &#160;Regex Filter允许用户用正则表达式来筛选维度，任何标准的Java正则表达式Druid都支持，支持使用提取功能。Regex Filter的JSON示例如下：
 
-### 正则表达式过滤器
-
-正则表达式过滤器与选择器过滤器类似，但使用正则表达式。它与给定模式匹配指定的维度。  
-
-pattern：给定的模式，可以是任何标准的Java正则表达式。    
-
-支持使用提取功能。  
-
-filter.type=regex 时，参数：
 ```
-{
+"filter":{
     "type":"regex",
-    "dimension":"dimension_string",
-    "pattern":"pattern_string",
-    "extractionFn":{
-    	<extractionFn>
-    }
+    "dimension":<dimension_string>,
+    "pattern":<pattern_string>,
+    "extractionFn":{<extractionFn>}
 }
 ```
+- pattern：给定的模式，可以是任何标准的Java正则表达式。  
 
-### 逻辑表达式过滤器
-
-#### 和过滤器
-filter.type=and 时，参数：
+### 3. Logical Expression Filer
+&#160; &#160; &#160; &#160;Logical Expression Filer包含and、or、not三种过滤器，与SQL中的and、or、not相似。每一种过滤器都支持嵌套，可以构建丰富的逻辑表达式。
+#### 3.1 And Filter
+&#160; &#160; &#160; &#160;And Filter的JSON示例如下：
 ```
-{
+"filter"：{
     "type":"and",
-    "fields":[
-	<filter>, <filter>, ...
-    ]
+    "fields":[<filter>, <filter>, ...]
 }
 ```
 `<filter>`可以是任何一种过滤器。
 
-#### 或过滤器
-filter.type=or 时，参数：
+#### 3.2 Or Filter
+&#160; &#160; &#160; &#160;Or Filter的JSON示例如下：
 ```
-{
+"filter"：{
     "type":"or",
     "fields":[
-	<filter>, <filter>, ...
-    ]
+    "fields":[<filter>, <filter>, ...]
 }
 ```
 `<filter>`可以是任何一种过滤器。
 
-#### 非过滤器
-filter.type=not 时，参数：
+#### 3.3 Not Filter
+&#160; &#160; &#160; &#160;Not Filter的JSON示例如下：
 ```
-{
+"filter"：{
     "type":"not",
-    "fields":<filter>
+    "field":<filter>
 }
 ```
 `<filter>`可以是任何一种过滤器。
 
-#### JavaScript过滤器
+### 4. Search Filter
 
-JavaScript过滤器将维度与指定的JavaScript谓语函数进行匹配。  
-
-支持使用提取功能。
-
-filter.type=javascript 时，参数：
+&#160; &#160; &#160; &#160;Search Filter通过字符串匹配过滤维度，支持多种匹配方式。Search Filter的JSON示例如下：
 ```
-{
-    "type":"javascript",
-    "dimension":"<dimension_string>",
-    "function":"<function_string>",
+"filter"：{
+    "type":"search",
+    "dimension":<dimension_string>,
+    "query":{
+    	"type":"contains",
+      	"value":<value_string>,
+        "caseSensitive":<false | true>
+    },
+    "extractionFn":{<extractionFn>}
+}
+```
+&#160; &#160; &#160; &#160;Search Query定义了如下几种字符串匹配方式。
+
+**1. contains**  
+&#160; &#160; &#160; &#160;如果指定的维度的值包含给定的字符串，则匹配。JSON示例如下：
+```
+"query":{
+    "type":"contains",
+    "value":<value_string>,
+    "caseSensitive":<false | true>
+}
+```
+caseSensitive：是否大小写敏感
+
+**2.insensitive_contains**  
+&#160; &#160; &#160; &#160;如果指定的维度的值包含给定的字符串，则匹配，不区分大小写。相当于contains中的caseSensitive设置为false。insensitive_contains的JSON示例如下：
+```
+"query":{
+    "type":"insensitive_contains",
+    "value":<value_string>
+}
+```
+**3. fragment**  
+&#160; &#160; &#160; &#160;如果指定的维度的值的任意部分包含给定的字符串，则匹配。fragment的JSON示例如下：
+```
+"query":{
+    "type":"fragment",
+    "values":[<value_string>,<value_string>,...],
+    "caseSensitive":<false | true>
+}
+```
+
+**4. regex**  
+&#160; &#160; &#160; &#160;如果指定的维度的值与正则表达式匹配，则匹配。regex 的JSON示例如下：
+```
+"query":{
+    "type":"regex",
+    "pattern":<pattern_string>
+}
+```
+### 5. In Filter
+
+&#160; &#160; &#160; &#160;In Filter 类似于SQL中的in。In Filter 的 JSON 示例如下：
+```
+"filter":{
+    "type":"in",
+    "dimension":<dimension_string>,
+    "values":[<value_string>,<value_string>,...],
     "extractionFn":{
-    	<extractionFn>
+    	{extractionFn}
     }
 }
 ```
+- values: in的范围。
+
+### 6. Bound Filter
+&#160; &#160; &#160; &#160;Bound Filter 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。Bound Filter 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定alphaNumeric的值为true。Bound Filter默认的大小比较为“>=”或“<=”。Bound Filter具体的JSON表达式示例如下：
+```
+"filter":{
+    "type":"bound",
+    "dimension":<dimension_string>,
+    "lower":"0",
+    "upper":"100",
+    "lowerStrict":<false | true>,
+    "upperStrict":<false | true>,
+    "alphaNumeric":<false | true>,
+    "extractionFn":{<extractionFn>}
+}
+```
+- lowerStrict：是否包含下界  
+- upperStrict：是否包含上界
+- alphaNumeric：是否进行数值比较
+
+### 7. JavaScript Filter
+&#160; &#160; &#160; &#160;如果上述Filter不能满足要求，Druid还可以通过自己写JavaScript Filter来过滤维度，但是只能支持一个入参，就是Filter里指定的维度的值，返回 true 或 false 。JavaScript Filter 的JSON表达式实例如下：
+
+```
+"filter":{
+    "type":"javascript",
+    "dimension":<dimension_string>,
+    "function":<function_string>,
+    "extractionFn":{<extractionFn>}
+}
+```
+- dimension: 函数的参数（只能有一个）
+
 **example**
 ```
 {
@@ -109,123 +170,59 @@ filter.type=javascript 时，参数：
   "function":"function(x) { return(x >= 'bar' && x <= 'foo') }"
 }
 ```
-上面的例子可匹配任何name在'bar'和'foo'之间的维度值。
+&#160; &#160; &#160; &#160;上面的例子可匹配任何name在'bar'和'foo'之间的维度值。
 
 
-
-
-### 搜索过滤器
-
-搜索过滤器可用于过滤部分字符串匹配。
-
-filter.type=search 时，参数：
+### 8. Spatial Filter
+&#160; &#160; &#160; &#160;Spatial Filter，即为空间过滤器，JSON表达式示例如下：
 ```
-{
-    "type":"search",
-    "dimension":"dimension_string",
-    "query":{
-    	"type":"contains",
-      	"value":"value_string",
-        "caseSensitive":true
-    },
-    "extractionFn":{
-    	<extractionFn>
-    }
+"filter":{
+    "type":"spatial",
+    "dimension":<dimension_string>,
+    "bound":<bound>
 }
 ```
+&#160; &#160; &#160; &#160;spatial.bound.type，即边界类型，目前支持两种： rectangular ，radius
 
-
-query.type:搜索类型，contains、insensitive_contains、fragment、regex  
-
-query.type=contains 时，参数：
+**1. Rectangular**   
+&#160; &#160; &#160; &#160;Rectangular,即为矩形，JSON示例如下：
 ```
-{
-    "type":"contains",
-    "value":"value_string",
-    "caseSensitive":true
+"bound":{
+    "type":"rectangular",
+    "minCoords":[4.5,5.3],
+    "maxCoords":[2.3,5.6],
+    "limit":50
 }
 ```
-caseSensitive：是否大小写敏感
+- minCoords: 最小坐标轴列表 [x,y,z,...]
+- maxCoords: 最大坐标轴列表 [x,y,z,...]
 
-query.type=insensitive_contains 时，参数：
+**2. Radius**  
+&#160; &#160; &#160; &#160;Radius,即为半径，JSON示例如下：
 ```
-{
-    "type":"insensitive_contains",
-    "value":"value_string"
+"bound":{
+    "type":"radius",
+    "coords":[4.5,5.3],
+    "radius":[2.3,5.6],
+    "limit":50
 }
 ```
-query.type=fragment 时，参数：
-```
-{
-    "type":"fragment",
-    "values":["<value_string>","<value_string>",...],
-    "caseSensitive":true
-}
-```
-query.type=regex 时，参数：
-```
-{
-    "type":"regex",
-    "pattern":"pattern_string"
-}
-```
+- coords: 原点坐标 [x,y,z,...]
+- radius: 浮点表示的半径值 [x,y,z,...]
 
-### 边界过滤器
-
-边界过滤器可用于过滤维度值的范围。它可以用于大于，小于，大于或等于，小于或等于和“之间”（如果同时设置“下”和“上”两者）的比较过滤。  
-
-支持提取功能  
-
-filter.type=bound 时，参数：
-```
-{
-    "type":"bound",
-    "dimension":"dimension_string",
-    "lower":"0",
-    "upper":"100",
-    "lowerStrict":false,
-    "upperStrict":false,
-    "alphaNumeric":true,
-    "extractionFn":{
-    	<extractionFn>
-    }
-}
-```
-lowerStrict：是否包含下界  
-upperStrict：是否包含上界
-
-
-
-
-
-### in过滤器
-
-filter.type=in 时，参数：
-```
-{
-    "type":"in",
-    "dimension":"dimension_string",
-    "values":[
-    	<value_string>,<value_string>,...
-    ],
-    "extractionFn":{
-    	//ExtractionFn
-    }
-}
-```
-
-### all过滤器
-
-匹配所有维度值
-
-filter.type=all 时，参数:
+### 9. All Filter
+&#160; &#160; &#160; &#160;All Filter 匹配所有维度值，JSON示例如下：
 ```
 {
     "type":"all"
 }
 ```
 
-### lookup过滤器
+
+
+
+
+### 10. lookup　Filter
 
 filter.type=lookup 时，参数
 ```
@@ -237,7 +234,7 @@ filter.type=lookup 时，参数
 ```      
       
 
-### lucene过滤器
+### 11. lucene Filter
 
 filter.type=lucene 时，参数
 ```
@@ -247,3 +244,9 @@ filter.type=lucene 时，参数
 }
 ```
 
+### 12. Extraction Filter
+
+&#160; &#160; &#160; &#160;Extraction Filter使用一些特定的提取函数匹配维度。  
+&#160; &#160; &#160; &#160;extraction类型可选项：time , regex , partial , searchQuery , javascript , timeFormat , identity , lookup , registeredLookup , substring , cascade , stringFormat , upper , lower 。  
+&#160; &#160; &#160;
+&#160;详见[`extraction-fn`](/developer/query/extraction-fn.md)。

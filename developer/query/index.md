@@ -24,66 +24,64 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`filter`](#filter)
   - [`extraction-fn`](#extraction-fn)
   - [`aggregation`](#aggregation)
-  - [`post-aggregation`](post-aggregation)
+  - [`post-aggregation`](#post-aggregation)
   - [`having`](#having)
 
 ## <a id="dataSource" href="dataSource"></a> dataSource 数据源
 
-数据源相当于数据库中的表
+&#160; &#160; &#160; &#160;数据源相当于数据库中的表。     
 
 dataSource.type可选项： table , query , union , 也可以是一个字符串()。
 
-###  表数据源
-dataSource.type=table 时，参数：    
+###  1. Table DataSource
+&#160; &#160; &#160; &#160;JSON示例如下：    
 ```
 {
     "type":"table",  
-    "name":"<string_value>"
+    "name":<string_value>
 }
 ```
-最常用的数据源，`<string_value>`为源数据源的名称，类似关系数据库中的表名。
+&#160; &#160; &#160; &#160;最常用的数据源，`<string_value>`为源数据源的名称，类似关系数据库中的表名。
 
-### 联合数据源
-dataSource.type=union时，参数：
+### 2. Union DataSource
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
     "type": "union",
-    "dataSources": ["<string_value1>", "<string_value2>", "<string_value3>", ... ]
+    "dataSources": [<string_value1>,<string_value2>,... ]
 }
 ```
-该数据源连接两个或多个表数据，`<string_value1>` `<string_value2>` `<string_value3>` 为表数据源的名称。
+&#160; &#160; &#160; &#160;该数据源连接两个或多个表数据，`<string_value1>` `<string_value2>` 为表数据源的名称。Union DataSource应该有相同的schema。Union Queries应该发送到代理/路由器节点，并不受历史节点直接支持。
 
-### 查询数据源
-dataSource.type=query时，参数：
+### 3. Query DataSource
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
     "type":"query",
-    "query":{
-		//Query
-    }   
+    "query":{<query>}   
 }
 ```
-可以进行查询的嵌套。
+&#160; &#160; &#160; &#160;可以进行查询的嵌套。
 
 
 ## <a id="dimension" href="dimension"></a> dimension 维度
-可以在查询中使用以下JSON字段来操作维度值。  
-dimensions.type 可选项： `default`, `extraction` , `regexFiltered` , `listFiltered` , `lookup`，也可以是一个对象  
+&#160; &#160; &#160; &#160;Dimensino ,即维度，可以在查询中使用以下JSON字段来操作维度值。 
 
-### 默认
-dimensions.type=default 时，参数：
-```javascript
+### 1. Default Dimension
+&#160; &#160; &#160; &#160;Default Dimension 返回维度值，并可选择对维度进行重命名。JSON 示例如下：
+```
 {
     "type":"default",
     "dimension":"<dimension>",
     "outputName":"<output_name>"
 }
 ```
-返回维度值，并可选择对维度进行重命名。
 
-### 提取
-dimensions.type=extraction 时，参数：
-```javascript
+
+### 2. Extraction Dimension
+&#160; &#160; &#160; &#160;Extraction Dimension 返回使用给定提取函数转换的维度值。JSON示例如下：
+
+```
 {
     "type":"extraction",
     "dimension":"<dimension>",
@@ -96,11 +94,11 @@ dimensions.type=extraction 时，参数：
     }
 }
 ```
-返回使用给定提取函数转换的维度值。
 
-### 正则表达式
-dimensions.type=regexFiltered 时，参数：
-```javascript
+
+### 3. Regex Dimension
+&#160; &#160; &#160; &#160;Regex Dimension 返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。JSON示例如下：
+```
 {
     "type":"regex",
     "delegate":{
@@ -109,12 +107,12 @@ dimensions.type=regexFiltered 时，参数：
     "pattern":"pattern_string"
 }
 ```
-返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。  
-例如，使用`"expr" : "(\\w\\w\\w).*"`将改变'Monday'，'Tuesday'，'Wednesday'成'Mon'，'Tue'，'Wed'。
+ 
+&#160; &#160; &#160; &#160;例如，使用`"expr" : "(\\w\\w\\w).*"`将改变'Monday'，'Tuesday'，'Wednesday'成'Mon'，'Tue'，'Wed'。
 
-### 过滤
-dimensions.type=listFiltered 时，参数：
-```javascript
+### 4. ListFiltered Dimension
+&#160; &#160; &#160; &#160;ListFiltered Dimension 仅适用于多值维度。JSON示例如下：
+```
 {
     "type":"listFiltered",
     "delegate":{
@@ -126,11 +124,11 @@ dimensions.type=listFiltered 时，参数：
     "isWhitelist":true
 }
 ```
-仅适用于多值维度。如果您在druid中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值“v1” 发送groupBy / topN查询分组。在响应中，您将获得包含“v1”，“v2”和“v3”的3行。对于某些用例，此行为可能不直观。
+&#160; &#160; &#160; &#160;如果您在druid中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值“v1” 发送groupBy / topN查询分组。在响应中，您将获得包含“v1”，“v2”和“v3”的3行。对于某些用例，此行为可能不直观。
 
-### 查找
-dimensions.type=lookup 时，参数：
-```javascript
+### 5. Lookup Dimension
+&#160; &#160; &#160; &#160;Lookup Dimension 允许在执行提取时使用的一组键和值。JSON示例如下：
+```
 {
     "type":"lookup",
     "dimension":"<dimensionName>",
@@ -149,159 +147,208 @@ dimensions.type=lookup 时，参数：
     "optimize":true
 }
 ```
-可用于将查找实现直接定义为维度规范。  
-
-在查询时可以指定属性retainMissingValue为false，并通过设置replaceMissingValueWith提示如何处理缺失值。  
-retainMissingValue如果在查找中找不到，设置为true将使用维度的原始值。
-默认值是replaceMissingValueWith = null，retainMissingValue = false并且导致丢失的值被视为丢失值。
-
+&#160; &#160; &#160; &#160;在查询时可以指定属性 retainMissingValue 为false，并通过设置 replaceMissingValueWith 提示如何处理缺失值。  
+&#160; &#160; &#160; &#160;retainMissingValue 如果在查找中找不到，设置为true将使用维度的原始值。
+默认是 replaceMissingValueWith = null，retainMissingValue = false 并且导致丢失的值被视为丢失值。
 
 ## <a id="interval" href="interval"></a> interval 时间区间
 
-intervals.type可选项： intervals , segments , 也可以是一个字符串，比如"2015-12-31T16:00:00.000Z/2017-04-14T15:59:59.999Z"
+&#160; &#160; &#160; &#160;在查询中指定时间区间。Interval中的时间是ISO-8601格式。对于中国用户，所在时区为东8区，因此需要在时间中加入“+08:00”。 如"2015-12-31T16:00:00+08:00 / 2017-04-14T15:59:59+08:00"。
 
-### intervals
-intervals.type=intervals时，参数：
+
+### 1. Intervals Interval
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
-	"type":"intervals",
-	"intervals":[
-    	    <interval>,<interval>,...
-	]
+    "type":"intervals",
+    "intervals":[<interval>,<interval>,...]
 }
 ```
-- intervals:可以定义多个区间
 
-
-### 段
-intervals.type=segments时，参数：
+### 2. Segments Interval
+&#160; &#160; &#160; &#160;Segments Interval 可以定义多个段，JSON示例如下：
 ```
 {
     "type":"segments",
     "segments":[
     	{
-        	"itvl":{
-			<interval>
-		},
-		"ver":"<version>",
-		"part":100
-	},
-	{
-		"itvl":{
-			<interval>
-		},
-		"ver":"<version>",
-		"part":200
-	},...
+            "itvl":{<interval>},
+            "ver":"version",
+            "part":100
+        },
+        {
+            "itvl":{<interval>},
+            "ver":"version",
+            "part":200
+        }
     ]
 }
 ```
-可定义多个段
 
 
-# Tindex-Query-Json `filter`属性详情如下
+
 
 ## <a id="filter" href="filter"></a> filter 过滤器
-一个过滤器是一个JSON对象，指示在查询的计算中应该包括哪些数据行。它基本上等同于SQL中的WHERE子句。  
+&#160; &#160; &#160; &#160;Filter,即过滤器，在查询语句中是一个JSON对象，用来对维度进行筛选，表示维度满足Filter的行是我们需要的数据。它基本上等同于SQL中的WHERE子句。Filter包含如下类型。  
 
-filter.type可选项: all ，and , not , or , in , lookup , lucene , selector , regex , search , javascript ,  bound
-
-### 选择过滤器
-
-选择器过滤器将与具体值匹配,可用作更复杂过滤器的基本过滤器。  
-
-上面的参数设置这相当于 `WHERE <dimension_string> = '<value_string>'`。
-
-支持使用提取功能。
-
-filter.type=selector 时，参数：
+### 1. Seletor Filter
+&#160; &#160; &#160; &#160;Seletor Filter是最简单的过滤器，它将与具体值匹配，功能类似于SQL中的where key=value，支持提取功能。Seletor Filter的JSON示例如下：
 ```
-{
+"filter":{
     "type":"selector",
-    "dimension":"dimension_string",
-    "value":"value_string",
-    "extractionFn": {
-    	"type":"time",
-    	"timeFormat":"timeformat_string",
-    	"resultFormat":"resultformat_string"
-    }
+    "dimension":<dimension_string>,
+    "value":<value_string>,
+    "extractionFn":{<extractionFn>}
 }
 ```
+&#160; &#160; &#160; &#160;上面的参数设置这相当于 `WHERE <dimension_string> = <value_string>`   。 
 
+### 2. Regex Filter
+&#160; &#160; &#160; &#160;Regex Filter允许用户用正则表达式来筛选维度，任何标准的Java正则表达式Druid都支持，支持使用提取功能。Regex Filter的JSON示例如下：
 
-### 正则表达式过滤器
-
-正则表达式过滤器与选择器过滤器类似，但使用正则表达式。它与给定模式匹配指定的维度。  
-
-pattern：给定的模式，可以是任何标准的Java正则表达式。    
-
-支持使用提取功能。  
-
-filter.type=regex 时，参数：
 ```
-{
+"filter":{
     "type":"regex",
-    "dimension":"dimension_string",
-    "pattern":"pattern_string",
-    "extractionFn":{
-    	<extractionFn>
-    }
+    "dimension":<dimension_string>,
+    "pattern":<pattern_string>,
+    "extractionFn":{<extractionFn>}
 }
 ```
+- pattern：给定的模式，可以是任何标准的Java正则表达式。  
 
-### 逻辑表达式过滤器
-
-#### 和过滤器
-filter.type=and 时，参数：
+### 3. Logical Expression Filer
+&#160; &#160; &#160; &#160;Logical Expression Filer包含and、or、not三种过滤器，与SQL中的and、or、not相似。每一种过滤器都支持嵌套，可以构建丰富的逻辑表达式。
+#### 3.1 And Filter
+&#160; &#160; &#160; &#160;And Filter的JSON示例如下：
 ```
-{
+"filter"：{
     "type":"and",
-    "fields":[
-	<filter>, <filter>, ...
-    ]
+    "fields":[<filter>, <filter>, ...]
 }
 ```
 `<filter>`可以是任何一种过滤器。
 
-#### 或过滤器
-filter.type=or 时，参数：
+#### 3.2 Or Filter
+&#160; &#160; &#160; &#160;Or Filter的JSON示例如下：
 ```
-{
+"filter"：{
     "type":"or",
     "fields":[
-	<filter>, <filter>, ...
-    ]
+    "fields":[<filter>, <filter>, ...]
 }
 ```
 `<filter>`可以是任何一种过滤器。
 
-#### 非过滤器
-filter.type=not 时，参数：
+#### 3.3 Not Filter
+&#160; &#160; &#160; &#160;Not Filter的JSON示例如下：
 ```
-{
+"filter"：{
     "type":"not",
-    "fields":<filter>
+    "field":<filter>
 }
 ```
 `<filter>`可以是任何一种过滤器。
 
-#### JavaScript过滤器
+### 4. Search Filter
 
-JavaScript过滤器将维度与指定的JavaScript谓语函数进行匹配。  
-
-支持使用提取功能。
-
-filter.type=javascript 时，参数：
+&#160; &#160; &#160; &#160;Search Filter通过字符串匹配过滤维度，支持多种匹配方式。Search Filter的JSON示例如下：
 ```
-{
-    "type":"javascript",
-    "dimension":"<dimension_string>",
-    "function":"<function_string>",
+"filter"：{
+    "type":"search",
+    "dimension":<dimension_string>,
+    "query":{
+    	"type":"contains",
+      	"value":<value_string>,
+        "caseSensitive":<false | true>
+    },
+    "extractionFn":{<extractionFn>}
+}
+```
+&#160; &#160; &#160; &#160;Search Query定义了如下几种字符串匹配方式。
+
+**1. contains**  
+&#160; &#160; &#160; &#160;如果指定的维度的值包含给定的字符串，则匹配。JSON示例如下：
+```
+"query":{
+    "type":"contains",
+    "value":<value_string>,
+    "caseSensitive":<false | true>
+}
+```
+caseSensitive：是否大小写敏感
+
+**2.insensitive_contains**  
+&#160; &#160; &#160; &#160;如果指定的维度的值包含给定的字符串，则匹配，不区分大小写。相当于contains中的caseSensitive设置为false。insensitive_contains的JSON示例如下：
+```
+"query":{
+    "type":"insensitive_contains",
+    "value":<value_string>
+}
+```
+**3. fragment**  
+&#160; &#160; &#160; &#160;如果指定的维度的值的任意部分包含给定的字符串，则匹配。fragment的JSON示例如下：
+```
+"query":{
+    "type":"fragment",
+    "values":[<value_string>,<value_string>,...],
+    "caseSensitive":<false | true>
+}
+```
+
+**4. regex**  
+&#160; &#160; &#160; &#160;如果指定的维度的值与正则表达式匹配，则匹配。regex 的JSON示例如下：
+```
+"query":{
+    "type":"regex",
+    "pattern":<pattern_string>
+}
+```
+### 5. In Filter
+
+&#160; &#160; &#160; &#160;In Filter 类似于SQL中的in。In Filter 的 JSON 示例如下：
+```
+"filter":{
+    "type":"in",
+    "dimension":<dimension_string>,
+    "values":[<value_string>,<value_string>,...],
     "extractionFn":{
-    	<extractionFn>
+    	{extractionFn}
     }
 }
 ```
+- values: in的范围。
+
+### 6. Bound Filter
+&#160; &#160; &#160; &#160;Bound Filter 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。Bound Filter 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定alphaNumeric的值为true。Bound Filter默认的大小比较为“>=”或“<=”。Bound Filter具体的JSON表达式示例如下：
+```
+"filter":{
+    "type":"bound",
+    "dimension":<dimension_string>,
+    "lower":"0",
+    "upper":"100",
+    "lowerStrict":<false | true>,
+    "upperStrict":<false | true>,
+    "alphaNumeric":<false | true>,
+    "extractionFn":{<extractionFn>}
+}
+```
+- lowerStrict：是否包含下界  
+- upperStrict：是否包含上界
+- alphaNumeric：是否进行数值比较
+
+### 7. JavaScript Filter
+&#160; &#160; &#160; &#160;如果上述Filter不能满足要求，Druid还可以通过自己写JavaScript Filter来过滤维度，但是只能支持一个入参，就是Filter里指定的维度的值，返回 true 或 false 。JavaScript Filter 的JSON表达式实例如下：
+
+```
+"filter":{
+    "type":"javascript",
+    "dimension":<dimension_string>,
+    "function":<function_string>,
+    "extractionFn":{<extractionFn>}
+}
+```
+- dimension: 函数的参数（只能有一个）
+
 **example**
 ```
 {
@@ -310,117 +357,59 @@ filter.type=javascript 时，参数：
   "function":"function(x) { return(x >= 'bar' && x <= 'foo') }"
 }
 ```
-上面的例子可匹配任何name在'bar'和'foo'之间的维度值。
+&#160; &#160; &#160; &#160;上面的例子可匹配任何name在'bar'和'foo'之间的维度值。
 
 
-### 搜索过滤器
-
-搜索过滤器可用于过滤部分字符串匹配。
-
-filter.type=search 时，参数：
+### 8. Spatial Filter
+&#160; &#160; &#160; &#160;Spatial Filter，即为空间过滤器，JSON表达式示例如下：
 ```
-{
-    "type":"search",
-    "dimension":"dimension_string",
-    "query":{
-    	"type":"contains",
-      	"value":"value_string",
-        "caseSensitive":true
-    },
-    "extractionFn":{
-    	<extractionFn>
-    }
+"filter":{
+    "type":"spatial",
+    "dimension":<dimension_string>,
+    "bound":<bound>
 }
 ```
+&#160; &#160; &#160; &#160;spatial.bound.type，即边界类型，目前支持两种： rectangular ，radius
 
-query.type:搜索类型，contains、insensitive_contains、fragment、regex  
-
-query.type=contains 时，参数：
+**1. Rectangular**   
+&#160; &#160; &#160; &#160;Rectangular,即为矩形，JSON示例如下：
 ```
-{
-    "type":"contains",
-    "value":"value_string",
-    "caseSensitive":true
+"bound":{
+    "type":"rectangular",
+    "minCoords":[4.5,5.3],
+    "maxCoords":[2.3,5.6],
+    "limit":50
 }
 ```
-caseSensitive：是否大小写敏感
+- minCoords: 最小坐标轴列表 [x,y,z,...]
+- maxCoords: 最大坐标轴列表 [x,y,z,...]
 
-query.type=insensitive_contains 时，参数：
+**2. Radius**  
+&#160; &#160; &#160; &#160;Radius,即为半径，JSON示例如下：
 ```
-{
-    "type":"insensitive_contains",
-    "value":"value_string"
+"bound":{
+    "type":"radius",
+    "coords":[4.5,5.3],
+    "radius":[2.3,5.6],
+    "limit":50
 }
 ```
-query.type=fragment 时，参数：
-```
-{
-    "type":"fragment",
-    "values":["<value_string>","<value_string>",...],
-    "caseSensitive":true
-}
-```
-query.type=regex 时，参数：
-```
-{
-    "type":"regex",
-    "pattern":"pattern_string"
-}
-```
+- coords: 原点坐标 [x,y,z,...]
+- radius: 浮点表示的半径值 [x,y,z,...]
 
-### 边界过滤器
-
-边界过滤器可用于过滤维度值的范围。它可以用于大于，小于，大于或等于，小于或等于和“之间”（如果同时设置“下”和“上”两者）的比较过滤。  
-
-支持提取功能  
-
-filter.type=bound 时，参数：
-```
-{
-    "type":"bound",
-    "dimension":"dimension_string",
-    "lower":"0",
-    "upper":"100",
-    "lowerStrict":false,
-    "upperStrict":false,
-    "alphaNumeric":true,
-    "extractionFn":{
-    	<extractionFn>
-    }
-}
-```
-lowerStrict：是否包含下界  
-upperStrict：是否包含上界
-
-
-### in过滤器
-
-filter.type=in 时，参数：
-```
-{
-    "type":"in",
-    "dimension":"dimension_string",
-    "values":[
-    	<value_string>,<value_string>,...
-    ],
-    "extractionFn":{
-    	//ExtractionFn
-    }
-}
-```
-
-### all过滤器
-
-匹配所有维度值
-
-filter.type=all 时，参数:
+### 9. All Filter
+&#160; &#160; &#160; &#160;All Filter 匹配所有维度值，JSON示例如下：
 ```
 {
     "type":"all"
 }
 ```
 
-### lookup过滤器
+
+
+
+
+### 10. lookup过滤器
 
 filter.type=lookup 时，参数
 ```
@@ -432,7 +421,7 @@ filter.type=lookup 时，参数
 ```      
       
 
-### lucene过滤器
+### 11. lucene过滤器
 
 filter.type=lucene 时，参数
 ```
@@ -442,100 +431,67 @@ filter.type=lucene 时，参数
 }
 ```
 
-
 ## <a id="extraction-fn" href="extraction-fn"></a> extraction-fn 提取过滤器
 
-提取过滤器使用一些特定的提取function匹配维度。  
+&#160; &#160; &#160; &#160;Extraction,即提取过滤器，使用一些特定的提取函数匹配维度。  
+&#160; &#160; &#160; &#160;extraction类型可选项：time , regex , partial , searchQuery , javascript , timeFormat , identity , lookup , registeredLookup , substring , cascade , stringFormat , upper , lower 
 
-extraction.type可选项：time , regex , partial , searchQuery , javascript , timeFormat , identity , lookup , registeredLookup , substring , cascade , stringFormat , upper , lower 
-
-### 时间
-extraction.type=time 时，参数：
+### 1. Regex Extraction
+&#160; &#160; &#160; &#160;Regex Extraction 返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。JSON示例如下：
 ```
-{
-    "type":"time",
-    "timeFormat": "<timeFormat_string>",
-    "resultFormat": "<resultFormat_string>",
-}
-```
-将日期格式提取为指定的格式
-
-### 正则表达式
-extraction.type=regex 时，参数：
-```
-{
+"extraction"{
     "type":"regex",
-    "expr": "expr_string",
-    "replaceMissingValue": true,
-    "replaceMissingValueWith":"replace_string"
+    "expr":<expr_string>,
+    "replaceMissingValue":<false | true>,
+    "replaceMissingValueWith":<replace_string>
 }
 ```
-对匹配正则表达式的维度值进行提取
-- expr:表达式
-- replaceMissingValue:是否替换缺失的值
-- replaceMissingValueWith：以什么字符串进行替换
-
-
-### 分部
-filter.extraction.type=partial 时，参数：
+### 2. Partial Extraction
+&#160; &#160; &#160; &#160;如果正则表达式匹配，返回维度值不变，否则返回null。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"partial",
-    "expr": "expr_string"
+    "expr":<expr_string>
 }
 ```
-
-
-### 搜索查询
-filter.extraction.type=searchQuery 时，参数：
+### 3. SearchQuery Extraction
+&#160; &#160; &#160; &#160;如果给定SearchQuerySpec 匹配，返回维度值不变，否则返回null。JSON示例如下：
 ```
-{
-	"type":"searchQuery",
-	"query":{
-    	    "type":"contains",
-	    "value":"value_string",
-	    "caseSensitive":true
-	}
+"extraction"{
+    "type":"searchQuery",
+    "query":{
+        "type":"contains",
+        "value":<value_string>,
+        "caseSensitive":<false | true>
+    }
 }
 ```
-- caseSensitive:是否大小写敏感
-
-
-
-### javascript
-filter.extraction.type=javascript 时，参数：
+### 4. Javascript Extraction
+&#160; &#160; &#160; &#160;Javascript Extraction 返回由给定的JavaScript函数转换的维度值。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"javascript",
     "query":{
 	"type":"contains",
-	"function":"function_string",
-      	"injective":true
+	"function":<function_string>,
+      	"injective":<false | true>
     }
 }
 ```
-- function:javascript函数  
 
-按照javascript的函数进行提取
-
-### 时间格式
-
-filter.extraction.type=timeFormat 时，参数：
+### 5. TimeFormat Extraction
+&#160; &#160; &#160; &#160;TimeFormat Extraction 以特定格式，时区或语言环境来提取时间戳。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"timeFormat",
     "query":{
-	"type":"contains",
-	"format":"pattern_string",
-        "timeZone":{
-    	    <dateTimeZone>
-    	},
-      	"locale":"locale_string"
+        "type":"contains",
+        "format":<pattern_string>,
+        "timeZone":{<dateTimeZone>},
+        "locale":<locale_string>
     }
 }
 ```
-以特定格式，时区或语言环境来提取时间戳。
-
 - timeZone:时区
 - locale:地点
 
@@ -543,10 +499,10 @@ filter.extraction.type=timeFormat 时，参数：
 
 ```
 "filter": {
-  "type": "selector",
-  "dimension": "__time",
-  "value": "Friday",
-  "extractionFn": {
+    "type": "selector",
+    "dimension": "__time",
+    "value": "Friday",
+    "extractionFn": {
     "type": "timeFormat",
     "format": "EEEE",
     "timeZone": "America/New_York",
@@ -554,35 +510,44 @@ filter.extraction.type=timeFormat 时，参数：
   }
 }
 ```
-
-### 自增
+### 6. Identity Extraction
 filter.extraction.type=identity 时，参数：
 ```
-{
+"extraction"{
     "type":"identity"
 }
 ```
-提取identity
 
-### 查找
+### 7. Lookup Extraction
 filter.extraction.type=lookup 时，参数：
 ```
-{
+"extraction"{
     "type":"lookup",
     "lookup": {
 	    "lookup":<lookup>, 
-	    "retainMissingValue":true 
-	    "replaceMissingValueWith":"<replaceMissingValueWith_string>", 
-	    "injective":true, 
-	    "optimize":true
+	    "retainMissingValue":<false | true> 
+	    "replaceMissingValueWith":<replaceMissingValueWith_string>, 
+	    "injective":<false | true>, 
+	    "optimize":<false | true>
     },    
-    "retainMissingValue":true,	
-    "replaceMissingValueWith":"replace_string",	
-    "injective":true, 
-    "optimize":true
+    "retainMissingValue":<false | true>,	
+    "replaceMissingValueWith":<replace_string>,	
+    "injective":<false | true>, 
+    "optimize":<false | true>
 }
 ```
-**example**
+### 8. RegisteredLookup Extraction
+filter.extraction.type=registeredLookup 时，参数：
+```
+"extraction"{
+    "type":"registeredLookup",
+    "lookup":<lookup_string>,
+    "retainMissingValue":<false | true>,   
+    "replaceMissingValueWith":<replace_string>,  
+    "injective":<false | true>,  
+    "optimize":<false | true>, 
+}
+```
 ```
 {
     "filter": {
@@ -603,367 +568,386 @@ filter.extraction.type=lookup 时，参数：
     }
 }
 ```
-
-### registeredLookUp
-
-filter.extraction.type=registeredLookup 时，参数：
+### 9. SubString Extraction
+&#160; &#160; &#160; &#160;SubString Extraction 返回从提供的索引开始至所需长度的子字符串。JSON示例如下：
 ```
-{
-    "type":"registeredLookup",
-    "lookup":"lookup_string",
-    "retainMissingValue":true,   
-    "replaceMissingValueWith":"replace_string",  
-    "injective":true,  
-    "optimize":true, 
-}
-```
-
-
-### 截取字符串
-filter.extraction.type=substring 时，参数：
-```
-{
+"extraction"{
     "type":"substring",
     "index":10,
     "length":20
 }
 ```
-- index:起始位置
-- length:截取的长度  
-
-将字符串按照指定的起始位置和长度进行截取
-
-### 级联
-filter.extraction.type=cascade 时，参数：
+### 10. Cascade Extraction
+&#160; &#160; &#160; &#160;Cascade Extraction 按指定的顺序将指定的提取函数转换为维度值。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"cascade",
-    "extractionFns":[
-    	    <extraction>,<extraction>,...
-    ]
+    "extractionFns":[{<extraction>},{<extraction>}]
 }
 ```
-
-### 字符串格式
-filter.extraction.type=stringFormat 时，参数：
+### 11. StringFormat Extraction
+&#160; &#160; &#160; &#160;StringFormat Extraction 返回根据给定的格式字符串格式化的维度值。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"stringFormat",
-    "format":"format_string",
-    "nullHandling":{
- 	    <nullHandling>
-    }  
+    "format":<format_string>,
+    "nullHandling":{<nullHandling>}  
 }
 ```
-- format:格式
-将字符串按照指定的格式进行提取
-
-### 大写
-filter.extraction.type=upper 时，参数：
+### 12. Upper Extraction
+&#160; &#160; &#160; &#160; Upper Extraction 返回大写的维度值。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"upper",
-    "locale":"locale_string"
+    "locale":<locale_string>
 }
 ```
-将指定的字符串提取成小写的格式。
-
-### 小写
-filter.extraction.type=lower 时，参数：
+### 13. Lower Extraction
+&#160; &#160; &#160; &#160; Lower Extraction 返回小写的维度值。JSON示例如下：
 ```
-{
+"extraction"{
     "type":"lower",
-    "locale":"locale_string"
+    "locale":<locale_string>
 }
 ```
-将指定的字符串提取为大写的格式。
 
 
 ## <a id="aggregation" href="aggregation"></a> aggregation 聚合
 
-聚合函数是查询规范的一部分，可以在数据进入druid之前对其进行总结处理。
+&#160; &#160; &#160; &#160;Aggregation，即聚合器。若在摄入阶段就指定，则会在roll up 时就进行计算；当然，也能在查询时指定。聚合器包含以下几种类型。
 
-aggregations.type 可选项：`lucene_cardinality` ， `lucene_count` ，`lucene_doubleMax` ，`lucene_doubleMin` ，`lucene_doubleSum` ， `lucene_hyperUnique` ， `lucene_javascript` ， `lucene_longMax` ， `lucene_longMin` , `lucene_longSum`
-
-### 基数
-aggregations.type=lucene_cardinality 时，参数：
+### 1. Count Aggregation
+&#160; &#160; &#160; &#160;用于计算Druid的数据行数，相当于`count()`。Count Aggregation 的JSON示例如下：
 ```
-{
-    "type":"lucene_cardinality",
-    "name":"name_string",
-    "fieldNames":[
-    	"<fieldName_string>","<fieldName_string>",...
-    ], 
-    "byRow":true 
-}
-```
-计算一组druid维度的基数,相当于distinct()。  
-
-当设置byRow为false（默认值）时，它计算由所有给定维度的所有维度值的并集组成  
-的集合的基数。
-
-### 计数
-aggregations.type=lucene_count 时，参数：
-```
-{
+"aggregations"{
     "type":"lucene_count",
-    "name":"<name_string>",
+    "name":<name_string>
 }
 ```
-可以计算行的数量，相当于`count()`
-
-### 最大值（double）
-aggregations.type=lucene_doubleMax 时，参数：
+### 2. Cardinality Aggregator
+&#160; &#160; &#160; &#160;在查询时，Cardinality Aggregation 使用HyperLogLog算法计算给定维度集合的基数，相当于distinct()。Cardinality Aggregation 的JSON示例如下：
 ```
-{
-    "type":"lucene_doubleMax",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>"
+"aggregations"{
+    "type":"lucene_cardinality",
+    "name":<name_string>,
+    "fieldNames":[<fieldName_string>,<fieldName_string>,...], 
+    "byRow":<false | true> 
 }
 ```
-求查询到的值中的最大值，该值类型为double，相当于`max("<fieldName_string>")`
+&#160; &#160; &#160; &#160;当设置byRow为false（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
 
-### 最小值（double）
-aggregations.type=lucene_doubleMin 时，参数：
-```
-{
-    "type":"lucene_doubleMin",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>" 
-}
-```
-求查询到的值中的最小值，该值类型为double，相当于`max("<fieldName_string>")`
+### 3. HyperUnique Aggregator
+&#160; &#160; &#160; &#160;在查询时，HyperUnique Aggregation 使用HyperLogLog算法计算给定维度集合的基数。HyperUnique Aggregation比Cardinality Aggregation要快得多，因为HyperUnique Aggregation在摄入阶段就会为Metric做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用 HyperUnique Aggregation。JSON示例如下：
 
-### 总和（double）
-aggregations.type=lucene_doubleSum 时，参数：
 ```
-{
-    "type":"lucene_doubleSum",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>" 
-}
-```
-将查询到的值的和计算为double类型的数，相当于`sum("<fieldName_string>")`
-
-### hyperUnique
-aggregations.type=lucene_hyperUnique 时，参数：
-```
-{
+"aggregations"{
     "type":"lucene_hyperUnique",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>"
+    "name":<name_string>,
+    "fieldName":<fieldName_string>
 }
 ```
 
-### javascript
 
-aggregations.type=lucene_javascript 时，参数：
+
+### 4. DoubleMax Aggregation
+&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为double，相当于`max(<fieldName_string>)`。JSON示例如下：
 ```
-{
+"aggregations"{
+    "type":"lucene_doubleMax",
+    "name":<name_string>,
+    "fieldName":<fieldName_string>
+}
+```
+- name- 求最大值的输出名称 
+- fieldName- 求最大值的列的名称
+
+### 5. DoubleMin Aggregation
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为double，相当于`min(<fieldName_string>)`。JSON示例如下：
+```
+"aggregations"{
+    "type":"lucene_doubleMin",
+    "name":<name_string>,
+    "fieldName":<fieldName_string>
+}
+```
+- name- 求最小值的输出名称 
+- fieldName- 求最小值的列的名称
+
+###  6. DoubleSum Aggregation
+&#160; &#160; &#160; &#160;将查询到的值的和计算为double类型的数，相当于`sum(<fieldName_string>)`。JSON示例如下：
+```
+"aggregations"{
+    "type":"lucene_doubleSum",
+    "name":<name_string>,
+    "fieldName":<fieldName_string> 
+}
+```
+- name- 求和值的输出名称 
+- fieldName- 求总和的列的名称
+
+### 7. LongMax Aggregation
+&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为64位有符号整数，相当于`max(<fieldName_string>)`。JSON示例如下：
+```
+"aggregations"{
+    "type":"lucene_longMax",
+    "name":<name_string>,
+    "fieldName":<fieldName_string>
+}
+```
+- name- 求最大值的输出名称 
+- fieldName- 求最大值的列的名称
+
+
+### 8. LongMin Aggregation
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min(<fieldName_string>)`。JSON示例如下：
+```
+"aggregations"{
+    "type":"lucene_longMin",
+    "name":<name_string>,
+    "fieldName":<fieldName_string>
+}
+```
+- name- 求最小值的输出名称 
+- fieldName- 求最小值的列的名称
+
+### 9. LongSum Aggregation
+&#160; &#160; &#160; &#160;将查询到的值的和计算为64位有符号整数，相当于`sum(<fieldName_string>)` 。JSON示例如下：
+```
+"aggregations"{
+    "type":"lucene_longSum",
+    "name":<name_string>,
+    "fieldName":<fieldName_string> 
+}
+```
+- name- 求和值的输出名称 
+- fieldName- 求总和的列的名称
+
+
+### 10. Javascript Aggregation
+
+&#160; &#160; &#160; &#160;如果上述聚合器无法满足需求，Druid还提供了JavaScript Aggregation。用户可以自己写JavaScript function，其中指定的列即为function的入参。JavaScript Aggregation 的JSON示例如下：
+
+```
+"aggregations"{
     "type":"lucene_javascript",
-    "name":"<name_string>",
-    "fieldNames":[
-    	"<fieldName_string>","<fieldName_string>"
-    ], 
-    "fnAggregate":"<fnAggregate_string>", 
-    "fnReset":"<fnReset_string>", 
-    "fnCombine":"<fnCombine_string>" 
+    "name":<name_string>,
+    "fieldNames":[<fieldName_string>,<fieldName_string>], 
+    "fnAggregate":<fnAggregate_string>, 
+    "fnReset":<fnReset_string>, 
+    "fnCombine":<fnCombine_string> 
 }
 ```
-计算一组任意JavaScript函数（允许使用度量和维度）。 
 - name:这组JavaScript函数的名称
 - fieldNames:参数的名字  
 
- 
 **example**
 ```
-{
-  "type": "lucene_javascript",
-  "name": "sum(log(x)*y) + 10",
-  "fieldNames": ["x", "y"],
-  "fnAggregate" : "function(current, a, b)      { return current + (Math.log(a) * b); }",
-  "fnCombine"   : "function(partialA, partialB) { return partialA + partialB; }",
-  "fnReset"     : "function()                   { return 10; }"
+"aggregations"{
+    "type": "lucene_javascript",
+    "name": "sum(log(x)*y) + 10",
+    "fieldNames": ["x", "y"],
+    "fnAggregate" : "function(current, a, b)      { return current + (Math.log(a) * b); }",
+    "fnCombine"   : "function(partialA, partialB) { return partialA + partialB; }",
+    "fnReset"     : "function()                   { return 10; }"
 }
 ```
-### 最大值（long）
-aggregations.type=lucene_longMax 时，参数：
+
+### 11. DateMin Aggregation
+
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为date。DateMin Aggregation 的JSON示例如下：
 ```
 {
-    "type":"lucene_longMax",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>" 
-}
-```
-求查询到的值中的最小值，该值类型为64位有符号整数，相当于`max("<fieldName_string>")`   
-
-- name- 求和值的输出名称 
-- fieldName- 求总和的列的名称
-
-
-### 最小值（long）
-aggregations.type=lucene_longMin 时，参数：
-```
-{
-    "type":"lucene_longMin",
+    "type":"lucene_dateMin",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>"
 }
 ```
-求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min("<fieldName_string>")`   
 
-- name- 求和值的输出名称 
-- fieldName- 求总和的列的名称
-
-### 总和（long）
-aggregations.type=lucene_longSum 时，参数：
+### 12. DateMax Aggregation
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为date 。DateMax Aggregation 的JSON示例如下：
 ```
 {
-    "type":"lucene_longSum",
+    "type":"lucene_dateMax",
     "name":"<name_string>",
-    "fieldName":"<fieldName_string>" 
+    "fieldName":"<fieldName_string>"
 }
 ```
-将查询到的值的和计算为64位有符号整数，相当于`sum("<fieldName_string>")`   
+### 13. Filtered Aggregation
 
-- name- 求和值的输出名称 
-- fieldName- 求总和的列的名称
-
-
-## <a id="post-aggregation" href="post-aggregation"></a>  postAggregation 聚合
-postAggregations.type 可选项: `arithmetic` , `buckets`, `constant` , `customBuckets` ,  `equalBuckets` ,  `fieldAccess` , `hyperUniqueCardinality` , `javascript` , `max` , `min` , `sketchEstimate` , `sketchSetOper`
-
-### 算术
-
-postAggregations.type=arithmetic 时，参数：  
+&#160; &#160; &#160; &#160;Filtered Aggregation 可以在aggregation中指定Filter规则。只对满足规则的维度进行聚合，以提升聚合效率。JSON示例如下：
 ```
 {
+    "type":"lucene_filtered",
+    "aggregator":<aggregator>, 
+    "filter":"<filter>
+}
+```
+### 14. ThetaSketch Aggregation
+&#160; &#160; &#160; &#160;ThetaSketch Aggregation 的 JSON 示例如下：
+```
+{
+    "type":"lucene_thetaSketch",
+    "name":"<name_string>",
+    "fieldName":"<fieldName_string>"
+    "size":10,
+    "shouldFinalize":true,
+    "isInputThetaSketch":true,
+    "errorBoundsStdDev":5,
+    "trunc":true
+}
+```
+
+
+## <a id="post-aggregation" href="post-aggregation"></a>  postAggregation 后期聚合
+&#160; &#160; &#160; &#160;PostAggregation 可以对 Aggregation 的结果进行二次加工并输出。最终的输出既包含 Aggregation 的结果，也包含 PostAggregation的结果。使用PostAggregation 必须包含 Aggregation。PostAggregation 包含如下类型：  
+
+### 1. Arithmetic PostAggregation
+&#160; &#160; &#160; &#160;Arithmetic PostAggregation 支持对Aggregation的结果和其他 Arithmetic PostAggregation 的结果进行“+”，“-”，“*”，“/”和“quotient”计算，quotient划分的行为像常规小数点的划分。
+  
+```
+"postAggregations"{
     "type":"arithmetic",
-    "name":"<name_string>",
-    "fn":"<fnName_string>",
-    "fields":[
-    		<postAggregator>,<postAggregator>,...
-    ],
-    "ordering":"ordering_string"
+    "name":<name_string>,
+    "fn":<fnName_string>,
+    "fields":[<postAggregator>,<postAggregator>...],
+    "ordering":<ordering_string>
 }
 ```
-算术后聚合器将提供的函数从左到右应用于给定的字段。字段可以是聚合器或其他后期聚合器。
-
-支持的功能有+，-，*，/，和quotient。quotient划分的行为像常规小数点的划分。
-- ordering:定义了排序的顺序。
-
-### buckets
-postAggregations.type=buckets 时，参数：
 ```
-{
+"postAggregations"{
+    "type":"fieldAccess",
+    "name":<output_name>,
+    "fieldName":<aggregator_name>
+}
+```
+- 对于“/”，如果分母为0，则返回0。
+- “quotient”不判断分母是否为0。
+- 当 Arithmetic PostAggregation 的结果参与排序时，默认使用float类型。用户可以手动通过Ordering字段指定排序方式。
+
+
+### 2. FieldAccess PostAggregation
+&#160; &#160; &#160; &#160;FieldAccess PostAggregation 返回指定的 Aggregation 的值，在 PostAggregation 中大部分情况下使用 fieldAccess 来访问 Aggregation。在fieldName中指定 Aggregation 里定义的 name，如果对HyperUnique 的结果进行访问，则需要使用hyperUniqueCardinality。FieldAccess PostAggregation 的JSON示例如下：
+```
+"postAggregations"{
+    "type":"fieldAccess",
+    "name":<output_name>,
+    "fieldName":<aggregator_name>
+}
+```
+### 3. Constant PostAggregation
+&#160; &#160; &#160; &#160;Constant PostAggregation 会返回一个常数，比如100。可以将 Aggregation 返回的结果转换为百分比。JSON示例如下：
+```
+"postAggregations"{
+    "type":"constant",
+    "name":<output_name>,
+    "value":<numerical_value>
+}
+```
+### 4. HyperUniqueCardinality PostAggregation
+&#160; &#160; &#160; &#160;HyperUniqueCardinality PostAggregation 得到 HyperUnique Aggregation 的结果，使之参与到PostAggregation 的计算中。JSON示例如下：  
+```
+"postAggregations"{
+    "type":"hyperUniqueCardinality",
+    "name":<output name>,
+    "fieldName":<the name field value of the hyperUnique aggregator>
+}
+```
+
+**example**
+```
+"aggregations" : [{
+    {"type" : "count", "name" : "rows"},
+    {"type" : "hyperUnique", "name" : "unique_users", "fieldName" : "uniques"}
+}],
+"postAggregations" : [{
+    "type" : "arithmetic",
+    "name" : "average_users_per_row",
+    "fn" : "/",
+    "fields" : [
+        { "type" : "hyperUniqueCardinality", "fieldName" : "unique_users" },
+        { "type" : "fieldAccess", "name" : "rows", "fieldName" : "rows" }
+    ]
+}]
+```
+### 5. DataSketch PostAggregation
+
+&#160; &#160; &#160; &#160;Druid DataSketch是基于Yahoo开源的Sketch包实现的数据近似计算功能。    
+#### 5.1 SketchEstimate PostAggregation
+&#160; &#160; &#160; &#160;SketchEstimate PostAggregation用于计算Sketch的估计值，JSON示例如下：
+```
+"postAggregations"{
+    "type":"sketchEstimate",
+    "name":"<name_string>",
+    "field":{<postAggregator>}
+}
+```
+
+#### 5.2 SketchSetOper PostAggregation
+&#160; &#160; &#160; &#160;SketchSetOper PostAggregation用于Sketch的集合运算，JSON示例如下：
+```
+"postAggregations"{
+    "type":"sketchSetOper",
+    "name":"<name_string>",
+    "func":"<func_string>",
+    "size":20,
+    "fields":[<postAggregator>,<postAggregator>,...] 
+}
+```
+
+### 6. Buckets PostAggregation
+&#160; &#160; &#160; &#160;Buckets PostAggregation 的 JSON 示例如下：
+```
+"postAggregations"{
     "type":"buckets",
-    "name":"<output_name>",
-    "fieldName":"<aggregator_name>",
+    "name":"<name_string>",
+    "fieldName":"<fieldName_string>",
     "bucketSize":4.5,
     "offset":3.2
 }
 ```
-装到给定size相同的bucket里面
-- bucketSize:bucket的大小
-- offset:抵消
+- bucketSize: bucket的大小
+- offset: bucket的偏移量
 
-### 常量
 
-postAggregations.type=constant 时，参数：
+### 7. CustomBuckets PostAggregation
+&#160; &#160; &#160; &#160;CustomBuckets PostAggregation 的 JSON 示例如下：
 ```
-{
-    "type":"constant",
-    "name":"<output_name>",
-    "value":<numerical_value>
-}
-```
-总是返回指定的值。
-
-### 自定义buckets
-postAggregations.type=customBuckets 时，参数：
-```
-{
+"postAggregations"{
     "type":"customBuckets",
-    "name":"<output_name>",
-    "fieldName":"<aggregator_name>",
-    "breaks":[
-    	1.2,
-    	3.5
-    ]
+    "name":"<name_string>",
+    "fieldName":"<fieldName_string>",
+    "breaks":[1.2,3.5]
 }
 ```
-- breaks：bucket的分界点  
-装到自定义的bucket里面
 
-### equalBuckets
-postAggregations.type=equalBuckets 时，参数：
+### 8. EqualBuckets PostAggregation
+&#160; &#160; &#160; &#160;EqualBuckets PostAggregation 的 JSON 示例如下：：
 ```
-{
+"postAggregations"{
     "type":"equalBuckets",
-    "name":"<output_name>",
-    "fieldName":"<aggregator_name>",
+    "name":"<name_string>",
+    "fieldName":"<fieldName_string>",
     "numBuckets":20
 }
 ```  
 
 
-### fieldAccess
-postAggregations.type=fieldAccess 时，参数：
-```
-{
-    "type":"fieldAccess",
-    "name":"<output_name>",
-    "fieldName":"<aggregator_name>"
-}
-```
-返回指定聚合器生成的值。
-### hyperUniqueCardinality
-
-postAggregations.type=hyperUniqueCardinality 时，参数：
-```
-{
-    "type":"hyperUniqueCardinality",
-    "name":"<output name>",
-    "fieldName":"<the name field value of the hyperUnique aggregator>" 
-}
-```
-用于包装hyperUnique对象，以便可以在后期聚合中使用。  
-
-**example**
-```
-  "aggregations" : [{
-    {"type" : "count", "name" : "rows"},
-    {"type" : "hyperUnique", "name" : "unique_users", "fieldName" : "uniques"}
-}],
-"postAggregations" : [{
-    "type"   : "arithmetic",
-    "name"   : "average_users_per_row",
-    "fn"     : "/",
-    "fields" : [
-      { "type" : "hyperUniqueCardinality", "fieldName" : "unique_users" },
-      { "type" : "fieldAccess", "name" : "rows", "fieldName" : "rows" }
-    ]
-}]
-```
 
 
-### javascript
-postAggregations.type=javascript 时，参数：
+### 9. Javascript PostAggregation
+&#160; &#160; &#160; &#160;Javascript PostAggregation 将提供的 JavaScript 函数应用于给定字段，JSON示例如下：
 ```
-{
+"postAggregations"{
     "type":"javascript",
     "name":"<output_name>",
-    "fieldNames":[
-    	"<aggregator_name>","<aggregator_name>",...
-    ],	
+    "fieldNames":["<aggregator_name>","<aggregator_name>",...],	
     "function":"<javascript function>"  
 }
 ```
-将提供的JavaScript函数应用于给定字段。     
 
 **example**
 ```
-{
+"postAggregations"{
   "type": "javascript",
   "name": "absPercent",
   "fieldNames": ["delta", "total"],
@@ -972,86 +956,72 @@ postAggregations.type=javascript 时，参数：
 ```
 
 
-### 最大
-postAggregations.type=max 时，参数：
+### 10. Max PostAggregation
+&#160; &#160; &#160; &#160;Max PostAggregation用于计算字段的最大值，JSON示例如下：
 ```
-{
+"postAggregations"{
     "type":"max",
     "name":"<output_name>",
     "fieldName":"<post_aggregator>" 
 }
 ```
-计算最大值
-### 最小
-postAggregations.type=min 时，参数：
+计算字段的最大值
+### 11. Min PostAggregation
+&#160; &#160; &#160; &#160;Min PostAggregation用于计算字段的最小值，JSON示例如下：
 ```
-{
+"postAggregations"{
     "type":"min",
     "name":"<output_name>",
     "fieldName":"<post_aggregator>" 
 }
 ```
-计算最小值
-
-### sketchEstimate
-postAggregations.type=sketchEstimate 时，参数：
-```
-{
-    "type":"sketchEstimate",
-    "name":"<name_string>",
-    "field":{
-    	<postAggregator>
-    }
-}
-```
-将堆外内存的内容读取出来
-
-### sketchSetOper
-postAggregations.type=sketchSetOper 时，参数：
-```
-{
-    "type":"sketchSetOper",
-    "name":"<name_string>",
-    "func":"<func_string>",
-    "size":20,
-    "fields":[
-        <postAggregator>,<postAggregator>,...
-    ] 
-}
-```
-将多个堆外内存的内容进行操作
 
 
 ## <a id="having" href="having"></a> having
 
-相当于having语句  
+&#160; &#160; &#160; &#160;类似于SQL中的 having 操作，对 GroupBy 的结果进行筛选。支持多种操作：  
 
-having.type可选项： and , or , not , greaterThan , lessThan , equalTo , dimSelector , always 
+### 1. 逻辑表达式过滤器
+#### 1.1 And
+&#160; &#160; &#160; &#160;和，JSON示例如下：
+```
+{
+    "type":"and",
+    "havingSpecs":[<havingSpec>,<havingSpec>,..]
+}
+```
 
-### 或
-having.type=or 时，参数：
+#### 1.2 Or
+&#160; &#160; &#160; &#160;或，JSON示例如下：
 ```
 {
     "type":"or",
-    "havingSpecs":[
-    	<havingSpec>,<havingSpec>,..
-    ]
+    "havingSpecs":[<havingSpec>,<havingSpec>,..]
 }
 ```
-逻辑或
-### 非
-having.type=not 时，参数：
+
+#### 1.3 Not
+&#160; &#160; &#160; &#160;非，JSON示例如下：
 ```
 {
     "type":"not",
-    "havingSpecs":{
-    	<havingSpec>
-    }
+    "havingSpecs":{<havingSpec>}
 }
 ```
-逻辑非
-### 大于
-having.type=greaterThan 时，参数：
+### 2. 数值过滤器
+
+#### 2.1 EqualTo
+&#160; &#160; &#160; &#160;等于，JSON示例如下：
+```
+{
+    "type":"equalTo",
+    "aggregation":"aggName",
+    "value":10
+}
+```
+
+#### 2.2 GreaterThan
+&#160; &#160; &#160; &#160;大于，JSON示例如下：
 ```
 {
     "type":"greaterThan",
@@ -1060,8 +1030,8 @@ having.type=greaterThan 时，参数：
 }
 ```
 
-### 小于
-having.type=lessThan 时，参数：
+#### 2.3 LessThan 
+&#160; &#160; &#160; &#160;小于，JSON示例如下：
 ```
 {
     "type":"lessThan",
@@ -1069,29 +1039,19 @@ having.type=lessThan 时，参数：
     "value":10
 }
 ```
-### 等于
-having.type=equalTo 时，参数：
-```
-{
-    "type":"equalTo",
-    "aggregation":"aggName",
-    "value":10
-}
-```
-### dimSelector
-having.type=dimSelector 时，参数：
+
+### 3. DimSelector
+&#160; &#160; &#160; &#160;DimSelector 将匹配尺寸值等于指定值的行，JSON示例如下：
 ```
 {
     "type":"dimSelector",
     "dimension":"dimName",
-    "value":"value_string",
-    "extractionFn":{
-    	<extractionFn>
-    }
+    "value":<value_string>,
+    "extractionFn":{<extractionFn>}
 }
 ```
-### 总是
-having.type=always 时，参数：
+### 4. Always
+&#160; &#160; &#160; &#160;总是，即不进行筛选，全部返回，JSON示例如下：
 ```
 {
     "type":"always",
