@@ -203,6 +203,15 @@ dataSource.type可选项： table , query , union , 也可以是一个字符串(
 ```
 &#160; &#160; &#160; &#160;上面的参数设置这相当于 `WHERE <dimension_string> = <value_string>`   。 
 
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+    "type": "selector",
+    "dimension": "province",
+    "value": "广东省"
+}
+```
+&#160; &#160; &#160; &#160;相当于 `WHERE province = ＂广东省＂`。
 ### 2. Regex Filter
 &#160; &#160; &#160; &#160;Regex Filter允许用户用正则表达式来筛选维度，任何标准的Java正则表达式Druid都支持，支持使用提取功能。Regex Filter的JSON示例如下：
 
@@ -214,7 +223,17 @@ dataSource.type可选项： table , query , union , 也可以是一个字符串(
     "extractionFn":{<extractionFn>}
 }
 ```
-- pattern：给定的模式，可以是任何标准的Java正则表达式。  
+- pattern：给定的模式，可以是任何标准的Java正则表达式。
+
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"filter": {
+  "type": "regex",
+  "dimension": "UserID",	
+  "pattern": "^c.*"
+}
+```
+&#160; &#160; &#160; &#160;以上实例将匹配任何以"c"开头的"userId"。
 
 ### 3. Logical Expression Filer
 &#160; &#160; &#160; &#160;Logical Expression Filer包含and、or、not三种过滤器，与SQL中的and、or、not相似。每一种过滤器都支持嵌套，可以构建丰富的逻辑表达式。
@@ -228,6 +247,26 @@ dataSource.type可选项： table , query , union , 也可以是一个字符串(
 ```
 `<filter>`可以是任何一种过滤器。
 
+使用示例如下：
+```
+"filter": {
+  "type": "and",
+  "fields": [
+    {
+      "type": "selector",
+      "dimension": "age",
+      "value": 20
+    },
+    {
+      "type": "selector",
+      "dimension": "province",
+      "value": "广东省"
+    }
+  ]
+}
+```
+&#160; &#160; &#160; &#160;相当于：`WHERE age=20 AND province="广东省"`
+
 #### 3.2 Or Filter
 &#160; &#160; &#160; &#160;Or Filter的JSON示例如下：
 ```
@@ -239,6 +278,26 @@ dataSource.type可选项： table , query , union , 也可以是一个字符串(
 ```
 `<filter>`可以是任何一种过滤器。
 
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+  "type": "or",
+  "fields": [
+    {
+      "type": "selector",
+      "dimension": "age",
+      "value": 20
+    },
+    {
+      "type": "selector",
+      "dimension": "province",
+      "value": "广东省"
+    }
+  ]
+}
+```
+&#160; &#160; &#160; &#160;相当于：`WHERE age=20 OR province="广东省"`
+
 #### 3.3 Not Filter
 &#160; &#160; &#160; &#160;Not Filter的JSON示例如下：
 ```
@@ -249,21 +308,49 @@ dataSource.type可选项： table , query , union , 也可以是一个字符串(
 ```
 `<filter>`可以是任何一种过滤器。
 
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+  "type": "not",
+  "field": {
+      "type": "selector",
+      "dimension": "age",
+      "value": 20
+  }
+}
+```
+&#160; &#160; &#160; &#160;相当于选出age不等于20的记录。
+
 ### 4. Search Filter
 
 &#160; &#160; &#160; &#160;Search Filter通过字符串匹配过滤维度，支持多种匹配方式。Search Filter的JSON示例如下：
 ```
 "filter"：{
-    "type":"search",
-    "dimension":<dimension_string>,
-    "query":{
-    	"type":"contains",
-      	"value":<value_string>,
-        "caseSensitive":<false | true>
-    },
-    "extractionFn":{<extractionFn>}
+  "type":"search",
+  "dimension":<dimension_string>,
+  "query":{
+    "type":"contains",
+      "value":<value_string>,
+      "caseSensitive":<false | true>
+  },
+  "extractionFn":{<extractionFn>}
 }
 ```
+&#160; &#160; &#160; &#160;使用实例如下：  
+```
+"filter":{
+  "type":"search",
+  "dimension":"province",
+  "query":{
+    "type":"contains",
+      "value":"东",
+      "caseSensitive":true
+  }
+}
+```
+&#160; &#160; &#160; &#160;若省份名字包含"东"字,则匹配。
+
+
 &#160; &#160; &#160; &#160;Search Query定义了如下几种字符串匹配方式。
 
 **1. contains**  
@@ -316,25 +403,50 @@ caseSensitive：是否大小写敏感
     }
 }
 ```
-- values: in的范围。
+- values: in的范围。  
+
+&#160; &#160; &#160; &#160;使用实例如下：
+```
+"filter": {
+    "type": "in",
+    "dimension": "province",
+    "values": [
+      "广东省",
+      "广西省"
+    ]
+  }
+```
+&#160; &#160; &#160; &#160;相当于： `WHERE province IN ("广东省","广西省")`
 
 ### 6. Bound Filter
 &#160; &#160; &#160; &#160;Bound Filter 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。Bound Filter 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定alphaNumeric的值为true。Bound Filter默认的大小比较为“>=”或“<=”。Bound Filter具体的JSON表达式示例如下：
 ```
 "filter":{
-    "type":"bound",
-    "dimension":<dimension_string>,
-    "lower":"0",
-    "upper":"100",
-    "lowerStrict":<false | true>,
-    "upperStrict":<false | true>,
-    "alphaNumeric":<false | true>,
-    "extractionFn":{<extractionFn>}
+  "type":"bound",
+  "dimension":<dimension_string>,
+  "lower":"0",
+  "upper":"100",
+  "lowerStrict":<false | true>,
+  "upperStrict":<false | true>,
+  "alphaNumeric":<false | true>,
+  "extractionFn":{<extractionFn>}
 }
 ```
 - lowerStrict：是否包含下界  
 - upperStrict：是否包含上界
 - alphaNumeric：是否进行数值比较
+
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+  "type": "bound",
+  "dimension": "age",
+  "alphaNumeric": true,
+  "upper": 20,
+  "upperStrict": true
+}
+```
+&#160; &#160; &#160; &#160;相当于：`WHERE age<20 `。
 
 ### 7. JavaScript Filter
 &#160; &#160; &#160; &#160;如果上述Filter不能满足要求，Druid还可以通过自己写JavaScript Filter来过滤维度，但是只能支持一个入参，就是Filter里指定的维度的值，返回 true 或 false 。JavaScript Filter 的JSON表达式实例如下：
@@ -349,7 +461,7 @@ caseSensitive：是否大小写敏感
 ```
 - dimension: 函数的参数（只能有一个）
 
-**example**
+&#160; &#160; &#160; &#160;使用示例如下：
 ```
 {
   "type":"javascript",
@@ -404,30 +516,22 @@ caseSensitive：是否大小写敏感
     "type":"all"
 }
 ```
-
-
-
-
-
-### 10. lookup过滤器
-
-filter.type=lookup 时，参数
+### 10. Lookup Filter
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
-    "type":"all",
-    "dimension":"<dimension_string>",
-    "lookup":"<lookup_string>"
+    "type":"lookup",
+    "dimension":<dimension_string>,
+    "lookup":<lookup_string>
 }
-```      
-      
+```
 
-### 11. lucene过滤器
-
-filter.type=lucene 时，参数
+### 11. lucene Filter
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
-    "type":"all",
-    "query":"<query_string>"
+    "type":"lucene",
+    "query":<query_string>
 }
 ```
 
@@ -619,68 +723,135 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 1. Count Aggregation
 &#160; &#160; &#160; &#160;用于计算Druid的数据行数，相当于`count()`。Count Aggregation 的JSON示例如下：
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_count",
     "name":<name_string>
-}
+  }
+]
 ```
+使用示例如下:
+```
+"aggregations": [
+  {
+    "type": "lucene_count",
+    "name": "__VALUE__"
+  }
+]
+```
+
 ### 2. Cardinality Aggregator
-&#160; &#160; &#160; &#160;在查询时，Cardinality Aggregation 使用HyperLogLog算法计算给定维度集合的基数，相当于distinct()。Cardinality Aggregation 的JSON示例如下：
+&#160; &#160; &#160; &#160;废弃。在查询时，Cardinality Aggregation 使用HyperLogLog算法计算给定维度集合的基数，相当于distinct()。Cardinality Aggregation 的JSON示例如下：
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_cardinality",
     "name":<name_string>,
     "fieldNames":[<fieldName_string>,<fieldName_string>,...], 
     "byRow":<false | true> 
-}
+  }
+]
 ```
 &#160; &#160; &#160; &#160;当设置byRow为false（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
 
 ### 3. HyperUnique Aggregator
-&#160; &#160; &#160; &#160;在查询时，HyperUnique Aggregation 使用HyperLogLog算法计算给定维度集合的基数。HyperUnique Aggregation比Cardinality Aggregation要快得多，因为HyperUnique Aggregation在摄入阶段就会为Metric做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用 HyperUnique Aggregation。JSON示例如下：
+&#160; &#160; &#160; &#160;在查询时，HyperUnique Aggregation 使用HyperLogLog算法计算给定维度集合的基数。HyperUnique Aggregation比 Cardinality Aggregation要快得多，因为HyperUnique Aggregation在摄入阶段就会为Metric做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用 HyperUnique Aggregation。JSON示例如下：
 
 ```
-"aggregations"{
+"aggregations":[
+  {
     "type":"lucene_hyperUnique",
     "name":<name_string>,
     "fieldName":<fieldName_string>
-}
+  }
+]
 ```
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"aggregations":[
+  {
+    "type":"lucene_hyperUnique",
+    "name":"ageCount",
+    "fieldName":"age"
+  }
+]
+```
+
+&#160; &#160; &#160; &#160;查询结果如下:
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": {
+      "user": 20.098296726168925
+    }
+  }
+]
+```
+
 
 
 
 ### 4. DoubleMax Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为double，相当于`max(<fieldName_string>)`。JSON示例如下：
+&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为 double ，输入的值类型为 float ,相当于`max(<fieldName_string>)`。JSON示例如下：
 ```
-"aggregations"{
+"aggregations":[
+  {
     "type":"lucene_doubleMax",
     "name":<name_string>,
     "fieldName":<fieldName_string>
-}
+ }
+]
 ```
 - name- 求最大值的输出名称 
 - fieldName- 求最大值的列的名称
 
-### 5. DoubleMin Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为double，相当于`min(<fieldName_string>)`。JSON示例如下：
+&#160; &#160; &#160; &#160;使用示例如下:
 ```
-"aggregations"{
+"aggregations": [
+  {
+  "type":"lucene_doubleMax",
+  "name":"max",
+  "fieldName":"age"
+  }
+]
+```
+&#160; &#160; &#160; &#160;返回结果如下:
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": {
+      "max": 29
+    }
+  }
+]
+```
+
+### 5. DoubleMin Aggregation
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为double，输入的值类型为 float ,相当于`min(<fieldName_string>)`。JSON示例如下：
+```
+"aggregations": [
+  {
     "type":"lucene_doubleMin",
     "name":<name_string>,
     "fieldName":<fieldName_string>
-}
+  }
+]
 ```
 - name- 求最小值的输出名称 
 - fieldName- 求最小值的列的名称
 
 ###  6. DoubleSum Aggregation
-&#160; &#160; &#160; &#160;将查询到的值的和计算为double类型的数，相当于`sum(<fieldName_string>)`。JSON示例如下：
+&#160; &#160; &#160; &#160;将查询到的值的和计算为double类型的数，输入的值类型为 float ,相当于`sum(<fieldName_string>)`。JSON示例如下：
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_doubleSum",
     "name":<name_string>,
     "fieldName":<fieldName_string> 
-}
+  }
+]
 ```
 - name- 求和值的输出名称 
 - fieldName- 求总和的列的名称
@@ -688,11 +859,13 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 7. LongMax Aggregation
 &#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为64位有符号整数，相当于`max(<fieldName_string>)`。JSON示例如下：
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_longMax",
     "name":<name_string>,
     "fieldName":<fieldName_string>
-}
+  }
+]
 ```
 - name- 求最大值的输出名称 
 - fieldName- 求最大值的列的名称
@@ -701,11 +874,13 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 8. LongMin Aggregation
 &#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min(<fieldName_string>)`。JSON示例如下：
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_longMin",
     "name":<name_string>,
     "fieldName":<fieldName_string>
-}
+  }
+]
 ```
 - name- 求最小值的输出名称 
 - fieldName- 求最小值的列的名称
@@ -713,11 +888,13 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 9. LongSum Aggregation
 &#160; &#160; &#160; &#160;将查询到的值的和计算为64位有符号整数，相当于`sum(<fieldName_string>)` 。JSON示例如下：
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_longSum",
     "name":<name_string>,
     "fieldName":<fieldName_string> 
-}
+  }
+]
 ```
 - name- 求和值的输出名称 
 - fieldName- 求总和的列的名称
@@ -728,64 +905,132 @@ filter.extraction.type=registeredLookup 时，参数：
 &#160; &#160; &#160; &#160;如果上述聚合器无法满足需求，Druid还提供了JavaScript Aggregation。用户可以自己写JavaScript function，其中指定的列即为function的入参。JavaScript Aggregation 的JSON示例如下：
 
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type":"lucene_javascript",
     "name":<name_string>,
     "fieldNames":[<fieldName_string>,<fieldName_string>], 
     "fnAggregate":<fnAggregate_string>, 
     "fnReset":<fnReset_string>, 
     "fnCombine":<fnCombine_string> 
-}
+  }
+]
 ```
 - name:这组JavaScript函数的名称
 - fieldNames:参数的名字  
 
-**example**
+&#160; &#160; &#160; &#160;使用示例如下:
 ```
-"aggregations"{
+"aggregations": [
+  {
     "type": "lucene_javascript",
     "name": "sum(log(x)*y) + 10",
     "fieldNames": ["x", "y"],
     "fnAggregate" : "function(current, a, b)      { return current + (Math.log(a) * b); }",
     "fnCombine"   : "function(partialA, partialB) { return partialA + partialB; }",
     "fnReset"     : "function()                   { return 10; }"
-}
+  }
+]
 ```
 
 ### 11. DateMin Aggregation
 
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为date。DateMin Aggregation 的JSON示例如下：
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为 date , 输入的值的类型必须是 date 。DateMin Aggregation 的JSON示例如下：
 ```
-{
+"aggregations": [
+  {
     "type":"lucene_dateMin",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>"
-}
+  }
+]
+```
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"aggregations": [
+  {
+    "type":"lucene_dateMin",
+    "name":"minDate",
+    "fieldName":"birthday"
+  }
+]
+```
+&#160; &#160; &#160; &#160;查询结果如下:
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": {
+      "minDate": "1988-05-17T07:36:52.046Z"
+    }
+  }
+]
 ```
 
+
+
 ### 12. DateMax Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为date 。DateMax Aggregation 的JSON示例如下：
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为 date ,输入的值的类型必须是 date 。DateMax Aggregation 的JSON示例如下：
 ```
-{
+"aggregations": [
+  {
     "type":"lucene_dateMax",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>"
-}
+  }
+]
 ```
 ### 13. Filtered Aggregation
 
-&#160; &#160; &#160; &#160;Filtered Aggregation 可以在aggregation中指定Filter规则。只对满足规则的维度进行聚合，以提升聚合效率。JSON示例如下：
+&#160; &#160; &#160; &#160;Filtered Aggregation 可以在 aggregation 中指定 Filter 规则。只对满足规则的维度进行聚合，以提升聚合效率。JSON示例如下：
 ```
-{
+"aggregations": [
+  {
     "type":"lucene_filtered",
     "aggregator":<aggregator>, 
     "filter":"<filter>
-}
+  }
+]
 ```
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"aggregations":[
+  {
+    "type":"lucene_filtered",
+    "aggregator":  {
+	    "type": "lucene_count",
+	    "name": "__VALUE__"
+	  },
+    "filter": {
+	    "type": "bound",
+	    "dimension": "age",
+	    "alphaNumeric": true,
+	    "upper": 20,
+	    "upperStrict": true
+	  }
+  }	
+]
+```
+
+&#160; &#160; &#160; &#160;该聚合只对 age>20 的记录实行。
+
+&#160; &#160; &#160; &#160;查询结果如下:
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": {
+      "__VALUE__": 50094
+    }
+  }
+]
+```
+
 ### 14. ThetaSketch Aggregation
 &#160; &#160; &#160; &#160;ThetaSketch Aggregation 的 JSON 示例如下：
 ```
-{
+"aggregations": [
+  {
     "type":"lucene_thetaSketch",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>"
@@ -794,18 +1039,19 @@ filter.extraction.type=registeredLookup 时，参数：
     "isInputThetaSketch":true,
     "errorBoundsStdDev":5,
     "trunc":true
-}
+  }
+]
 ```
 
 
-## <a id="post-aggregation" href="post-aggregation"></a>  postAggregation 后期聚合
+## <a id="post-aggregation" href="post-aggregation"></a>  postAggregation 
 &#160; &#160; &#160; &#160;PostAggregation 可以对 Aggregation 的结果进行二次加工并输出。最终的输出既包含 Aggregation 的结果，也包含 PostAggregation的结果。使用PostAggregation 必须包含 Aggregation。PostAggregation 包含如下类型：  
 
 ### 1. Arithmetic PostAggregation
-&#160; &#160; &#160; &#160;Arithmetic PostAggregation 支持对Aggregation的结果和其他 Arithmetic PostAggregation 的结果进行“+”，“-”，“*”，“/”和“quotient”计算，quotient划分的行为像常规小数点的划分。
+&#160; &#160; &#160; &#160;Arithmetic PostAggregation 支持对Aggregation的结果和其他 Arithmetic PostAggregation 的结果进行“ + ”，“ - ”，“ * ”，“ / ”和“ quotient ”计算，quotient 划分的行为像常规小数点的划分。
   
 ```
-"postAggregations"{
+"postAggregations":{
     "type":"arithmetic",
     "name":<name_string>,
     "fn":<fnName_string>,
@@ -813,61 +1059,119 @@ filter.extraction.type=registeredLookup 时，参数：
     "ordering":<ordering_string>
 }
 ```
-```
-"postAggregations"{
-    "type":"fieldAccess",
-    "name":<output_name>,
-    "fieldName":<aggregator_name>
-}
-```
 - 对于“/”，如果分母为0，则返回0。
 - “quotient”不判断分母是否为0。
 - 当 Arithmetic PostAggregation 的结果参与排序时，默认使用float类型。用户可以手动通过Ordering字段指定排序方式。
 
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"postAggregations":[
+  {
+    "type":"arithmetic",
+    "name":"age",
+    "fn":"-",
+    "fields":[
+      {
+        "type":"hyperUniqueCardinality",
+        "fieldName":"max(age)"
+      },
+      {
+        "type":"hyperUniqueCardinality",
+        "fieldName":"min(age)" 
+      }
+    ],
+    "ordering":<ordering_string>
+  }
+]
+```
+&#160; &#160; &#160; &#160;以上示例可以计算最大年龄和最小年龄之间的年龄差。
 
 ### 2. FieldAccess PostAggregation
-&#160; &#160; &#160; &#160;FieldAccess PostAggregation 返回指定的 Aggregation 的值，在 PostAggregation 中大部分情况下使用 fieldAccess 来访问 Aggregation。在fieldName中指定 Aggregation 里定义的 name，如果对HyperUnique 的结果进行访问，则需要使用hyperUniqueCardinality。FieldAccess PostAggregation 的JSON示例如下：
+&#160; &#160; &#160; &#160;FieldAccess PostAggregation 返回指定的 Aggregation 的值，在 PostAggregation 中大部分情况下使用 fieldAccess 来访问 Aggregation。在fieldName中指定 Aggregation 里定义的 name，如果对HyperUnique 的结果进行访问，则需要使用hyperUniqueCardinality。FieldAccess PostAggregation 的 JSON 示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"fieldAccess",
     "name":<output_name>,
     "fieldName":<aggregator_name>
-}
+  }
+]
 ```
+
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"postAggregations":[
+  {
+    "type":"fieldAccess",
+    "name":"field",
+    "fieldName":"__VALUE__"
+  }
+]
+```
+&#160; &#160; &#160; &#160;结果如下:
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": {
+      "field": 100000,
+      "__VALUE__": 100000
+    }
+  }
+]
+```
+
+
 ### 3. Constant PostAggregation
-&#160; &#160; &#160; &#160;Constant PostAggregation 会返回一个常数，比如100。可以将 Aggregation 返回的结果转换为百分比。JSON示例如下：
+&#160; &#160; &#160; &#160;Constant PostAggregation 会多返回一个常数，比如100。可以将 Aggregation 返回的结果转换为百分比。JSON示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"constant",
     "name":<output_name>,
     "value":<numerical_value>
-}
+  }
+]
 ```
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"postAggregations":[
+  {
+    "type":"constant",
+    "name":"num",
+    "value":10
+  }
+]
+```
+&#160; &#160; &#160; &#160;结果如下:
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": {
+      "num": 10,
+      "__VALUE__": 100000
+    }
+  }
+]
+```
+
 ### 4. HyperUniqueCardinality PostAggregation
 &#160; &#160; &#160; &#160;HyperUniqueCardinality PostAggregation 得到 HyperUnique Aggregation 的结果，使之参与到PostAggregation 的计算中。JSON示例如下：  
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"hyperUniqueCardinality",
     "name":<output name>,
     "fieldName":<the name field value of the hyperUnique aggregator>
-}
+  }
+]
 ```
 
-**example**
+&#160; &#160; &#160; &#160;使用示例如下:
 ```
-"aggregations" : [{
-    {"type" : "count", "name" : "rows"},
-    {"type" : "hyperUnique", "name" : "unique_users", "fieldName" : "uniques"}
-}],
-"postAggregations" : [{
-    "type" : "arithmetic",
-    "name" : "average_users_per_row",
-    "fn" : "/",
-    "fields" : [
-        { "type" : "hyperUniqueCardinality", "fieldName" : "unique_users" },
-        { "type" : "fieldAccess", "name" : "rows", "fieldName" : "rows" }
-    ]
-}]
+
+
 ```
 ### 5. DataSketch PostAggregation
 
@@ -875,35 +1179,41 @@ filter.extraction.type=registeredLookup 时，参数：
 #### 5.1 SketchEstimate PostAggregation
 &#160; &#160; &#160; &#160;SketchEstimate PostAggregation用于计算Sketch的估计值，JSON示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"sketchEstimate",
     "name":"<name_string>",
     "field":{<postAggregator>}
-}
+  }
+]
 ```
 
 #### 5.2 SketchSetOper PostAggregation
 &#160; &#160; &#160; &#160;SketchSetOper PostAggregation用于Sketch的集合运算，JSON示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"sketchSetOper",
     "name":"<name_string>",
     "func":"<func_string>",
     "size":20,
     "fields":[<postAggregator>,<postAggregator>,...] 
-}
+  }
+]
 ```
 
 ### 6. Buckets PostAggregation
 &#160; &#160; &#160; &#160;Buckets PostAggregation 的 JSON 示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"buckets",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>",
     "bucketSize":4.5,
     "offset":3.2
-}
+  }
+]
 ```
 - bucketSize: bucket的大小
 - offset: bucket的偏移量
@@ -912,23 +1222,27 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 7. CustomBuckets PostAggregation
 &#160; &#160; &#160; &#160;CustomBuckets PostAggregation 的 JSON 示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"customBuckets",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>",
     "breaks":[1.2,3.5]
-}
+  }
+]
 ```
 
 ### 8. EqualBuckets PostAggregation
 &#160; &#160; &#160; &#160;EqualBuckets PostAggregation 的 JSON 示例如下：：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"equalBuckets",
     "name":"<name_string>",
     "fieldName":"<fieldName_string>",
     "numBuckets":20
-}
+  }
+]
 ```  
 
 
@@ -937,43 +1251,51 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 9. Javascript PostAggregation
 &#160; &#160; &#160; &#160;Javascript PostAggregation 将提供的 JavaScript 函数应用于给定字段，JSON示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"javascript",
     "name":"<output_name>",
     "fieldNames":["<aggregator_name>","<aggregator_name>",...],	
     "function":"<javascript function>"  
-}
+  }
+]
 ```
 
-**example**
+&#160; &#160; &#160; &#160;使用示例如下:
 ```
-"postAggregations"{
-  "type": "javascript",
-  "name": "absPercent",
-  "fieldNames": ["delta", "total"],
-  "function": "function(delta, total) { return 100 * Math.abs(delta) / total; }"
-}
+"postAggregations":[
+  {
+    "type": "javascript",
+    "name": "absPercent",
+    "fieldNames": ["delta", "total"],
+    "function": "function(delta, total) { return 100 * Math.abs(delta) / total; }"
+  }
+]
 ```
 
 
 ### 10. Max PostAggregation
-&#160; &#160; &#160; &#160;Max PostAggregation用于计算字段的最大值，JSON示例如下：
+&#160; &#160; &#160; &#160;Max PostAggregation用于计算最大值，JSON示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"max",
     "name":"<output_name>",
     "fieldName":"<post_aggregator>" 
-}
+ }
+]
 ```
-计算字段的最大值
+
 ### 11. Min PostAggregation
-&#160; &#160; &#160; &#160;Min PostAggregation用于计算字段的最小值，JSON示例如下：
+&#160; &#160; &#160; &#160;Min PostAggregation用于计算最小值，JSON示例如下：
 ```
-"postAggregations"{
+"postAggregations":[
+  {
     "type":"min",
     "name":"<output_name>",
     "fieldName":"<post_aggregator>" 
-}
+  }
+]
 ```
 
 

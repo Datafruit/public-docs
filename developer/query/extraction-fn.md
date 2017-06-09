@@ -8,7 +8,7 @@
 ### 1. Regex Extraction
 &#160; &#160; &#160; &#160;Regex Extraction 返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"regex",
     "expr":<expr_string>,
     "replaceMissingValue":<false | true>,
@@ -18,7 +18,7 @@
 ### 2. Partial Extraction
 &#160; &#160; &#160; &#160;如果正则表达式匹配，返回维度值不变，否则返回null。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"partial",
     "expr":<expr_string>
 }
@@ -26,7 +26,7 @@
 ### 3. SearchQuery Extraction
 &#160; &#160; &#160; &#160;如果给定SearchQuerySpec 匹配，返回维度值不变，否则返回null。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"searchQuery",
     "query":{
         "type":"contains",
@@ -38,20 +38,20 @@
 ### 4. Javascript Extraction
 &#160; &#160; &#160; &#160;Javascript Extraction 返回由给定的JavaScript函数转换的维度值。JSON示例如下：
 ```
-"extraction"{
-    "type":"javascript",
-    "query":{
-	"type":"contains",
-	"function":<function_string>,
-      	"injective":<false | true>
-    }
+"extractionFn":{
+  "type":"javascript",
+  "query":{
+  "type":"contains",
+  "function":<function_string>,
+  "injective":<false | true>
+  }
 }
 ```
 
 ### 5. TimeFormat Extraction
 &#160; &#160; &#160; &#160;TimeFormat Extraction 以特定格式，时区或语言环境来提取时间戳。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"timeFormat",
     "query":{
         "type":"contains",
@@ -82,7 +82,7 @@
 ### 6. Identity Extraction
 filter.extraction.type=identity 时，参数：
 ```
-"extraction"{
+"extractionFn":{
     "type":"identity"
 }
 ```
@@ -90,25 +90,49 @@ filter.extraction.type=identity 时，参数：
 ### 7. Lookup Extraction
 filter.extraction.type=lookup 时，参数：
 ```
-"extraction"{
-    "type":"lookup",
-    "lookup": {
-	    "lookup":<lookup>, 
-	    "retainMissingValue":<false | true> 
-	    "replaceMissingValueWith":<replaceMissingValueWith_string>, 
-	    "injective":<false | true>, 
-	    "optimize":<false | true>
-    },    
-    "retainMissingValue":<false | true>,	
-    "replaceMissingValueWith":<replace_string>,	
+"extractionFn":{
+  "type":"lookup",
+  "lookup": {
+    "lookup":<lookup>, 
+    "retainMissingValue":<false | true> 
+    "replaceMissingValueWith":<replaceMissingValueWith_string>, 
     "injective":<false | true>, 
     "optimize":<false | true>
+  },    
+  "retainMissingValue":<false | true>,	
+  "replaceMissingValueWith":<replace_string>,	
+  "injective":<false | true>, 
+  "optimize":<false | true>
 }
 ```
+
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+{
+  "filter": {
+    "type": "selector",
+    "dimension": "product",
+    "value": "bar_1",
+    "extractionFn": {
+        "type": "lookup",
+        "lookup": {
+            "type": "map",
+            "map": {
+                "product_1": "bar_1",
+                "product_5": "bar_1",
+                "product_3": "bar_1"
+            }
+        }
+    }
+  }
+}
+```
+
+
 ### 8. RegisteredLookup Extraction
 filter.extraction.type=registeredLookup 时，参数：
 ```
-"extraction"{
+"extractionFn":{
     "type":"registeredLookup",
     "lookup":<lookup_string>,
     "retainMissingValue":<false | true>,   
@@ -117,30 +141,11 @@ filter.extraction.type=registeredLookup 时，参数：
     "optimize":<false | true>, 
 }
 ```
-```
-{
-    "filter": {
-        "type": "selector",
-        "dimension": "product",
-        "value": "bar_1",
-        "extractionFn": {
-            "type": "lookup",
-            "lookup": {
-                "type": "map",
-                "map": {
-                    "product_1": "bar_1",
-                    "product_5": "bar_1",
-                    "product_3": "bar_1"
-                }
-            }
-        }
-    }
-}
-```
+
 ### 9. SubString Extraction
 &#160; &#160; &#160; &#160;SubString Extraction 返回从提供的索引开始至所需长度的子字符串。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"substring",
     "index":10,
     "length":20
@@ -149,7 +154,7 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 10. Cascade Extraction
 &#160; &#160; &#160; &#160;Cascade Extraction 按指定的顺序将指定的提取函数转换为维度值。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"cascade",
     "extractionFns":[{<extraction>},{<extraction>}]
 }
@@ -157,7 +162,7 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 11. StringFormat Extraction
 &#160; &#160; &#160; &#160;StringFormat Extraction 返回根据给定的格式字符串格式化的维度值。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"stringFormat",
     "format":<format_string>,
     "nullHandling":{<nullHandling>}  
@@ -166,7 +171,7 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 12. Upper Extraction
 &#160; &#160; &#160; &#160; Upper Extraction 返回大写的维度值。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"upper",
     "locale":<locale_string>
 }
@@ -174,7 +179,7 @@ filter.extraction.type=registeredLookup 时，参数：
 ### 13. Lower Extraction
 &#160; &#160; &#160; &#160; Lower Extraction 返回小写的维度值。JSON示例如下：
 ```
-"extraction"{
+"extractionFn":{
     "type":"lower",
     "locale":<locale_string>
 }

@@ -16,6 +16,15 @@
 ```
 &#160; &#160; &#160; &#160;上面的参数设置这相当于 `WHERE <dimension_string> = <value_string>`   。 
 
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+    "type": "selector",
+    "dimension": "province",
+    "value": "广东省"
+}
+```
+&#160; &#160; &#160; &#160;相当于 `WHERE province = ＂广东省＂`。
 ### 2. Regex Filter
 &#160; &#160; &#160; &#160;Regex Filter允许用户用正则表达式来筛选维度，任何标准的Java正则表达式Druid都支持，支持使用提取功能。Regex Filter的JSON示例如下：
 
@@ -27,7 +36,17 @@
     "extractionFn":{<extractionFn>}
 }
 ```
-- pattern：给定的模式，可以是任何标准的Java正则表达式。  
+- pattern：给定的模式，可以是任何标准的Java正则表达式。
+
+&#160; &#160; &#160; &#160;使用示例如下:
+```
+"filter": {
+  "type": "regex",
+  "dimension": "UserID",	
+  "pattern": "^c.*"
+}
+```
+&#160; &#160; &#160; &#160;以上实例将匹配任何以"c"开头的"userId"。
 
 ### 3. Logical Expression Filer
 &#160; &#160; &#160; &#160;Logical Expression Filer包含and、or、not三种过滤器，与SQL中的and、or、not相似。每一种过滤器都支持嵌套，可以构建丰富的逻辑表达式。
@@ -41,6 +60,26 @@
 ```
 `<filter>`可以是任何一种过滤器。
 
+使用示例如下：
+```
+"filter": {
+  "type": "and",
+  "fields": [
+    {
+      "type": "selector",
+      "dimension": "age",
+      "value": 20
+    },
+    {
+      "type": "selector",
+      "dimension": "province",
+      "value": "广东省"
+    }
+  ]
+}
+```
+&#160; &#160; &#160; &#160;相当于：`WHERE age=20 AND province="广东省"`
+
 #### 3.2 Or Filter
 &#160; &#160; &#160; &#160;Or Filter的JSON示例如下：
 ```
@@ -52,6 +91,26 @@
 ```
 `<filter>`可以是任何一种过滤器。
 
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+  "type": "or",
+  "fields": [
+    {
+      "type": "selector",
+      "dimension": "age",
+      "value": 20
+    },
+    {
+      "type": "selector",
+      "dimension": "province",
+      "value": "广东省"
+    }
+  ]
+}
+```
+&#160; &#160; &#160; &#160;相当于：`WHERE age=20 OR province="广东省"`
+
 #### 3.3 Not Filter
 &#160; &#160; &#160; &#160;Not Filter的JSON示例如下：
 ```
@@ -62,21 +121,49 @@
 ```
 `<filter>`可以是任何一种过滤器。
 
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+  "type": "not",
+  "field": {
+      "type": "selector",
+      "dimension": "age",
+      "value": 20
+  }
+}
+```
+&#160; &#160; &#160; &#160;相当于选出age不等于20的记录。
+
 ### 4. Search Filter
 
 &#160; &#160; &#160; &#160;Search Filter通过字符串匹配过滤维度，支持多种匹配方式。Search Filter的JSON示例如下：
 ```
 "filter"：{
-    "type":"search",
-    "dimension":<dimension_string>,
-    "query":{
-    	"type":"contains",
-      	"value":<value_string>,
-        "caseSensitive":<false | true>
-    },
-    "extractionFn":{<extractionFn>}
+  "type":"search",
+  "dimension":<dimension_string>,
+  "query":{
+    "type":"contains",
+      "value":<value_string>,
+      "caseSensitive":<false | true>
+  },
+  "extractionFn":{<extractionFn>}
 }
 ```
+&#160; &#160; &#160; &#160;使用实例如下：  
+```
+"filter":{
+  "type":"search",
+  "dimension":"province",
+  "query":{
+    "type":"contains",
+      "value":"东",
+      "caseSensitive":true
+  }
+}
+```
+&#160; &#160; &#160; &#160;若省份名字包含"东"字,则匹配。
+
+
 &#160; &#160; &#160; &#160;Search Query定义了如下几种字符串匹配方式。
 
 **1. contains**  
@@ -129,25 +216,50 @@ caseSensitive：是否大小写敏感
     }
 }
 ```
-- values: in的范围。
+- values: in的范围。  
+
+&#160; &#160; &#160; &#160;使用实例如下：
+```
+"filter": {
+    "type": "in",
+    "dimension": "province",
+    "values": [
+      "广东省",
+      "广西省"
+    ]
+  }
+```
+&#160; &#160; &#160; &#160;相当于： `WHERE province IN ("广东省","广西省")`
 
 ### 6. Bound Filter
 &#160; &#160; &#160; &#160;Bound Filter 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。Bound Filter 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定alphaNumeric的值为true。Bound Filter默认的大小比较为“>=”或“<=”。Bound Filter具体的JSON表达式示例如下：
 ```
 "filter":{
-    "type":"bound",
-    "dimension":<dimension_string>,
-    "lower":"0",
-    "upper":"100",
-    "lowerStrict":<false | true>,
-    "upperStrict":<false | true>,
-    "alphaNumeric":<false | true>,
-    "extractionFn":{<extractionFn>}
+  "type":"bound",
+  "dimension":<dimension_string>,
+  "lower":"0",
+  "upper":"100",
+  "lowerStrict":<false | true>,
+  "upperStrict":<false | true>,
+  "alphaNumeric":<false | true>,
+  "extractionFn":{<extractionFn>}
 }
 ```
 - lowerStrict：是否包含下界  
 - upperStrict：是否包含上界
 - alphaNumeric：是否进行数值比较
+
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+"filter": {
+  "type": "bound",
+  "dimension": "age",
+  "alphaNumeric": true,
+  "upper": 20,
+  "upperStrict": true
+}
+```
+&#160; &#160; &#160; &#160;相当于：`WHERE age<20 `。
 
 ### 7. JavaScript Filter
 &#160; &#160; &#160; &#160;如果上述Filter不能满足要求，Druid还可以通过自己写JavaScript Filter来过滤维度，但是只能支持一个入参，就是Filter里指定的维度的值，返回 true 或 false 。JavaScript Filter 的JSON表达式实例如下：
@@ -162,7 +274,7 @@ caseSensitive：是否大小写敏感
 ```
 - dimension: 函数的参数（只能有一个）
 
-**example**
+&#160; &#160; &#160; &#160;使用示例如下：
 ```
 {
   "type":"javascript",
@@ -217,30 +329,22 @@ caseSensitive：是否大小写敏感
     "type":"all"
 }
 ```
-
-
-
-
-
-### 10. lookup　Filter
-
-filter.type=lookup 时，参数
+### 10. Lookup Filter
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
-    "type":"all",
-    "dimension":"<dimension_string>",
-    "lookup":"<lookup_string>"
+    "type":"lookup",
+    "dimension":<dimension_string>,
+    "lookup":<lookup_string>
 }
-```      
-      
+```
 
 ### 11. lucene Filter
-
-filter.type=lucene 时，参数
+&#160; &#160; &#160; &#160;JSON示例如下：
 ```
 {
-    "type":"all",
-    "query":"<query_string>"
+    "type":"lucene",
+    "query":<query_string>
 }
 ```
 
