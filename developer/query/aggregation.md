@@ -1,10 +1,10 @@
 # Tindex-Query-Json `aggregation`属性详情如下
 
-## Aggregation 聚合
-&#160; &#160; &#160; &#160;Aggregation，即聚合器。若在摄入阶段就指定，则会在roll up 时就进行计算；当然，也能在查询时指定。聚合器包含以下几种类型。
+## `Aggregation` 聚合
+&#160; &#160; &#160; &#160;`Aggregation`，即聚合器。若在摄入阶段就指定，则会在`roll up`时就进行计算；当然，也能在查询时指定。聚合器包含以下几种类型。
 
-### 1. Count Aggregation
-&#160; &#160; &#160; &#160;用于计算Druid的数据行数，相当于`count()`。Count Aggregation 的JSON示例如下：
+### 1. `Count Aggregation`
+&#160; &#160; &#160; &#160;用于计算Druid的数据行数，相当于`count()`。`Count Aggregation`的JSON示例如下：
 ```
 "aggregations": [
   {
@@ -23,8 +23,8 @@
 ]
 ```
 
-### 2. Cardinality Aggregator
-&#160; &#160; &#160; &#160;废弃。在查询时，Cardinality Aggregation 使用HyperLogLog算法计算给定维度集合的基数，相当于distinct()。Cardinality Aggregation 的JSON示例如下：
+### 2. `Cardinality Aggregator`
+&#160; &#160; &#160; &#160;废弃。在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -35,10 +35,10 @@
   }
 ]
 ```
-&#160; &#160; &#160; &#160;当设置byRow为false（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
+&#160; &#160; &#160; &#160;当设置`byRow`为`false`（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
 
-### 3. HyperUnique Aggregator
-&#160; &#160; &#160; &#160;在查询时，HyperUnique Aggregation 使用HyperLogLog算法计算给定维度集合的基数。HyperUnique Aggregation比 Cardinality Aggregation要快得多，因为HyperUnique Aggregation在摄入阶段就会为Metric做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用 HyperUnique Aggregation。JSON示例如下：
+### 3. `HyperUnique Aggregator`
+&#160; &#160; &#160; &#160;在查询时，`HyperUnique Aggregation` 使用`HyperLogLog`算法计算给定维度集合的基数。`HyperUnique Aggregation`比 `Cardinality Aggregation`要快得多，因为`HyperUnique Aggregation`在摄入阶段就会为`Metric`做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用`HyperUnique Aggregation`。`JSON`示例如下：
 
 ```
 "aggregations":[
@@ -75,8 +75,8 @@
 
 
 
-### 4. DoubleMax Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为 double ，输入的值类型为 float ,相当于`max(<fieldName_string>)`。JSON示例如下：
+### 4. `DoubleMax Aggregation`
+&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为 `double` ，输入的值类型为 `float` ,相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations":[
   {
@@ -86,8 +86,8 @@
  }
 ]
 ```
-- name- 求最大值的输出名称 
-- fieldName- 求最大值的列的名称
+- `name`- 求最大值的输出名称 
+- `fieldName`- 求最大值的列的名称
 
 &#160; &#160; &#160; &#160;使用示例如下:
 ```
@@ -111,8 +111,8 @@
 ]
 ```
 
-### 5. DoubleMin Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为double，输入的值类型为 float ,相当于`min(<fieldName_string>)`。JSON示例如下：
+### 5. `DoubleMin Aggregation`
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`double`，输入的值类型为`float`,相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -122,11 +122,11 @@
   }
 ]
 ```
-- name- 求最小值的输出名称 
-- fieldName- 求最小值的列的名称
+- `name`- 求最小值的输出名称 
+- `fieldName`- 求最小值的列的名称
 
-###  6. DoubleSum Aggregation
-&#160; &#160; &#160; &#160;将查询到的值的和计算为double类型的数，输入的值类型为 float ,相当于`sum(<fieldName_string>)`。JSON示例如下：
+###  6. `DoubleSum Aggregation`
+&#160; &#160; &#160; &#160;将查询到的值的和计算为`double`类型的数，输入的值类型为 `float` ,相当于`sum(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -136,11 +136,11 @@
   }
 ]
 ```
-- name- 求和值的输出名称 
-- fieldName- 求总和的列的名称
+- `name`- 求和值的输出名称 
+- `fieldName`- 求总和的列的名称
 
-### 7. LongMax Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为64位有符号整数，相当于`max(<fieldName_string>)`。JSON示例如下：
+### 7. `LongMax Aggregation`
+&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为64位有符号整数，相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -150,12 +150,12 @@
   }
 ]
 ```
-- name- 求最大值的输出名称 
-- fieldName- 求最大值的列的名称
+- `name`- 求最大值的输出名称 
+- `fieldName`- 求最大值的列的名称
 
 
-### 8. LongMin Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min(<fieldName_string>)`。JSON示例如下：
+### 8. `LongMin Aggregation`
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -165,11 +165,11 @@
   }
 ]
 ```
-- name- 求最小值的输出名称 
-- fieldName- 求最小值的列的名称
+- `name`- 求最小值的输出名称 
+- `fieldName`- 求最小值的列的名称
 
-### 9. LongSum Aggregation
-&#160; &#160; &#160; &#160;将查询到的值的和计算为64位有符号整数，相当于`sum(<fieldName_string>)` 。JSON示例如下：
+### 9. `LongSum Aggregation`
+&#160; &#160; &#160; &#160;将查询到的值的和计算为64位有符号整数，相当于`sum(<fieldName_string>)` 。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -179,13 +179,13 @@
   }
 ]
 ```
-- name- 求和值的输出名称 
-- fieldName- 求总和的列的名称
+- `name`- 求和值的输出名称 
+- `fieldName`- 求总和的列的名称
 
 
-### 10. Javascript Aggregation
+### 10. `Javascript Aggregation`
 
-&#160; &#160; &#160; &#160;如果上述聚合器无法满足需求，Druid还提供了JavaScript Aggregation。用户可以自己写JavaScript function，其中指定的列即为function的入参。JavaScript Aggregation 的JSON示例如下：
+&#160; &#160; &#160; &#160;如果上述聚合器无法满足需求，`Druid`还提供了`JavaScript Aggregation`。用户可以自己写`JavaScript function`，其中指定的列即为`function`的入参。`JavaScript Aggregation` 的`JSON`示例如下：
 
 ```
 "aggregations": [
@@ -199,8 +199,8 @@
   }
 ]
 ```
-- name:这组JavaScript函数的名称
-- fieldNames:参数的名字  
+- `name`:这组`JavaScript`函数的名称
+- `fieldNames`:参数的名字  
 
 &#160; &#160; &#160; &#160;使用示例如下:
 ```
@@ -216,9 +216,9 @@
 ]
 ```
 
-### 11. DateMin Aggregation
+### 11. `DateMin Aggregation`
 
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为 date , 输入的值的类型必须是 date 。DateMin Aggregation 的JSON示例如下：
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`date`, 输入的值的类型必须是`date`。`DateMin Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -252,8 +252,8 @@
 
 
 
-### 12. DateMax Aggregation
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为 date ,输入的值的类型必须是 date 。DateMax Aggregation 的JSON示例如下：
+### 12. `DateMax Aggregation`
+&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`date`,输入的值的类型必须是`date`。`DateMax Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -263,9 +263,9 @@
   }
 ]
 ```
-### 13. Filtered Aggregation
+### 13. `Filtered Aggregation`
 
-&#160; &#160; &#160; &#160;Filtered Aggregation 可以在 aggregation 中指定 Filter 规则。只对满足规则的维度进行聚合，以提升聚合效率。JSON示例如下：
+&#160; &#160; &#160; &#160;`Filtered Aggregation`可以在`aggregation`中指定`Filter`规则。只对满足规则的维度进行聚合，以提升聚合效率。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -295,7 +295,7 @@
 ]
 ```
 
-&#160; &#160; &#160; &#160;该聚合只对 age>20 的记录实行。
+&#160; &#160; &#160; &#160;该聚合只对`age>20`的记录实行。
 
 &#160; &#160; &#160; &#160;查询结果如下:
 ```
@@ -309,8 +309,8 @@
 ]
 ```
 
-### 14. ThetaSketch Aggregation
-&#160; &#160; &#160; &#160;ThetaSketch Aggregation 的 JSON 示例如下：
+### 14. `ThetaSketch Aggregation`
+&#160; &#160; &#160; &#160;`ThetaSketch Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
   {

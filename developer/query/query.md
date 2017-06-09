@@ -9,12 +9,12 @@
 - [TimeBoundary](#TimeBoundary)
 - [SegmentMetadata](#SegmentMetadata)
 
-&#160; &#160; &#160; &#160;Query，即查询。Druid包含多种查询类型。
+&#160; &#160; &#160; &#160;`Query`，即查询。`Druid`包含多种查询类型。
 
-## <a id="Timeseries" href="Timeseries"></a>  1. Timeseries
+## <a id="Timeseries" href="Timeseries"></a>  1. `Timeseries`
 
 
-&#160; &#160; &#160; &#160;对于需要统计一段时间内的汇总数据，或者是指定时间粒度的汇总数据，Druid通过Timeseries来完成。
+&#160; &#160; &#160; &#160;对于需要统计一段时间内的汇总数据，或者是指定时间粒度的汇总数据，`Druid`通过`Timeseries`来完成。
 
 
 &#160; &#160; &#160; &#160;查询语句如下：
@@ -39,7 +39,7 @@
 }
 ```
 
-&#160; &#160; &#160; &#160;相当于SQL语句的：`select count(*) from userinfo`
+&#160; &#160; &#160; &#160;相当于`SQL`语句的：`select count(*) from userinfo`
 
 &#160; &#160; &#160; &#160;输出可能如下：
 ```
@@ -53,12 +53,12 @@
 ]
 ```
 
-&#160; &#160; &#160; &#160;Timeseries查询包含如下部分。
+&#160; &#160; &#160; &#160;`Timeseries`查询包含如下部分。
 
 字段名 | 描述 | 是否必须
 ---|---|---
 queryType  | 对于Timeseries查询，该字段的值必须是lucene_timeseries | 是
-dataSource | 要查询数据集dataSource名字。详见[`dataSource`](/developer/query/#dataSource) | 是
+dataSource | 要查询数据集`dataSource`名字。详见[`dataSource`](/developer/query/#dataSource) | 是
 intervals  | 查询时间区间范围，ISO-8601 格式。详见[`interval`](/developer/query/#interval) | 是
 granularity | 查询结果进行聚合的时间粒度 | 是
 filter | 过滤条件。详见[`filter`](/developer/query/#filter) | 否
@@ -67,17 +67,17 @@ postAggregations | 后期聚合。详见[`post-aggregation`](/developer/query/#p
 descending | 是否降序 | 否
 context | 指定一些查询参数，如结果是否进缓存等 | 否
 
-&#160; &#160; &#160; &#160;Timeseries 输出每个时间粒度内指定条件的统计信息，通过filter 指定过滤条件，通过aggregations 和 postAggregations 指定聚合方式。
+&#160; &#160; &#160; &#160;`Timeseries`输出每个时间粒度内指定条件的统计信息，通过`filter`指定过滤条件，通过`aggregations`和`postAggregations`指定聚合方式。
 
-&#160; &#160; &#160; &#160;Timeseries不能输出维度信息，granularity支持all , none , second , minute , fifteen_minute , thirty_minute , hour , day , week , month , quarter , year。
+&#160; &#160; &#160; &#160;`Timeseries`不能输出维度信息，`granularity`支持`all`,`none`,`second`,`minute`,`fifteen_minute`,`thirty_minute`,`hour`,`day`,`week`,`month`,`quarter`,`year`。
 
-- all，汇总为1条输出。
-- none，不推荐使用。
+- `all`，汇总为1条输出。
+- `none`，不推荐使用。
 - 其他的，则输出相应粒度的统计信息。
 
 
-## <a id="TopN" href="TopN"></a> 2. TopN
-&#160; &#160; &#160; &#160;TopN返回指定维度和排序字段的有序top-n序列。TopN支持返回前N条记录，并支持指定Metric为排序依据。
+## <a id="TopN" href="TopN"></a> 2. `TopN`
+&#160; &#160; &#160; &#160;`TopN`返回指定维度和排序字段的有序`top-n`序列。`TopN`支持返回前N条记录，并支持指定`Metric`为排序依据。
 
  
 &#160; &#160; &#160; &#160;查询示例如下：
@@ -104,23 +104,23 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
   ]
 }
 ```
-&#160; &#160; &#160; &#160;TopN查询包含以下部分：
+&#160; &#160; &#160; &#160;`TopN`查询包含以下部分：
 
 字段名 | 描述 | 是否必须
 ---|---|---
-queryType  | 对于TopN 查询，该字段的值必须是lucene_topN | 是
-dataSource | 要查询数据集dataSource名字。详见[`dataSource`](/developer/query/#dataSource) | 是
-intervals  | 查询时间区间范围，ISO-8601 格式。详见详见[`interval`](/developer/query/#interval) | 是
+queryType  | 对于`TopN`查询，该字段的值必须是`lucene_topN` | 是
+dataSource | 要查询数据集`dataSource`名字。详见[`dataSource`](/developer/query/#dataSource) | 是
+intervals  | 查询时间区间范围，`ISO-8601`格式。详见详见[`interval`](/developer/query/#interval) | 是
 granularity | 查询结果进行聚合的时间粒度 | 是
 filter | 过滤条件。详见[`filter`](/developer/query/#filter) | 否
 aggregations | 聚合。详见[`aggregation`](/developer/query/#aggregation) | 是
 postAggregations | 后聚合器。详见[`post-aggregation`](/developer/query/#post-aggregation)| 否
-dimension | 进行TopN 查询的维度，一个TopN 查询指定且只能指定一个维度。详见[`dimension`](/developer/query/#dimension) | 是
-threshold | TopN 的N 取值 | 是
-metric | 进行统计并排序的Metric| 是
+dimension | 进行`TopN`查询的维度，一个`TopN`查询指定且只能指定一个维度。详见[`dimension`](/developer/query/#dimension) | 是
+threshold | `TopN`的 N 取值 | 是
+metric | 进行统计并排序的`Metric`| 是
 context | 指定一些查询参数，如结果是否进缓存等 | 否  
 
-- metric: TopN专属，指定排序依据。它有如下使用方式：
+- `metric`: `TopN`专属，指定排序依据。它有如下使用方式：
 
 ```
 "metric":"<metric_name>" //默认方式，升序排序
@@ -153,10 +153,10 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 }
 ```
 
-&#160; &#160; &#160; &#160;需要注意的是，topN是一个近似算法，每一个Segment返回前1000条进行合并得到最后的结果，如果dimension的基数在1000以内，则是准确的，超过1000就是近似值。
+&#160; &#160; &#160; &#160;需要注意的是，`topN`是一个近似算法，每一个`Segment`返回前1000条进行合并得到最后的结果，如果`dimension`的基数在1000以内，则是准确的，超过1000就是近似值。
 
-## <a id="GroupBy" href="GroupBy"></a> 3. GroupBy
-&#160; &#160; &#160; &#160;GroupBy类似于SQL中的group by 操作，能对指定的多个维度进行分组，也支持对指定的维度进行排序，并输出limit行数。同时，支持having操作。
+## <a id="GroupBy" href="GroupBy"></a> 3. `GroupBy`
+&#160; &#160; &#160; &#160;`GroupBy`类似于`SQL`中的`group by`操作，能对指定的多个维度进行分组，也支持对指定的维度进行排序，并输出`limit`行数。同时，支持`having`操作。
 
 &#160; &#160; &#160; &#160;查询示例如下：
 
@@ -198,7 +198,7 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 
 ```
 
-&#160; &#160; &#160; &#160;相当于SQL语句的：`select province,sum(age) from userinfo group by province limit 3;` 
+&#160; &#160; &#160; &#160;相当于`SQL`语句的：`select province,sum(age) from userinfo group by province limit 3;` 
 
 &#160; &#160; &#160; &#160;查询的结果如下：
 ```
@@ -230,27 +230,27 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 ]
 ```
 
-&#160; &#160; &#160; &#160;GroupBy 查询包含以下部分：
+&#160; &#160; &#160; &#160;`GroupBy`查询包含以下部分：
 
 字段名 | 描述 | 是否必须
 ---|---|---
-queryType  | 对于GroupBy 查询，该字段的值必须是lucene_groupBy | 是
-dataSource | 要查询数据集dataSource名字。详见[`dataSource`](/developer/query/#dataSource) | 是
-dimensions | 进行GroupBy 查询的维度集合。详见[`dimension`](/developer/query/#dimension) | 是
-limitSpec  | 对统计结果进行排序，取limit的行数 | 否
+queryType  | 对于`GroupBy`查询，该字段的值必须是`lucene_groupBy` | 是
+dataSource | 要查询数据集`dataSource`名字。详见[`dataSource`](/developer/query/#dataSource) | 是
+dimensions | 进行`GroupBy`查询的维度集合。详见[`dimension`](/developer/query/#dimension) | 是
+limitSpec  | 对统计结果进行排序，取`limit`的行数 | 否
 having     | 对统计结果进行筛选。详见[`having`](/developer/query/#having) | 否
 granularity | 查询结果进行聚合的时间粒度 | 是
 filter | 过滤条件。详见[`filter`](/developer/query/#filter) | 否
 aggregations | 聚合。详见[`aggregation`](/developer/query/#aggregation) | 是
 postAggregations | 后聚合器。详见[`post-aggregation`](/developer/query/#post-aggregation) | 否
-intervals  | 查询时间区间范围，ISO-8601 格式。详见[`interval`](/developer/query/#interval) | 是
+intervals  | 查询时间区间范围，`ISO-8601`格式。详见[`interval`](/developer/query/#interval) | 是
 context    | 指定一些查询参数，如结果是否进缓存等 | 否
 
-&#160; &#160; &#160; &#160;GroupBy 特有的字段为 limitSpec 和 having 。
+&#160; &#160; &#160; &#160;`GroupBy`特有的字段为`limitSpec`和`having`。
 
 - **limitSpec**  
 
-&#160; &#160; &#160; &#160;指定排序规则和 limit 的行数。JSON 示例如下：
+&#160; &#160; &#160; &#160;指定排序规则和`limit`的行数。`JSON`示例如下：
 ```
 {
     "type":"default",
@@ -258,7 +258,7 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
     "columns":[list of OrderByColumnSpec]
 }
 ```
-&#160; &#160; &#160; &#160;其中columns是一个数组，可以指定多个排序字段，排序字段可以使demension或metric，指定排序规则的拼写方式：
+&#160; &#160; &#160; &#160;其中`columns`是一个数组，可以指定多个排序字段，排序字段可以使`demension`或`metric`，指定排序规则的拼写方式：
 ```
 {
     "dimension":"<Any dimension or metric name>",
@@ -285,14 +285,14 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
 
 - **having**
 
-&#160; &#160; &#160; &#160; 类似于SQL中的 having 操作，对 GroupBy 的结果进行筛选，详见[`having`](/developer/query/#having)。
+&#160; &#160; &#160; &#160; 类似于`SQL`中的`having`操作，对`GroupBy`的结果进行筛选，详见[`having`](/developer/query/#having)。
 
 
-## <a id="Select" href="Select"></a> 4. Select
+## <a id="Select" href="Select"></a> 4. `Select`
 
-&#160; &#160; &#160; &#160;Select 类似于 SQL 中的 select 操作，Select 用来查看 Druid 中存储的数据，并支持按照指定过滤器和时间段查看指定维度和Metric。能通过descending字段指定排序顺序，并支持分页拉取，但不支持aggregations和postAggregations。
+&#160; &#160; &#160; &#160;`Select`类似于`SQL`中的`select`操作，`Select`用来查看`Druid`中存储的数据，并支持按照指定过滤器和时间段查看指定维度和`Metric`。能通过`descending`字段指定排序顺序，并支持分页拉取，但不支持`aggregations`和`postAggregations`。
 
-JSON示例如下：
+`JSON`示例如下：
 ```
 {
   "queryType": "lucene_select",
@@ -315,7 +315,7 @@ JSON示例如下：
 
 ```
 
-&#160; &#160; &#160; &#160;相当于SQL语句：`select province from userinfo limit 3;`
+&#160; &#160; &#160; &#160;相当于`SQL`语句：`select province from userinfo limit 3;`
 
 &#160; &#160; &#160; &#160;查询结果如下：　　
 ```
@@ -356,7 +356,7 @@ JSON示例如下：
   }
 ]
 ```
-&#160; &#160; &#160; &#160;在 pagingSpec 中指定分页拉取的 offset 和条目数，在结果中会返回下次拉取的 offset 。JSON示例如下：
+&#160; &#160; &#160; &#160;在`pagingSpec`中指定分页拉取的`offset`和条目数，在结果中会返回下次拉取的`offset`。`JSON`示例如下：
 ```
 {
     "pagingSpec":{
@@ -367,8 +367,8 @@ JSON示例如下：
 }
 ```
 
-## <a id="Search" href="Search"></a> 5. Search
-&#160; &#160; &#160; &#160;Search 查询返回匹配中的维度，类似于SQL中的 topN 操作，但是支持更多的匹配操作。JSON 示例如下：
+## <a id="Search" href="Search"></a> 5. `Search`
+&#160; &#160; &#160; &#160;`Search`查询返回匹配中的维度，类似于`SQL`中的`topN`操作，但是支持更多的匹配操作。`JSON`示例如下：
 ```
 {
     "queryType":"lucene_search",
@@ -385,9 +385,9 @@ JSON示例如下：
     }
 }
 ```
-- searchDimensions:搜索的维度
+- `searchDimensions`:搜索的维度
 
-&#160; &#160; &#160; &#160;需要注意的是，Search 只是返回匹配中维度，不支持其他聚合操作。如果要将 Search 作为查询条件进行 TopN 、 GroupBy 或 Timeseries 等操作，则可以在 filter 字段中指定各种过滤方式。 filter 字段也支持正则匹配。  
+&#160; &#160; &#160; &#160;需要注意的是，`Search`只是返回匹配中维度，不支持其他聚合操作。如果要将`Search`作为查询条件进行`TopN`、`GroupBy`或`Timeseries`等操作，则可以在`filter`字段中指定各种过滤方式。`filter`字段也支持正则匹配。  
 &#160; &#160; &#160; &#160;查询结果如下：
 ```
 [
@@ -415,10 +415,10 @@ JSON示例如下：
 ```
 
 ## 6. 元数据查询
-&#160; &#160; &#160; &#160;Druid 支持对 DataSource 的基础元数据进行查询。
+&#160; &#160; &#160; &#160;`Druid`支持对`DataSource`的基础元数据进行查询。
 
-### <a id="TimeBoundary" href="TimeBoundary"></a> 6.1 TimeBoundary
-&#160; &#160; &#160; &#160;通过 TimeBoundary 可查询 DataSource 的最早和最晚的时间点，查询 JSON 示例如下：
+### <a id="TimeBoundary" href="TimeBoundary"></a> 6.1 `TimeBoundary`
+&#160; &#160; &#160; &#160;通过`TimeBoundary`可查询`DataSource`的最早和最晚的时间点，查询`JSON`示例如下：
 ```
 {
   "queryType": "lucene_timeBoundary",
@@ -426,7 +426,7 @@ JSON示例如下：
   "bound":"maxtime"
 }
 ```
-- bound：最小最大时间，maxTime or minTime
+- `bound`：最小最大时间，`maxTime or minTime`
 
 &#160; &#160; &#160; &#160;返回结果如下：
 ```
@@ -440,8 +440,8 @@ JSON示例如下：
 ]
 ```
 
-### <a id="SegmentMetadata" href="SegmentMetadata"></a> 6.2 SegmentMetadata
-&#160; &#160; &#160; &#160;通过 SegmentMetadata 可查询 Segment 的元信息，如有哪些 column 、 metric 、 aggregator ，查询 JSON 示例如下：
+### <a id="SegmentMetadata" href="SegmentMetadata"></a> 6.2 `SegmentMetadata`
+&#160; &#160; &#160; &#160;通过`SegmentMetadata`可查询`Segment`的元信息，如有哪些`column`、`metric`、`aggregator`，查询`JSON`示例如下：
 ```
 {
   "queryType": "lucene_segmentMetadata",
@@ -460,7 +460,7 @@ JSON示例如下：
   }
 }
 ```
-&#160; &#160; &#160; &#160;相当与SQL语句的 `desc userinfo;`    
+&#160; &#160; &#160; &#160;相当与`SQL`语句的 `desc userinfo;`    
 
 &#160; &#160; &#160; &#160;返回结果如下：
 ```
@@ -496,23 +496,23 @@ JSON示例如下：
   }
 ]
 ```
-&#160; &#160; &#160; &#160;segmentMetadata 支持更多的查询字段，不过这些字段都不是必须的，具体如下：
+&#160; &#160; &#160; &#160;`segmentMetadata`支持更多的查询字段，不过这些字段都不是必须的，具体如下：
 
 字段名 | 描述 | 是否必须
 ---|--- |---
-toInclude | 可以指定哪些 column 在返回结果中呈现，可以填 all , none , list | 否
-merge | 将多个 Segment 的元信息合并到一个返回结果中 | 否
-analysisTypes | 指定返回 column 的哪些属性，如 size , intervals 等 | 是
-lenientAggregatorMerge | true 或 false ，设置为团社时，讲不通的 aggregator 合并显示 | 否
-context | 查询 Context ，可以指定是否缓存查询结果等 | 否
+toInclude | 可以指定哪些`column`在返回结果中呈现，可以填`all`,`none`,`list`| 否
+merge | 将多个`Segment`的元信息合并到一个返回结果中 | 否
+analysisTypes | 指定返回`column`的哪些属性，如`size`,`intervals`等 | 是
+lenientAggregatorMerge | `true`或`false`，设置为`true`时，将不同的`aggregator`合并显示 | 否
+context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 
-- toInclude 的使用方式如下：
+- `toInclude`的使用方式如下：
 ```
 "toInclude":{"type":"all"}
 "toInclude":{"type":"none"}
 "toInclude":{"type":"list","columns":[<string list of column names>]}
 ```
-- analysisTypes 支持指定的属性：cardinality , minmax , size , intervals , queryGranularity , aggregators 。
+- `analysisTypes`支持指定的属性：`cardinality`,`minmax`,`size`,`intervals`,`queryGranularity`,`aggregators`。
 
 
 
