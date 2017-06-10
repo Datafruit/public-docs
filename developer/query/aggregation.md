@@ -1,9 +1,23 @@
 # Tindex-Query-Json `aggregation`属性详情如下
 
 ## `Aggregation` 聚合
-&#160; &#160; &#160; &#160;`Aggregation`，即聚合器。若在摄入阶段就指定，则会在`roll up`时就进行计算；当然，也能在查询时指定。聚合器包含以下几种类型。
+- `Aggregation` 类别详情如下：
+  - [`Count`](#Aggregation-Count)
+  - [`Cardinality`](#Aggregation-Cardinality)
+  - [`HyperUnique`](#Aggregation-HyperUnique)
+  - [`DoubleMax`](#Aggregation-DoubleMax)
+  - [`DoubleMin`](#Aggregation-DoubleMin)
+  - [`DoubleSum`](#Aggregation-DoubleSum)
+  - [`LongMax`](#Aggregation-LongMax)
+  - [`LongMin`](#Aggregation-LongMin)
+  - [`LongSum`](#Aggregation-LongSum)
+  - [`Javascript`](#Aggregation-Javascript)
+  - [`DateMin`](#Aggregation-DateMin)
+  - [`DateMax`](#Aggregation-DateMax)
+  - [`Filtered`](#Aggregation-Filtered)
+  - [`ThetaSketch`](#Aggregation-ThetaSketch)
 
-### 1. `Count Aggregation`
+### <a id="Aggregation-Count" href="Aggregation-Count"></a>1. `Count Aggregation`
 &#160; &#160; &#160; &#160;用于计算Druid的数据行数，相当于`count()`。`Count Aggregation`的JSON示例如下：
 ```
 "aggregations": [
@@ -23,8 +37,8 @@
 ]
 ```
 
-### 2. `Cardinality Aggregator`
-&#160; &#160; &#160; &#160;废弃。在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
+### <a id="Aggregation-Cardinality" href="Aggregation-Cardinality"></a> 2. `Cardinality Aggregator(已废弃)`
+&#160; &#160; &#160; &#160;在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -37,8 +51,8 @@
 ```
 &#160; &#160; &#160; &#160;当设置`byRow`为`false`（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
 
-### 3. `HyperUnique Aggregator`
-&#160; &#160; &#160; &#160;在查询时，`HyperUnique Aggregation` 使用`HyperLogLog`算法计算给定维度集合的基数。`HyperUnique Aggregation`比 `Cardinality Aggregation`要快得多，因为`HyperUnique Aggregation`在摄入阶段就会为`Metric`做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用`HyperUnique Aggregation`。`JSON`示例如下：
+### <a id="Aggregation-HyperUnique" href="Aggregation-HyperUnique"></a> 3. `HyperUnique Aggregator`
+&#160; &#160; &#160; &#160;在查询时，`HyperUnique Aggregation` 使用`HyperLogLog`算法计算给定维度集合的基数。`JSON`示例如下：
 
 ```
 "aggregations":[
@@ -75,8 +89,8 @@
 
 
 
-### 4. `DoubleMax Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为 `double` ，输入的值类型为 `float` ,相当于`max(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-DoubleMax" href="Aggregation-DoubleMax"></a> 4. `DoubleMax Aggregation`
+&#160; &#160; &#160; &#160;结果的最大值，该值类型为 `double` ，维度的类型支持 `int`,`long`,`float`,相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations":[
   {
@@ -86,8 +100,8 @@
  }
 ]
 ```
-- `name`- 求最大值的输出名称 
-- `fieldName`- 求最大值的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
 &#160; &#160; &#160; &#160;使用示例如下:
 ```
@@ -111,8 +125,8 @@
 ]
 ```
 
-### 5. `DoubleMin Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`double`，输入的值类型为`float`,相当于`min(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-DoubleMin" href="Aggregation-DoubleMin"></a> 5. `DoubleMin Aggregation`
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为`double`，输入的值类型为`int`,`long`,`float`,相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -122,11 +136,11 @@
   }
 ]
 ```
-- `name`- 求最小值的输出名称 
+- `name`- 结果输出的名称 
 - `fieldName`- 求最小值的列的名称
 
-###  6. `DoubleSum Aggregation`
-&#160; &#160; &#160; &#160;将查询到的值的和计算为`double`类型的数，输入的值类型为 `float` ,相当于`sum(<fieldName_string>)`。`JSON`示例如下：
+###  <a id="Aggregation-DoubleSum" href="Aggregation-DoubleSum"></a> 6. `DoubleSum Aggregation`
+&#160; &#160; &#160; &#160;将查询到的值的和计算为`double`类型的数，输入的值类型为`int`,`long`,`float`,相当于`sum(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -137,10 +151,10 @@
 ]
 ```
 - `name`- 求和值的输出名称 
-- `fieldName`- 求总和的列的名称
+- `fieldName`- 维度的名称
 
-### 7. `LongMax Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为64位有符号整数，相当于`max(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-LongMax" href="Aggregation-LongMax"></a> 7. `LongMax Aggregation`
+&#160; &#160; &#160; &#160;结果的最大值，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -150,12 +164,12 @@
   }
 ]
 ```
-- `name`- 求最大值的输出名称 
-- `fieldName`- 求最大值的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
 
-### 8. `LongMin Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-LongMin" href="Aggregation-LongMin"></a> 8. `LongMin Aggregation`
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -165,11 +179,11 @@
   }
 ]
 ```
-- `name`- 求最小值的输出名称 
-- `fieldName`- 求最小值的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
-### 9. `LongSum Aggregation`
-&#160; &#160; &#160; &#160;将查询到的值的和计算为64位有符号整数，相当于`sum(<fieldName_string>)` 。`JSON`示例如下：
+### <a id="Aggregation-LongSum" href="Aggregation-LongSum"></a> 9. `LongSum Aggregation`
+&#160; &#160; &#160; &#160;结果的的和，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`sum(<fieldName_string>)` 。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -179,11 +193,11 @@
   }
 ]
 ```
-- `name`- 求和值的输出名称 
-- `fieldName`- 求总和的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
 
-### 10. `Javascript Aggregation`
+### <a id="Aggregation-Javascript" href="Aggregation-Javascript"></a> 10. `Javascript Aggregation`
 
 &#160; &#160; &#160; &#160;如果上述聚合器无法满足需求，`Druid`还提供了`JavaScript Aggregation`。用户可以自己写`JavaScript function`，其中指定的列即为`function`的入参。`JavaScript Aggregation` 的`JSON`示例如下：
 
@@ -216,9 +230,9 @@
 ]
 ```
 
-### 11. `DateMin Aggregation`
+### <a id="Aggregation-DateMin" href="Aggregation-DateMin"></a> 11. `DateMin Aggregation`
 
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`date`, 输入的值的类型必须是`date`。`DateMin Aggregation`的`JSON`示例如下：
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为`date`, 输入的值的类型必须是`date`。`DateMin Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -252,8 +266,8 @@
 
 
 
-### 12. `DateMax Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`date`,输入的值的类型必须是`date`。`DateMax Aggregation` 的`JSON`示例如下：
+### <a id="Aggregation-DateMax" href="Aggregation-DateMax"></a> 12. `DateMax Aggregation`
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为`date`,输入的值的类型必须是`date`。`DateMax Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -263,7 +277,7 @@
   }
 ]
 ```
-### 13. `Filtered Aggregation`
+### <a id="Aggregation-Filtered" href="Aggregation-Filtered"></a>13. `Filtered Aggregation`
 
 &#160; &#160; &#160; &#160;`Filtered Aggregation`可以在`aggregation`中指定`Filter`规则。只对满足规则的维度进行聚合，以提升聚合效率。`JSON`示例如下：
 ```
@@ -309,7 +323,7 @@
 ]
 ```
 
-### 14. `ThetaSketch Aggregation`
+### <a id="Aggregation-ThetaSketch" href="Aggregation-ThetaSketch"></a> 14. `ThetaSketch Aggregation`
 &#160; &#160; &#160; &#160;`ThetaSketch Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [

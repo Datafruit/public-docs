@@ -31,9 +31,14 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 &#160; &#160; &#160; &#160;数据源相当于数据库中的表。     
 
-`dataSource.type`可选项：`table`,`query`,`union`, 也可以是一个字符串()。
+- `DataSource` 类别详情如下：
+  - [`Table`](#Table)
+  - [`Union`](#Union)
+  - [`Query`](#Query)  
 
-###  1. `Table DataSource`
+  也可以是一个字符串。
+
+### <a id="Table" href="Table"></a>  1. `Table DataSource`
 &#160; &#160; &#160; &#160;`JSON`示例如下：    
 ```
 {
@@ -43,7 +48,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;最常用的数据源，`<string_value>`为源数据源的名称，类似关系数据库中的表名。
 
-### 2. `Union DataSource`
+### <a id="Union" href="Union"></a> 2. `Union DataSource`
 &#160; &#160; &#160; &#160;`JSON`示例如下：
 ```
 {
@@ -53,7 +58,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;该数据源连接两个或多个表数据，`<string_value1>` `<string_value2>` 为表数据源的名称。`Union DataSource`应该有相同的`schema`。`Union Queries`应该发送到代理/路由器节点，并不受历史节点直接支持。
 
-### 3. `Query DataSource`
+### <a id="Query" href="Query"></a> 3. `Query DataSource`
 &#160; &#160; &#160; &#160;`JSON`示例如下：
 ```
 {
@@ -65,10 +70,16 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 
 ## <a id="dimension" href="dimension"></a> dimension 维度
-&#160; &#160; &#160; &#160;`Dimensino`，即维度，可以在查询中使用以下`JSON`字段来操作维度值。 
+&#160; &#160; &#160; &#160;`Dimension` ,即维度。
+- `Dimension` 类别详情如下：
+  - [`Default`](#Default)
+  - [`Extraction`](#Extraction)
+  - [`Regex`](#Regex)
+  - [`ListFiltered`](#ListFiltered)
+  - [`Lookup`](#Lookup)
 
-### 1. `Default Dimension`
-&#160; &#160; &#160; &#160;`Default Dimension`返回维度值，并可选择对维度进行重命名。`JSON`示例如下：
+### <a id="Default" href="Default"></a>1. `Default Dimension`
+&#160; &#160; &#160; &#160;`Default Dimension` 返回维度值，并可选择对维度进行重命名。`JSON`示例如下：
 ```
 {
     "type":"default",
@@ -78,8 +89,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-### 2.`Extraction Dimension`
-&#160; &#160; &#160; &#160;`Extraction Dimension`返回使用给定提取函数转换的维度值。`JSON`示例如下：
+### <a id="Extraction" href="Extraction"></a>2.`Extraction Dimension`
+&#160; &#160; &#160; &#160;`Extraction Dimension` 返回使用给定提取函数转换的维度值。`JSON`示例如下：
 
 ```
 {
@@ -96,7 +107,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-### 3. `Regex Dimension`
+### <a id="Regex" href="Regex"></a>3. `Regex Dimension`
 &#160; &#160; &#160; &#160;`Regex Dimension`返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。`JSON`示例如下：
 ```
 {
@@ -110,7 +121,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
  
 &#160; &#160; &#160; &#160;例如，使用`"expr" : "(\\w\\w\\w).*"`将改变`'Monday'`，`'Tuesday'`，`'Wednesday'`成`'Mon'`，`'Tue'`，`'Wed'`。
 
-### 4. `ListFiltered Dimension`
+### <a id="ListFiltered" href="ListFiltered"></a>4. `ListFiltered Dimension`
 &#160; &#160; &#160; &#160;`ListFiltered Dimension`仅适用于多值维度。`JSON`示例如下：
 ```
 {
@@ -126,7 +137,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;如果您在`druid`中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值`“v1”` 发送`groupBy / topN`查询分组。在响应中，您将获得包含`“v1”`，`“v2”`和`“v3”`的3行。对于某些用例，此行为可能不直观。
 
-### 5. `Lookup Dimension`
+###<a id="Lookup" href="Lookup"></a> 5. `Lookup Dimension`
 &#160; &#160; &#160; &#160;`Lookup Dimension`允许在执行提取时使用的一组键和值。`JSON`示例如下：
 ```
 {
@@ -154,9 +165,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ## <a id="interval" href="interval"></a> interval 时间区间
 
 &#160; &#160; &#160; &#160;在查询中指定时间区间。`Interval`中的时间是`ISO-8601`格式。对于中国用户，所在时区为东8区，因此需要在时间中加入“+08:00”。 如"2015-12-31T16:00:00+08:00 / 2017-04-14T15:59:59+08:00"。
+- `Interval` 类别详情如下：
+  - [`Intervals`](#Intervals)
+  - [`Segments`](#Segments)
 
 
-### 1. `Intervals Interval`
+###<a id="Intervals" href="Intervals"></a> 1. `Intervals Interval`
 &#160; &#160; &#160; &#160;`JSON`示例如下：
 ```
 {
@@ -165,7 +179,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-### 2. `Segments Interval`
+### <a id="Segments" href="Segments"></a>2. `Segments Interval`
 &#160; &#160; &#160; &#160;`Segments Interval`可以定义多个段，`JSON`示例如下：
 ```
 {
@@ -189,9 +203,22 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 
 ## <a id="filter" href="filter"></a> filter 过滤器
-&#160; &#160; &#160; &#160;`Filter`,即过滤器，在查询语句中是一个`JSON`对象，用来对维度进行筛选，表示维度满足`Filter`的行是我们需要的数据。它基本上等同于`SQL`中的`WHERE`子句。`Filter`包含如下类型。  
-
-### 1. `Seletor Filter`
+&#160; &#160; &#160; &#160;`Filter`,即过滤器，在查询语句中是一个`JSON`对象，用来对维度进行筛选，表示维度满足`Filter`的行是我们需要的数据。它基本上等同于`SQL`中的`WHERE`子句。
+- `Filter` 类别详情如下：
+  - [`Seletor`](#Filter-Seletor)
+  - [`Regex`](#Filter-Regex)
+  - [`And`](#Filter-And)
+  - [`Or`](#Filter-Or)
+  - [`Not`](#Filter-Not)
+  - [`Search`](#Filter-Search)
+  - [`In`](#Filter-In)
+  - [`Bound`](#Filter-Bound)
+  - [`JavaScript`](#Filter-JavaScript)
+  - [`Spatial`](#Filter-Spatial)
+  - [`All`](#Filter-All)
+  - [`Lookup`](#Filter-Lookup)
+  - [`Lucene`](#Filter-Lucene)
+### <a id="Filter-Seletor" href="Filter-Seletor"></a>1. `Seletor Filter`
 &#160; &#160; &#160; &#160;`Seletor Filter`是最简单的过滤器，它将与具体值匹配，功能类似于`SQL`中的`where key=value`，支持提取功能。`Seletor Filter`的`JSON`示例如下：
 ```
 "filter":{
@@ -212,7 +239,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 &#160; &#160; &#160; &#160;相当于 `WHERE province = ＂广东省＂`。
-### 2. `Regex Filter` 
+### <a id="Filter-Regex" href="Filter-Regex"></a>2. `Regex Filter` 
 &#160; &#160; &#160; &#160;`Regex Filter`允许用户用正则表达式来筛选维度，任何标准的`Java`正则表达式`Druid`都支持，支持使用提取功能。`Regex Filter`的`JSON`示例如下：
 
 ```
@@ -237,7 +264,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 ### 3. `Logical Expression Filer`
 &#160; &#160; &#160; &#160;`Logical Expression Filer`包含`and`、`or`、`not`三种过滤器，与`SQL`中的`and`、`or`、`not`相似。每一种过滤器都支持嵌套，可以构建丰富的逻辑表达式。
-#### 3.1 `And Filter`
+#### <a id="Filter-And" href="Filter-And"></a>3.1 `And Filter`
 &#160; &#160; &#160; &#160;`And Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -245,7 +272,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "fields":[<filter>, <filter>, ...]
 }
 ```
-`<filter>`可以是任何一种过滤器。
+&#160; &#160; &#160; &#160;`<filter>`可以是任何一种过滤器。
 
 使用示例如下：
 ```
@@ -267,7 +294,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;相当于：`WHERE age=20 AND province="广东省"`
 
-#### 3.2 `Or Filter`
+####<a id="Filter-Or" href="Filter-Or"></a> 3.2 `Or Filter`
 &#160; &#160; &#160; &#160;`Or Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -276,7 +303,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "fields":[<filter>, <filter>, ...]
 }
 ```
-`<filter>`可以是任何一种过滤器。
+&#160; &#160; &#160; &#160;`<filter>`可以是任何一种过滤器。
 
 &#160; &#160; &#160; &#160;使用示例如下：
 ```
@@ -298,7 +325,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;相当于：`WHERE age=20 OR province="广东省"`
 
-#### 3.3 `Not Filter`
+####<a id="Filter-Not" href="Filter-Not"></a> 3.3 `Not Filter`
 &#160; &#160; &#160; &#160;`Not Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -306,7 +333,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "field":<filter>
 }
 ```
-`<filter>`可以是任何一种过滤器。
+&#160; &#160; &#160; &#160;`<filter>`可以是任何一种过滤器。
 
 &#160; &#160; &#160; &#160;使用示例如下：
 ```
@@ -321,7 +348,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;相当于选出`age`不等于20的记录。
 
-### 4. `Search Filter`
+###<a id="Filter-Search" href="Filter-Search"></a> 4. `Search Filter`
 
 &#160; &#160; &#160; &#160;`Search Filter`通过字符串匹配过滤维度，支持多种匹配方式。`Search Filter`的`JSON`示例如下：
 ```
@@ -362,7 +389,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "caseSensitive":<false | true>
 }
 ```
-`caseSensitive`：是否大小写敏感
+&#160; &#160; &#160; &#160;`caseSensitive`：是否大小写敏感
 
 **2.insensitive_contains**  
 &#160; &#160; &#160; &#160;如果指定的维度的值包含给定的字符串，则匹配，不区分大小写。相当于`contains`中的`caseSensitive`设置为`false`。`insensitive_contains`的`JSON`示例如下：
@@ -390,9 +417,9 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "pattern":<pattern_string>
 }
 ```
-### 5. `In Filter`
+###<a id="Filter-In" href="Filter-In"></a> 5. `In Filter`
 
-&#160; &#160; &#160; &#160;`In Filter`类似于`SQL`中的`in`。`In Filter`的`JSON`示例如下：
+&#160; &#160; &#160; &#160;`In Filter`类似于`SQL`中的`in`。只支持字符串类型的维度。`In Filter`的`JSON`示例如下：
 ```
 "filter":{
     "type":"in",
@@ -418,7 +445,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;相当于： `WHERE province IN ("广东省","广西省")`
 
-### 6. `Bound Filter`
+###<a id="Filter-Bound" href="Filter-Bound"></a> 6. `Bound Filter`
 &#160; &#160; &#160; &#160;`Bound Filter` 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。`Bound Filter` 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定`alphaNumeric`的值为`true`。`Bound Filter`默认的大小比较为“>=”或“<=”。`Bound Filter`具体的`JSON`表达式示例如下：
 ```
 "filter":{
@@ -448,7 +475,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;相当于：`WHERE age<20 `。
 
-### 7. `JavaScript Filter`
+###<a id="Filter-JavaScript" href="Filter-JavaScript"></a> 7. `JavaScript Filter`
 &#160; &#160; &#160; &#160;如果上述`Filter`不能满足要求，`Druid`还可以通过自己写`JavaScript Filter`来过滤维度，但是只能支持一个入参，就是`Filter`里指定的维度的值，返回`true`或`false`。`JavaScript Filter`的`JSON`表达式实例如下：
 
 ```
@@ -472,7 +499,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 &#160; &#160; &#160; &#160;上面的例子可匹配任何`name`在`'bar'`和`'foo'`之间的维度值。
 
 
-### 8. `Spatial Filter`
+###<a id="Filter-Spatial" href="Filter-Spatial"></a> 8. `Spatial Filter`
 &#160; &#160; &#160; &#160;`Spatial Filter`，即为空间过滤器，`JSON`表达式示例如下：
 ```
 "filter":{
@@ -509,15 +536,15 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 - `coords`: 原点坐标 [x,y,z,...]
 - `radius`: 浮点表示的半径值 [x,y,z,...]
 
-### 9. `All Filter`
+###<a id="Filter-All" href="Filter-All"></a> 9. `All Filter`
 &#160; &#160; &#160; &#160;`All Filter`匹配所有维度值，`JSON`示例如下：
 ```
 {
     "type":"all"
 }
 ```
-### 10. `Lookup Filter`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+###<a id="Filter-Lookup" href="Filter-Lookup"></a> 10. `Lookup Filter`
+&#160; &#160; &#160; &#160;`Lookup Filter`用于检查该维度的值是否存在于指定的用户分群中。`JSON`示例如下：
 ```
 {
     "type":"lookup",
@@ -525,22 +552,65 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "lookup":<lookup_string>
 }
 ```
-
-### 11. `lucene Filter`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+- `dimension`: 维度名，一般是用户id或设备id。
+- `lookup`: 用户分群id  
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+{
+  "type":"lookup",
+  "dimension":"userId",
+  "lookup":"usergroup-gdsfrex1"
+}
+```
+### <a id="Filter-Lucene" href="Filter-Lucene"></a>11. `Lucene Filter`
+&#160; &#160; &#160; &#160;`Lucene Filter`支持`lucene`格式的查询语法，用于过滤不满足条件的数据。`JSON`示例如下：
 ```
 {
     "type":"lucene",
     "query":<query_string>
 }
 ```
+- `query`: 满足`lucene`格式的查询字符串。  
+&#160; &#160; &#160; &#160;1.使用示例如下：
+```
+{
+  "type":"lucene",
+  "query":"userId:10001"
+}
+```
+&#160; &#160; &#160; &#160;查询`userId=10001`的记录，相当于`WHERE userId='10001'`。    
+&#160; &#160; &#160; &#160;2.使用`lucene`查询实现过滤维度值不为`null`的记录，示例如下：
+```
+{
+  "type": "not",
+  "field": {
+    "type": "lucene",
+    "query": "(*:* NOT address:*)"
+  }
+}
+```
+&#160; &#160; &#160; &#160;查询`address`不为`null`的记录，相当于`where address is not null`。  
 
 ## <a id="extraction-fn" href="extraction-fn"></a> extraction-fn 提取过滤器
 
 &#160; &#160; &#160; &#160;`Extraction`,即提取过滤器，使用一些特定的提取函数匹配维度。  
-&#160; &#160; &#160; &#160;`extraction`类型可选项：`time`,`regex`,`partial`,`searchQuery`,`javascript`,`timeFormat`,`identity`,`lookup`,`registeredLookup`,`substring`,`cascade`,`stringFormat`,`upper`,`lower` 
+- `Extraction` 类别详情如下：
+  - [`Regex`](#Extraction-Regex)
+  - [`Partial`](#Extraction-Partial)
+  - [`SearchQuery`](#Extraction-SearchQuery)
+  - [`Javascript`](#Extraction-Javascript)
+  - [`TimeFormat`](#Extraction-TimeFormat)
+  - [`Identity`](#Extraction-Identity)
+  - [`Lookup`](#Extraction-Lookup)
+  - [`RegisteredLookup`](#Extraction-RegisteredLookup)
+  - [`SubString`](#Extraction-SubString)
+  - [`Cascade`](#Extraction-Cascade)
+  - [`StringFormat`](#Extraction-StringFormat)
+  - [`Upper`](#Extraction-Upper)
+  - [`Lower`](#Extraction-Lower)
 
-### 1.`Regex Extraction`
+
+###<a id="Extraction-Regex" href="Extraction-Regex"></a> 1.`Regex Extraction`
 &#160; &#160; &#160; &#160;`Regex Extraction`返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -550,7 +620,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "replaceMissingValueWith":<replace_string>
 }
 ```
-### 2. `Partial Extraction`
+###<a id="Extraction-Partial" href="Extraction-Partial"></a> 2. `Partial Extraction`
 &#160; &#160; &#160; &#160;如果正则表达式匹配，返回维度值不变，否则返回`null`。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -558,7 +628,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "expr":<expr_string>
 }
 ```
-### 3. `SearchQuery Extraction`
+###<a id="Extraction-SearchQuery" href="Extraction-SearchQuery"></a> 3. `SearchQuery Extraction`
 &#160; &#160; &#160; &#160;如果给定`SearchQuerySpec`匹配，返回维度值不变，否则返回`null`。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -570,7 +640,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     }
 }
 ```
-### 4. `Javascript Extraction`
+###<a id="Extraction-Javascript" href="Extraction-Javascript"></a> 4. `Javascript Extraction`
 &#160; &#160; &#160; &#160;`Javascript Extraction`返回由给定的`JavaScript`函数转换的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -583,7 +653,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-### 5. `TimeFormat Extraction`
+###<a id="Extraction-TimeFormat" href="Extraction-TimeFormat"></a> 5. `TimeFormat Extraction`
 &#160; &#160; &#160; &#160;`TimeFormat Extraction`以特定格式，时区或语言环境来提取时间戳。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -614,7 +684,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   }
 }
 ```
-### 6. `Identity Extraction`
+###<a id="Extraction-Identity" href="Extraction-Identity"></a> 6. `Identity Extraction`
 &#160; &#160; &#160; &#160;`JSON`示例如下：
 ```
 "extractionFn":{
@@ -622,7 +692,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-### 7. `Lookup Extraction`
+### <a id="Extraction-Lookup" href="Extraction-Lookup"></a>7. `Lookup Extraction`
 &#160; &#160; &#160; &#160;`JSON`示例如下：
 ```
 "extractionFn":{
@@ -664,7 +734,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-### 8. `RegisteredLookup Extraction`
+### <a id="Extraction-RegisteredLookup" href="Extraction-RegisteredLookup"></a>8. `RegisteredLookup Extraction`
 &#160; &#160; &#160; &#160;`JSON`示例如下：
 ```
 "extractionFn":{
@@ -677,7 +747,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-### 9. `SubString Extraction`
+###<a id="Extraction-SubString" href="Extraction-SubString"></a> 9. `SubString Extraction`
 &#160; &#160; &#160; &#160;`SubString Extraction`返回从提供的索引开始至所需长度的子字符串。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -686,7 +756,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "length":20
 }
 ```
-### 10. `Cascade Extraction`
+###<a id="Extraction-Cascade" href="Extraction-Cascade"></a> 10. `Cascade Extraction`
 &#160; &#160; &#160; &#160;`Cascade Extraction`按指定的顺序将指定的提取函数转换为维度值。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -694,7 +764,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "extractionFns":[{<extraction>},{<extraction>}]
 }
 ```
-### 11. `StringFormat Extraction`
+###<a id="Extraction-StringFormat" href="Extraction-StringFormat"></a> 11. `StringFormat Extraction`
 &#160; &#160; &#160; &#160;`StringFormat Extraction`返回根据给定的格式字符串格式化的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -703,7 +773,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "nullHandling":{<nullHandling>}  
 }
 ```
-### 12. `Upper Extraction`
+###<a id="Extraction-Upper" href="Extraction-Upper"></a> 12. `Upper Extraction`
 &#160; &#160; &#160; &#160; `Upper Extraction`返回大写的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -711,7 +781,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "locale":<locale_string>
 }
 ```
-### 13. `Lower Extraction`
+###<a id="Extraction-Lower" href="Extraction-Lower"></a> 13. `Lower Extraction`
 &#160; &#160; &#160; &#160;`Lower Extraction`返回小写的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
@@ -723,9 +793,23 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 ## <a id="aggregation" href="aggregation"></a> aggregation 聚合
 
-&#160; &#160; &#160; &#160;`Aggregation`，即聚合器。若在摄入阶段就指定，则会在`roll up`时就进行计算；当然，也能在查询时指定。聚合器包含以下几种类型。
+- `Aggregation` 类别详情如下：
+  - [`Count`](#Aggregation-Count)
+  - [`Cardinality`](#Aggregation-Cardinality)
+  - [`HyperUnique`](#Aggregation-HyperUnique)
+  - [`DoubleMax`](#Aggregation-DoubleMax)
+  - [`DoubleMin`](#Aggregation-DoubleMin)
+  - [`DoubleSum`](#Aggregation-DoubleSum)
+  - [`LongMax`](#Aggregation-LongMax)
+  - [`LongMin`](#Aggregation-LongMin)
+  - [`LongSum`](#Aggregation-LongSum)
+  - [`Javascript`](#Aggregation-Javascript)
+  - [`DateMin`](#Aggregation-DateMin)
+  - [`DateMax`](#Aggregation-DateMax)
+  - [`Filtered`](#Aggregation-Filtered)
+  - [`ThetaSketch`](#Aggregation-ThetaSketch)
 
-### 1. `Count Aggregation`
+### <a id="Aggregation-Count" href="Aggregation-Count"></a>1. `Count Aggregation`
 &#160; &#160; &#160; &#160;用于计算Druid的数据行数，相当于`count()`。`Count Aggregation`的JSON示例如下：
 ```
 "aggregations": [
@@ -745,8 +829,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 2. `Cardinality Aggregator`
-&#160; &#160; &#160; &#160;废弃。在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
+### <a id="Aggregation-Cardinality" href="Aggregation-Cardinality"></a> 2. `Cardinality Aggregator(已废弃)`
+&#160; &#160; &#160; &#160;在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -759,8 +843,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;当设置`byRow`为`false`（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
 
-### 3. `HyperUnique Aggregator`
-&#160; &#160; &#160; &#160;在查询时，`HyperUnique Aggregation` 使用`HyperLogLog`算法计算给定维度集合的基数。`HyperUnique Aggregation`比 `Cardinality Aggregation`要快得多，因为`HyperUnique Aggregation`在摄入阶段就会为`Metric`做聚合，因此在通常情况下，对于单个维度求基数，比较推荐使用`HyperUnique Aggregation`。`JSON`示例如下：
+### <a id="Aggregation-HyperUnique" href="Aggregation-HyperUnique"></a> 3. `HyperUnique Aggregator`
+&#160; &#160; &#160; &#160;在查询时，`HyperUnique Aggregation` 使用`HyperLogLog`算法计算给定维度集合的基数。`JSON`示例如下：
 
 ```
 "aggregations":[
@@ -797,8 +881,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 
 
-### 4. `DoubleMax Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为 `double` ，输入的值类型为 `float` ,相当于`max(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-DoubleMax" href="Aggregation-DoubleMax"></a> 4. `DoubleMax Aggregation`
+&#160; &#160; &#160; &#160;结果的最大值，该值类型为 `double` ，维度的类型支持 `int`,`long`,`float`,相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations":[
   {
@@ -808,8 +892,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
  }
 ]
 ```
-- `name`- 求最大值的输出名称 
-- `fieldName`- 求最大值的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
 &#160; &#160; &#160; &#160;使用示例如下:
 ```
@@ -833,8 +917,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 5. `DoubleMin Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`double`，输入的值类型为`float`,相当于`min(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-DoubleMin" href="Aggregation-DoubleMin"></a> 5. `DoubleMin Aggregation`
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为`double`，输入的值类型为`int`,`long`,`float`,相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -844,11 +928,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   }
 ]
 ```
-- `name`- 求最小值的输出名称 
+- `name`- 结果输出的名称 
 - `fieldName`- 求最小值的列的名称
 
-###  6. `DoubleSum Aggregation`
-&#160; &#160; &#160; &#160;将查询到的值的和计算为`double`类型的数，输入的值类型为 `float` ,相当于`sum(<fieldName_string>)`。`JSON`示例如下：
+###  <a id="Aggregation-DoubleSum" href="Aggregation-DoubleSum"></a> 6. `DoubleSum Aggregation`
+&#160; &#160; &#160; &#160;将查询到的值的和计算为`double`类型的数，输入的值类型为`int`,`long`,`float`,相当于`sum(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -859,10 +943,10 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 - `name`- 求和值的输出名称 
-- `fieldName`- 求总和的列的名称
+- `fieldName`- 维度的名称
 
-### 7. `LongMax Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最大值，该值类型为64位有符号整数，相当于`max(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-LongMax" href="Aggregation-LongMax"></a> 7. `LongMax Aggregation`
+&#160; &#160; &#160; &#160;结果的最大值，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -872,12 +956,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   }
 ]
 ```
-- `name`- 求最大值的输出名称 
-- `fieldName`- 求最大值的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
 
-### 8. `LongMin Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为64位有符号整数，相当于`min(<fieldName_string>)`。`JSON`示例如下：
+### <a id="Aggregation-LongMin" href="Aggregation-LongMin"></a> 8. `LongMin Aggregation`
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -887,11 +971,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   }
 ]
 ```
-- `name`- 求最小值的输出名称 
-- `fieldName`- 求最小值的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
-### 9. `LongSum Aggregation`
-&#160; &#160; &#160; &#160;将查询到的值的和计算为64位有符号整数，相当于`sum(<fieldName_string>)` 。`JSON`示例如下：
+### <a id="Aggregation-LongSum" href="Aggregation-LongSum"></a> 9. `LongSum Aggregation`
+&#160; &#160; &#160; &#160;结果的的和，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`sum(<fieldName_string>)` 。`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -901,11 +985,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   }
 ]
 ```
-- `name`- 求和值的输出名称 
-- `fieldName`- 求总和的列的名称
+- `name`- 结果输出的名称 
+- `fieldName`- 维度的名称
 
 
-### 10. `Javascript Aggregation`
+### <a id="Aggregation-Javascript" href="Aggregation-Javascript"></a> 10. `Javascript Aggregation`
 
 &#160; &#160; &#160; &#160;如果上述聚合器无法满足需求，`Druid`还提供了`JavaScript Aggregation`。用户可以自己写`JavaScript function`，其中指定的列即为`function`的入参。`JavaScript Aggregation` 的`JSON`示例如下：
 
@@ -938,9 +1022,9 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 11. `DateMin Aggregation`
+### <a id="Aggregation-DateMin" href="Aggregation-DateMin"></a> 11. `DateMin Aggregation`
 
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`date`, 输入的值的类型必须是`date`。`DateMin Aggregation`的`JSON`示例如下：
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为`date`, 输入的值的类型必须是`date`。`DateMin Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -974,8 +1058,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 
 
-### 12. `DateMax Aggregation`
-&#160; &#160; &#160; &#160;求查询到的值中的最小值，该值类型为`date`,输入的值的类型必须是`date`。`DateMax Aggregation` 的`JSON`示例如下：
+### <a id="Aggregation-DateMax" href="Aggregation-DateMax"></a> 12. `DateMax Aggregation`
+&#160; &#160; &#160; &#160;结果的最小值，该值类型为`date`,输入的值的类型必须是`date`。`DateMax Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
   {
@@ -985,7 +1069,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   }
 ]
 ```
-### 13. `Filtered Aggregation`
+### <a id="Aggregation-Filtered" href="Aggregation-Filtered"></a>13. `Filtered Aggregation`
 
 &#160; &#160; &#160; &#160;`Filtered Aggregation`可以在`aggregation`中指定`Filter`规则。只对满足规则的维度进行聚合，以提升聚合效率。`JSON`示例如下：
 ```
@@ -1031,7 +1115,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 14. `ThetaSketch Aggregation`
+### <a id="Aggregation-ThetaSketch" href="Aggregation-ThetaSketch"></a> 14. `ThetaSketch Aggregation`
 &#160; &#160; &#160; &#160;`ThetaSketch Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
@@ -1050,9 +1134,21 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 
 ## <a id="post-aggregation" href="post-aggregation"></a>  postAggregation 
-&#160; &#160; &#160; &#160;`PostAggregation`可以对`Aggregation`的结果进行二次加工并输出。最终的输出既包含`Aggregation`的结果，也包含`PostAggregation`的结果。使用`PostAggregation`必须包含`Aggregation`。`PostAggregation`包含如下类型：  
+&#160; &#160; &#160; &#160;`PostAggregation`可以对`Aggregation`的结果进行二次加工并输出。最终的输出既包含`Aggregation`的结果，也包含`PostAggregation`的结果。使用`PostAggregation`必须包含`Aggregation`。
+- `PostAggregation` 类别详情如下：
+  - [`Arithmetic`](#PostAggregation-Arithmetic)
+  - [`FieldAccess`](#PostAggregation-FieldAccess)
+  - [`Constant`](#PostAggregation-Constant)
+  - [`HyperUniqueCardinality`](#PostAggregation-HyperUniqueCardinality)
+  - [`DataSketch`](#PostAggregation-DataSketch)
+  - [`Buckets`](#PostAggregation-Buckets)
+  - [`CustomBuckets`](#PostAggregation-CustomBuckets)
+  - [`EqualBuckets`](#PostAggregation-EqualBuckets)
+  - [`Javascript`](#PostAggregation-Javascript)
+  - [`Max`](#PostAggregation-Max)
+  - [`Min`](#PostAggregation-Min)
 
-### 1. `Arithmetic PostAggregation`
+###<a id="PostAggregation-Arithmetic" href="PostAggregation-Arithmetic"></a> 1. `Arithmetic PostAggregation`
 &#160; &#160; &#160; &#160;`Arithmetic PostAggregation`支持对`Aggregation`的结果和其他`Arithmetic PostAggregation`的结果进行“ + ”，“ - ”，“ * ”，“ / ”和“ quotient ”计算，`quotient`划分的行为像常规小数点的划分。
   
 ```
@@ -1091,7 +1187,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 &#160; &#160; &#160; &#160;以上示例可以计算最大年龄和最小年龄之间的年龄差。
 
-### 2. `FieldAccess PostAggregation`
+###<a id="PostAggregation-FieldAccess" href="PostAggregation-FieldAccess"></a> 2. `FieldAccess PostAggregation`
 &#160; &#160; &#160; &#160;`FieldAccess PostAggregation`返回指定的`Aggregation`的值，在`PostAggregation`中大部分情况下使用`fieldAccess`来访问`Aggregation`。在`fieldName`中指定`Aggregation`里定义的`name`，如果对`HyperUnique`的结果进行访问，则需要使用`hyperUniqueCardinality`。`FieldAccess PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1127,7 +1223,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-### 3. `Constant PostAggregation`
+###<a id="PostAggregation-Constant" href="PostAggregation-Constant"></a> 3. `Constant PostAggregation`
 &#160; &#160; &#160; &#160;`Constant PostAggregation`会多返回一个常数，比如100。可以将`Aggregation`返回的结果转换为百分比。`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1161,24 +1257,19 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 4. `HyperUniqueCardinality PostAggregation`
+### <a id="PostAggregation-HyperUniqueCardinality" href="PostAggregation-HyperUniqueCardinality"></a>4. `HyperUniqueCardinality PostAggregation`
 &#160; &#160; &#160; &#160;`HyperUniqueCardinality PostAggregation`得到`HyperUnique Aggregation`的结果，使之参与到`PostAggregation`的计算中。`JSON`示例如下：  
 ```
 "postAggregations":[
   {
-    "type":"hyperUniqueCardinality",
+    "type":"lucene_hyperUniqueCardinality",
     "name":<output name>,
     "fieldName":<the name field value of the hyperUnique aggregator>
   }
 ]
 ```
 
-&#160; &#160; &#160; &#160;使用示例如下:
-```
-
-
-```
-### 5. `DataSketch PostAggregation`
+### <a id="PostAggregation-DataSketch" href="PostAggregation-DataSketch"></a>5. `DataSketch PostAggregation`
 
 &#160; &#160; &#160; &#160;`Druid DataSketch`是基于`Yahoo`开源的`Sketch`包实现的数据近似计算功能。    
 #### 5.1 `SketchEstimate PostAggregation`
@@ -1186,7 +1277,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 "postAggregations":[
   {
-    "type":"sketchEstimate",
+    "type":"lucene_sketchEstimate",
     "name":"<name_string>",
     "field":{<postAggregator>}
   }
@@ -1198,7 +1289,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 "postAggregations":[
   {
-    "type":"sketchSetOper",
+    "type":"lucene_sketchSetOper",
     "name":"<name_string>",
     "func":"<func_string>",
     "size":20,
@@ -1207,7 +1298,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 6. `Buckets PostAggregation`
+###<a id="PostAggregation-Buckets" href="PostAggregation-Buckets"></a> 6. `Buckets PostAggregation`
 &#160; &#160; &#160; &#160;`Buckets PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1224,7 +1315,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 - `offset`: `bucket`的偏移量
 
 
-### 7. `CustomBuckets PostAggregation`
+### <a id="PostAggregation-CustomBuckets" href="PostAggregation-CustomBuckets"></a>7. `CustomBuckets PostAggregation`
 &#160; &#160; &#160; &#160;`CustomBuckets PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1237,7 +1328,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 8. `EqualBuckets PostAggregation`
+###<a id="PostAggregation-EqualBuckets" href="PostAggregation-EqualBuckets"></a> 8. `EqualBuckets PostAggregation`
 &#160; &#160; &#160; &#160;`EqualBuckets PostAggregation`的`JSON`示例如下：：
 ```
 "postAggregations":[
@@ -1253,7 +1344,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 
 
-### 9. `Javascript PostAggregation`
+
+### <a id="PostAggregation-Javascript" href="PostAggregation-Javascript"></a>9. `Javascript PostAggregation`
 &#160; &#160; &#160; &#160;`Javascript PostAggregation`将提供的`JavaScript`函数应用于给定字段，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1279,7 +1371,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-### 10. `Max PostAggregation`
+### <a id="PostAggregation-Max" href="PostAggregation-Max"></a>10. `Max PostAggregation`
 &#160; &#160; &#160; &#160;`Max PostAggregation`用于计算最大值，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1291,7 +1383,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### 11. `Min PostAggregation`
+### <a id="PostAggregation-Min" href="PostAggregation-Min"></a>11. `Min PostAggregation`
 &#160; &#160; &#160; &#160;`Min PostAggregation`用于计算最小值，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1304,12 +1396,21 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-## <a id="having" href="having"></a> having
+## <a id="having" href="having"></a> Having
 
-&#160; &#160; &#160; &#160;类似于`SQL`中的`having`操作，对`GroupBy`的结果进行筛选。支持多种操作：  
-
+&#160; &#160; &#160; &#160;类似于`SQL`中的`having`操作，对`GroupBy`的结果进行筛选。
+- `having` 类别详情如下：
+  - [`And`](#Having-And)
+  - [`Or`](#Having-Or)
+  - [`Not`](#Having-Not)
+  - [`EqualTo`](#Having-EqualTo)
+  - [`GreaterThan`](#Having-GreaterThan)
+  - [`LessThan`](#Having-LessThan)
+  - [`DimSelector`](#Having-DimSelector)
+  - [`Always`](#Having-Always)  
+  
 ### 1. 逻辑表达式过滤器
-#### 1.1 `And`
+#### <a id="Having-And" href="Having-And"></a>1.1 `And`
 &#160; &#160; &#160; &#160;和，`JSON`示例如下：
 ```
 {
@@ -1318,7 +1419,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-#### 1.2 `Or`
+#### <a id="Having-Or" href="Having-Or"></a>1.2 `Or`
 &#160; &#160; &#160; &#160;或，`JSON`示例如下：
 ```
 {
@@ -1327,7 +1428,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-#### 1.3 `Not`
+#### <a id="Having-Not" href="Having-Not"></a>1.3 `Not`
 &#160; &#160; &#160; &#160;非，`JSON`示例如下：
 ```
 {
@@ -1337,7 +1438,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 ### 2. 数值过滤器
 
-#### 2.1 `EqualTo`
+#### <a id="Having-EqualTo" href="Having-EqualTo"></a>2.1 `EqualTo`
 &#160; &#160; &#160; &#160;等于，`JSON`示例如下：
 ```
 {
@@ -1347,7 +1448,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-#### 2.2 `GreaterThan`
+#### <a id="Having-GreaterThan" href="Having-GreaterThan"></a>2.2 `GreaterThan`
 &#160; &#160; &#160; &#160;大于，`JSON`示例如下：
 ```
 {
@@ -1357,7 +1458,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-#### 2.3 `LessThan`
+#### <a id="Having-LessThan" href="Having-LessThan"></a>2.3 `LessThan`
 &#160; &#160; &#160; &#160;小于，`JSON`示例如下：
 ```
 {
@@ -1367,7 +1468,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 
-### 3. `DimSelector`
+### <a id="Having-DimSelector" href="Having-DimSelector"></a>3. `DimSelector`
 &#160; &#160; &#160; &#160;`DimSelector`将匹配尺寸值等于指定值的行，`JSON`示例如下：
 ```
 {
@@ -1377,7 +1478,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "extractionFn":{<extractionFn>}
 }
 ```
-### 4. `Always`
+### <a id="Having-Always" href="Having-Always"></a>4. `Always`
 &#160; &#160; &#160; &#160;总是，即不进行筛选，全部返回，`JSON`示例如下：
 ```
 {

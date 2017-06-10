@@ -2,9 +2,23 @@
 
 ## `Filter` 过滤器
 
-&#160; &#160; &#160; &#160;`Filter`,即过滤器，在查询语句中是一个`JSON`对象，用来对维度进行筛选，表示维度满足`Filter`的行是我们需要的数据。它基本上等同于`SQL`中的`WHERE`子句。`Filter`包含如下类型。  
-
-### 1. `Seletor Filter`
+&#160; &#160; &#160; &#160;`Filter`,即过滤器，在查询语句中是一个`JSON`对象，用来对维度进行筛选，表示维度满足`Filter`的行是我们需要的数据。它基本上等同于`SQL`中的`WHERE`子句。
+- `Filter` 类别详情如下：
+  - [`Seletor`](#Filter-Seletor)
+  - [`Regex`](#Filter-Regex)
+  - [`And`](#Filter-And)
+  - [`Or`](#Filter-Or)
+  - [`Not`](#Filter-Not)
+  - [`Search`](#Filter-Search)
+  - [`In`](#Filter-In)
+  - [`Bound`](#Filter-Bound)
+  - [`JavaScript`](#Filter-JavaScript)
+  - [`Spatial`](#Filter-Spatial)
+  - [`All`](#Filter-All)
+  - [`Lookup`](#Filter-Lookup)
+  - [`Lucene`](#Filter-Lucene)
+  - [`Extraction`](#Filter-Extraction)
+### <a id="Filter-Seletor" href="Filter-Seletor"></a>1. `Seletor Filter`
 &#160; &#160; &#160; &#160;`Seletor Filter`是最简单的过滤器，它将与具体值匹配，功能类似于`SQL`中的`where key=value`，支持提取功能。`Seletor Filter`的`JSON`示例如下：
 ```
 "filter":{
@@ -25,7 +39,7 @@
 }
 ```
 &#160; &#160; &#160; &#160;相当于 `WHERE province = ＂广东省＂`。
-### 2. `Regex Filter` 
+### <a id="Regex" href="Regex"></a>2. `Regex Filter` 
 &#160; &#160; &#160; &#160;`Regex Filter`允许用户用正则表达式来筛选维度，任何标准的`Java`正则表达式`Druid`都支持，支持使用提取功能。`Regex Filter`的`JSON`示例如下：
 
 ```
@@ -50,7 +64,7 @@
 
 ### 3. `Logical Expression Filer`
 &#160; &#160; &#160; &#160;`Logical Expression Filer`包含`and`、`or`、`not`三种过滤器，与`SQL`中的`and`、`or`、`not`相似。每一种过滤器都支持嵌套，可以构建丰富的逻辑表达式。
-#### 3.1 `And Filter`
+#### <a id="And" href="And"></a>3.1 `And Filter`
 &#160; &#160; &#160; &#160;`And Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -58,7 +72,7 @@
     "fields":[<filter>, <filter>, ...]
 }
 ```
-`<filter>`可以是任何一种过滤器。
+&#160; &#160; &#160; &#160;`<filter>`可以是任何一种过滤器。
 
 使用示例如下：
 ```
@@ -80,7 +94,7 @@
 ```
 &#160; &#160; &#160; &#160;相当于：`WHERE age=20 AND province="广东省"`
 
-#### 3.2 `Or Filter`
+####<a id="Or" href="Or"></a> 3.2 `Or Filter`
 &#160; &#160; &#160; &#160;`Or Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -89,7 +103,7 @@
     "fields":[<filter>, <filter>, ...]
 }
 ```
-`<filter>`可以是任何一种过滤器。
+&#160; &#160; &#160; &#160;`<filter>`可以是任何一种过滤器。
 
 &#160; &#160; &#160; &#160;使用示例如下：
 ```
@@ -111,7 +125,7 @@
 ```
 &#160; &#160; &#160; &#160;相当于：`WHERE age=20 OR province="广东省"`
 
-#### 3.3 `Not Filter`
+####<a id="Not" href="Not"></a> 3.3 `Not Filter`
 &#160; &#160; &#160; &#160;`Not Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -119,7 +133,7 @@
     "field":<filter>
 }
 ```
-`<filter>`可以是任何一种过滤器。
+&#160; &#160; &#160; &#160;`<filter>`可以是任何一种过滤器。
 
 &#160; &#160; &#160; &#160;使用示例如下：
 ```
@@ -134,7 +148,7 @@
 ```
 &#160; &#160; &#160; &#160;相当于选出`age`不等于20的记录。
 
-### 4. `Search Filter`
+###<a id="Search" href="Search"></a> 4. `Search Filter`
 
 &#160; &#160; &#160; &#160;`Search Filter`通过字符串匹配过滤维度，支持多种匹配方式。`Search Filter`的`JSON`示例如下：
 ```
@@ -175,7 +189,7 @@
     "caseSensitive":<false | true>
 }
 ```
-`caseSensitive`：是否大小写敏感
+&#160; &#160; &#160; &#160;`caseSensitive`：是否大小写敏感
 
 **2.insensitive_contains**  
 &#160; &#160; &#160; &#160;如果指定的维度的值包含给定的字符串，则匹配，不区分大小写。相当于`contains`中的`caseSensitive`设置为`false`。`insensitive_contains`的`JSON`示例如下：
@@ -203,9 +217,9 @@
     "pattern":<pattern_string>
 }
 ```
-### 5. `In Filter`
+###<a id="In" href="In"></a> 5. `In Filter`
 
-&#160; &#160; &#160; &#160;`In Filter`类似于`SQL`中的`in`。`In Filter`的`JSON`示例如下：
+&#160; &#160; &#160; &#160;`In Filter`类似于`SQL`中的`in`。只支持字符串类型的维度。`In Filter`的`JSON`示例如下：
 ```
 "filter":{
     "type":"in",
@@ -231,7 +245,7 @@
 ```
 &#160; &#160; &#160; &#160;相当于： `WHERE province IN ("广东省","广西省")`
 
-### 6. `Bound Filter`
+###<a id="Bound" href="Bound"></a> 6. `Bound Filter`
 &#160; &#160; &#160; &#160;`Bound Filter` 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。`Bound Filter` 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定`alphaNumeric`的值为`true`。`Bound Filter`默认的大小比较为“>=”或“<=”。`Bound Filter`具体的`JSON`表达式示例如下：
 ```
 "filter":{
@@ -261,7 +275,7 @@
 ```
 &#160; &#160; &#160; &#160;相当于：`WHERE age<20 `。
 
-### 7. `JavaScript Filter`
+###<a id="JavaScript" href="JavaScript"></a> 7. `JavaScript Filter`
 &#160; &#160; &#160; &#160;如果上述`Filter`不能满足要求，`Druid`还可以通过自己写`JavaScript Filter`来过滤维度，但是只能支持一个入参，就是`Filter`里指定的维度的值，返回`true`或`false`。`JavaScript Filter`的`JSON`表达式实例如下：
 
 ```
@@ -285,7 +299,7 @@
 &#160; &#160; &#160; &#160;上面的例子可匹配任何`name`在`'bar'`和`'foo'`之间的维度值。
 
 
-### 8. `Spatial Filter`
+###<a id="Spatial" href="Spatial"></a> 8. `Spatial Filter`
 &#160; &#160; &#160; &#160;`Spatial Filter`，即为空间过滤器，`JSON`表达式示例如下：
 ```
 "filter":{
@@ -322,15 +336,15 @@
 - `coords`: 原点坐标 [x,y,z,...]
 - `radius`: 浮点表示的半径值 [x,y,z,...]
 
-### 9. `All Filter`
+###<a id="All" href="All"></a> 9. `All Filter`
 &#160; &#160; &#160; &#160;`All Filter`匹配所有维度值，`JSON`示例如下：
 ```
 {
     "type":"all"
 }
 ```
-### 10. `Lookup Filter`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+###<a id="Lookup" href="Lookup"></a> 10. `Lookup Filter`
+&#160; &#160; &#160; &#160;`Lookup Filter`用于检查该维度的值是否存在于指定的用户分群中。`JSON`示例如下：
 ```
 {
     "type":"lookup",
@@ -338,17 +352,45 @@
     "lookup":<lookup_string>
 }
 ```
-
-### 11. `lucene Filter`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+- `dimension`: 维度名，一般是用户id或设备id。
+- `lookup`: 用户分群id  
+&#160; &#160; &#160; &#160;使用示例如下：
+```
+{
+  "type":"lookup",
+  "dimension":"userId",
+  "lookup":"usergroup-gdsfrex1"
+}
+```
+### <a id="Lucene" href="Lucene"></a>11. `Lucene Filter`
+&#160; &#160; &#160; &#160;`Lucene Filter`支持`lucene`格式的查询语法，用于过滤不满足条件的数据。`JSON`示例如下：
 ```
 {
     "type":"lucene",
     "query":<query_string>
 }
 ```
-
-### 12. `Extraction Filter`
+- `query`: 满足`lucene`格式的查询字符串。  
+&#160; &#160; &#160; &#160;1.使用示例如下：
+```
+{
+  "type":"lucene",
+  "query":"userId:10001"
+}
+```
+&#160; &#160; &#160; &#160;查询`userId=10001`的记录，相当于`WHERE userId='10001'`。    
+&#160; &#160; &#160; &#160;2.使用`lucene`查询实现过滤维度值不为`null`的记录，示例如下：
+```
+{
+  "type": "not",
+  "field": {
+    "type": "lucene",
+    "query": "(*:* NOT address:*)"
+  }
+}
+```
+&#160; &#160; &#160; &#160;查询`address`不为`null`的记录，相当于`where address is not null`。  
+###<a id="Extraction" href="Extraction"></a> 12. `Extraction Filter`
 
 &#160; &#160; &#160; &#160;`Extraction Filter`使用一些特定的提取函数匹配维度。  
 &#160; &#160; &#160; &#160;`extraction`类型可选项：`time`,`regex`,`partial`,`searchQuery`,`javascript`,`timeFormat`,`identity`,`lookup`,`registeredLookup`,`substring`,`cascade`,`stringFormat`,`upper`,`lower`。  

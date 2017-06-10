@@ -8,6 +8,9 @@
 - [Search](#Search)
 - [TimeBoundary](#TimeBoundary)
 - [SegmentMetadata](#SegmentMetadata)
+- [UserGroup](#UserGroup)
+- [Scan](#Scan)
+- [FirstN](#FirstN)
 
 &#160; &#160; &#160; &#160;`Query`，即查询。`Druid`包含多种查询类型。
 
@@ -515,4 +518,150 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 - `analysisTypes`支持指定的属性：`cardinality`,`minmax`,`size`,`intervals`,`queryGranularity`,`aggregators`。
 
 
+    
 
+      @JsonProperty("aggregations") List<LuceneAggregatorFactory> aggregatorSpecs,
+      @JsonProperty("postAggregations") List<PostAggregator> postAggregatorSpecs,
+      @JsonProperty("having") HavingSpec havingSpec,
+      @JsonProperty("context") Map<String, Object> context
+
+### <a id="UsreGroup" href="UsreGroup"></a> 7. `UsreGroup`
+&#160; &#160; &#160; &#160;是用户分群查询，支持将多维度和多指标作为分析条件，有针对性地根据你的需要建立分群。`JSON`示例如下:
+```
+{
+    "queryType":"user_group",
+    "dataSource":"userinfo", 
+    "granularity":"all", 
+    "intervals": "1000/3000",
+    "filter": {
+      "type": "selector",
+      "dimension": "province",
+      "value": "广东省"
+    }
+    "dimension":"age",
+    "dataConfig":{
+      "hostAndPorts":"153.214.0.1:8046",  //redis集群ip和端口，逗号或分号隔开
+      "clusterMode":true  //redis是否是集群模式
+      "groupId":"1"  //用户分群id
+    }
+    "aggregations":[
+      {
+        "name": "sum(age)",
+        "type": "lucene_doubleSum",
+        "fieldName": "age"
+      }
+    ],
+    "context":{
+      "timeout": 180000,
+      "useOffheap": true,
+      "groupByStrategy": "v2"
+    }
+}
+```
+
+
+
+### <a id="Scan" href="Scan"></a> 8. `Scan`
+&#160; &#160; &#160; &#160;用来查询原始数据，`JSON`示例如下:
+
+```
+{
+  "queryType": "lucene_scan",
+  "dataSource": "wuxianjiRT",
+  "resultFormat": "compactedList",
+  "batchSize": 1,
+  "limit": 2,
+  "columns": [
+    "Province",
+    "UserID"
+  ],
+  "filter": {
+    "type": "and",
+    "fields": [
+      {
+        "type": "in",
+        "dimension": "ClientDeviceBrand",
+        "values": [
+          "HUWEI"
+        ]
+      }
+    ]
+  },
+  "intervals": [
+    "2011-01-01/2017-06-30"
+  ]
+}
+
+```
+
+&#160; &#160; &#160; &#160;查询结果如下：
+```
+[
+  {
+    "segmentId": "wuxianjiRT_2017-02-23T00:00:00.000Z_2017-02-24T00:00:00.000Z_2017-02-23T00:00:00.905Z_14",
+    "columns": [
+      "timestamp",
+      "Province",
+      "UserID"
+    ],
+    "events": [
+      [
+        "2017-02-23T16:00:06.616Z",
+        "辽宁省",
+        "b5b41fac0361d157d9673ecb926af5ae"
+      ]
+    ]
+  },
+  {
+    "segmentId": "wuxianjiRT_2017-02-23T00:00:00.000Z_2017-02-24T00:00:00.000Z_2017-02-23T00:00:00.905Z_14",
+    "columns": [
+      "timestamp",
+      "Province",
+      "UserID"
+    ],
+    "events": [
+      [
+        "2017-02-23T16:00:07.244Z",
+        "安微省",
+        "7f100b7b36092fb9b06dfb4fac360931"
+      ]
+    ]
+  }
+]
+```
+
+### <a id="FirstN" href="FirstN"></a> 9. `FirstN`
+&#160; &#160; &#160; &#160;查询某个维度的前N个值（不用排序，不重复），`JSON`示例如下:
+
+
+```
+{
+    "queryType":"lucene_firstN",
+    "dataSource":"userinfo", 
+    "dimension":"province",
+    "threshold":5,
+    "intervals": "1000/3000",
+    "granularity":"all",
+    "context":{
+      "timeout": 180000,
+      "useOffheap": true,
+      "groupByStrategy": "v2"
+    }
+}
+```
+
+&#160; &#160; &#160; &#160;查询结果如下：
+```
+[
+  {
+    "timestamp": "2017-01-01T00:00:00.000Z",
+    "result": [
+      "黑龙江",
+      "重庆市",
+      "青海省",
+      "新疆",
+      "四川省"
+    ]
+  }
+]
+```

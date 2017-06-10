@@ -1,9 +1,21 @@
 # Tindex-Query-Json `post-aggregation`属性详情如下
 
 ## `PostAggregation`
-&#160; &#160; &#160; &#160;`PostAggregation`可以对`Aggregation`的结果进行二次加工并输出。最终的输出既包含`Aggregation`的结果，也包含`PostAggregation`的结果。使用`PostAggregation`必须包含`Aggregation`。`PostAggregation`包含如下类型：  
+&#160; &#160; &#160; &#160;`PostAggregation`可以对`Aggregation`的结果进行二次加工并输出。最终的输出既包含`Aggregation`的结果，也包含`PostAggregation`的结果。使用`PostAggregation`必须包含`Aggregation`。
+- `PostAggregation` 类别详情如下：
+  - [`Arithmetic`](#PostAggregation-Arithmetic)
+  - [`FieldAccess`](#PostAggregation-FieldAccess)
+  - [`Constant`](#PostAggregation-Constant)
+  - [`HyperUniqueCardinality`](#PostAggregation-HyperUniqueCardinality)
+  - [`DataSketch`](#PostAggregation-DataSketch)
+  - [`Buckets`](#PostAggregation-Buckets)
+  - [`CustomBuckets`](#PostAggregation-CustomBuckets)
+  - [`EqualBuckets`](#PostAggregation-EqualBuckets)
+  - [`Javascript`](#PostAggregation-Javascript)
+  - [`Max`](#PostAggregation-Max)
+  - [`Min`](#PostAggregation-Min)
 
-### 1. `Arithmetic PostAggregation`
+###<a id="PostAggregation-Arithmetic" href="PostAggregation-Arithmetic"></a> 1. `Arithmetic PostAggregation`
 &#160; &#160; &#160; &#160;`Arithmetic PostAggregation`支持对`Aggregation`的结果和其他`Arithmetic PostAggregation`的结果进行“ + ”，“ - ”，“ * ”，“ / ”和“ quotient ”计算，`quotient`划分的行为像常规小数点的划分。
   
 ```
@@ -42,7 +54,7 @@
 ```
 &#160; &#160; &#160; &#160;以上示例可以计算最大年龄和最小年龄之间的年龄差。
 
-### 2. `FieldAccess PostAggregation`
+###<a id="PostAggregation-FieldAccess" href="PostAggregation-FieldAccess"></a> 2. `FieldAccess PostAggregation`
 &#160; &#160; &#160; &#160;`FieldAccess PostAggregation`返回指定的`Aggregation`的值，在`PostAggregation`中大部分情况下使用`fieldAccess`来访问`Aggregation`。在`fieldName`中指定`Aggregation`里定义的`name`，如果对`HyperUnique`的结果进行访问，则需要使用`hyperUniqueCardinality`。`FieldAccess PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
@@ -78,7 +90,7 @@
 ```
 
 
-### 3. `Constant PostAggregation`
+###<a id="PostAggregation-Constant" href="PostAggregation-Constant"></a> 3. `Constant PostAggregation`
 &#160; &#160; &#160; &#160;`Constant PostAggregation`会多返回一个常数，比如100。可以将`Aggregation`返回的结果转换为百分比。`JSON`示例如下：
 ```
 "postAggregations":[
@@ -112,24 +124,20 @@
 ]
 ```
 
-### 4. `HyperUniqueCardinality PostAggregation`
+### <a id="PostAggregation-HyperUniqueCardinality" href="PostAggregation-HyperUniqueCardinality"></a>4. `HyperUniqueCardinality PostAggregation`
 &#160; &#160; &#160; &#160;`HyperUniqueCardinality PostAggregation`得到`HyperUnique Aggregation`的结果，使之参与到`PostAggregation`的计算中。`JSON`示例如下：  
 ```
 "postAggregations":[
   {
-    "type":"hyperUniqueCardinality",
+    "type":"lucene_hyperUniqueCardinality",
     "name":<output name>,
     "fieldName":<the name field value of the hyperUnique aggregator>
   }
 ]
 ```
 
-&#160; &#160; &#160; &#160;使用示例如下:
-```
 
-
-```
-### 5. `DataSketch PostAggregation`
+### <a id="PostAggregation-DataSketch" href="PostAggregation-DataSketch"></a>5. `DataSketch PostAggregation`
 
 &#160; &#160; &#160; &#160;`Druid DataSketch`是基于`Yahoo`开源的`Sketch`包实现的数据近似计算功能。    
 #### 5.1 `SketchEstimate PostAggregation`
@@ -137,7 +145,7 @@
 ```
 "postAggregations":[
   {
-    "type":"sketchEstimate",
+    "type":"lucene_sketchEstimate",
     "name":"<name_string>",
     "field":{<postAggregator>}
   }
@@ -149,7 +157,7 @@
 ```
 "postAggregations":[
   {
-    "type":"sketchSetOper",
+    "type":"lucene_sketchSetOper",
     "name":"<name_string>",
     "func":"<func_string>",
     "size":20,
@@ -158,7 +166,7 @@
 ]
 ```
 
-### 6. `Buckets PostAggregation`
+###<a id="PostAggregation-Buckets" href="PostAggregation-Buckets"></a> 6. `Buckets PostAggregation`
 &#160; &#160; &#160; &#160;`Buckets PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
@@ -175,7 +183,7 @@
 - `offset`: `bucket`的偏移量
 
 
-### 7. `CustomBuckets PostAggregation`
+### <a id="PostAggregation-CustomBuckets" href="PostAggregation-CustomBuckets"></a>7. `CustomBuckets PostAggregation`
 &#160; &#160; &#160; &#160;`CustomBuckets PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
@@ -188,7 +196,7 @@
 ]
 ```
 
-### 8. `EqualBuckets PostAggregation`
+###<a id="PostAggregation-EqualBuckets" href="PostAggregation-EqualBuckets"></a> 8. `EqualBuckets PostAggregation`
 &#160; &#160; &#160; &#160;`EqualBuckets PostAggregation`的`JSON`示例如下：：
 ```
 "postAggregations":[
@@ -204,7 +212,8 @@
 
 
 
-### 9. `Javascript PostAggregation`
+
+### <a id="PostAggregation-Javascript" href="PostAggregation-Javascript"></a>9. `Javascript PostAggregation`
 &#160; &#160; &#160; &#160;`Javascript PostAggregation`将提供的`JavaScript`函数应用于给定字段，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -230,7 +239,7 @@
 ```
 
 
-### 10. `Max PostAggregation`
+### <a id="PostAggregation-Max" href="PostAggregation-Max"></a>10. `Max PostAggregation`
 &#160; &#160; &#160; &#160;`Max PostAggregation`用于计算最大值，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -242,7 +251,7 @@
 ]
 ```
 
-### 11. `Min PostAggregation`
+### <a id="PostAggregation-Min" href="PostAggregation-Min"></a>11. `Min PostAggregation`
 &#160; &#160; &#160; &#160;`Min PostAggregation`用于计算最小值，`JSON`示例如下：
 ```
 "postAggregations":[
