@@ -409,8 +409,8 @@ LIMIT 3;
 plyql -h 192.168.60.100:8082 -i P1Y -q '
 SELECT
 CASE WHEN Province="广东省" THEN "广东省" ELSE "其他省份" END AS caseProvince, 
-COUNT(*) AS 'Count'
-FROM wuxianjiRT
+COUNT(*) AS "Count"
+FROM sugo_test
 WHERE Nation = "中国" 
 GROUP BY 1 
 ORDER BY Count DESC 
