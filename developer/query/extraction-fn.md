@@ -2,7 +2,7 @@
 
 ## `Extraction` 提取过滤器
 
-&#160; &#160; &#160; &#160;`Extraction`,即提取过滤器，使用一些特定的提取函数匹配维度。  
+`Extraction`,即提取过滤器，使用一些特定的提取函数匹配维度。  
 - `Extraction` 类别详情如下：
   - [`Regex`](#Extraction-Regex)
   - [`Partial`](#Extraction-Partial)
@@ -20,8 +20,8 @@
 
  
 
-###<a id="Extraction-Regex" href="Extraction-Regex"></a> 1.`Regex Extraction`
-&#160; &#160; &#160; &#160;`Regex Extraction`返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。`JSON`示例如下：
+### <a id="Extraction-Regex" href="Extraction-Regex"></a> 1.`Regex Extraction`
+`Regex Extraction`返回给定正则表达式的第一个匹配组。如果没有匹配，则返回维度值。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"regex",
@@ -30,16 +30,16 @@
     "replaceMissingValueWith":<replace_string>
 }
 ```
-###<a id="Extraction-Partial" href="Extraction-Partial"></a> 2. `Partial Extraction`
-&#160; &#160; &#160; &#160;如果正则表达式匹配，返回维度值不变，否则返回`null`。`JSON`示例如下：
+### <a id="Extraction-Partial" href="Extraction-Partial"></a> 2. `Partial Extraction`
+如果正则表达式匹配，返回维度值不变，否则返回`null`。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"partial",
     "expr":<expr_string>
 }
 ```
-###<a id="Extraction-SearchQuery" href="Extraction-SearchQuery"></a> 3. `SearchQuery Extraction`
-&#160; &#160; &#160; &#160;如果给定`SearchQuerySpec`匹配，返回维度值不变，否则返回`null`。`JSON`示例如下：
+### <a id="Extraction-SearchQuery" href="Extraction-SearchQuery"></a> 3. `SearchQuery Extraction`
+如果给定`SearchQuerySpec`匹配，返回维度值不变，否则返回`null`。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"searchQuery",
@@ -50,8 +50,8 @@
     }
 }
 ```
-###<a id="Extraction-Javascript" href="Extraction-Javascript"></a> 4. `Javascript Extraction`
-&#160; &#160; &#160; &#160;`Javascript Extraction`返回由给定的`JavaScript`函数转换的维度值。`JSON`示例如下：
+### <a id="Extraction-Javascript" href="Extraction-Javascript"></a> 4. `Javascript Extraction`
+`Javascript Extraction`返回由给定的`JavaScript`函数转换的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
   "type":"javascript",
@@ -63,8 +63,8 @@
 }
 ```
 
-###<a id="Extraction-TimeFormat" href="Extraction-TimeFormat"></a> 5. `TimeFormat Extraction`
-&#160; &#160; &#160; &#160;`TimeFormat Extraction`以特定格式，时区或语言环境来提取时间戳。`JSON`示例如下：
+### <a id="Extraction-TimeFormat" href="Extraction-TimeFormat"></a> 5. `TimeFormat Extraction`
+`TimeFormat Extraction`以特定格式，时区或语言环境来提取时间戳。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"timeFormat",
@@ -94,8 +94,8 @@
   }
 }
 ```
-###<a id="Extraction-Identity" href="Extraction-Identity"></a> 6. `Identity Extraction`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+### <a id="Extraction-Identity" href="Extraction-Identity"></a> 6. `Identity Extraction`
+`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"identity"
@@ -103,7 +103,7 @@
 ```
 
 ### <a id="Extraction-Lookup" href="Extraction-Lookup"></a>7. `Lookup Extraction`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+`JSON`示例如下：
 ```
 "extractionFn":{
   "type":"lookup",
@@ -121,7 +121,7 @@
 }
 ```
 
-&#160; &#160; &#160; &#160;使用示例如下:
+使用示例如下:
 ```
 {
   "filter": {
@@ -145,7 +145,7 @@
 
 
 ### <a id="Extraction-RegisteredLookup" href="Extraction-RegisteredLookup"></a>8. `RegisteredLookup Extraction`
-&#160; &#160; &#160; &#160;`JSON`示例如下：
+`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"registeredLookup",
@@ -157,8 +157,8 @@
 }
 ```
 
-###<a id="Extraction-SubString" href="Extraction-SubString"></a> 9. `SubString Extraction`
-&#160; &#160; &#160; &#160;`SubString Extraction`返回从提供的索引开始至所需长度的子字符串。`JSON`示例如下：
+### <a id="Extraction-SubString" href="Extraction-SubString"></a> 9. `SubString Extraction`
+`SubString Extraction`返回从提供的索引开始至所需长度的子字符串。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"substring",
@@ -166,16 +166,16 @@
     "length":20
 }
 ```
-###<a id="Extraction-Cascade" href="Extraction-Cascade"></a> 10. `Cascade Extraction`
-&#160; &#160; &#160; &#160;`Cascade Extraction`按指定的顺序将指定的提取函数转换为维度值。`JSON`示例如下：
+### <a id="Extraction-Cascade" href="Extraction-Cascade"></a> 10. `Cascade Extraction`
+`Cascade Extraction`按指定的顺序将指定的提取函数转换为维度值。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"cascade",
     "extractionFns":[{<extraction>},{<extraction>}]
 }
 ```
-###<a id="Extraction-StringFormat" href="Extraction-StringFormat"></a> 11. `StringFormat Extraction`
-&#160; &#160; &#160; &#160;`StringFormat Extraction`返回根据给定的格式字符串格式化的维度值。`JSON`示例如下：
+### <a id="Extraction-StringFormat" href="Extraction-StringFormat"></a> 11. `StringFormat Extraction`
+`StringFormat Extraction`返回根据给定的格式字符串格式化的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"stringFormat",
@@ -183,16 +183,16 @@
     "nullHandling":{<nullHandling>}  
 }
 ```
-###<a id="Extraction-Upper" href="Extraction-Upper"></a> 12. `Upper Extraction`
-&#160; &#160; &#160; &#160; `Upper Extraction`返回大写的维度值。`JSON`示例如下：
+### <a id="Extraction-Upper" href="Extraction-Upper"></a> 12. `Upper Extraction`
+ `Upper Extraction`返回大写的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"upper",
     "locale":<locale_string>
 }
 ```
-###<a id="Extraction-Lower" href="Extraction-Lower"></a> 13. `Lower Extraction`
-&#160; &#160; &#160; &#160;`Lower Extraction`返回小写的维度值。`JSON`示例如下：
+### <a id="Extraction-Lower" href="Extraction-Lower"></a> 13. `Lower Extraction`
+`Lower Extraction`返回小写的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
     "type":"lower",
