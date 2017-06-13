@@ -1,35 +1,58 @@
-# Tindex-Query-Json `having`属性详情如下
+# Tindex-Query-Json `Having`属性详情如下
 
-## having
+## `Having`
 
-相当于having语句  
+类似于`SQL`中的`having`操作，对`GroupBy`的结果进行筛选。
+- `having` 类别详情如下：
+  - [`And`](#Having-And)
+  - [`Or`](#Having-Or)
+  - [`Not`](#Having-Not)
+  - [`EqualTo`](#Having-EqualTo)
+  - [`GreaterThan`](#Having-GreaterThan)
+  - [`LessThan`](#Having-LessThan)
+  - [`DimSelector`](#Having-DimSelector)
+  - [`Always`](#Having-Always)
+### 1. 逻辑表达式过滤器
+#### <a id="Having-And" href="Having-And"></a>1.1 `And`
+和，`JSON`示例如下：
+```
+{
+    "type":"and",
+    "havingSpecs":[<havingSpec>,<havingSpec>,..]
+}
+```
 
-having.type可选项： and , or , not , greaterThan , lessThan , equalTo , dimSelector , always 
-
-### 或
-having.type=or 时，参数：
+#### <a id="Having-Or" href="Having-Or"></a>1.2 `Or`
+或，`JSON`示例如下：
 ```
 {
     "type":"or",
-    "havingSpecs":[
-    	<havingSpec>,<havingSpec>,..
-    ]
+    "havingSpecs":[<havingSpec>,<havingSpec>,..]
 }
 ```
-逻辑或
-### 非
-having.type=not 时，参数：
+
+#### <a id="Having-Not" href="Having-Not"></a>1.3 `Not`
+非，`JSON`示例如下：
 ```
 {
     "type":"not",
-    "havingSpecs":{
-    	<havingSpec>
-    }
+    "havingSpecs":{<havingSpec>}
 }
 ```
-逻辑非
-### 大于
-having.type=greaterThan 时，参数：
+### 2. 数值过滤器
+
+#### <a id="Having-EqualTo" href="Having-EqualTo"></a>2.1 `EqualTo`
+等于，`JSON`示例如下：
+```
+{
+    "type":"equalTo",
+    "aggregation":"aggName",
+    "value":10
+}
+```
+
+#### <a id="Having-GreaterThan" href="Having-GreaterThan"></a>2.2 `GreaterThan`
+大于，`JSON`示例如下：
 ```
 {
     "type":"greaterThan",
@@ -38,8 +61,8 @@ having.type=greaterThan 时，参数：
 }
 ```
 
-### 小于
-having.type=lessThan 时，参数：
+#### <a id="Having-LessThan" href="Having-LessThan"></a>2.3 `LessThan`
+小于，`JSON`示例如下：
 ```
 {
     "type":"lessThan",
@@ -47,29 +70,19 @@ having.type=lessThan 时，参数：
     "value":10
 }
 ```
-### 等于
-having.type=equalTo 时，参数：
-```
-{
-    "type":"equalTo",
-    "aggregation":"aggName",
-    "value":10
-}
-```
-### dimSelector
-having.type=dimSelector 时，参数：
+
+### <a id="Having-DimSelector" href="Having-DimSelector"></a>3. `DimSelector`
+`DimSelector`将匹配尺寸值等于指定值的行，`JSON`示例如下：
 ```
 {
     "type":"dimSelector",
     "dimension":"dimName",
-    "value":"value_string",
-    "extractionFn":{
-    	<extractionFn>
-    }
+    "value":<value_string>,
+    "extractionFn":{<extractionFn>}
 }
 ```
-### 总是
-having.type=always 时，参数：
+### <a id="Having-Always" href="Having-Always"></a>4. `Always`
+总是，即不进行筛选，全部返回，`JSON`示例如下：
 ```
 {
     "type":"always",
