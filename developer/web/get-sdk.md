@@ -78,10 +78,13 @@
 * 图片社交产品，可以追踪用户浏览图片和评论事件。
 * 电商产品，可以追踪用户注册、浏览商品和下订单等事件。
 
-数果智能 SDK 初始化成功后，即可以通过 sugoio.track\(event\_name, \[properties\], \[callback\]\) 记录事件：
+数果智能 SDK 初始化成功后，即可以通过 **`sugoio.track(event_name, [properties], [callback])`** 记录事件：
 
 * **event_name**: string，必选。表示要追踪的事件名。
 * **properties**: object，可选。表示这个事件的属性。
+
+  * **event_type**: string，必选。默认`view`, 事件类型。
+    >事件类型值： click=点击, change=改变, focus=对焦, view=浏览, duration=停留, pageloading=加载
 * **callback**: function，可选。表示已经发送完数据之后的回调。
 
 ```javascript
@@ -108,6 +111,8 @@
     'ViewDateTime': +new Date()
   });
 ```
+
+
 
 ### 数据类型说明
 
