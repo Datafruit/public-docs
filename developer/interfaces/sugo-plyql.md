@@ -744,10 +744,20 @@ OR                      | 逻辑或
 将expr1转换为其他类型, `op包含：'CHAR'(string), 'SIGNED'(number)`; 例如将字符串转换为number类型： CAST(expr1, 'SIGNED')
 `SELECT CAST(\`commentLength\` AS CHAR) as castedString, CAST(\`commentLengthStr\` AS SIGNED) as castedNumber FROM \`wiki\``
 
-<a id="otherFunc" href="#otherFunc">#</a>
+<a id="DATE_FORMAT" href="#DATE_FORMAT">#</a> DATE_FORMAT(expr, format, timezone)
 
-### 其他函数
-`DATE_FORMAT`, `YEAR`, `MONTH`, `WEEK_OF_YEAR` `DAY_OF_YEAR` `DAY_OF_MONTH` `DAY_OF_WEEK` `HOUR` `MINUTE` `SECOND` `DATE` `TIMESTAMP` `DATE_ADD` `DATE_SUB` `FROM_UNIXTIME` `UNIX_TIMESTAMP`
+ 时间格式化函数处理, 例如：`DATE_FORMAT(time, '%Y-%m-%d', 'Asia/Shanghai')` 目前支持格式：
+
+- format：  
+  > `%Y-%m-%d %H:%i:%s`  
+  > `%Y-%m-%d %H:%i`  
+  > `%Y-%m-%d %H`  
+  > `%Y-%m-%d`  
+  > `%Y-%m`  
+  > `%Y`  
+
+### <a id="otherFunc" href="#otherFunc">#</a> 其他函数
+`YEAR`, `MONTH`, `WEEK_OF_YEAR` `DAY_OF_YEAR` `DAY_OF_MONTH` `DAY_OF_WEEK` `HOUR` `MINUTE` `SECOND` `DATE` `TIMESTAMP` `DATE_ADD` `DATE_SUB` `FROM_UNIXTIME` `UNIX_TIMESTAMP`
 
 ### 数学函数
 
