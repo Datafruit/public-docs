@@ -589,6 +589,7 @@ LIMIT 5;
     TIME_SHIFT(time, PT1H, 3) AS 'TimeShift3',
     TIME_RANGE(time, PT1H) AS 'TimeRange1',
     TIME_RANGE(time, PT1H, 3) AS 'TimeRange3',
+    DATE_FORMAT(time, '%Y-%m-%d', 'Asia/Shanghai'),
     OVERLAP(x, y) AS 'Overlap',
     IF(x, "hello", \`world\`) AS 'If1',
     CASE moon WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END AS 'Case1',
