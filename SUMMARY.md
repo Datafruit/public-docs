@@ -14,7 +14,7 @@
   * [数据接入](data-access/README.md)
     * [可视化埋点](visual-track/README.md)
       * [WEB可视化埋点](visual-track/web.md)
-      * [APP可视化埋点](visual-track/android.md)
+      * [APP可视化埋点](visual-track/app.md)
     * [文件接入](data-access/files.md)
     * [数据库接入](data-access/databases.md)
   * [维度管理](visual-track/mana-dimensions.md)
