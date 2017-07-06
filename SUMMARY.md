@@ -75,7 +75,7 @@
   * [RFM客户细分](rfm/intro.md)
       * [RFM模型介绍](rfm/background.md)
       * [应用场景](rfm/index.md)
-* 开发者文档
+* [开发者文档](developer/README.md)
   * [WEB SDK 使用文档](developer/web/README.md)
     * [获取JS SDK](developer/web/get-sdk.md)
     * [预置属性](developer/web/dimensions.md)
