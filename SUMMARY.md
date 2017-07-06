@@ -111,6 +111,7 @@
       * [Csv文件接入](developer/data-access/csv-druid.md)
 * [使用范例](example/README.md)
   * [数据接入流程](example/data-access-flow.md)
+  * [埋点说明](example/data-access-tracking.md)
   
 
 
