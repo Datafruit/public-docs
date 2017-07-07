@@ -11,11 +11,11 @@
 * 了解数据上报的维度定义，知道哪些数据是通过何种维度上报；
 * 深入了解业务项目（网站、APP）的业务和实现逻辑，能区分是采用代码埋点还是可视化埋点，并且在埋点定义时避免漏埋或错埋；
 
-### 2. 埋点流程图
+### 2. 埋点流程
 
 ##### 2.1 流程图
 
-![](/assets/example/data-access-tracking.png)
+![](/assets/example/data-access-tracking-illustration-flow.png)
 
 流程说明：
 * 发布项目原型：设计人员完成原型设计后，将原型发布给数据分析人员；
