@@ -113,7 +113,6 @@
   * [数据接入流程](example/data-access-flow.md)
   * [埋点说明](example/data-access-tracking-illustration.md)
   * [埋点实施](example/data-access-tracking-execution.md)
-  * [数据清洗](example/data-access-data-cleaning.md)
   * [埋点测试](example/data-access-tracking-test.md)
   * [埋点部署](example/data-access-tracking-deploy.md)
   

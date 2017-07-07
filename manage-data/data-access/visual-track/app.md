@@ -80,7 +80,7 @@
 
 ![](/assets/app-maidian/8.png)
 
-H5事件注入代码步骤如上图。注入的代码主要用于获取H5元素相关的内容信息，所以返回值需为一个json，格式如下：
+H5事件注入代码步骤如上图。注入的代码主要用于获取H5元素相关的内容信息，所以返回值需为一个JSON，格式如下：
 
 ```
 {
@@ -89,8 +89,32 @@ H5事件注入代码步骤如上图。注入的代码主要用于获取H5元素�
 }。
 ```
 
-
 ### 8. H5元素同类元素绑定
 
-同类元素是指css 选择器除了顺序不一样，其他都一样的元素，通常为同一级别下的同种元素，如商品列表下的商品，当对其中一个商品进行埋点时，点击其他商品同样会触发相同的事件.
+同类元素是指`css path`除了顺序不一样，其他都一样的元素，通常为同层级下的同种元素，如商品列表下的商品，当对其中一个商品进行埋点时，点击其他商品同样会触发相同的事件.
+
+### 9. 埋点注意事项
+
+##### 9.1 iOS
+
+对于iOS的埋点，只要是符合以下条件的控件，都可被可视化埋点：
+* 所有`UIControl`类及其子类；
+* `delegate`属性被指定的所有`UITableView`类及其子类；
+* `delegate`属性被指定的，且按照开发者文档正确调用了以下方法的所有`UIWebView`类及其子类下的`<div/>`元素；
+```
+webView(_:shouldStartLoadWith:navigationType:)
+webViewDidStartLoad(_:)
+webViewDidFinishLoad(_:)
+```
+* 所有`WKWebView`类及其子类下的`<div/>`元素；
+
+备注： 对于`UITableView`控件，`UITableViewCell`内的自定义控件，若无法通过可视化埋点圈选，则建议使用代码埋点实现数据跟踪。
+
+##### 9.2 Android
+
+对于Android的埋点，只要是符合以下条件的控件，都可被可视化埋点：
+* `android.view.View` 类及其子类;
+* `isClickable`为`true`(或者设置了`setOnClickListener`）;
+* `android.webkit.WebView`类及其子类下的`<div/>`元素；
+
 
