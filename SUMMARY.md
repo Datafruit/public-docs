@@ -75,7 +75,7 @@
   * [RFM客户细分](rfm/intro.md)
       * [RFM模型介绍](rfm/background.md)
       * [应用场景](rfm/index.md)
-* 开发者文档
+* [开发者文档](developer/README.md)
   * [WEB SDK 使用文档](developer/web/README.md)
     * [获取JS SDK](developer/web/get-sdk.md)
     * [预置属性](developer/web/dimensions.md)
@@ -84,7 +84,7 @@
     * [SDK 配置](developer/android/config.md)
     * [SDK 使用](developer/android/use.md)
       * [基本功能](developer/android/basic.md)
-  * iOS SDK 使用文档
+  * [iOS SDK 使用文档](developer/ios/README.md)
     * [Objective-C](developer/ios/objc/README.md)
       * [集成](developer/ios/objc/integration.md)
       * [SDK的基础调用](developer/ios/objc/basic-use.md)
@@ -109,3 +109,12 @@
     * 数据接入
       * [Kafka接入](developer/data-access/kakfa-druid.md)
       * [Csv文件接入](developer/data-access/csv-druid.md)
+* [使用范例](example/README.md)
+  * [数据接入流程](example/data-access-flow.md)
+  * [埋点说明](example/data-access-tracking-illustration.md)
+  * [埋点实施](example/data-access-tracking-execution.md)
+  * [埋点测试](example/data-access-tracking-test.md)
+  * [埋点部署](example/data-access-tracking-deploy.md)
+  
+
+
