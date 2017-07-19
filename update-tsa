@@ -4,6 +4,7 @@ FILE=SUMMARY.md.bak
 if [ -f $FILE ]; then
     rm -rf SUMMARY.md
     mv SUMMARY.md.bak SUMMARY.md
+fi
 git pull
 mv SUMMARY.md SUMMARY.md.bak
 cp SUMMARY-tsa.md SUMMARY.md
