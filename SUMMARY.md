@@ -5,6 +5,7 @@
     * [创建项目](project-management.md#create-project)
     * [SDK接入(可视化埋点)](project-management.md#sdk-access)
     * [数据文件导入](project-management.md#file-access)
+    * [创建子项目](project-management.md#create-son)
   * [维度管理](dimension-management.md)
     * [创建维度](dimension-management.md#anchor-1)
     * [维度标签](dimension-management.md#anchor-2)
