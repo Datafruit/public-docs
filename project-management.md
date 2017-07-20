@@ -30,7 +30,7 @@ SDK接入：主要针对可视化埋点数据的接入（Web/Android/IOS）；
 对于已创建的项目，则可由项目管理页面的“数据接入”按钮进入。
 
 ![](/assets/project-management/2-2.png)
-SDK接入管理界面中，您可以看到针对iOS、Android、Web三种平台的接入管理。点击iOS/Android的接入按钮，右侧会出现接入说明。详细的SDK集成与使用说明，可以参见[开发者文档](developer-docs.md)部分。
+SDK接入管理界面中，您可以看到针对iOS、Android、Web三种平台的接入管理。点击iOS/Android的接入按钮，右侧会出现接入说明。详细的SDK集成与使用说明，可以参见[开发者文档](developer-docs-web.md)部分。
 
 当SDK在APP集成完成后，将装有此APP的手机连入WiFi，即可点击“检测SDK安装状态”按钮。
 
@@ -110,7 +110,7 @@ return {EventText: text, Custom1: custom1}  // 这里写的是一个函数内容
 对于已创建的项目，则可由项目管理页面的“数据接入”按钮进入。
 
 ![](/assets/project-management/2-14.png)
-SDK接入管理界面中，您可以看到针对iOS、Android、Web三种平台的接入管理。点击iOS/Android的接入按钮，右侧会出现接入说明。详细的SDK集成与使用说明，可以参见[开发者文档](developer-docs.md)部分。
+SDK接入管理界面中，您可以看到针对iOS、Android、Web三种平台的接入管理。点击iOS/Android的接入按钮，右侧会出现接入说明。详细的SDK集成与使用说明，可以参见[开发者文档](developer-docs-web.md)部分。
 
 当SDK在APP集成完成后，将装有此APP的手机连入WiFi，即可点击“检测SDK安装状态”按钮。
 
