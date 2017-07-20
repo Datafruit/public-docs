@@ -4,13 +4,13 @@
 
 目前产品提供如下主要功能：
 
-* [场景项目管理](manage-projects.md)
-* [可视化埋点和埋点管理](visual-track/README.md)
-* [维度管理](visual-track/mana-dimensions.md)
-* [指标管理](visual-track/mana-measures.md)
-* [单图管理](analytics/slices.md)
-* [数据看板管理](analytics/board.md)
-* [自助分析](quik-guide/analytics.md)
+* [场景项目管理](/project-management.md)
+* [SDK接入(可视化埋点)](project-management.md#sdk-access)
+* [维度管理](dimension-management.md)
+* [指标管理](indicator-management.md)
+* [单图概述](analytics/slices&board.md#slices)
+* [数据看板](analytics/slices&board.md#board)
+* [多维分析](analytics/data-index.md)
 * [流量分析](analytics/traffic.md)
 * [行为事件分析](insight-application/behavior-event.md)
 * [路径分析](analytics/path.md)

@@ -7,6 +7,7 @@
 ## 总计
 配置规则：0个维度，1个或多个数值。
 使用场景：用于显示统计总数值。如“访客数”“总使用时长”“销售总额”等：
+
 ![](/assets/chart/chart-1.png)
 
 ## 树状表格
@@ -102,5 +103,5 @@
 关于多维分析的介绍：
 * [多维分析](data-index.md)
 * [界面介绍](data-index.md#intro)
-* [维度指标](analytics/dimen-quota.md)
+* [维度指标](dimen-quota.md)
 * [查询条件设置](query-condition.md)

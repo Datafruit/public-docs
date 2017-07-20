@@ -48,15 +48,14 @@ SUGO-TSA中指标可以近似理解为分析输出结果，即在数据分析工
 
 为便于理解，我们选择编辑之前在讲述单维指标时创建的“使用iPhone的用户数量”，并将创建方式切换为直接编辑。于是我们就能看到这个指标所对应的公式：
 
-![](/assets/indicator-management/2-5.png)
+![](/assets/indicator-management/2-6.png)
 
 相信理解这个公式并不会很难，但真正书写时却未必记得住那么多命令。然而不用担心，我们也提供了可视化的操作来辅助创建公式：
 
-![](/assets/indicator-management/2-6.png)
+![](/assets/indicator-management/2-7.png)
 
 我们未来还将不断的优化指标公式编辑功能，使之更加直观和简单易用。
 
-![](/assets/indicator-management/2-7.png)
 
 ***
 
