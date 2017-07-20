@@ -16,7 +16,7 @@
 * [路径分析](analytics/path.md)
 * [漏斗分析](analytics/funnel.md)
 * [留存分析](analytics/retation.md)
-* [用户分群](usergroup/README.md)
+* [用户分群](usergroup/ug-intro.md)
 * [用户画像](insight-application/user-portrait.md)
 * [流失预测](insight-application/loss-analysis.md)
 * [RFM客户细分](rfm/intro.md)
