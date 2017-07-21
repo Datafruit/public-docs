@@ -111,5 +111,5 @@
       * [Csv文件接入](developer/data-access/csv-druid.md)
       * [hadoop接入](developer/data-access/hadoop.md)
       * [default-kafka接入](developer/data-access/default-kafka.md)
-      * [索引任务](developer/data-access/LuceneIndexTask.md)
+      * [索引任务](developer/data-access/index-task.md)
       * [分片合并](developer/data-access/merge-druid.md)
