@@ -49,32 +49,32 @@
 csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/tmp/druid  目录下，执行：
 
   ```shell
-  curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverloadIP}:8090/druid/indexer/v1/task
+  curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverlordIP}:8090/druid/indexer/v1/task
   ```
 
-   > **OverloadIP:** druid的overload节点ip地址
+   > **overlordIP:** druid的overlord节点ip地址
 
    > **task-spec.json** task配置文件，详见下文
 
-## 第四步：查看csv文件上传task的日志信息。进入overload服务的任务列表页面，查看数据导入情况。
+## 第四步：查看csv文件上传task的日志信息。进入overlord服务的任务列表页面，查看数据导入情况。
 
 ![](/assets/datacsv/datacsv7.png)
 
   ```javascript
-  http://{OverloadIP}:8090/console.html
+  http://{overlordIP}:8090/console.html
   ```
 
-  > **OverloadIP:** druid的overload节点ip地址
+  > **overlordIP:** druid的overlord节点ip地址
 
 ## 第五步：在需要停止task时，可以发送如下http post请求停止task任务
 
   ```shell
-  curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
+  curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
   ```
 
-  > **OverloadIP:** druid的overload节点ip地址
+  > **overlordIP:** druid的overlord节点ip地址
 
-  > **taskId:** 在`http://{OverloadIP}:8090/console.html`task详细页面对应 **id** 列的信息
+  > **taskId:** 在`http://{overlordIP}:8090/console.html`task详细页面对应 **id** 列的信息
 
 
 ### task-spec.json详细配置如下：

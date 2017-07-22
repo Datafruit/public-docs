@@ -45,25 +45,25 @@
 `cd /data1/tmp/druid`  
 2. 执行建立task的指令：  
 ```shell
-curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverloadIP}:8090/druid/indexer/v1/task
+curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{overlordIP}:8090/druid/indexer/v1/task
 ```
 - **`task-spec.json：`** json文件的名字  
-- **`overlordIp`**： druid的overload节点ip地址
+- **`overlordIp`**： druid的overlord节点ip地址
 
 
 ## 第四步：查看task的日志信息
 1. 在浏览器上，查看 MiddleManagers 日志监控，如：  
 `http://192.168.0.220:8090/console.html`  
-这里的ip地址为 overload 节点ip地址。
+这里的ip地址为 overlord 节点ip地址。
 2. 找到hadoop上传进程ID，点击 `log(all)` 查看日志。
 
 ## 第五步：停止task（需要时再用）
 在需要停止task时，可以发送如下http post请求停止task任务  
 ```shell
-curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
+curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
 ```  
-- **`overlord_ip`**： druid的overload节点ip地址
-- **`taskId`**： 在 `http://{OverloadIP}:8090/console.html` task详细页面对应 id 列的信息
+- **`overlord_ip`**： druid的overlord节点ip地址
+- **`taskId`**： 在 `http://{overlordIP}:8090/console.html` task详细页面对应 id 列的信息
 
 ## <a id="json" href="json"></a> task-spec.json详细配置如下：
 ```json

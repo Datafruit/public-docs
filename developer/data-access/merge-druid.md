@@ -26,33 +26,33 @@
 - 使用`curl`命令上传json文件：
 
   ```shell
-  curl -X 'POST' -H 'Content-Type:application/json' -d @LuceneMergeTask.json http://{OverloadIP}:8090/druid/indexer/v1/task
+  curl -X 'POST' -H 'Content-Type:application/json' -d @LuceneMergeTask.json http://{overlordIP}:8090/druid/indexer/v1/task
   ```
 
-   > **OverloadIP:** druid的overload节点ip地址（本例使用的是：192.168.0.220）
+   > **overlordIP:** druid的overlord节点ip地址（本例使用的是：192.168.0.220）
 
    > **LuceneMergeTask.json** task配置文件，详见下文
 
-## 第四步：进入overload服务的Task列表页面，查看Task日志信息，观察Task合并情况。
+## 第四步：进入overlord服务的Task列表页面，查看Task日志信息，观察Task合并情况。
 
 ![](/assets/datamerge/task_list.png)
 
 - 访问地址：
   ```javascript
-  http://{OverloadIP}:8090/console.html
+  http://{overlordIP}:8090/console.html
   ```
 
-  > **OverloadIP:** druid的overload节点ip地址
+  > **overlordIP:** druid的overlord节点ip地址
 
 ## 第五步：在需要停止task时，可以发送如下http post请求停止task任务
 
   ```shell
-  curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
+  curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
   ```
 
-  > **OverloadIP:** druid的overload节点ip地址
+  > **overlordIP:** druid的overlord节点ip地址
 
-  > **taskId:** 在`http://{OverloadIP}:8090/console.html`task详细页面对应 **id** 列的信息
+  > **taskId:** 在`http://{overlordIP}:8090/console.html`task详细页面对应 **id** 列的信息
 
 ## 第六步：查看合并结果
 
@@ -67,6 +67,7 @@
   "dataSource": "test061901",  
   "interval": "2001-01-01/2020-01-01",
   "triggerMergeCount": 2,
+  "mergeGranularity":"DAY",
   "context": {
     "debug": true
   }   
@@ -74,11 +75,12 @@
 ```
 
 字段 | 描述　
---- | ---
+--- |---
 type | 指定任务类型
 dataSource | 要合并的datasource名称
 interval　| 需要进行合并的时间间隔，在间隔范围外的不进行合并
 triggerMergeCount |  设定针对多少个分段碎片进行合并，默认为２
+mergeGranularity | 指定合并的粒度，可选项有：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY、WEEK`、`MONTH`、`YEAR`
 context　| 指定任务的其它环境参数
 
 

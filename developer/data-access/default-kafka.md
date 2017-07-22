@@ -15,7 +15,7 @@
 ```
 
 > **/tmp/json/wiki.json：** 详见下文  
-> **overlord_ip：** 为druid的overload节点ip地址  
+> **overlord_ip：** 为druid的overlord节点ip地址  
 
 ## wiki.json文件内容：
 
