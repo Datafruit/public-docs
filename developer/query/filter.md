@@ -94,7 +94,7 @@
 ```
 相当于：`WHERE age=20 AND province="广东省"`
 
-####<a id="Filter-Or" href="Filter-Or"></a> 3.2 `Or Filter`
+#### <a id="Filter-Or" href="Filter-Or"></a> 3.2 `Or Filter`
 `Or Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -125,7 +125,7 @@
 ```
 相当于：`WHERE age=20 OR province="广东省"`
 
-####<a id="Filter-Not" href="Filter-Not"></a> 3.3 `Not Filter`
+#### <a id="Filter-Not" href="Filter-Not"></a> 3.3 `Not Filter`
 `Not Filter`的`JSON`示例如下：
 ```
 "filter"：{
@@ -148,7 +148,7 @@
 ```
 相当于选出`age`不等于20的记录。
 
-###<a id="Filter-Search" href="Filter-Search"></a> 4. `Search Filter`
+### <a id="Filter-Search" href="Filter-Search"></a> 4. `Search Filter`
 
 `Search Filter`通过字符串匹配过滤维度，支持多种匹配方式。`Search Filter`的`JSON`示例如下：
 ```
@@ -217,7 +217,7 @@
     "pattern":<pattern_string>
 }
 ```
-###<a id="Filter-In" href="Filter-In"></a> 5. `In Filter`
+### <a id="Filter-In" href="Filter-In"></a> 5. `In Filter`
 
 `In Filter`类似于`SQL`中的`in`。只支持字符串类型的维度。`In Filter`的`JSON`示例如下：
 ```
@@ -245,7 +245,7 @@
 ```
 相当于： `WHERE province IN ("广东省","广西省")`
 
-###<a id="Filter-Bound" href="Filter-Bound"></a> 6. `Bound Filter`
+### <a id="Filter-Bound" href="Filter-Bound"></a> 6. `Bound Filter`
 `Bound Filter` 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。`Bound Filter` 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定`alphaNumeric`的值为`true`。`Bound Filter`默认的大小比较为“>=”或“<=”。`Bound Filter`具体的`JSON`表达式示例如下：
 ```
 "filter":{
@@ -275,7 +275,7 @@
 ```
 相当于：`WHERE age<20 `。
 
-###<a id="Filter-JavaScript" href="Filter-JavaScript"></a> 7. `JavaScript Filter`
+### <a id="Filter-JavaScript" href="Filter-JavaScript"></a> 7. `JavaScript Filter`
 如果上述`Filter`不能满足要求，`Druid`还可以通过自己写`JavaScript Filter`来过滤维度，但是只能支持一个入参，就是`Filter`里指定的维度的值，返回`true`或`false`。`JavaScript Filter`的`JSON`表达式实例如下：
 
 ```
@@ -299,7 +299,7 @@
 上面的例子可匹配任何`name`在`'bar'`和`'foo'`之间的维度值。
 
 
-###<a id="Filter-Spatial" href="Filter-Spatial"></a> 8. `Spatial Filter`
+### <a id="Filter-Spatial" href="Filter-Spatial"></a> 8. `Spatial Filter`
 `Spatial Filter`，即为空间过滤器，`JSON`表达式示例如下：
 ```
 "filter":{
@@ -336,14 +336,14 @@
 - `coords`: 原点坐标 [x,y,z,...]
 - `radius`: 浮点表示的半径值 [x,y,z,...]
 
-###<a id="Filter-All" href="Filter-All"></a> 9. `All Filter`
+### <a id="Filter-All" href="Filter-All"></a> 9. `All Filter`
 `All Filter`匹配所有维度值，`JSON`示例如下：
 ```
 {
     "type":"all"
 }
 ```
-###<a id="Filter-Lookup" href="Filter-Lookup"></a> 10. `Lookup Filter`
+### <a id="Filter-Lookup" href="Filter-Lookup"></a> 10. `Lookup Filter`
 `Lookup Filter`用于检查该维度的值是否存在于指定的用户分群中。`JSON`示例如下：
 ```
 {
@@ -390,7 +390,7 @@
 }
 ```
 查询`address`不为`null`的记录，相当于`where address is not null`。  
-###<a id="Filter-Extraction" href="Filter-Extraction"></a> 12. `Extraction Filter`
+### <a id="Filter-Extraction" href="Filter-Extraction"></a> 12. `Extraction Filter`
 
 `Extraction Filter`使用一些特定的提取函数匹配维度。  
 `extraction`类型可选项：`time`,`regex`,`partial`,`searchQuery`,`javascript`,`timeFormat`,`identity`,`lookup`,`registeredLookup`,`substring`,`cascade`,`stringFormat`,`upper`,`lower`。  

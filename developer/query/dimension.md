@@ -68,7 +68,7 @@
 ```
 如果您在`druid`中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值`“v1”` 发送`groupBy / topN`查询分组。在响应中，您将获得包含`“v1”`，`“v2”`和`“v3”`的3行。对于某些用例，此行为可能不直观。
 
-###<a id="Lookup" href="Lookup"></a> 5. `Lookup Dimension`
+### <a id="Lookup" href="Lookup"></a> 5. `Lookup Dimension`
 `Lookup Dimension`允许在执行提取时使用的一组键和值。`JSON`示例如下：
 ```
 {
