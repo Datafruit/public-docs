@@ -26,14 +26,14 @@
 将json内容拷贝，保存退出。
 
 **说明**：taskspec.json 文件定义 csv 文件分2种，一种是有时间列，一种是没时间列，需要将json文件中的
-```json
+```
 "timestampSpec":{
   "column":"ts",
   "format":"millis"
 }
 ```  
 改成：  
-```json
+```
 "timestampSpec":{
   "missingValue":"2017-08-01T12:00:000Z"
 }
@@ -55,7 +55,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{Ove
 1. 在浏览器上，查看 MiddleManagers 日志监控，如：  
 `http://192.168.0.220:8090/console.html`  
 这里的ip地址为 overload 节点ip地址。
-2. 找到hadoop上传进程ID，点击 `log(all)` 查看 csv 上传过程的日志。
+2. 找到hadoop上传进程ID，点击 `log(all)` 查看日志。
 
 ## 第五步：停止task（需要时再用）
 在需要停止task时，可以发送如下http post请求停止task任务  
