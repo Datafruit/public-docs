@@ -1,9 +1,14 @@
 # hadoop接入
+
+> ## 概要　　
+> * 本流程主要演示的是把 `hadoop` 上的 `csv` 数据导入到Druid。  
+> * `csv` 数据样式： `1500711222228,165,cye1z8` （第一个字段的类型为 `date` ,格式为`millis`）
+
 > 前提：  
 > 1.部署好druid平台环境  
 > 2.部署好hadoop环境
 
-## 第一步：导入数据到hdfs：
+## 第一步：导入数据到hdfs(如果数据已经在hdfs上则不用)
 在部署了hadoop环境的机器上进行操作。
 1. 切换到hdfs用户，指令为:  
 `su hdfs`
@@ -100,7 +105,7 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
                 "type": "uniform",
                 "segmentGranularity": "MONTH",
                 "queryGranularity": "NONE",
-                "intervals": ["2015-05-21/2016-07-02"]
+                "intervals": ["2016-05-21/2017-07-02"]
             }
         },
         "ioConfig": {
@@ -123,14 +128,6 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
         }
     }
 }
-```
-这个json是从hadoop上面接入csv文件的实例，这个csv文件的前五行数据如下：
-```csv
-1500629356487,0,cfcd208495d565ef66e7dff9f98764da
-1500629107004,1,c4ca4238a0b923820dcc509a6f75849b
-1500629183321,2,c81e728d9d4c2f636f067f89cc14862c
-1500629285354,3,eccbc87e4b5ce2fe28308fd9f2a7baf3
-1500628747465,4,a87ff679a2f3e71d9181a67b7542122c
 ```
 
 - **`spec.dataSchema.parser.parseSpec.timestampSpec.column:`** 时间戳列
@@ -157,14 +154,14 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
 - **`spec.dataSchema.dataSource:`** 数据源的名称，类似关系数据库中的表名
 
 - **`spec.ioConfig.type:`** 这里是从`hadoop`接入数据，固定为`hadoop`  
-- **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录
+- **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录,注意该目录下是否有多个文件
 
 
 - **`spec.tuningConfig.partitionsSpec.numShards:`** 指定分片数
 - **`spec.tuningConfig.jobProperties.mapreduce.job.queuename:`** 指定yarn上的队列名
 - **`spec.tuningConfig.jobProperties.mapreduce.job.classloader:`** 如果为true，`task`会用 `druid` 中的 `hadoop-dependencies` ，而不是 `hadoop` 集群的配置
 
-### json文件中需要特别注意的地方是一下几个参数：
+### json文件中需要特别注意的是以下几个参数：
 1. **`spec.dataSchema.parser.parseSpec.columns:`** 包含时间戳列，并且先后顺序要和源数据对应
 2. **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 不包含时间戳列，并且`name`要和`parser.parseSpec.columns`对应，`type`要和源数据对应起来。
 3. **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录，注意是否配置正确

@@ -1,4 +1,7 @@
-# 将Druid中datasource的分段碎片进行合并
+# 数据段合并
+
+> ## 概要：  
+> 本例子主要用于对特定粒度 `interval` 下的分段 `segment` 进行合并，比如在粒度为 `DAY` 的 `datasource`下某一天的记录有两个 `segment` ，在这种情形下可以按照本流程对其进行合并，可以起到减少冗余空间、加快查询的等优化效果。
 
 > 前提：
   > 1. Druid中已存在相应的datasource　
@@ -75,7 +78,7 @@
 ```
 
 字段 | 描述　
---- |---
+--- | ---
 type | 指定任务类型
 dataSource | 要合并的datasource名称
 interval　| 需要进行合并的时间间隔，在间隔范围外的不进行合并

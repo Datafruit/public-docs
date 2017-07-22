@@ -1,5 +1,8 @@
 # 直接从csv将数据导入druid后台
 
+> ## 概要　　
+> 本流程主要演示把本地的 `csv` 文件数据实时导入到Druid
+
 ## 导入CSV过程步骤：
 
 ![](/assets/datacsv/datacsv1.png)

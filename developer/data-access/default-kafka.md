@@ -1,4 +1,17 @@
-# default_kafka接入
+# kafka动态维接入
+
+> ## 概要　　
+> * 本流程主要演示使用动态维把kafka上的 `json` 数据导入到Druid。  
+> * `json` 数据样式： `{"s|str":"dlo6ic","d|dt":1500714407574,"i|index":169}` （`d|dt` 的类型为 `date` ,格式为`millis`）  
+> * 使用动态维的规则 ： key的信息包括两部分内容，字段类型+字段名称，字段类型与字段名称以|分割，多个组合以,分割。  
+> * 字段类型映射：  
+> `i`代表int；  
+> `s`代表string；  
+> `l`代表long；  
+> `d`代表date；  
+> `f`代表float； 
+
+
 > 前提：
   > 1. 部署好druid平台环境
   > 2. kafka集群已经部署好，数据已经正常写入特定的topic
@@ -13,9 +26,14 @@
 ```shell
   curl -X POST -H 'Content-Type: application/json' -d @/tmp/json/wiki.json http://overlord_ip:8090/druid/indexer/v1/supervisor
 ```
-
 > **/tmp/json/wiki.json：** 详见下文  
 > **overlord_ip：** 为druid的overlord节点ip地址  
+
+也可以通过网页来操作：  
+1. 登录 overlord_ip:8090/supervisor.html  
+![](/softWare/idea/projects/public-docs/assets/createSupervisor/top.png)  
+2. 删除页面上原来文本框里的内容，将wiki.json的内容复制，粘贴到文本框中，点击下面的 `Create Supervisor`，即可创建Supervisor。  
+![](/softWare/idea/projects/public-docs/assets/createSupervisor/end.png)   
 
 ## wiki.json文件内容：
 
@@ -32,7 +50,7 @@
                     "dimensions":[]
                 },
                 "timestampSpec":{
-                    "column":"d|place_time",
+                    "column":"d|dt",
                     "format":"millis"
                 }
             },

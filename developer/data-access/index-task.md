@@ -1,4 +1,15 @@
-# `LuceneIndexTask`　接口使用流程
+# 本地文件接入
+
+> ## 概要：　　  
+  > 本例主要演示 `LuceneIndexTask` 接入本地文件数据的流程，整个过程会与 `csv文件接入` 的流程比较类似，但与 `csv文件接入`中的 `lucene_index_realtime` 相比，本流程的 `LuceneIndexTask` 支持一些额外的优化设置：　　  
+  > - 通过 `maxRowsPerSegment` 或 `numShards` 属性可以设定不同 `segment` 生成策略,二者区别如下：        
+     > `maxRowsPerSegment` : 每个`segment`最大的存储行数  
+     > `numShards` : 设置总的`segment`数   
+  > - 通过 `overwrite`　设置对 `datasource` 进行覆盖写入还是追加写入  
+  >
+  > 基于以上的优化，接入本地文件数据时推荐使用本流程
+
+
 
 以下以接入 `csv` 数据为例。
 
@@ -97,6 +108,8 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
         },
         "tuningConfig": {
             "type": "lucene_index",
+            "maxRowsPerSegment": 5000000,
+            "overwrite": false,            
             "reportParseExceptions":true
         }
     },
@@ -148,6 +161,10 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 
 - **`spec.tuningConfig:`** 优化说明
 - **`spec.tuningConfig.type:`** 固定为`lucene_index`
+- **`spec.tuningConfig.maxRowsPerSegment:`** 每个`segment`最大的存储行数,默认为5000000　
+> 注意：   
+> `maxRowsPerSegment` 和概要中提到的 `numShards`是两种不同的 `segment`　生成策略，所以不可同时指定，只能二选一
+- **`spec.tuningConfig.overwrite:`** 设置对 `datasource` 进行覆盖写入还是追加写入，默认为 `false`
 - **`spec.tuningConfig.reportParseExceptions:`** 是否汇报数据解析错误，默认为`false`
 - **`context:`**　任务上下文环境设置，可以不设置
 

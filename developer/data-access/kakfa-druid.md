@@ -1,4 +1,8 @@
-# 从kafka加载数据到druid
+# kafka接入
+
+> ## 概要　　
+> * 本流程主要演示把kafka上的 `url` 数据导入到Druid。  
+> * `url` 数据样式： `dt=1500714597057&index=163&str=9wevoy` （`dt` 的类型为 `date` ,格式为`millis`）
 
 > 前提：
   > 1. 部署好druid平台环境
@@ -16,7 +20,14 @@
 ```
 
 > **/tmp/json/wiki.json：** 详见下文  
-> **overlord_ip：** 为druid的overload节点ip地址  
+> **overlord_ip：** 为druid的overlord节点ip地址  
+
+也可以通过网页来操作：  
+1. 登录 overlord_ip:8090/supervisor.html  
+![](/softWare/idea/projects/public-docs/assets/createSupervisor/top.png)  
+2. 删除页面上原来文本框里的内容，将wiki.json的内容复制，粘贴到文本框中，点击下面的 `Create Supervisor`，即可创建Supervisor。  
+![](/softWare/idea/projects/public-docs/assets/createSupervisor/end.png)   
+
 
 ## wiki.json文件内容：
 
@@ -30,27 +41,18 @@
       "parseSpec": {
         "format": "url",
         "timestampSpec": {
-          "column": "the_date",
+          "column": "dt",
           "format": "millis"
         },
         "dimensionsSpec": {
           "dimensions": [
             {
-              "name": "name",
-              "type": "string"
+              "name": "index",
+              "type": "int"
             },    			
             {
-              "name": "age",
-              "type": "int"
-            },
-            {
-              "name": "score",
-              "type": "float"
-            },
-            {
-              "name": "create_time",
-              "type": "date"，
-	            "format":"yyyy-MM-dd HH:mm:ss" //（如果是时间戳或utc时间格式，则不需要设置format）
+              "name": "str",
+              "type": "string"
             }
           ]
         }
@@ -64,13 +66,12 @@
   "tuningConfig": {
     "type": "kafka",
     "maxRowsInMemory": 500000,
-    "maxRowsPerSegment": 20000000,
-    "basePersistDirectory": "/data/druidTask/storage/wiki"
+    "maxRowsPerSegment": 20000000
   },
   "ioConfig": {
     "topic": "wiki",
     "consumerProperties": {
-      "bootstrap.servers": "192.168.0.101:9092,192.168.0.102:9092,192.168.0.103:9092"
+      "bootstrap.servers": "192.168.0.220:9092,192.168.0.221:9092,192.168.0.222:9092"
     },
     "taskCount": 1,
     "replicas": 1,
@@ -114,7 +115,6 @@
 小数据量建议`DAY`，大数据量（每天百亿）可以选择`HOUR`。可选项：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY`、`MONTH`、`YEAR`。
 
 - **`tuningConfig.type:`** 设置为`kafka`
-- **`tuningConfig.basePersistDirectory:`** 任务中接收到的数据临时存放路径，需要注意用户的读写权限。
 - **`ioConfig.topic:`** kafka中的topic名  
 - **`ioConfig.consumerProperties:`** kafka消费端接口的配置，比如kafka的服务器配置  
 - **`taskCount:`** 启动的任务进程数  
