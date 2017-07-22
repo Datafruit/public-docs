@@ -9,7 +9,7 @@
 .vscode/
 /_book/
 /config.js
-
+/*.bak
 # Runtime data
 #pids
 npm-debug*
