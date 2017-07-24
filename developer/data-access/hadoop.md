@@ -56,11 +56,28 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{ove
 - **`overlordIp`**： druid的overlord节点ip地址
 
 
-## 第四步：查看task的日志信息
-1. 在浏览器上，查看 MiddleManagers 日志监控，如：  
-`http://192.168.0.220:8090/console.html`  
-这里的ip地址为 overlord 节点ip地址。
-2. 找到hadoop上传进程ID，点击 `log(all)` 查看日志。
+## 第四步：查看Task执行情况
+1. 查看日志
+- 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
+
+   > **OverlordIP:** druid的overlord节点ip地址
+   
+   ![](/assets/LuceneIndexTaskPics/log.jpg)
+
+2. 查看执行结果
+- 使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
+```shell
+./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' 
+```
+   > **OverlordIP:** druid的overlord节点ip地址  
+   > **datasource:** `json` 配置文件中定义的 `datasource` 名称
+   
+   如果查询的结果是"No Such Datasorce"，则说明数据接入没有成功。  
+   如果数据接入成功，那么查询到的结果如下：  
+   ![](/assets/LuceneIndexTaskPics/result_plyql.jpg)  
+   该数字为数据条数。
+   
+   关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md)
 
 ## 第五步：停止task（需要时再用）
 在需要停止task时，可以发送如下http post请求停止task任务  
