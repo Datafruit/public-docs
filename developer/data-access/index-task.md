@@ -1,8 +1,19 @@
-# `LuceneIndexTask`　接口使用流程
+# 本地文件接入
+
+> ## 概要：　　  
+  > 本例主要演示 `LuceneIndexTask` 接入本地文件数据的流程，整个过程会与 `csv文件接入` 的流程比较类似，但与 `csv文件接入`中的 `lucene_index_realtime` 相比，本流程的 `LuceneIndexTask` 支持一些额外的优化设置：　　  
+  > - 通过 `maxRowsPerSegment` 或 `numShards` 属性可以设定不同 `segment` 生成策略,二者区别如下：        
+     > `maxRowsPerSegment` : 每个`segment`最大的存储行数  
+     > `numShards` : 设置总的`segment`数   
+  > - 通过 `overwrite`　设置对 `datasource` 进行覆盖写入还是追加写入  
+  >
+  > 基于以上的优化，接入本地文件数据时推荐使用本流程
+
+
 
 以下以接入 `csv` 数据为例。
 
-## 第一步：准备好目标 `csv` 文件数据
+## 第一步：准备好目标csv文件数据
 
 - 本例的部分`csv`数据如下：
 ```
@@ -13,11 +24,11 @@
 1500510434191,9,sagfkldjgf
 1500520214191,8,fdjsklklf
 ```
-## 第二步创建、编辑、保存 `json` 文件
+## 第二步创建、编辑、保存json文件
 
 - 具体的json文件配置请参考后文的[LuceneIndexTask_Json实例](#LuceneIndexTask_instance)
 
-## 第三步：上传 `csv`、`json` 文件到`MiddleManager`服务器上
+## 第三步：上传csv、json文件到MiddleManager服务器上
 - 使用`scp`命令将`csv`、`json`文件上传到`MiddleManager`
 ```shell
 scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
@@ -26,7 +37,7 @@ scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
    > **MiddleManagerIP:** druid的 `MiddleManager` 节点ip地址  
    > **storage_dir** 在 `MiddleManager` 的存放目录,使用绝对路径
 
-## 第四步：执行命令，启动 `Task`
+## 第四步：执行命令，启动Task
 1. 通过 `ssh` 远程登录到第三步中选择的 `MiddleManager` 中
 2. 执行 `cd` 命令进入第三步中选择存放 `json` 文件的目录中
 3. 执行 `curl`命令启动 `Task`,具体命令格式如下：
@@ -38,23 +49,30 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
    > **file_name** `json` 文件名
 
 
-## 第五步：查看 `Task` 执行情况
+## 第五步：查看Task执行情况
 1. 查看日志
 - 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
 
    > **OverlordIP:** druid的overlord节点ip地址
+   
+   ![](/assets/LuceneIndexTaskPics/log.jpg)
 
 2. 查看执行结果
 - 使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
 ```shell
-./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' -v
+./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' 
 ```
    > **OverlordIP:** druid的overlord节点ip地址  
    > **datasource:** `json` 配置文件中定义的 `datasource` 名称
    
+   如果查询的结果是"No Such Datasorce"，则说明数据接入没有成功。  
+   如果数据接入成功，那么查询到的结果如下：  
+   ![](/assets/LuceneIndexTaskPics/result_plyql.jpg)  
+   该数字为数据条数。
+   
    关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md)
    
-### <a id="LuceneIndexTask_instance"></a>  本流程使用的 `json` 配置实例如下：
+### <a id="LuceneIndexTask_instance"></a>  本流程使用的json配置实例如下：
 
 ```json
 {
@@ -97,6 +115,8 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
         },
         "tuningConfig": {
             "type": "lucene_index",
+            "maxRowsPerSegment": 5000000,
+            "overwrite": false,            
             "reportParseExceptions":true
         }
     },
@@ -148,6 +168,10 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 
 - **`spec.tuningConfig:`** 优化说明
 - **`spec.tuningConfig.type:`** 固定为`lucene_index`
+- **`spec.tuningConfig.maxRowsPerSegment:`** 每个`segment`最大的存储行数,默认为5000000　
+> 注意：   
+> `maxRowsPerSegment` 和概要中提到的 `numShards`是两种不同的 `segment`　生成策略，所以不可同时指定，只能二选一
+- **`spec.tuningConfig.overwrite:`** 设置对 `datasource` 进行覆盖写入还是追加写入，默认为 `false`
 - **`spec.tuningConfig.reportParseExceptions:`** 是否汇报数据解析错误，默认为`false`
 - **`context:`**　任务上下文环境设置，可以不设置
 

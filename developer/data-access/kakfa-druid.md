@@ -1,24 +1,59 @@
-# 从kafka加载数据到druid
+# kafka接入
+
+> ## 概要　　
+> * 本流程主要演示把kafka上的 `url` 数据导入到Druid。  
+> * `url` 数据样式： `dt=1500714597057&index=163&str=9wevoy` （`dt` 的类型为 `date` ,格式为`millis`）
 
 > 前提：
   > 1. 部署好druid平台环境
   > 2. kafka集群已经部署好，数据已经正常写入特定的topic
   > 3. druid集群服务所在网络与kafka集群所在网络是相通的
 
+## 第一步：编辑json文件
 从kafka加载数据到druid平台，需要通过发送一个http post请求到druid接入接口。
 
-该post请求中包含json格式的请求数据信息。为了方便修改，建议先编辑一个json文件，
+该post请求中包含json格式的请求数据信息。为了方便修改，建议先编辑一个json文件。
 
-然后使用curl命令发送post请求。假设json文件名为wiki.json，curl命令如下：
+## 第二步：建立Supervisor
+使用curl命令发送post请求。假设json文件名为wiki.json，curl命令如下：
 
 ```shell
   curl -X POST -H 'Content-Type: application/json' -d @/tmp/json/wiki.json http://overlord_ip:8090/druid/indexer/v1/supervisor
 ```
+> **/tmp/json/wiki.json：** 详见[`wiki.json`](#wiki.json)
+> **overlord_ip：** 为druid的overlord节点ip地址  
 
-> **/tmp/json/wiki.json：** 详见下文  
-> **overlord_ip：** 为druid的overload节点ip地址  
+也可以通过网页来操作：  
+1. 登录 overlord_ip:8090/supervisor.html  
+![](/softWare/idea/projects/public-docs/assets/createSupervisor/top.png)  
+2. 删除页面上原来文本框里的内容，将[`wiki.json`](#wiki.json)的内容复制，粘贴到文本框中，点击下面的 `Create Supervisor`，即可创建Supervisor。  
+![](/softWare/idea/projects/public-docs/assets/createSupervisor/end.png) 
+  
+## 第三步：查看Task执行情况
+1. 查看日志
+- 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
 
-## wiki.json文件内容：
+   > **OverlordIP:** druid的overlord节点ip地址
+   
+   ![](/assets/LuceneIndexTaskPics/log.jpg)
+
+2. 查看执行结果
+- 使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
+```shell
+./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' 
+```
+   > **OverlordIP:** druid的overlord节点ip地址  
+   > **datasource:** `json` 配置文件中定义的 `datasource` 名称
+   
+   如果查询的结果是"No Such Datasorce"，则说明数据接入没有成功。  
+   如果数据接入成功，那么查询到的结果如下：  
+   ![](/assets/LuceneIndexTaskPics/result_plyql.jpg)  
+   该数字为数据条数。
+   
+   关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md) 
+
+
+## <a id="wiki.json" href="wiki.json"></a> wiki.json文件内容：
 
 ```javascript
 {
@@ -30,27 +65,18 @@
       "parseSpec": {
         "format": "url",
         "timestampSpec": {
-          "column": "the_date",
+          "column": "dt",
           "format": "millis"
         },
         "dimensionsSpec": {
           "dimensions": [
             {
-              "name": "name",
-              "type": "string"
+              "name": "index",
+              "type": "int"
             },    			
             {
-              "name": "age",
-              "type": "int"
-            },
-            {
-              "name": "score",
-              "type": "float"
-            },
-            {
-              "name": "create_time",
-              "type": "date"，
-	            "format":"yyyy-MM-dd HH:mm:ss" //（如果是时间戳或utc时间格式，则不需要设置format）
+              "name": "str",
+              "type": "string"
             }
           ]
         }
@@ -64,13 +90,12 @@
   "tuningConfig": {
     "type": "kafka",
     "maxRowsInMemory": 500000,
-    "maxRowsPerSegment": 20000000,
-    "basePersistDirectory": "/data/druidTask/storage/wiki"
+    "maxRowsPerSegment": 20000000
   },
   "ioConfig": {
     "topic": "wiki",
     "consumerProperties": {
-      "bootstrap.servers": "192.168.0.101:9092,192.168.0.102:9092,192.168.0.103:9092"
+      "bootstrap.servers": "192.168.0.220:9092,192.168.0.221:9092,192.168.0.222:9092"
     },
     "taskCount": 1,
     "replicas": 1,
@@ -114,7 +139,6 @@
 小数据量建议`DAY`，大数据量（每天百亿）可以选择`HOUR`。可选项：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY`、`MONTH`、`YEAR`。
 
 - **`tuningConfig.type:`** 设置为`kafka`
-- **`tuningConfig.basePersistDirectory:`** 任务中接收到的数据临时存放路径，需要注意用户的读写权限。
 - **`ioConfig.topic:`** kafka中的topic名  
 - **`ioConfig.consumerProperties:`** kafka消费端接口的配置，比如kafka的服务器配置  
 - **`taskCount:`** 启动的任务进程数  

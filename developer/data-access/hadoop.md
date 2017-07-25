@@ -1,9 +1,14 @@
 # hadoop接入
+
+> ## 概要　　
+> * 本流程主要演示的是把 `hadoop` 上的 `csv` 数据导入到Druid。  
+> * `csv` 数据样式： `1500711222228,165,cye1z8` （第一个字段的类型为 `date` ,格式为`millis`）
+
 > 前提：  
 > 1.部署好druid平台环境  
 > 2.部署好hadoop环境
 
-## 第一步：导入数据到hdfs：
+## 第一步：导入数据到hdfs(如果数据已经在hdfs上则不用)
 在部署了hadoop环境的机器上进行操作。
 1. 切换到hdfs用户，指令为:  
 `su hdfs`
@@ -26,14 +31,14 @@
 将json内容拷贝，保存退出。
 
 **说明**：taskspec.json 文件定义 csv 文件分2种，一种是有时间列，一种是没时间列，需要将json文件中的
-```json
+```
 "timestampSpec":{
   "column":"ts",
   "format":"millis"
 }
 ```  
 改成：  
-```json
+```
 "timestampSpec":{
   "missingValue":"2017-08-01T12:00:000Z"
 }
@@ -45,25 +50,42 @@
 `cd /data1/tmp/druid`  
 2. 执行建立task的指令：  
 ```shell
-curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{OverloadIP}:8090/druid/indexer/v1/task
+curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{overlordIP}:8090/druid/indexer/v1/task
 ```
 - **`task-spec.json：`** json文件的名字  
-- **`overlordIp`**： druid的overload节点ip地址
+- **`overlordIp`**： druid的overlord节点ip地址
 
 
-## 第四步：查看task的日志信息
-1. 在浏览器上，查看 MiddleManagers 日志监控，如：  
-`http://192.168.0.220:8090/console.html`  
-这里的ip地址为 overload 节点ip地址。
-2. 找到hadoop上传进程ID，点击 `log(all)` 查看 csv 上传过程的日志。
+## 第四步：查看Task执行情况
+1. 查看日志
+- 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
+
+   > **OverlordIP:** druid的overlord节点ip地址
+   
+   ![](/assets/LuceneIndexTaskPics/log.jpg)
+
+2. 查看执行结果
+- 使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
+```shell
+./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' 
+```
+   > **OverlordIP:** druid的overlord节点ip地址  
+   > **datasource:** `json` 配置文件中定义的 `datasource` 名称
+   
+   如果查询的结果是"No Such Datasorce"，则说明数据接入没有成功。  
+   如果数据接入成功，那么查询到的结果如下：  
+   ![](/assets/LuceneIndexTaskPics/result_plyql.jpg)  
+   该数字为数据条数。
+   
+   关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md)
 
 ## 第五步：停止task（需要时再用）
 在需要停止task时，可以发送如下http post请求停止task任务  
 ```shell
-curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
+curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
 ```  
-- **`overlord_ip`**： druid的overload节点ip地址
-- **`taskId`**： 在 `http://{OverloadIP}:8090/console.html` task详细页面对应 id 列的信息
+- **`overlord_ip`**： druid的overlord节点ip地址
+- **`taskId`**： 在 `http://{overlordIP}:8090/console.html` task详细页面对应 id 列的信息
 
 ## <a id="json" href="json"></a> task-spec.json详细配置如下：
 ```json
@@ -100,7 +122,7 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid
                 "type": "uniform",
                 "segmentGranularity": "MONTH",
                 "queryGranularity": "NONE",
-                "intervals": ["2015-05-21/2016-07-02"]
+                "intervals": ["2016-05-21/2017-07-02"]
             }
         },
         "ioConfig": {
@@ -123,14 +145,6 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid
         }
     }
 }
-```
-这个json是从hadoop上面接入csv文件的实例，这个csv文件的前五行数据如下：
-```csv
-1500629356487,0,cfcd208495d565ef66e7dff9f98764da
-1500629107004,1,c4ca4238a0b923820dcc509a6f75849b
-1500629183321,2,c81e728d9d4c2f636f067f89cc14862c
-1500629285354,3,eccbc87e4b5ce2fe28308fd9f2a7baf3
-1500628747465,4,a87ff679a2f3e71d9181a67b7542122c
 ```
 
 - **`spec.dataSchema.parser.parseSpec.timestampSpec.column:`** 时间戳列
@@ -157,14 +171,14 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{OverloadIP}:8090/druid
 - **`spec.dataSchema.dataSource:`** 数据源的名称，类似关系数据库中的表名
 
 - **`spec.ioConfig.type:`** 这里是从`hadoop`接入数据，固定为`hadoop`  
-- **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录
+- **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录,注意该目录下是否有多个文件
 
 
 - **`spec.tuningConfig.partitionsSpec.numShards:`** 指定分片数
 - **`spec.tuningConfig.jobProperties.mapreduce.job.queuename:`** 指定yarn上的队列名
 - **`spec.tuningConfig.jobProperties.mapreduce.job.classloader:`** 如果为true，`task`会用 `druid` 中的 `hadoop-dependencies` ，而不是 `hadoop` 集群的配置
 
-### json文件中需要特别注意的地方是一下几个参数：
+### json文件中需要特别注意的是以下几个参数：
 1. **`spec.dataSchema.parser.parseSpec.columns:`** 包含时间戳列，并且先后顺序要和源数据对应
 2. **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 不包含时间戳列，并且`name`要和`parser.parseSpec.columns`对应，`type`要和源数据对应起来。
 3. **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录，注意是否配置正确
