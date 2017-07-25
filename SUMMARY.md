@@ -87,9 +87,11 @@
     * [Tindex接口使用文档](developer/query/index.md)
       - [查询接口文档](/developer/query/query.md)
     * 数据接入
+      * [查找MiddleManager与Overlord](developer/data-access/overlord_middlemanager_guid.md)
       * [Kafka接入](developer/data-access/kakfa-druid.md)
-      * [Csv文件接入](developer/data-access/csv-druid.md)
-  
-  
-
-
+      * [文件接入](developer/data-access/csv-druid.md)
+      * [hadoop接入](developer/data-access/hadoop.md)
+      * [kafka动态维接入](developer/data-access/default-kafka.md)
+      * [本地文件接入](developer/data-access/index-task.md)
+      * [数据段合并](developer/data-access/merge-druid.md)
+      
