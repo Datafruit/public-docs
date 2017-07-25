@@ -23,7 +23,7 @@
     },
     "addcssjs": {
       "js": [
-        "./static/js/footer.js"
+        "./static/js/footer.js?v3"
       ]
     }
   }
