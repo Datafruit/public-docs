@@ -8,6 +8,7 @@ if [ -f $FILE ]; then
     mv SUMMARY.md.bak SUMMARY.md
 fi
 git pull
+gitbook install
 mv book-index.md book-index.md.bak
 mv SUMMARY.md SUMMARY.md.bak
 cp book-index-tsa.md book-index.md
