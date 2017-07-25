@@ -92,20 +92,34 @@
 
 #### 2.4.1 原生控件
 
+
 ##### UIControl
 
 所有`UIControl`类及其子类，皆可被埋点绑定事件。
+
 
 ##### UITableView
 
 所有`UITableView`类及其子类，需要指定其`delegate`属性，方可被埋点绑定事件。基于`UITableView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UITableView`被选中的详细位置信息。
 
+
 #### 2.4.2 UIWebView
 
-所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法，方可被埋点绑定事件。
 
+所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法:
+
+* `- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType`
 * `- (void)webViewDidStartLoad:(UIWebView *)webView;`
 * `- (void)webViewDidFinishLoad:(UIWebView *)webView;`
+
+其中，`- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType`内需指定返回值（若有类似功能的实现，请确保SDK的返回值优先级最低，在此方法最后调用即可），例子如下：
+
+```
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return [[Sugo sharedInstance] webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+}
+```
 
 #### 2.4.3 WKWebView
 

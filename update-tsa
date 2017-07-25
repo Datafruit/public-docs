@@ -1,0 +1,15 @@
+#!/bin/bash
+cd `dirname $0`
+FILE=book-index.md.bak
+if [ -f $FILE ]; then
+    rm -rf book-index.md
+    rm -rf SUMMARY.md
+    mv book-index.md.bak book-index.md
+    mv SUMMARY.md.bak SUMMARY.md
+fi
+git pull
+mv book-index.md book-index.md.bak
+mv SUMMARY.md SUMMARY.md.bak
+cp book-index-tsa.md book-index.md
+cp SUMMARY-tsa.md SUMMARY.md
+gitbook build

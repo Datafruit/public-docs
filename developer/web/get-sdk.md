@@ -54,8 +54,7 @@
     api_host: '', // sugoio-latest.min.js文件以及数据上报的地址
     app_host: '', // 可视化配置时服务端地址
     decide_host: '', // 加载已埋点配置地址
-    loaded: function(lib) { }, // **sugoio** **sdk** 加载完成回调函数
-    dimensions: { }, // 上报维度自定义映射配置参数
+    loaded: function(lib) { }, // **sugoio** **sdk** 加载完成回调函数=
     DEBUG: false // 是否启用debug
   });
 ```
@@ -66,7 +65,6 @@
 * **app_host：** 可视化配置时服务端地址。
 * **decide_host：** 加载已埋点配置地址。
 * **loaded：** sugoio sdk 加载完成回调函数。
-* **dimensions：** 上报维度自定义映射配置参数， 下文详细说明。
 * **DEBUG：** 是否启用debug。
 
 ## 用户自定义维度
@@ -80,10 +78,13 @@
 * 图片社交产品，可以追踪用户浏览图片和评论事件。
 * 电商产品，可以追踪用户注册、浏览商品和下订单等事件。
 
-数果智能 SDK 初始化成功后，即可以通过 sugoio.track\(event\_name, \[properties\], \[callback\]\) 记录事件：
+数果智能 SDK 初始化成功后，即可以通过 **`sugoio.track(event_name, [properties], [callback])`** 记录事件：
 
 * **event_name**: string，必选。表示要追踪的事件名。
 * **properties**: object，可选。表示这个事件的属性。
+
+  * **event_type**: string，必选。默认`view`, 事件类型。
+    >事件类型值： click=点击, change=改变, focus=对焦, view=浏览, duration=停留, pageloading=加载
 * **callback**: function，可选。表示已经发送完数据之后的回调。
 
 ```javascript
@@ -96,6 +97,22 @@
     'ViewDateTime': +new Date()
   });
 ```
+
+* 自定义上报点击事件数据
+
+```javascript
+  // 追踪点击购物车按钮事件
+  sugoio.track('ClickPayProduct', {
+    'event_type': 'click' // 支持的事件类型：click=点击, change=改变, focus=对焦, view=浏览, duration=停留, pageloading=加载
+    'ProductId': 123456，
+    'ProductCatalog': "Laptop Computer",
+    'ProductName': 'MacBook Pro',
+    'ProductPrice': 888.88,
+    'ViewDateTime': +new Date()
+  });
+```
+
+
 
 ### 数据类型说明
 
