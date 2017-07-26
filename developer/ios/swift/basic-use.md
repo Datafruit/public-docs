@@ -22,6 +22,9 @@ import Sugo
 func initSugo() {
     let id: String = "Add_Your_Project_ID_Here"
     let token: String = "Add_Your_App_Token_Here"
+//        Sugo.BindingsURL = ""     // 设置获取绑定事件配置的URL，端口默认为8000
+//        Sugo.CollectionURL = ""   // 设置传输绑定事件的网管URL，端口默认为80
+//        Sugo.CodelessURL = ""     // 设置连接可视化埋点的URL，端口默认为8887
     Sugo.initialize(id: id, token: token)
     Sugo.mainInstance().loggingEnabled = true    // 如果需要查看SDK的Log，请设置为true
     Sugo.mainInstance().flushInterval = 5    // 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒

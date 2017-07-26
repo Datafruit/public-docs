@@ -22,6 +22,9 @@
 - (void)initSugo {
     NSString *projectID = @"Add_Your_Project_ID_Here";
     NSString *appToken = @"Add_Your_App_Token_Here";
+//    SugoBindingsURL = @"";    // 设置获取绑定事件配置的URL，端口默认为8000
+//    SugoCollectionURL = @"";  // 设置传输绑定事件的网管URL，端口默认为80
+//    SugoCodelessURL = @"";    // 设置连接可视化埋点的URL，端口默认为8887
     [Sugo sharedInstanceWithID:projectID token:appToken launchOptions:nil];
     [[Sugo sharedInstance] setEnableLogging:YES];  // 如果需要查看SDK的Log，请设置为true
     [[Sugo sharedInstance] setFlushInterval:5];    // 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒
