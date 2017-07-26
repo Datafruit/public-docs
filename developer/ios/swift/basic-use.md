@@ -22,6 +22,9 @@ import Sugo
 func initSugo() {
     let id: String = "Add_Your_Project_ID_Here"
     let token: String = "Add_Your_App_Token_Here"
+//        Sugo.BindingsURL = ""     // 设置获取绑定事件配置的URL，端口默认为8000
+//        Sugo.CollectionURL = ""   // 设置传输绑定事件的网管URL，端口默认为80
+//        Sugo.CodelessURL = ""     // 设置连接可视化埋点的URL，端口默认为8887
     Sugo.initialize(id: id, token: token)
     Sugo.mainInstance().loggingEnabled = true    // 如果需要查看SDK的Log，请设置为true
     Sugo.mainInstance().flushInterval = 5    // 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒
@@ -94,18 +97,33 @@ Sugo.mainInstance().connectToCodeless(via: url)    // url参数为扫描二维�
 
 ##### UIControl
 
+
 所有`UIControl`类及其子类，皆可被埋点绑定事件。
+
 
 ##### UITableView
 
+
 所有`UITableView`类及其子类，需要指定其`delegate`属性，方可被埋点绑定事件。基于`UITableView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UITableView`被选中的详细位置信息。
+
 
 #### 2.4.2 UIWebView
 
-所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法，方可被埋点绑定事件。
 
+所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法：
+
+* `optional func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool`
 * `optional public func webViewDidStartLoad(_ webView: UIWebView)`
 * `optional public func webViewDidFinishLoad(_ webView: UIWebView)`
+
+其中，`optional func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool`内需指定返回值（若有类似功能的实现，请确保SDK的返回值优先级最低，在此方法最后调用即可），例子如下：
+
+```
+	func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+
+        return Sugo.mainInstance().webView(webView, shouldStartLoadWith: request, navigationType: navigationType)
+	}
+```
 
 #### 2.4.3 WKWebView
 

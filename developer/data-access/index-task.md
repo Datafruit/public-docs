@@ -6,7 +6,6 @@
      > `maxRowsPerSegment` : 每个`segment`最大的存储行数  
      > `numShards` : 设置总的`segment`数   
   > - 通过 `overwrite` 设置对 `datasource` 进行覆盖写入还是追加写入  
-  >
   > 基于以上的优化，接入本地文件数据时推荐使用本流程
 
 

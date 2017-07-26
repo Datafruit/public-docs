@@ -409,8 +409,8 @@ LIMIT 3;
 plyql -h 192.168.60.100:8082 -i P1Y -q '
 SELECT
 CASE WHEN Province="广东省" THEN "广东省" ELSE "其他省份" END AS caseProvince, 
-COUNT(*) AS 'Count'
-FROM wuxianjiRT
+COUNT(*) AS "Count"
+FROM sugo_test
 WHERE Nation = "中国" 
 GROUP BY 1 
 ORDER BY Count DESC 
@@ -589,6 +589,7 @@ LIMIT 5;
     TIME_SHIFT(time, PT1H, 3) AS 'TimeShift3',
     TIME_RANGE(time, PT1H) AS 'TimeRange1',
     TIME_RANGE(time, PT1H, 3) AS 'TimeRange3',
+    DATE_FORMAT(time, '%Y-%m-%d', 'Asia/Shanghai'),
     OVERLAP(x, y) AS 'Overlap',
     IF(x, "hello", \`world\`) AS 'If1',
     CASE moon WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END AS 'Case1',
@@ -744,10 +745,20 @@ OR                      | 逻辑或
 将expr1转换为其他类型, `op包含：'CHAR'(string), 'SIGNED'(number)`; 例如将字符串转换为number类型： CAST(expr1, 'SIGNED')
 `SELECT CAST(\`commentLength\` AS CHAR) as castedString, CAST(\`commentLengthStr\` AS SIGNED) as castedNumber FROM \`wiki\``
 
-<a id="otherFunc" href="#otherFunc">#</a>
+<a id="DATE_FORMAT" href="#DATE_FORMAT">#</a> DATE_FORMAT(expr, format, timezone)
 
-### 其他函数
-`DATE_FORMAT`, `YEAR`, `MONTH`, `WEEK_OF_YEAR` `DAY_OF_YEAR` `DAY_OF_MONTH` `DAY_OF_WEEK` `HOUR` `MINUTE` `SECOND` `DATE` `TIMESTAMP` `DATE_ADD` `DATE_SUB` `FROM_UNIXTIME` `UNIX_TIMESTAMP`
+ 时间格式化函数处理, 例如：`DATE_FORMAT(time, '%Y-%m-%d', 'Asia/Shanghai')` 目前支持格式：
+
+- format：  
+  > `%Y-%m-%d %H:%i:%s`  
+  > `%Y-%m-%d %H:%i`  
+  > `%Y-%m-%d %H`  
+  > `%Y-%m-%d`  
+  > `%Y-%m`  
+  > `%Y`  
+
+### <a id="otherFunc" href="#otherFunc">#</a> 其他函数
+`YEAR`, `MONTH`, `WEEK_OF_YEAR` `DAY_OF_YEAR` `DAY_OF_MONTH` `DAY_OF_WEEK` `HOUR` `MINUTE` `SECOND` `DATE` `TIMESTAMP` `DATE_ADD` `DATE_SUB` `FROM_UNIXTIME` `UNIX_TIMESTAMP`
 
 ### 数学函数
 

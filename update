@@ -1,4 +1,5 @@
 #!/bin/bash
 cd `dirname $0`
 git pull
+gitbook install
 gitbook build

@@ -54,4 +54,12 @@ gitbook build
 ```
 
 
+## 更新到docs.tsa.sugo.io
+
+```bash
+# ssh SkfodExwx:***************************@120.76.247.214:22 
+cd ~/dev/tsa-docs
+# update and reload
+./update-tsa
+```
 
