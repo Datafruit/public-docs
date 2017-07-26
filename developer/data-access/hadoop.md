@@ -9,12 +9,12 @@
 > 2.部署好hadoop环境
 
 ## 第一步：导入数据到hdfs(如果数据已经在hdfs上则不用)
-在部署了hadoop环境的机器上进行操作。
-1. 切换到hdfs用户，指令为:  
+在部署了 hadoop 环境的机器上进行操作。
+1. 切换到 hdfs 用户，指令为:  
 `su hdfs`
-2. 在hdfs上创建存放数据的目录，指令为:  
+2. 在 hdfs 上创建存放数据的目录，指令为:  
 `hadoop fs -mkdir -p dirName`  
-例如，要把数据放到hdfs下的 /data1/tmp/druid 下，指令为:  
+例如，要把数据放到 hdfs 下的 /data1/tmp/druid 下，指令为:  
 `hadoop fs -mkdir -p /data1/tmp/druid`
 3. 将数据放到目录下，指令为：  
 `hadoop fs -put fileName dirName`  
@@ -22,13 +22,13 @@
 `hadoop fs -put /data/tmp/test.json /data1/tmp/druid`
 
 ## 第二步：创建json文件
-创建、编辑、保存taskspec.json文件说明：
-1. 按照数据的格式，创建taskspec.json文件，具体参数参照 [`task-spec.json`](#json)。  
+创建、编辑、保存 taskspec.json 文件说明：
+1. 按照数据的格式，创建 taskspec.json 文件，具体参数参照 [`task-spec.json`](#json)。  
 2. 执行指令：  
 `cd /data1/tmp/druid`  
-进入该目录下，创建json文件。指令为  
+进入该目录下，创建 json 文件。指令为  
 `vim taskspec.json`  
-将json内容拷贝，保存退出。
+将 json 内容拷贝，保存退出。
 
 **说明**：taskspec.json 文件定义 csv 文件分2种，一种是有时间列，一种是没时间列，需要将json文件中的
 ```
@@ -57,15 +57,15 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{ove
 
 
 ## 第四步：查看Task执行情况
-1. 查看日志
-- 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
+1. 查看日志  
+访问：`http://{OverlordIP}:8090/console.html`，点击 `Task` 的日志，查看 `Task` 的执行情况
 
    > **OverlordIP:** druid的overlord节点ip地址
    
    ![](/assets/LuceneIndexTaskPics/log.jpg)
 
-2. 查看执行结果
-- 使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
+2. 查看执行结果  
+使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
 ```shell
 ./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' 
 ```
@@ -80,7 +80,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{ove
    关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md)
 
 ## 第五步：停止task（需要时再用）
-在需要停止task时，可以发送如下http post请求停止task任务  
+在需要停止 task 时，可以发送如下 http post 请求停止 task 任务  
 ```shell
 curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
 ```  

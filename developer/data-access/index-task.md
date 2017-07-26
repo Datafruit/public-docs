@@ -2,10 +2,10 @@
 
 > ## 概要：　　  
   > 本例主要演示 `LuceneIndexTask` 接入本地文件数据的流程，整个过程会与 `csv文件接入` 的流程比较类似，但与 `csv文件接入`中的 `lucene_index_realtime` 相比，本流程的 `LuceneIndexTask` 支持一些额外的优化设置：　　  
-  > - 通过 `maxRowsPerSegment` 或 `numShards` 属性可以设定不同 `segment` 生成策略,二者区别如下：        
+  > - 通过 `maxRowsPerSegment` 或 `numShards` 属性可以设定不同 `segment` 生成策略，二者区别如下：        
      > `maxRowsPerSegment` : 每个`segment`最大的存储行数  
      > `numShards` : 设置总的`segment`数   
-  > - 通过 `overwrite`　设置对 `datasource` 进行覆盖写入还是追加写入  
+  > - 通过 `overwrite` 设置对 `datasource` 进行覆盖写入还是追加写入  
   >
   > 基于以上的优化，接入本地文件数据时推荐使用本流程
 
@@ -24,8 +24,8 @@
 1500510434191,9,sagfkldjgf
 1500520214191,8,fdjsklklf
 ```
-## 第二步创建、编辑、保存json文件
 
+## 第二步：创建、编辑、保存json文件
 - 具体的json文件配置请参考后文的[LuceneIndexTask_Json实例](#LuceneIndexTask_instance)
 
 ## 第三步：上传csv、json文件到MiddleManager服务器上
@@ -40,7 +40,7 @@ scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
 ## 第四步：执行命令，启动Task
 1. 通过 `ssh` 远程登录到第三步中选择的 `MiddleManager` 中
 2. 执行 `cd` 命令进入第三步中选择存放 `json` 文件的目录中
-3. 执行 `curl`命令启动 `Task`,具体命令格式如下：
+3. 执行 `curl`命令启动 `Task`，具体命令格式如下：
 ```shell
 curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{OverlordIP}:8090/druid/indexer/v1/task
 ```
@@ -51,14 +51,14 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 
 ## 第五步：查看Task执行情况
 1. 查看日志
-- 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
+访问：`http://{OverlordIP}:8090/console.html`，点击 `Task` 的日志，查看 `Task` 的执行情况
 
    > **OverlordIP:** druid的overlord节点ip地址
    
    ![](/assets/LuceneIndexTaskPics/log.jpg)
 
 2. 查看执行结果
-- 使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
+使用 `sugo-plyql` 查询 `Task` 的执行结果，具体的命令格式为：
 ```shell
 ./plyql -h {OverlordIP} -q 'select count(*) from {datasource}' 
 ```

@@ -1,13 +1,13 @@
 # 直接从csv将数据导入druid后台
 
 > ## 概要　　
-> 本流程主要演示把本地的 `csv` 文件数据实时导入到Druid
+> 本流程主要演示把本地的`csv`文件数据实时导入到`Druid`
 
 ## 导入CSV过程步骤：
 
 ![](/assets/datacsv/datacsv1.png)
 
-以下以广东数果科技有限公司为例，从cvs导入到csv落地全过程操作指引：
+以下以广东数果科技有限公司为例，从 cvs 导入到 csv 落地全过程操作指引：
 
 ## 第一步：找MiddleManagers服务IP
 
@@ -18,10 +18,10 @@
 ![](/assets/datacsv/datacsv3.png)
 
 - 通过shell登录后，输入命令：cd  /data1/tmp/druid   
-注:/data1/tmp/druid 根据taskspec.json文件中指定的路径  
+> 注: /data1/tmp/druid 根据 taskspec.json 文件中指定的路径  
 
 ## 创建、编辑、保存taskspec.json文件说明：  
-在 data1/tmp/druid 目录下，vim  taskspec.json , 将 下面json配置说明 内容拷贝，然后 点击键盘ESC按键退出编辑， 再输入 wq 命令 退出并保存。
+在 data1/tmp/druid 目录下，vim taskspec.json ，将下面json配置说明内容拷贝，然后点击键盘 ESC 按键退出编辑， 再输入 wq 命令退出并保存。
 
 ![](/assets/datacsv/datacsv4.png)
 

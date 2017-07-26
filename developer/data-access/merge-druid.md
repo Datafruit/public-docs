@@ -12,7 +12,7 @@
 
 ## 第一步：查找在druid中的目标datasource
 
-1. 在`http://192.168.0.222:8081/#/datasources`页面上查找要合并的datasource。
+1. 在`http://192.168.0.222:8081/#/datasources`页面上查找要合并的 datasource。
 例如要合并的datasource是`test061901`
 
 ![](/assets/datamerge/before__test061901.png)
@@ -68,7 +68,7 @@
 {
   "type":"lucene_merge",
   "dataSource": "test061901",  
-  "interval": "2001-01-01/2020-01-01",
+  "interval": "2017-06-01/2017-06-30",
   "triggerMergeCount": 2,
   "mergeGranularity":"DAY",
   "context": {

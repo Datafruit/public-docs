@@ -108,10 +108,12 @@
       - [查询接口文档](/developer/query/query.md)
     * 数据接入
       * [查找MiddleManager与Overlord](developer/data-access/overlord_middlemanager_guid.md)
-      * [Kafka接入](developer/data-access/kakfa-druid.md)
-      * [文件接入](developer/data-access/csv-druid.md)
-      * [hadoop接入](developer/data-access/hadoop.md)
-      * [kafka动态维接入](developer/data-access/default-kafka.md)
-      * [本地文件接入](developer/data-access/index-task.md)
-      * [数据段合并](developer/data-access/merge-druid.md)
+      * 数据接入文档
+        * [csv文件接入](developer/data-access/csv-druid.md)
+        * [本地文件接入](developer/data-access/index-task.md)
+        * [Kafka接入](developer/data-access/kakfa-druid.md)
+        * [kafka动态维接入](developer/data-access/default-kafka.md)
+        * [hadoop接入](developer/data-access/hadoop.md)
+        * [数据段合并](developer/data-access/merge-druid.md)
+      * [parser 类型](developer/data-access/parser.md)
       

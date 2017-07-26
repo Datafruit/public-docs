@@ -1,7 +1,7 @@
 # kafka接入
 
 > ## 概要　　
-> * 本流程主要演示把kafka上的 `url` 数据导入到Druid。  
+> * 本流程主要演示把 `kafka` 上的 `url` 数据导入到 `Druid`。  
 > * `url` 数据样式： `dt=1500714597057&index=163&str=9wevoy` （`dt` 的类型为 `date` ,格式为`millis`）
 
 > 前提：
@@ -10,28 +10,28 @@
   > 3. druid集群服务所在网络与kafka集群所在网络是相通的
 
 ## 第一步：编辑json文件
-从kafka加载数据到druid平台，需要通过发送一个http post请求到druid接入接口。
+从 kafka 加载数据到 druid 平台，需要通过发送一个 http post 请求到 druid 接入接口。
 
-该post请求中包含json格式的请求数据信息。为了方便修改，建议先编辑一个json文件。
+该 post 请求中包含 json 格式的请求数据信息。为了方便修改，建议先编辑一个 json 文件。
 
 ## 第二步：建立Supervisor
-使用curl命令发送post请求。假设json文件名为wiki.json，curl命令如下：
+使用 curl 命令发送 post 请求。假设 json 文件名为 wiki.json，curl 命令如下：
 
 ```shell
   curl -X POST -H 'Content-Type: application/json' -d @/tmp/json/wiki.json http://overlord_ip:8090/druid/indexer/v1/supervisor
 ```
-> **/tmp/json/wiki.json：** 详见[`wiki.json`](#wiki.json)
+> **/tmp/json/wiki.json：** 详见[`wiki.json`](#json)  
 > **overlord_ip：** 为druid的overlord节点ip地址  
 
 也可以通过网页来操作：  
 1. 登录 overlord_ip:8090/supervisor.html  
-![](/softWare/idea/projects/public-docs/assets/createSupervisor/top.png)  
-2. 删除页面上原来文本框里的内容，将[`wiki.json`](#wiki.json)的内容复制，粘贴到文本框中，点击下面的 `Create Supervisor`，即可创建Supervisor。  
-![](/softWare/idea/projects/public-docs/assets/createSupervisor/end.png) 
+![](/assets/createSupervisor/top.png)  
+2. 删除页面上原来文本框里的内容，将[`wiki.json`](#json)的内容复制，粘贴到文本框中，点击下面的 `Create Supervisor`，即可创建`Supervisor`。  
+![](/assets/createSupervisor/textBox.png) 
   
 ## 第三步：查看Task执行情况
 1. 查看日志
-- 访问：`http://{OverlordIP}:8090/console.html` ,点击 `Task` 的日志，查看 `Task` 的执行情况
+- 访问：`http://{OverlordIP}:8090/console.html`，点击 `Task` 的日志，查看 `Task` 的执行情况
 
    > **OverlordIP:** druid的overlord节点ip地址
    
@@ -53,7 +53,7 @@
    关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md) 
 
 
-## <a id="wiki.json" href="wiki.json"></a> wiki.json文件内容：
+## <a id="json"></a> wiki.json文件内容：
 
 ```javascript
 {
