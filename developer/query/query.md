@@ -11,6 +11,7 @@
 - [UserGroup](#UserGroup)
 - [Scan](#Scan)
 - [FirstN](#FirstN)
+- [MultiHaving](#MultiHaving)
 
 `Query`，即查询。`Druid`包含多种查询类型。
 
@@ -82,7 +83,7 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 ## <a id="TopN" href="TopN"></a> 2. `TopN`
 `TopN`返回指定维度和排序字段的有序`top-n`序列。`TopN`支持返回前N条记录，并支持指定`Metric`为排序依据。
 
- 
+
 查询示例如下：
 
 
@@ -121,7 +122,7 @@ postAggregations | 后聚合器。详见[`post-aggregation`](/developer/query/#p
 dimension | 进行`TopN`查询的维度，一个`TopN`查询指定且只能指定一个维度。详见[`dimension`](/developer/query/#dimension) | 是
 threshold | `TopN`的 N 取值 | 是
 metric | 进行统计并排序的`Metric`| 是
-context | 指定一些查询参数，如结果是否进缓存等 | 否  
+context | 指定一些查询参数，如结果是否进缓存等 | 否
 
 - `metric`: `TopN`专属，指定排序依据。它有如下使用方式：
 
@@ -131,7 +132,7 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 
 ```
 "metric":{
-	"type":"numeric",   //指定按照numeric 降序排列 
+	"type":"numeric",   //指定按照numeric 降序排列
 	"metric":"<metric_name>"
 }
 ```
@@ -201,7 +202,7 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 
 ```
 
-相当于`SQL`语句的：`select province,sum(age) from userinfo group by province limit 3;` 
+相当于`SQL`语句的：`select province,sum(age) from userinfo group by province limit 3;`
 
 查询的结果如下：
 ```
@@ -251,7 +252,7 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
 
 `GroupBy`特有的字段为`limitSpec`和`having`。
 
-- **limitSpec**  
+- **limitSpec**
 
 指定排序规则和`limit`的行数。`JSON`示例如下：
 ```
@@ -375,10 +376,10 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
 ```
 {
     "queryType":"lucene_search",
-    "dataSource":"userinfo", 
-    "granularity":"day", 
+    "dataSource":"userinfo",
+    "granularity":"day",
     "intervals": "1000/3000",
-    "limit":1, 
+    "limit":1,
     "searchDimensions":[
         "province",
         "time"
@@ -390,7 +391,7 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
 ```
 - `searchDimensions`:搜索的维度
 
-需要注意的是，`Search`只是返回匹配中维度，不支持其他聚合操作。如果要将`Search`作为查询条件进行`TopN`、`GroupBy`或`Timeseries`等操作，则可以在`filter`字段中指定各种过滤方式。`filter`字段也支持正则匹配。  
+需要注意的是，`Search`只是返回匹配中维度，不支持其他聚合操作。如果要将`Search`作为查询条件进行`TopN`、`GroupBy`或`Timeseries`等操作，则可以在`filter`字段中指定各种过滤方式。`filter`字段也支持正则匹配。
 查询结果如下：
 ```
 [
@@ -463,7 +464,7 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
   }
 }
 ```
-相当与`SQL`语句的 `desc userinfo;`    
+相当与`SQL`语句的 `desc userinfo;`
 
 返回结果如下：
 ```
@@ -518,20 +519,20 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 - `analysisTypes`支持指定的属性：`cardinality`,`minmax`,`size`,`intervals`,`queryGranularity`,`aggregators`。
 
 
-    
+
 
       @JsonProperty("aggregations") List<LuceneAggregatorFactory> aggregatorSpecs,
       @JsonProperty("postAggregations") List<PostAggregator> postAggregatorSpecs,
       @JsonProperty("having") HavingSpec havingSpec,
       @JsonProperty("context") Map<String, Object> context
 
-### <a id="UsreGroup" href="UsreGroup"></a> 7. `UsreGroup`
+## <a id="UsreGroup" href="UsreGroup"></a> 7. `UsreGroup`
 是用户分群查询，支持将多维度和多指标作为分析条件，有针对性地根据你的需要建立分群。`JSON`示例如下:
 ```
 {
     "queryType":"user_group",
-    "dataSource":"userinfo", 
-    "granularity":"all", 
+    "dataSource":"userinfo",
+    "granularity":"all",
     "intervals": "1000/3000",
     "filter": {
       "type": "selector",
@@ -561,7 +562,7 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 
 
 
-### <a id="Scan" href="Scan"></a> 8. `Scan`
+## <a id="Scan" href="Scan"></a> 8. `Scan`
 用来查询原始数据，`JSON`示例如下:
 
 ```
@@ -630,14 +631,14 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 ]
 ```
 
-### <a id="FirstN" href="FirstN"></a> 9. `FirstN`
+## <a id="FirstN" href="FirstN"></a> 9. `FirstN`
 查询某个维度的前N个值（不用排序，不重复），`JSON`示例如下:
 
 
 ```
 {
     "queryType":"lucene_firstN",
-    "dataSource":"userinfo", 
+    "dataSource":"userinfo",
     "dimension":"province",
     "threshold":5,
     "intervals": "1000/3000",
@@ -664,4 +665,86 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
     ]
   }
 ]
+
 ```
+## <a id="MultiHaving" href="MultiHaving"></a> 10. `MultiHaving`
+用于对`GroupBy`分组数据进行不同的`having`条件过滤，分组时能对指定的多个维度进行分组，每个`having`过滤结果可以经过多个`aggregatorSpecs`进行聚合，`JSON`示例如下：
+
+
+```
+{
+    "queryType": "multi_having",
+    "dataSource": "userinfo",
+    "intervals": "1000/3000",
+
+    "granularity": "all",
+    "dimensions":["province"],
+    "aggregations":  [
+        {
+            "type":"lucene_count",
+            "name":"_count_"
+        }
+    ],
+
+    "havingAggregators": [
+        {
+            "name": "__havingAggregators",
+            "havingSpec": {
+                "type": "greaterThan",
+                "aggregation": "_count_",
+                "value": 3000
+            },
+            "aggregatorSpecs": [
+                {
+                    "type": "lucene_count",
+                    "name": "_count1_"
+                }
+            ]
+        }
+    ],
+    "context":{
+        "timeout": 180000,
+        "useOffheap": true,
+    	"groupByStrategy": "v2"
+    }
+}
+```
+相当于`SQL`语句的`select count(_count_) _count1_ from (select count(*) _count_ from userinfo group by province having _count_ > 3000)`
+
+查询结果如下：
+```
+[
+    {
+        "v": "data_row",
+        "event": {
+            "data": {
+                "__havingAggregators": {
+                    "_count1_": 4
+                }
+            },
+            "multiHavingTime": 1,
+            "groupByTime": 36
+        }
+    }
+]
+```
+
+`MultiHaving`特有的字段为`havingAggregators`。
+
+- **havingAggregators**
+
+指定一组不同的having过滤条件，以及对过滤结果的聚合方式。JSON示例如下：
+
+```
+[<HavingAggregator>,<HavingAggregator>,<HavingAggregator>...]
+```
+
+其中`HavingAggregator`指定一个单独的having过滤条件，以及对该过滤结果的聚合方式，它包含的字段如
+下：
+
+字段名 | 描述 | 是否必须
+--- | --- | ---|
+name | 指定返回结果的属性名 | 是
+havingSpec | 对分组数据进行having过滤，详见[`having`](/developer/query/#having) | 是
+aggregatorSpecs | 对having过滤后的结果进行聚合的方式 | 是
+
