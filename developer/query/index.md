@@ -77,6 +77,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`Regex`](#Regex)
   - [`ListFiltered`](#ListFiltered)
   - [`Lookup`](#Lookup)
+  - [`NumericGroup`](#NumericGroup)
+  - [`CustomGroup`](#CustomGroup)
 
 ### <a id="Default" href="Default"></a>1. `Default Dimension`
 `Default Dimension` 返回维度值，并可选择对维度进行重命名。`JSON`示例如下：
@@ -138,7 +140,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 如果您在`druid`中有一行具有值为`[“v1”，“v2”，“v3”]`的多值维度，并且通过该维度使用查询过滤器为值`“v1”` 发送`groupBy / topN`查询分组。在响应中，您将获得包含`“v1”`，`“v2”`和`“v3”`的3行。对于某些用例，此行为可能不直观。
 
 ### <a id="Lookup" href="Lookup"></a> 5. `Lookup Dimension`
-`Lookup Dimension`允许在执行提取时使用的一组键和值。`JSON`示例如下：
+`Lookup Dimension`允许在执行提取时使用的一组键和值。`JSON`示例如下：  
 ```
 {
     "type":"lookup",
@@ -161,6 +163,51 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 在查询时可以指定属性`retainMissingValue`为`false`，并通过设置`replaceMissingValueWith`提示如何处理缺失值。  
 `retainMissingValue`如果在查找中找不到，设置为`true`将使用维度的原始值。
 默认是`replaceMissingValueWith = null`，`retainMissingValue = false`并且导致丢失的值被视为丢失值。
+
+### <a id="NumericGroup" href="NumericGroup"></a> 6. `NumericGroup Dimension`
+
+`NumericGroup Dimension`可以对维度进行数字分组。`JSON`示例如下：
+```
+{	
+     "type": "numericGroup",
+     "dimension": "<dimensionName>",
+     "outputName": "<dimensionOutputName>",
+     "min": 1492153157000, 
+     "max": 1501229310000, 
+     "interval": 86400000,
+     "granularity": {
+         "period": "P1D",
+         "type": "period"
+     }
+}
+```
+`min`和`max`为数字的边界，`interval` 为每个分组的长度，这里`period`为`P1D`,即为以一天为周期进行聚合。
+
+### <a id="CustomGroup" href="CustomGroup"></a> 7. `CustomGroup Dimension`
+
+`CustomGroup Dimension`可以对维度进行自定义分组。`JSON`示例如下：  
+
+```
+{
+    "type": "customGroup",
+    "dimension": "event_time",
+    "outputName": "test_time",
+    "groups": [
+        {
+          "name": "2017-06-01~2017-06-02",
+          "lower": 1496246400000,
+          "upper": 1496332800000
+        },
+        {
+          "name": "2017-06-03~2017-06-04",
+          "lower": 1499011200000,
+          "upper": 1499097600000
+        }
+    ],
+    "outOfBound": true
+}
+```
+`groups`为分组列表，可以存放多个分组。其中，`name`为分组的名字，`lower`和`upper`为边界。`outOfBound`超出边界的是否存放到另外一个分组里。
 
 ## <a id="interval" href="interval"></a> interval 时间区间
 
@@ -829,7 +876,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### <a id="Aggregation-Cardinality" href="Aggregation-Cardinality"></a> 2. `Cardinality Aggregator(已废弃)`
+### <a id="Aggregation-Cardinality" href="Aggregation-Cardinality"></a> 2. `Cardinality Aggregation(已废弃)`
 在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
@@ -843,7 +890,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 当设置`byRow`为`false`（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
 
-### <a id="Aggregation-HyperUnique" href="Aggregation-HyperUnique"></a> 3. `HyperUnique Aggregator`
+### <a id="Aggregation-HyperUnique" href="Aggregation-HyperUnique"></a> 3. `HyperUnique Aggregation`
 在查询时，`HyperUnique Aggregation` 使用`HyperLogLog`算法计算给定维度集合的基数。`JSON`示例如下：
 
 ```
