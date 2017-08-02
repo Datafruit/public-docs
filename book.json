@@ -2,7 +2,8 @@
   "title": "数果智能使用手册",
   "description": "数果智能产品使用手册",
   "structure": {
-    "readme": "book-index.md"
+    "readme": "book-index.md",
+    "summary": "SUMMARY.md"
   },
   "author": "广东数果",
   "plugins": [
