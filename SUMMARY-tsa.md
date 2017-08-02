@@ -61,6 +61,6 @@
       * [Kafka接入](developer/data-access/kakfa-druid.md)
       * [Csv文件接入](developer/data-access/csv-druid.md)
   * 青云环境部署文档
-    *[单机版部署](qingcloud/stand-alone.md)
-    *[集群版部署](qingcloud/cluster.md)
+    * [单机版部署](qingcloud/stand-alone.md)
+    * [集群版部署](qingcloud/cluster.md)
 
