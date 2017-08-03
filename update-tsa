@@ -1,16 +1,16 @@
 #!/bin/bash
 cd `dirname $0`
-FILE=book-index.md.bak
+FILE=book.json.bak
 if [ -f $FILE ]; then
-    rm -rf book-index.md
-    rm -rf SUMMARY.md
-    mv book-index.md.bak book-index.md
-    mv SUMMARY.md.bak SUMMARY.md
+    rm -rf book.json
+    mv book.json.bak book.json
 fi
 git pull
 gitbook install
-mv book-index.md book-index.md.bak
-mv SUMMARY.md SUMMARY.md.bak
-cp book-index-tsa.md book-index.md
-cp SUMMARY-tsa.md SUMMARY.md
+mv book.json book.json.bak
+cp book-tsa.json book.json
+# mv book-index.md book-index.md.bak
+# mv SUMMARY.md SUMMARY.md.bak
+# cp book-index-tsa.md book-index.md
+# cp SUMMARY-tsa.md SUMMARY.md
 gitbook build
