@@ -264,7 +264,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`Spatial`](#Filter-Spatial)
   - [`All`](#Filter-All)
   - [`Lookup`](#Filter-Lookup)
-  - [`Lucene`](#Filter-Lucene)
+  - [`Lucene`](#Filter-Lucene)  
+  
 ### <a id="Filter-Seletor" href="Filter-Seletor"></a>1. `Seletor Filter`
 `Seletor Filter`是最简单的过滤器，它将与具体值匹配，功能类似于`SQL`中的`where key=value`，支持提取功能。`Seletor Filter`的`JSON`示例如下：
 ```
@@ -302,9 +303,9 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下:
 ```
 "filter": {
-  "type": "regex",
-  "dimension": "UserID",	
-  "pattern": "^c.*"
+    "type": "regex",
+    "dimension": "UserID",	
+    "pattern": "^c.*"
 }
 ```
 以上实例将匹配任何以`"c"`开头的`"userId"`。
@@ -324,19 +325,19 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下：
 ```
 "filter": {
-  "type": "and",
-  "fields": [
-    {
-      "type": "selector",
-      "dimension": "age",
-      "value": 20
-    },
-    {
-      "type": "selector",
-      "dimension": "province",
-      "value": "广东省"
-    }
-  ]
+    "type": "and",
+    "fields": [
+        {
+            "type": "selector",
+            "dimension": "age",
+            "value": 20
+        },
+        {
+            "type": "selector",
+            "dimension": "province",
+            "value": "广东省"
+        }
+    ]
 }
 ```
 相当于：`WHERE age=20 AND province="广东省"`
@@ -355,19 +356,19 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下：
 ```
 "filter": {
-  "type": "or",
-  "fields": [
-    {
-      "type": "selector",
-      "dimension": "age",
-      "value": 20
-    },
-    {
-      "type": "selector",
-      "dimension": "province",
-      "value": "广东省"
-    }
-  ]
+    "type": "or",
+    "fields": [
+        {
+            "type": "selector",
+            "dimension": "age",
+            "value": 20
+        },
+        {
+            "type": "selector",
+            "dimension": "province",
+            "value": "广东省"
+        }
+    ]
 }
 ```
 相当于：`WHERE age=20 OR province="广东省"`
@@ -385,12 +386,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下：
 ```
 "filter": {
-  "type": "not",
-  "field": {
-      "type": "selector",
-      "dimension": "age",
-      "value": 20
-  }
+    "type": "not",
+    "field": {
+        "type": "selector",
+        "dimension": "age",
+        "value": 20
+    }
 }
 ```
 相当于选出`age`不等于20的记录。
@@ -400,26 +401,26 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Search Filter`通过字符串匹配过滤维度，支持多种匹配方式。`Search Filter`的`JSON`示例如下：
 ```
 "filter"：{
-  "type":"search",
-  "dimension":<dimension_string>,
-  "query":{
-    "type":"contains",
-      "value":<value_string>,
-      "caseSensitive":<false | true>
-  },
-  "extractionFn":{<extractionFn>}
+    "type":"search",
+    "dimension":<dimension_string>,
+    "query":{
+        "type":"contains",
+        "value":<value_string>,
+        "caseSensitive":<false | true>
+    },
+    "extractionFn":{<extractionFn>}
 }
 ```
 使用实例如下：  
 ```
 "filter":{
-  "type":"search",
-  "dimension":"province",
-  "query":{
-    "type":"contains",
-      "value":"东",
-      "caseSensitive":true
-  }
+    "type":"search",
+    "dimension":"province",
+    "query":{
+        "type":"contains",
+        "value":"东",
+        "caseSensitive":true
+    }
 }
 ```
 若省份名字包含"东"字,则匹配。
@@ -485,8 +486,8 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "type": "in",
     "dimension": "province",
     "values": [
-      "广东省",
-      "广西省"
+        "广东省",
+        "广西省"
     ]
   }
 ```
@@ -496,14 +497,14 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Bound Filter` 其实就是比较过滤器，包含“大于”、“小于”和“等于”三种算子。`Bound Filter` 默认是字符串比较，并基于字典序。如果要使用数字比较，则需要在查询中设定`alphaNumeric`的值为`true`。`Bound Filter`默认的大小比较为“>=”或“<=”。`Bound Filter`具体的`JSON`表达式示例如下：
 ```
 "filter":{
-  "type":"bound",
-  "dimension":<dimension_string>,
-  "lower":"0",
-  "upper":"100",
-  "lowerStrict":<false | true>,
-  "upperStrict":<false | true>,
-  "alphaNumeric":<false | true>,
-  "extractionFn":{<extractionFn>}
+    "type":"bound",
+    "dimension":<dimension_string>,
+    "lower":"0",
+    "upper":"100",
+    "lowerStrict":<false | true>,
+    "upperStrict":<false | true>,
+    "alphaNumeric":<false | true>,
+    "extractionFn":{<extractionFn>}
 }
 ```
 - `lowerStrict`：是否包含下界  
@@ -513,11 +514,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下：
 ```
 "filter": {
-  "type": "bound",
-  "dimension": "age",
-  "alphaNumeric": true,
-  "upper": 20,
-  "upperStrict": true
+    "type": "bound",
+    "dimension": "age",
+    "alphaNumeric": true,
+    "upper": 20,
+    "upperStrict": true
 }
 ```
 相当于：`WHERE age<20 `。
@@ -538,9 +539,9 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下：
 ```
 {
-  "type":"javascript",
-  "dimension":"name",
-  "function":"function(x) { return(x >= 'bar' && x <= 'foo') }"
+    "type":"javascript",
+    "dimension":"name",
+    "function":"function(x) { return(x >= 'bar' && x <= 'foo') }"
 }
 ```
 上面的例子可匹配任何`name`在`'bar'`和`'foo'`之间的维度值。
@@ -604,9 +605,9 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下：
 ```
 {
-  "type":"lookup",
-  "dimension":"userId",
-  "lookup":"usergroup-gdsfrex1"
+    "type":"lookup",
+    "dimension":"userId",
+    "lookup":"usergroup-gdsfrex1"
 }
 ```
 ### <a id="Filter-Lucene" href="Filter-Lucene"></a>11. `Lucene Filter`
@@ -621,19 +622,19 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 1.使用示例如下：
 ```
 {
-  "type":"lucene",
-  "query":"userId:10001"
+    "type":"lucene",
+    "query":"userId:10001"
 }
 ```
 查询`userId=10001`的记录，相当于`WHERE userId='10001'`。    
 2.使用`lucene`查询实现过滤维度值不为`null`的记录，示例如下：
 ```
 {
-  "type": "not",
-  "field": {
+    "type": "not",
+    "field": {
     "type": "lucene",
     "query": "(*:* NOT address:*)"
-  }
+    }
 }
 ```
 查询`address`不为`null`的记录，相当于`where address is not null`。  
@@ -691,12 +692,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Javascript Extraction`返回由给定的`JavaScript`函数转换的维度值。`JSON`示例如下：
 ```
 "extractionFn":{
-  "type":"javascript",
-  "query":{
-  "type":"contains",
-  "function":<function_string>,
-  "injective":<false | true>
-  }
+    "type":"javascript",
+    "query":{
+        "type":"contains",
+        "function":<function_string>,
+        "injective":<false | true>
+    }
 }
 ```
 
@@ -724,11 +725,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
     "dimension": "__time",
     "value": "Friday",
     "extractionFn": {
-    "type": "timeFormat",
-    "format": "EEEE",
-    "timeZone": "America/New_York",
-    "locale": "en"
-  }
+        "type": "timeFormat",
+        "format": "EEEE",
+        "timeZone": "America/New_York",
+        "locale": "en"
+    }
 }
 ```
 ### <a id="Extraction-Identity" href="Extraction-Identity"></a> 6. `Identity Extraction`
@@ -743,25 +744,24 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `JSON`示例如下：
 ```
 "extractionFn":{
-  "type":"lookup",
-  "lookup": {
-    "lookup":<lookup>, 
-    "retainMissingValue":<false | true> 
-    "replaceMissingValueWith":<replaceMissingValueWith_string>, 
+    "type":"lookup",
+    "lookup": {
+        "lookup":<lookup>, 
+        "retainMissingValue":<false | true> 
+        "replaceMissingValueWith":<replaceMissingValueWith_string>, 
+        "injective":<false | true>, 
+        "optimize":<false | true>
+    },    
+    "retainMissingValue":<false | true>,	
+    "replaceMissingValueWith":<replace_string>,	
     "injective":<false | true>, 
     "optimize":<false | true>
-  },    
-  "retainMissingValue":<false | true>,	
-  "replaceMissingValueWith":<replace_string>,	
-  "injective":<false | true>, 
-  "optimize":<false | true>
 }
 ```
 
 使用示例如下:
 ```
-{
-  "filter": {
+"filter": {
     "type": "selector",
     "dimension": "product",
     "value": "bar_1",
@@ -776,7 +776,6 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
             }
         }
     }
-  }
 }
 ```
 
@@ -860,19 +859,19 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 用于计算Druid的数据行数，相当于`count()`。`Count Aggregation`的JSON示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_count",
-    "name":<name_string>
-  }
+    {
+        "type":"lucene_count",
+        "name":<name_string>
+    }
 ]
 ```
 使用示例如下:
 ```
 "aggregations": [
-  {
-    "type": "lucene_count",
-    "name": "__VALUE__"
-  }
+    {
+        "type": "lucene_count",
+        "name": "__VALUE__"
+    }
 ]
 ```
 
@@ -880,12 +879,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 在查询时，`Cardinality Aggregation`使用`HyperLogLog`算法计算给定维度集合的基数，相当于`distinct()`。`Cardinality Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_cardinality",
-    "name":<name_string>,
-    "fieldNames":[<fieldName_string>,<fieldName_string>,...], 
-    "byRow":<false | true> 
-  }
+    {
+        "type":"lucene_cardinality",
+        "name":<name_string>,
+        "fieldNames":[<fieldName_string>,<fieldName_string>,...], 
+        "byRow":<false | true> 
+    }
 ]
 ```
 当设置`byRow`为`false`（默认值）时，它计算由所有给定维度的所有维度值的并集组成的集合的基数。
@@ -895,33 +894,33 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 ```
 "aggregations":[
-  {
-    "type":"lucene_hyperUnique",
-    "name":<name_string>,
-    "fieldName":<fieldName_string>
-  }
+    {
+        "type":"lucene_hyperUnique",
+        "name":<name_string>,
+        "fieldName":<fieldName_string>
+    }
 ]
 ```
 使用示例如下:
 ```
 "aggregations":[
-  {
-    "type":"lucene_hyperUnique",
-    "name":"ageCount",
-    "fieldName":"age"
-  }
+    {
+        "type":"lucene_hyperUnique",
+        "name":"ageCount",
+        "fieldName":"age"
+    }
 ]
 ```
 
 查询结果如下:
 ```
 [
-  {
-    "timestamp": "2017-01-01T00:00:00.000Z",
-    "result": {
-      "user": 20.098296726168925
+    {
+        "timestamp": "2017-01-01T00:00:00.000Z",
+        "result": {
+            "user": 20.098296726168925
+        }
     }
-  }
 ]
 ```
 
@@ -932,11 +931,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的最大值，该值类型为 `double` ，维度的类型支持 `int`,`long`,`float`,相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations":[
-  {
-    "type":"lucene_doubleMax",
-    "name":<name_string>,
-    "fieldName":<fieldName_string>
- }
+    {
+        "type":"lucene_doubleMax",
+        "name":<name_string>,
+        "fieldName":<fieldName_string>
+    }
 ]
 ```
 - `name`- 结果输出的名称 
@@ -945,22 +944,22 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下:
 ```
 "aggregations": [
-  {
-  "type":"lucene_doubleMax",
-  "name":"max",
-  "fieldName":"age"
-  }
+    {
+        "type":"lucene_doubleMax",
+        "name":"max",
+        "fieldName":"age"
+    }
 ]
 ```
 返回结果如下:
 ```
 [
-  {
-    "timestamp": "2017-01-01T00:00:00.000Z",
-    "result": {
-      "max": 29
+    {
+        "timestamp": "2017-01-01T00:00:00.000Z",
+        "result": {
+            "max": 29
+        }
     }
-  }
 ]
 ```
 
@@ -968,11 +967,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的最小值，该值类型为`double`，输入的值类型为`int`,`long`,`float`,相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_doubleMin",
-    "name":<name_string>,
-    "fieldName":<fieldName_string>
-  }
+    {
+        "type":"lucene_doubleMin",
+        "name":<name_string>,
+        "fieldName":<fieldName_string>
+    }
 ]
 ```
 - `name`- 结果输出的名称 
@@ -982,11 +981,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 将查询到的值的和计算为`double`类型的数，输入的值类型为`int`,`long`,`float`,相当于`sum(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_doubleSum",
-    "name":<name_string>,
-    "fieldName":<fieldName_string> 
-  }
+    {
+        "type":"lucene_doubleSum",
+        "name":<name_string>,
+        "fieldName":<fieldName_string> 
+    }
 ]
 ```
 - `name`- 求和值的输出名称 
@@ -996,11 +995,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的最大值，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`max(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_longMax",
-    "name":<name_string>,
-    "fieldName":<fieldName_string>
-  }
+    {
+        "type":"lucene_longMax",
+        "name":<name_string>,
+        "fieldName":<fieldName_string>
+    }
 ]
 ```
 - `name`- 结果输出的名称 
@@ -1011,11 +1010,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的最小值，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`min(<fieldName_string>)`。`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_longMin",
-    "name":<name_string>,
-    "fieldName":<fieldName_string>
-  }
+    {
+        "type":"lucene_longMin",
+        "name":<name_string>,
+        "fieldName":<fieldName_string>
+    }
 ]
 ```
 - `name`- 结果输出的名称 
@@ -1025,11 +1024,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的的和，该值类型为64位有符号整数，输入的值类型为`int`,`long`，相当于`sum(<fieldName_string>)` 。`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_longSum",
-    "name":<name_string>,
-    "fieldName":<fieldName_string> 
-  }
+    {
+        "type":"lucene_longSum",
+        "name":<name_string>,
+        "fieldName":<fieldName_string> 
+    }
 ]
 ```
 - `name`- 结果输出的名称 
@@ -1042,14 +1041,14 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 ```
 "aggregations": [
-  {
-    "type":"lucene_javascript",
-    "name":<name_string>,
-    "fieldNames":[<fieldName_string>,<fieldName_string>], 
-    "fnAggregate":<fnAggregate_string>, 
-    "fnReset":<fnReset_string>, 
-    "fnCombine":<fnCombine_string> 
-  }
+    {
+        "type":"lucene_javascript",
+        "name":<name_string>,
+        "fieldNames":[<fieldName_string>,<fieldName_string>], 
+        "fnAggregate":<fnAggregate_string>, 
+        "fnReset":<fnReset_string>, 
+        "fnCombine":<fnCombine_string> 
+    }
 ]
 ```
 - `name`:这组`JavaScript`函数的名称
@@ -1058,14 +1057,14 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下:
 ```
 "aggregations": [
-  {
-    "type": "lucene_javascript",
-    "name": "sum(log(x)*y) + 10",
-    "fieldNames": ["x", "y"],
-    "fnAggregate" : "function(current, a, b)      { return current + (Math.log(a) * b); }",
-    "fnCombine"   : "function(partialA, partialB) { return partialA + partialB; }",
-    "fnReset"     : "function()                   { return 10; }"
-  }
+    {
+        "type": "lucene_javascript",
+        "name": "sum(log(x)*y) + 10",
+        "fieldNames": ["x", "y"],
+        "fnAggregate" : "function(current, a, b)      { return current + (Math.log(a) * b); }",
+        "fnCombine"   : "function(partialA, partialB) { return partialA + partialB; }",
+        "fnReset"     : "function()                   { return 10; }"
+    }
 ]
 ```
 
@@ -1074,32 +1073,32 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的最小值，该值类型为`date`, 输入的值的类型必须是`date`。`DateMin Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_dateMin",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>"
-  }
+    {
+        "type":"lucene_dateMin",
+        "name":"<name_string>",
+        "fieldName":"<fieldName_string>"
+    }
 ]
 ```
 使用示例如下:
 ```
 "aggregations": [
-  {
-    "type":"lucene_dateMin",
-    "name":"minDate",
-    "fieldName":"birthday"
-  }
+    {
+        "type":"lucene_dateMin",
+        "name":"minDate",
+        "fieldName":"birthday"
+    }
 ]
 ```
 查询结果如下:
 ```
 [
-  {
-    "timestamp": "2017-01-01T00:00:00.000Z",
-    "result": {
-      "minDate": "1988-05-17T07:36:52.046Z"
+    {
+        "timestamp": "2017-01-01T00:00:00.000Z",
+        "result": {
+            "minDate": "1988-05-17T07:36:52.046Z"
+        }
     }
-  }
 ]
 ```
 
@@ -1109,11 +1108,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 结果的最小值，该值类型为`date`,输入的值的类型必须是`date`。`DateMax Aggregation` 的`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_dateMax",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>"
-  }
+    {
+        "type":"lucene_dateMax",
+        "name":"<name_string>",
+        "fieldName":"<fieldName_string>"
+    }
 ]
 ```
 ### <a id="Aggregation-Filtered" href="Aggregation-Filtered"></a>13. `Filtered Aggregation`
@@ -1121,30 +1120,30 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Filtered Aggregation`可以在`aggregation`中指定`Filter`规则。只对满足规则的维度进行聚合，以提升聚合效率。`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_filtered",
-    "aggregator":<aggregator>, 
-    "filter":"<filter>
-  }
+    {
+        "type":"lucene_filtered",
+        "aggregator":<aggregator>, 
+        "filter":"<filter>
+    }
 ]
 ```
 使用示例如下:
 ```
 "aggregations":[
-  {
-    "type":"lucene_filtered",
-    "aggregator":  {
-	    "type": "lucene_count",
-	    "name": "__VALUE__"
-	  },
-    "filter": {
-	    "type": "bound",
-	    "dimension": "age",
-	    "alphaNumeric": true,
-	    "upper": 20,
-	    "upperStrict": true
-	  }
-  }	
+    {
+        "type":"lucene_filtered",
+        "aggregator": {
+            "type": "lucene_count",
+            "name": "__VALUE__"
+        },
+        "filter": {
+            "type": "bound",
+            "dimension": "age",
+            "alphaNumeric": true,
+            "upper": 20,
+            "upperStrict": true
+        }
+    }	
 ]
 ```
 
@@ -1153,12 +1152,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 查询结果如下:
 ```
 [
-  {
-    "timestamp": "2017-01-01T00:00:00.000Z",
-    "result": {
-      "__VALUE__": 50094
+    {
+        "timestamp": "2017-01-01T00:00:00.000Z",
+        "result": {
+            "__VALUE__": 50094
+        }
     }
-  }
 ]
 ```
 
@@ -1166,16 +1165,16 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `ThetaSketch Aggregation`的`JSON`示例如下：
 ```
 "aggregations": [
-  {
-    "type":"lucene_thetaSketch",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>"
-    "size":10,
-    "shouldFinalize":true,
-    "isInputThetaSketch":true,
-    "errorBoundsStdDev":5,
-    "trunc":true
-  }
+    {
+        "type":"lucene_thetaSketch",
+        "name":"<name_string>",
+        "fieldName":"<fieldName_string>"
+        "size":10,
+        "shouldFinalize":true,
+        "isInputThetaSketch":true,
+        "errorBoundsStdDev":5,
+        "trunc":true
+    }
 ]
 ```
 
@@ -1214,22 +1213,22 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 使用示例如下:
 ```
 "postAggregations":[
-  {
-    "type":"arithmetic",
-    "name":"age",
-    "fn":"-",
-    "fields":[
-      {
-        "type":"hyperUniqueCardinality",
-        "fieldName":"max(age)"
-      },
-      {
-        "type":"hyperUniqueCardinality",
-        "fieldName":"min(age)" 
-      }
-    ],
-    "ordering":<ordering_string>
-  }
+    {
+        "type":"arithmetic",
+        "name":"age",
+        "fn":"-",
+        "fields":[
+            {
+                "type":"hyperUniqueCardinality",
+                "fieldName":"max(age)"
+            },
+            {
+                "type":"hyperUniqueCardinality",
+                "fieldName":"min(age)" 
+            }
+        ],
+        "ordering":<ordering_string>
+    }
 ]
 ```
 以上示例可以计算最大年龄和最小年龄之间的年龄差。
@@ -1238,34 +1237,34 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `FieldAccess PostAggregation`返回指定的`Aggregation`的值，在`PostAggregation`中大部分情况下使用`fieldAccess`来访问`Aggregation`。在`fieldName`中指定`Aggregation`里定义的`name`，如果对`HyperUnique`的结果进行访问，则需要使用`hyperUniqueCardinality`。`FieldAccess PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"fieldAccess",
-    "name":<output_name>,
-    "fieldName":<aggregator_name>
-  }
+    {
+        "type":"fieldAccess",
+        "name":<output_name>,
+        "fieldName":<aggregator_name>
+    }
 ]
 ```
 
 使用示例如下:
 ```
 "postAggregations":[
-  {
-    "type":"fieldAccess",
-    "name":"field",
-    "fieldName":"__VALUE__"
-  }
+    {
+        "type":"fieldAccess",
+        "name":"field",
+        "fieldName":"__VALUE__"
+    }
 ]
 ```
 结果如下:
 ```
 [
-  {
-    "timestamp": "2017-01-01T00:00:00.000Z",
-    "result": {
-      "field": 100000,
-      "__VALUE__": 100000
+    {
+        "timestamp": "2017-01-01T00:00:00.000Z",
+        "result": {
+            "field": 100000,
+            "__VALUE__": 100000
+        }
     }
-  }
 ]
 ```
 
@@ -1274,33 +1273,33 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Constant PostAggregation`会多返回一个常数，比如100。可以将`Aggregation`返回的结果转换为百分比。`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"constant",
-    "name":<output_name>,
-    "value":<numerical_value>
-  }
+    {
+        "type":"constant",
+        "name":<output_name>,
+        "value":<numerical_value>
+    }
 ]
 ```
 使用示例如下:
 ```
 "postAggregations":[
-  {
-    "type":"constant",
-    "name":"num",
-    "value":10
-  }
+    {
+        "type":"constant",
+        "name":"num",
+        "value":10
+    }
 ]
 ```
 结果如下:
 ```
 [
-  {
-    "timestamp": "2017-01-01T00:00:00.000Z",
-    "result": {
-      "num": 10,
-      "__VALUE__": 100000
+    {
+        "timestamp": "2017-01-01T00:00:00.000Z",
+        "result": {
+            "num": 10,
+            "__VALUE__": 100000
+        }
     }
-  }
 ]
 ```
 
@@ -1308,11 +1307,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `HyperUniqueCardinality PostAggregation`得到`HyperUnique Aggregation`的结果，使之参与到`PostAggregation`的计算中。`JSON`示例如下：  
 ```
 "postAggregations":[
-  {
-    "type":"lucene_hyperUniqueCardinality",
-    "name":<output name>,
-    "fieldName":<the name field value of the hyperUnique aggregator>
-  }
+    {
+        "type":"lucene_hyperUniqueCardinality",
+        "name":<output name>,
+        "fieldName":<the name field value of the hyperUnique aggregator>
+    }
 ]
 ```
 
@@ -1323,11 +1322,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `SketchEstimate PostAggregation`用于计算`Sketch`的估计值，`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"lucene_sketchEstimate",
-    "name":"<name_string>",
-    "field":{<postAggregator>}
-  }
+    {
+        "type":"lucene_sketchEstimate",
+        "name":"<name_string>",
+        "field":{<postAggregator>}
+    }
 ]
 ```
 
@@ -1335,13 +1334,13 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `SketchSetOper PostAggregation`用于`Sketch`的集合运算，`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"lucene_sketchSetOper",
-    "name":"<name_string>",
-    "func":"<func_string>",
-    "size":20,
-    "fields":[<postAggregator>,<postAggregator>,...] 
-  }
+    {
+        "type":"lucene_sketchSetOper",
+        "name":"<name_string>",
+        "func":"<func_string>",
+        "size":20,
+        "fields":[<postAggregator>,<postAggregator>,...] 
+    }
 ]
 ```
 
@@ -1349,13 +1348,13 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Buckets PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"buckets",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>",
-    "bucketSize":4.5,
-    "offset":3.2
-  }
+    {
+        "type":"buckets",
+        "name":"<name_string>",
+        "fieldName":"<fieldName_string>",
+        "bucketSize":4.5,
+        "offset":3.2
+    }
 ]
 ```
 - `bucketSize`: `bucket`的大小
@@ -1366,12 +1365,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `CustomBuckets PostAggregation`的`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"customBuckets",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>",
-    "breaks":[1.2,3.5]
-  }
+    {
+        "type":"customBuckets",
+        "name":"<name_string>",
+        "fieldName":"<fieldName_string>",
+        "breaks":[1.2,3.5]
+    }
 ]
 ```
 
@@ -1379,12 +1378,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `EqualBuckets PostAggregation`的`JSON`示例如下：：
 ```
 "postAggregations":[
-  {
-    "type":"equalBuckets",
-    "name":"<name_string>",
-    "fieldName":"<fieldName_string>",
-    "numBuckets":20
-  }
+    {
+        "type":"equalBuckets",
+        "name":"<name_string>",
+        "fieldName":"<fieldName_string>",
+        "numBuckets":20
+    }
 ]
 ```  
 
@@ -1396,24 +1395,24 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Javascript PostAggregation`将提供的`JavaScript`函数应用于给定字段，`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"javascript",
-    "name":"<output_name>",
-    "fieldNames":["<aggregator_name>","<aggregator_name>",...],	
-    "function":"<javascript function>"  
-  }
+    {
+        "type":"javascript",
+        "name":"<output_name>",
+        "fieldNames":["<aggregator_name>","<aggregator_name>",...],	
+        "function":"<javascript function>"  
+    }
 ]
 ```
 
 使用示例如下:
 ```
 "postAggregations":[
-  {
-    "type": "javascript",
-    "name": "absPercent",
-    "fieldNames": ["delta", "total"],
-    "function": "function(delta, total) { return 100 * Math.abs(delta) / total; }"
-  }
+    {
+        "type": "javascript",
+        "name": "absPercent",
+        "fieldNames": ["delta", "total"],
+        "function": "function(delta, total) { return 100 * Math.abs(delta) / total; }"
+    }
 ]
 ```
 
@@ -1422,11 +1421,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Max PostAggregation`用于计算最大值，`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"max",
-    "name":"<output_name>",
-    "fieldName":"<post_aggregator>" 
- }
+    {
+        "type":"max",
+        "name":"<output_name>",
+        "fieldName":"<post_aggregator>" 
+    }
 ]
 ```
 
@@ -1434,11 +1433,11 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 `Min PostAggregation`用于计算最小值，`JSON`示例如下：
 ```
 "postAggregations":[
-  {
-    "type":"min",
-    "name":"<output_name>",
-    "fieldName":"<post_aggregator>" 
-  }
+    {
+        "type":"min",
+        "name":"<output_name>",
+        "fieldName":"<post_aggregator>" 
+    }
 ]
 ```
 
