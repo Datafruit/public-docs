@@ -877,4 +877,4 @@ plyql -h 192.168.60.100  --json-server  8001
     ]
 }
 ```
-#### 跟多Tindex查询类型请参考 [查询 Tindex-Query-Json](/developer/query/query.md)
+#### 更多Tindex查询类型请参考 [查询 Tindex-Query-Json](/developer/query/query.md)
