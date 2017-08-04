@@ -844,12 +844,37 @@ OR                      | 逻辑或
 plyql -h 192.168.60.100  --json-server  8001
 ```
 
-HTTP接口请求
+##### 1. HTTP SQL接口请求
+
+发送post请求到 `http://192.168.60.100:8001/plyql/`
 ```http
-http://192.168.60.100:8001/plyql/
-post请求: application/json 参数
+// post请求: application/json 参数
 {
   "sql":
   "SHOW TABLES"
 }
 ```
+
+##### 2. HTTP 原生Tindex-JSON接口请求
+
+发送post请求到 `http://192.168.60.100:8001/tindex/`
+```http
+// post请求: application/json 参数
+{
+    "queryType": "lucene_timeseries",
+    "dataSource": "events",
+    "intervals": "1000/3000",
+    "granularity": "all",
+    "context": {
+        "timeout": 60000,
+        "groupByStrategy": "v2"
+    },
+    "aggregations": [
+        {
+            "name": "__VALUE__",
+            "type": "lucene_count"
+        }
+    ]
+}
+```
+#### 跟多Tindex查询类型请参考 [查询 Tindex-Query-Json](/developer/query/query.md)
