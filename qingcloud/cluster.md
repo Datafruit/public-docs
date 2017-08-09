@@ -58,7 +58,7 @@
 
   ![](/assets/qingcloud/cluster/c-5.png)
 
-使用谷歌浏览器打开网址： http://公网IP:8080 ，进入Alaska界面查看astro安装在哪台主机上，找到它的IP地址用于设置端口转发规则。
+使用谷歌浏览器打开网址： `http://公网IP:8080`, 进入Alaska界面查看astro安装在哪台主机上，找到它的IP地址用于设置端口转发规则。
 Alaska账号：admin  密码：admin  
 Alaska账号修改密码见[Alaska修改密码](#password)
 
@@ -109,14 +109,14 @@ c）完成防火墙规则的配置后，点击应用修改。
 
  
 
-使用谷歌浏览器打开网址： http://公网IP:8080 ，回到Alaska界面修改服务的配置
+使用谷歌浏览器打开网址： `http://公网IP:8080` ，回到Alaska界面修改服务的配置
 1. 选择Astro-sugo，切换到配置的界面，展开“高级 astro-site”选项卡
 
     ![](/assets/qingcloud/cluster/c-12.png) 
 
-1）	将site.collectGateway下的参数改成对应的公网IP（可直接复制Alaska的地址）：http://公网IP。
+1）	将site.collectGateway下的参数改成对应的公网IP（可直接复制Alaska的地址）：`http://公网IP`。  
 
-2）	site.sdk_ws_url下的参数改成对应的公网IP（可直接复制Alaska的地址），端口不变：ws://公网IP:8887。
+2）	site.sdk_ws_url下的参数改成对应的公网IP（可直接复制Alaska的地址），端口不变：`ws://公网IP:8887`。  
 
 3）	修改完成后点击保存。
 
@@ -131,8 +131,10 @@ c）完成防火墙规则的配置后，点击应用修改。
  ![](/assets/qingcloud/cluster/c-15.png) 
   ![](/assets/qingcloud/cluster/c-16.png) 
 
-最后一步： <span id = "acquire"></span>进入应用的主界面。使用谷歌浏览器打开网址： http://公网IP:8000。此时复制产品注册码联系数果工作人员获取后端的密钥，产品序列号和账号密码即可免费使用产品30天。 
- ![](/assets/qingcloud/cluster/c-17.png) 
+最后一步： <span id = "acquire"></span>进入应用的主界面。使用谷歌浏览器打开网址： `http://公网IP:8000`。 
+此时复制产品注册码联系数果工作人员获取后端的密钥，产品序列号和账号密码即可免费使用产品30天。 
+
+![](/assets/qingcloud/cluster/c-17.png) 
 ![](/assets/qingcloud/cluster/c-18.png) 
  
  
@@ -152,7 +154,7 @@ c）完成防火墙规则的配置后，点击应用修改。
 1. 进入“AppCenter->集群列表”，选择进入需要扩展的应用集群详情页。点击新增从节点，可不填写名称进行提交创建。 
  ![](/assets/qingcloud/cluster/c-21.png) 
 2. 当“添加资源节点”的提示消失后，大概需要2分钟即可完成创建。
-3. 使用谷歌浏览器打开网址： http://公网IP:8080 ，回到Alaska界面，进入新增加的主机详情
+3. 使用谷歌浏览器打开网址： `http://公网IP:8080` ，回到Alaska界面，进入新增加的主机详情
   ![](/assets/qingcloud/cluster/c-22.png) 
 4. 在主机中点击增加，选择组件进行增加主机扩展，如选择Kafka Broker。
   ![](/assets/qingcloud/cluster/c-23.png) 
@@ -168,7 +170,7 @@ c）完成防火墙规则的配置后，点击应用修改。
 1）	扩容主节点，增大主节点主机的CPU，内存和磁盘容量；
 2）	扩容从节点，增大两台从节点主机的CPU，内存和磁盘容量。
 
-2. 使用谷歌浏览器打开网址： http://公网IP:8080 ，能正常进入并管理Alaska即表示完成扩容没有问题。
+2. 使用谷歌浏览器打开网址： `http://公网IP:8080` ，能正常进入并管理Alaska即表示完成扩容没有问题。
 
   ![](/assets/qingcloud/cluster/c-27.png) 
 3. 查看集群详情，主节点的配置已经完成扩容。
