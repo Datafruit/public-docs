@@ -129,10 +129,10 @@ c）完成防火墙规则的配置后，点击应用修改。
 2.	选择DruidIO-sugo，切换到配置的界面，展开“高级 common.runtime”选项卡，修改druid.license.signature下的参数为数果提供的后端密钥(此密钥需要在下一步的操作指引中进入应用的主界面中联系数果工作人员申请，详情见[最后一步，获取密钥](#acquire))，修改完成后点击保存，重启DruidIO-sugo的所有服务
 
  ![](/assets/qingcloud/cluster/c-15.png) 
-  ![](/assets/qingcloud/cluster/c-16.png) 
+ ![](/assets/qingcloud/cluster/c-16.png) 
 
 最后一步： <span id = "acquire"></span>进入应用的主界面。使用谷歌浏览器打开网址： `http://公网IP:8000`。 
-此时复制产品注册码联系数果工作人员获取后端的密钥，产品序列号和账号密码即可免费使用产品30天。 
+此时复制产品注册码联系数果工作人员（在主界面上查看联系方式）获取后端的密钥，产品序列号和账号密码即可免费使用产品30天。 
 
 ![](/assets/qingcloud/cluster/c-17.png) 
 ![](/assets/qingcloud/cluster/c-18.png) 
@@ -167,8 +167,8 @@ c）完成防火墙规则的配置后，点击应用修改。
 1. 在左侧列表中进入“AppCenter->集群列表”，右击应用ID，选择扩容集群。
   ![](/assets/qingcloud/cluster/c-25.png) 
   ![](/assets/qingcloud/cluster/c-26.png) 
-1）	扩容主节点，增大主节点主机的CPU，内存和磁盘容量；
-2）	扩容从节点，增大两台从节点主机的CPU，内存和磁盘容量。
+  > 1）	扩容主节点，增大主节点主机的CPU，内存和磁盘容量；
+  > 2）	扩容从节点，增大两台从节点主机的CPU，内存和磁盘容量。
 
 2. 使用谷歌浏览器打开网址： `http://公网IP:8080` ，能正常进入并管理Alaska即表示完成扩容没有问题。
 
@@ -188,7 +188,8 @@ c）完成防火墙规则的配置后，点击应用修改。
  ![](/assets/qingcloud/cluster/c-30.png) 
  
 ## Alaska修改密码 <span id = "password"></span>
-1.	进入管理界面
+
+1. 进入管理界面
  ![](/assets/qingcloud/cluster/p-1.png) 
 2. 点击进入用户管理，找到admin账号进入详情
  ![](/assets/qingcloud/cluster/p-2.png) 
