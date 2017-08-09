@@ -91,7 +91,8 @@ c）完成防火墙规则的配置后，点击应用修改。
 
 ![](/assets/qingcloud/stand-alone/sa-14.png) 
 
-最后一步：进入应用的主界面。使用谷歌浏览器打开网址： http://公网IP:8000。此时复制产品注册码联系数果工作人员获取产品序列号和帐号密码即可免费使用产品30天。
+最后一步：进入应用的主界面。使用谷歌浏览器打开网址： `http://公网IP:8000`。
+此时复制产品注册码联系数果工作人员获取产品序列号和帐号密码即可免费使用产品30天。
 
 ![](/assets/qingcloud/stand-alone/sa-15.png) 
 ![](/assets/qingcloud/stand-alone/sa-16.png) 
