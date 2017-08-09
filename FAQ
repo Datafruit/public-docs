@@ -1,5 +1,4 @@
-问题描述：
-
+### 创建任务失败，task异常日志如下
 ```
 2017-08-09 20:03:44.613 ERROR [task-runner-0-priority-0] io.druid.indexing.overlord.ThreadPoolTaskRunner - Exception while running task[LuceneKafkaIndexTask{id=lucene_index_kafka_ec_svr_op_data_30d7f3942e79bb3_ckgjmdbd, type=lucene_index_kafka, dataSource=ec_svr_op_data}]
 com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/storage/ec_svr_op_data/lucene_index_kafka_ec_svr_op_data_30d7f3942e79bb3_ckgjmdbd]
@@ -22,9 +21,9 @@ com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/
 }
 ```
 
-原因：
+#### 原因：
 用户没有权限在目录/data2/druidTask/storage/下创建目录
 
-解决方案：
+#### 解决方案：
 1.检查目录是否存在
 2.检查用户是否有创建目录的权限，一般druid用户需要对/data2/druidTask/storage/目录的写权限
