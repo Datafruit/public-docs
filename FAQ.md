@@ -27,3 +27,16 @@ com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/
 #### 解决方案：
 1.检查目录是否存在
 2.检查用户是否有创建目录的权限，一般druid用户需要对/data2/druidTask/storage/目录的写权限
+
+### 2.220环境druid更新部署失败
+```
+  File "/usr/lib/python2.6/site-packages/resource_management/core/providers/system.py", line 87, in action_create
+    raise Fail("Applying %s failed, parent directory %s doesn't exist" % (self.resource, dirname))
+resource_management.core.exceptions.Fail: Applying File['/opt/apps/druidio_sugo/conf/druid/overlord/supervisor.properties'] failed, parent directory /opt/apps/druidio_sugo/conf/druid/overlord doesn't exist
+```
+### 原因：
+druid包名命名错误，导致路径下找不到包
+
+### 解决方案：
+建平手工更druid包命名
+以后可以通过Jenkins打包
