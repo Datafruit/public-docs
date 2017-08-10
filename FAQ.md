@@ -1,4 +1,4 @@
-### 1.创建任务失败，task异常日志如下
+### 1. 创建任务失败，task异常日志如下
 ```
 2017-08-09 20:03:44.613 ERROR [task-runner-0-priority-0] io.druid.indexing.overlord.ThreadPoolTaskRunner - Exception while running task[LuceneKafkaIndexTask{id=lucene_index_kafka_ec_svr_op_data_30d7f3942e79bb3_ckgjmdbd, type=lucene_index_kafka, dataSource=ec_svr_op_data}]
 com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/storage/ec_svr_op_data/lucene_index_kafka_ec_svr_op_data_30d7f3942e79bb3_ckgjmdbd]
@@ -28,7 +28,7 @@ com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/
 1.检查目录是否存在
 2.检查用户是否有创建目录的权限，一般druid用户需要对/data2/druidTask/storage/目录的写权限
 
-### 2.220环境druid更新部署失败
+### 2. 220环境druid更新部署失败
 ```
   File "/usr/lib/python2.6/site-packages/resource_management/core/providers/system.py", line 87, in action_create
     raise Fail("Applying %s failed, parent directory %s doesn't exist" % (self.resource, dirname))
