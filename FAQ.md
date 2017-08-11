@@ -29,14 +29,21 @@ com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/
 2.检查用户是否有创建目录的权限，一般druid用户需要对/data2/druidTask/storage/目录的写权限
 
 ### 2. 220环境druid更新部署失败
+在ambari界面更新druid后台时报错，错误信息：
+```
+ File "/usr/lib/python2.6/site-packages/resource_management/core/shell.py", line 291, in _call
+    raise Fail(err_msg)
+resource_management.core.exceptions.Fail: Execution of 'mv  /opt/apps/druid* /opt/apps/druidio_sugo' returned 1. mv: target `/opt/apps/druidio_sugo' is not a directory
+```
+更新失败后，没有处理，直接启动服务，发现启动服务失败，ambari上的错误日志如下：
 ```
   File "/usr/lib/python2.6/site-packages/resource_management/core/providers/system.py", line 87, in action_create
     raise Fail("Applying %s failed, parent directory %s doesn't exist" % (self.resource, dirname))
 resource_management.core.exceptions.Fail: Applying File['/opt/apps/druidio_sugo/conf/druid/overlord/supervisor.properties'] failed, parent directory /opt/apps/druidio_sugo/conf/druid/overlord doesn't exist
 ```
 ### 原因：
-druid包名命名错误，导致路径下找不到包
+目录/opt/apps/下在更新之前存在druid开头的文件，导致更新时失败
+`mv  /opt/apps/druid* /opt/apps/druidio_sugo`目的是用于修改目录名称，但如果有druid开头的文件，则变成了将druid开头的文件移动到/opt/apps/druidio_sugo目录。而此时这个目录并不存在，所以报错。
 
 ### 解决方案：
-建平手工更druid包命名
-以后可以通过Jenkins打包
+保证更新之前/opt/apps/目录下不存在druid开头的文件。如果存在，则重命名为非druid开头的文件。
