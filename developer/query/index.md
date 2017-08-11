@@ -1147,7 +1147,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-该聚合只对`age>20`的记录实行。
+该聚合只对`age<20`的记录实行。
 
 查询结果如下:
 ```
@@ -1187,9 +1187,6 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`Constant`](#PostAggregation-Constant)
   - [`HyperUniqueCardinality`](#PostAggregation-HyperUniqueCardinality)
   - [`DataSketch`](#PostAggregation-DataSketch)
-  - [`Buckets`](#PostAggregation-Buckets)
-  - [`CustomBuckets`](#PostAggregation-CustomBuckets)
-  - [`EqualBuckets`](#PostAggregation-EqualBuckets)
   - [`Javascript`](#PostAggregation-Javascript)
   - [`Max`](#PostAggregation-Max)
   - [`Min`](#PostAggregation-Min)
@@ -1344,54 +1341,12 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### <a id="PostAggregation-Buckets" href="PostAggregation-Buckets"></a> 6. `Buckets PostAggregation`
-`Buckets PostAggregation`的`JSON`示例如下：
-```
-"postAggregations":[
-    {
-        "type":"buckets",
-        "name":"<name_string>",
-        "fieldName":"<fieldName_string>",
-        "bucketSize":4.5,
-        "offset":3.2
-    }
-]
-```
-- `bucketSize`: `bucket`的大小
-- `offset`: `bucket`的偏移量
-
-
-### <a id="PostAggregation-CustomBuckets" href="PostAggregation-CustomBuckets"></a>7. `CustomBuckets PostAggregation`
-`CustomBuckets PostAggregation`的`JSON`示例如下：
-```
-"postAggregations":[
-    {
-        "type":"customBuckets",
-        "name":"<name_string>",
-        "fieldName":"<fieldName_string>",
-        "breaks":[1.2,3.5]
-    }
-]
-```
-
-### <a id="PostAggregation-EqualBuckets" href="PostAggregation-EqualBuckets"></a> 8. `EqualBuckets PostAggregation`
-`EqualBuckets PostAggregation`的`JSON`示例如下：：
-```
-"postAggregations":[
-    {
-        "type":"equalBuckets",
-        "name":"<name_string>",
-        "fieldName":"<fieldName_string>",
-        "numBuckets":20
-    }
-]
-```  
 
 
 
 
 
-### <a id="PostAggregation-Javascript" href="PostAggregation-Javascript"></a>9. `Javascript PostAggregation`
+### <a id="PostAggregation-Javascript" href="PostAggregation-Javascript"></a>6. `Javascript PostAggregation`
 `Javascript PostAggregation`将提供的`JavaScript`函数应用于给定字段，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1417,7 +1372,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-### <a id="PostAggregation-Max" href="PostAggregation-Max"></a>10. `Max PostAggregation`
+### <a id="PostAggregation-Max" href="PostAggregation-Max"></a>7. `Max PostAggregation`
 `Max PostAggregation`用于计算最大值，`JSON`示例如下：
 ```
 "postAggregations":[
@@ -1429,7 +1384,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ]
 ```
 
-### <a id="PostAggregation-Min" href="PostAggregation-Min"></a>11. `Min PostAggregation`
+### <a id="PostAggregation-Min" href="PostAggregation-Min"></a>8. `Min PostAggregation`
 `Min PostAggregation`用于计算最小值，`JSON`示例如下：
 ```
 "postAggregations":[
