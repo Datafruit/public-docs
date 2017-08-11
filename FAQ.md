@@ -47,3 +47,24 @@ resource_management.core.exceptions.Fail: Applying File['/opt/apps/druidio_sugo/
 
 ### 解决方案：
 保证更新之前/opt/apps/目录下不存在druid开头的文件。如果存在，则重命名为非druid开头的文件。
+
+### 3. 环境更新后起Task失败
+在overlord的console页面上查看对应Task的日志，发现以下错误信息：
+```
+ERROR: transport error 202: bind failed: Address already in use
+ERROR: JDWP Transport dt_socket failed to initialize, TRANSPORT_INIT(510)
+JDWP exit error AGENT_ERROR_TRANSPORT_INIT(197): No transports initialized [debugInit.c:750]
+FATAL ERROR in native method: JDWP No transports initialized, jvmtiError=AGENT_ERROR_TRANSPORT_INIT(197)
+```
+
+根据描述，初步猜测可能是地址已被占用的问题   
+接下来登录overlord主机查看overlord的日志，发现当任务地址从`[TaskLocation{host=null, port=-1}]`变为以下地址时`[TaskLocation{host='dev224.sugo.net', port=8102}]`，任务状态就变成falied，可以进一步确定是端口被占用
+
+### 原因：
+环境更新后，MiddleManager的配置中会增加一项：`-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=6305`以用于调试，它需要占用一个端口，当起的任务比较多时，会与它发生冲突
+
+### 解决方案：
+1. 登录集群的`ambri`控制台页面
+2. 进入`DruidIO-Sugo`的配置项下
+3. 选择`高级 middlemanager.config`
+4. 把`druid.indexer.runner.javaOpts`配置项中的` -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=6305`删掉，按保存，并重启MiddleManager服务
