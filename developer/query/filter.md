@@ -13,7 +13,6 @@
   - [`In`](#Filter-In)
   - [`Bound`](#Filter-Bound)
   - [`JavaScript`](#Filter-JavaScript)
-  - [`Spatial`](#Filter-Spatial)
   - [`All`](#Filter-All)
   - [`Lookup`](#Filter-Lookup)
   - [`Lucene`](#Filter-Lucene)
@@ -299,51 +298,15 @@
 上面的例子可匹配任何`name`在`'bar'`和`'foo'`之间的维度值。
 
 
-### <a id="Filter-Spatial" href="Filter-Spatial"></a> 8. `Spatial Filter`
-`Spatial Filter`，即为空间过滤器，`JSON`表达式示例如下：
-```
-"filter":{
-    "type":"spatial",
-    "dimension":<dimension_string>,
-    "bound":<bound>
-}
-```
-`spatial.bound.type`，即边界类型，目前支持两种：`rectangular`，`radius`
 
-**1. Rectangular**   
-`Rectangular`,即为矩形，`JSON`示例如下：
-```
-"bound":{
-    "type":"rectangular",
-    "minCoords":[4.5,5.3],
-    "maxCoords":[2.3,5.6],
-    "limit":50
-}
-```
-- minCoords: 最小坐标轴列表 [x,y,z,...]
-- maxCoords: 最大坐标轴列表 [x,y,z,...]
-
-**2. Radius**  
-`Radius`,即为半径，`JSON`示例如下：
-```
-"bound":{
-    "type":"radius",
-    "coords":[4.5,5.3],
-    "radius":[2.3,5.6],
-    "limit":50
-}
-```
-- `coords`: 原点坐标 [x,y,z,...]
-- `radius`: 浮点表示的半径值 [x,y,z,...]
-
-### <a id="Filter-All" href="Filter-All"></a> 9. `All Filter`
+### <a id="Filter-All" href="Filter-All"></a> 8. `All Filter`
 `All Filter`匹配所有维度值，`JSON`示例如下：
 ```
 {
     "type":"all"
 }
 ```
-### <a id="Filter-Lookup" href="Filter-Lookup"></a> 10. `Lookup Filter`
+### <a id="Filter-Lookup" href="Filter-Lookup"></a> 9. `Lookup Filter`
 `Lookup Filter`用于检查该维度的值是否存在于指定的用户分群中。`JSON`示例如下：
 ```
 {
@@ -362,7 +325,7 @@
   "lookup":"usergroup-gdsfrex1"
 }
 ```
-### <a id="Filter-Lucene" href="Filter-Lucene"></a>11. `Lucene Filter`
+### <a id="Filter-Lucene" href="Filter-Lucene"></a>10. `Lucene Filter`
 `Lucene Filter`支持`lucene`格式的查询语法，用于过滤不满足条件的数据。`JSON`示例如下：
 ```
 {
@@ -390,7 +353,7 @@
 }
 ```
 查询`address`不为`null`的记录，相当于`where address is not null`。  
-### <a id="Filter-Extraction" href="Filter-Extraction"></a> 12. `Extraction Filter`
+### <a id="Filter-Extraction" href="Filter-Extraction"></a> 11. `Extraction Filter`
 
 `Extraction Filter`使用一些特定的提取函数匹配维度。  
 `extraction`类型可选项：`time`,`regex`,`partial`,`searchQuery`,`javascript`,`timeFormat`,`identity`,`lookup`,`registeredLookup`,`substring`,`cascade`,`stringFormat`,`upper`,`lower`。  
