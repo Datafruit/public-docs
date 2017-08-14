@@ -144,6 +144,7 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 7.	代码：根据需要填入js代码，例如可抓取页面指定内容，并上报至指定字段。
 函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。
 例如：
+
 ```javascript
 var text = element.innerText;  // 获取当前点击元素的text
 
