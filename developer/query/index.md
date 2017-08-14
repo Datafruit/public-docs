@@ -1342,10 +1342,6 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 ```
 
 
-
-
-
-
 ### <a id="PostAggregation-Javascript" href="PostAggregation-Javascript"></a>6. `Javascript PostAggregation`
 `Javascript PostAggregation`将提供的`JavaScript`函数应用于给定字段，`JSON`示例如下：
 ```
