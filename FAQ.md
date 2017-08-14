@@ -61,7 +61,7 @@ FATAL ERROR in native method: JDWP No transports initialized, jvmtiError=AGENT_E
 接下来登录overlord主机查看overlord的日志，发现当任务地址从`[TaskLocation{host=null, port=-1}]`变为以下地址时`[TaskLocation{host='dev224.sugo.net', port=8102}]`，任务状态就变成falied，可以进一步确定是端口被占用
 
 ### 原因：
-环境更新后，MiddleManager的配置中会增加一项：`-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=6305`以用于调试，它需要占用一个端口，当起的任务比较多时，会与它发生冲突
+MiddleManager的配置中多了一项：`-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=6305`以用于调试，它需要占用一个端口。在启动第一个task时会绑定指定的端口，但当第二个任务启动时，也需要绑定该端口，但同一个端口只能被一个进程绑定。
 
 ### 解决方案：
 1. 登录集群的`ambri`控制台页面
