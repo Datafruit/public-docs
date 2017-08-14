@@ -72,11 +72,12 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 ![](/assets/project-management/2-8.png)
 
 此功能可以通过向页面注入代码，在页面载入时，自动上报指定的内容到指定维度字段。
-此功能仅支持HTML页面，函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。
-  > **`e`:** 表示当前JS点击事件的Event对象
-  > **`element`:** 表示当前点击元素的DOM对象
-  > **`conf`:** SDK初始化的一些配置信息，如：`app_host`, `api_host`, `token`等
-  > **`instance`:** 当前初始化SDK的JS对象（sugoio对象）
+此功能仅支持HTML页面，函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。  
+   >  **`e`:** 表示当前JS点击事件的Event对象
+   >  **`element`:** 表示当前点击元素的DOM对象
+   >  **`conf`:** SDK初始化的一些配置信息，如：`app_host`, `api_host`, `token`等
+   >  **`instance`:** 当前初始化SDK的JS对象（sugoio对象） 
+   
 例如有如下需求：
   > 我们需要将当前点击元素的文本上报到自定义维度EventText上，同时要将搜索框中输入的内容上报到SearchText维度上。
   > 我们可以注入如下代码来实现此需求：
