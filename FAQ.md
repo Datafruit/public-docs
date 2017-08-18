@@ -71,10 +71,10 @@ MiddleManager的配置中多了一项：`-agentlib:jdwp=transport=dt_socket,serv
 
 ### 4. 自助分析用户唯一ID在维度栏是查询不出数据
 在druid后端的historical.log查看日志报错，错误信息如下：
-```
+
 ![](/assets/image/druid内存不足.png)
 Not enough dictionary space to execute this query. Try increasing druid.lucene.query.groupBy.maxMergingDictionarySize or enable disk spilling by setting druid.lucene.query.groupBy.maxOnDiskStorage to a positive number.
-```
+
 根据描述，初步猜测可能是druid.lucene.query.groupBy.maxOnDiskStorage的数量不足
 
 ### 解决方案：
