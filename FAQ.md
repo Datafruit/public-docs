@@ -79,3 +79,13 @@ Not enough dictionary space to execute this query. Try increasing druid.lucene.q
 
 ### 解决方案：
 在对应服务的/opt/apps/druidio_sugo/conf/druid/_common的common.runtime.properties中加入参数druid.lucene.query.groupBy.maxOnDiskStorage=100000000（看具体看情况订数字大小）
+
+### 5. 接数据时内存不足
+查相应task的日志，出现以下报错
+Java.lang.OutOfMemoryError: GC overhead limit exceeded
+![](/assets/image/QQ截图20170817195058.png)
+
+该问题主要是由于历史数据的时间跨度比较大，段聚合的粒度太小，导致段的数量太多，占用太多机器内存。
+
+### 解决方案：
+如果历史数据的时间跨度太大，要注意相应调整段聚合粒度的大小，保证段的数量不会过多。
