@@ -68,3 +68,19 @@ MiddleManager的配置中多了一项：`-agentlib:jdwp=transport=dt_socket,serv
 2. 进入`DruidIO-Sugo`的配置项下
 3. 选择`高级 middlemanager.config`
 4. 把`druid.indexer.runner.javaOpts`配置项中的` -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=6305`删掉，按保存，并重启MiddleManager服务
+
+### 4. 自助分析用户唯一ID在维度栏是查询不出数据
+在druid后端的historical.log查看日志报错，错误信息如下：
+```
+Not enough dictionary space to execute this query. Try increasing druid.lucene.query.groupBy.maxMergingDictionarySize or enable disk spilling by setting druid.lucene.query.groupBy.maxOnDiskStorage to a positive number.
+```
+根据描述，初步猜测可能是druid.lucene.query.groupBy.maxOnDiskStorage的数量不足
+
+
+### 解决方案：
+在对应服务的/opt/apps/druidio_sugo/conf/druid/_common的common.runtime.properties中加入参数druid.lucene.query.groupBy.maxOnDiskStorage=100000000（看具体看情况订数字大小）
+
+
+![](/image/QQ%E6%88%AA%E5%9B%BE20170817195058.png)
+
+
