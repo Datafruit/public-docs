@@ -75,7 +75,7 @@ MiddleManager的配置中多了一项：`-agentlib:jdwp=transport=dt_socket,serv
 Not enough dictionary space to execute this query. Try increasing druid.lucene.query.groupBy.maxMergingDictionarySize or enable disk spilling by setting druid.lucene.query.groupBy.maxOnDiskStorage to a positive number.
 ```
 根据描述，初步猜测可能是druid.lucene.query.groupBy.maxOnDiskStorage的数量不足
-```
+
 
 ### 解决方案：
 在对应服务的/opt/apps/druidio_sugo/conf/druid/_common的common.runtime.properties中加入参数druid.lucene.query.groupBy.maxOnDiskStorage=100000000（看具体看情况订数字大小）
