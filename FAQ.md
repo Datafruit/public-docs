@@ -81,6 +81,6 @@ Not enough dictionary space to execute this query. Try increasing druid.lucene.q
 在对应服务的/opt/apps/druidio_sugo/conf/druid/_common的common.runtime.properties中加入参数druid.lucene.query.groupBy.maxOnDiskStorage=100000000（看具体看情况订数字大小）
 
 
-![Image](https://github.com/Datafruit/public-docs/blob/zhangccc-patch-1/image/QQ%E6%88%AA%E5%9B%BE20170817195058.png)
+![](/image/QQ%E6%88%AA%E5%9B%BE20170817195058.png)
 
 
