@@ -72,14 +72,25 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 ![](/assets/project-management/2-8.png)
 
 此功能可以通过向页面注入代码，在页面载入时，自动上报指定的内容到指定维度字段。
-此功能仅支持HTML页面，函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。
-示例说明：
+此功能仅支持HTML页面，函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。  
+  > **`e`:** 表示当前JS点击事件的Event对象  
+  > **`element`:** 表示当前点击元素的DOM对象  
+  > **`conf`:** SDK初始化的一些配置信息，如：`app_host`, `api_host`, `token`等  
+  > **`instance`:** 当前初始化SDK的JS对象（sugoio对象） 
+   
+例如有如下需求：
+  > 我们需要将当前点击元素的文本上报到自定义维度EventText上，同时要将搜索框中输入的内容上报到SearchText维度上。 
+  > 我们可以注入如下代码来实现此需求：
+
 ```javascript
-var text = element.innerText;  // 获取当前点击元素的text
+// 获取当前点击元素的text
+var _clickText = element.innerText;  
 
-var custom1 = document.getElementById('xxx').value  //假设xxx为一个input框的id，我们又想在点击元素时同时上报这个input的value值。
+//假设inpSearch为搜索框input框的id
+var _searchText = document.getElementById('inpSearch').value;  
 
-return {EventText: text, Custom1: custom1}  // 这里写的是一个函数内容,最终返回为json对象的自定义属性。
+// 注：整个代码注入是一个函数内容体, 最终返回一个JSON对象，其中JSON对象的每个属性代表一个自定义维度的上报。
+return { EventText: _clickText, SearchText: _searchText };  
 ```
 
 **HTML页面元素埋点**
@@ -141,15 +152,26 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 
 5.	类型：埋点事件类型，包括：点击、改变、对焦；
 6.	名称：埋点事件的名称，请使用辨识度较高的名称，便于今后查询；
-7.	代码：根据需要填入js代码，例如可抓取页面指定内容，并上报至指定字段。
-函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。
-例如：
+7.	代码：根据需要填入js代码，例如可抓取页面指定内容，并上报至指定字段。  
+ 函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。  
+  > **`e`:** 表示当前JS点击事件的Event对象  
+  > **`element`:** 表示当前点击元素的DOM对象  
+  > **`conf`:** SDK初始化的一些配置信息，如：`app_host`, `api_host`, `token`等  
+  > **`instance`:** 当前初始化SDK的JS对象（sugoio对象） 
+  
+例如有如下需求：  
+   > 我们需要将当前点击元素的文本上报到自定义维度EventText上，同时要将搜索框中输入的内容上报到SearchText维度上。  
+   > 我们可以注入如下代码来实现此需求：  
+
 ```javascript
-var text = element.innerText;  // 获取当前点击元素的text
+// 获取当前点击元素的text
+var _clickText = element.innerText;  
 
-var custom1 = document.getElementById('xxx').value  //假设xxx为一个input框的id，我们又想在点击元素时同时上报这个input的value值。
+//假设inpSearch为搜索框input框的id
+var _searchText = document.getElementById('inpSearch').value;  
 
-return {EventText: text, Custom1: custom1}  // 这里写的是一个函数内容,最终返回为json对象的自定义属性。
+// 注：整个代码注入是一个函数内容体, 最终返回一个JSON对象，其中JSON对象的每个属性代表一个自定义维度的上报。
+return { EventText: _clickText, SearchText: _searchText };  
 ```
 
 ![](/assets/project-management/2-22.png)
@@ -176,7 +198,7 @@ return {EventText: text, Custom1: custom1}  // 这里写的是一个函数内容
 5.	设置主时间字段：将某一列设置为时间维度列，即数据分析时的时间轴。此列的数据格式必须为date；
 6.	选择导入数据列：可自由选择将那些列进行导入，默认为全部导入。
 
-## 子项目
+## <span id = "create-son">子项目</span>
 
 以某个项目数据为基础，通过设置筛选条件，将符合条件的数据划归一个新的项目。新的项目即为原项目的子项目。
 子项目主要用于实现对数据的分权管理，将项目内的指定数据对指定人员开放。

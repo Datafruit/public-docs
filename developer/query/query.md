@@ -2,7 +2,6 @@
 
 
 - [Timeseries](#Timeseries)
-- [TopN](#TopN)
 - [GroupBy](#GroupBy)
 - [Select](#Select)
 - [Search](#Search)
@@ -78,6 +77,7 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 - `all`，汇总为1条输出。
 - `none`，不推荐使用。
 - 其他的，则输出相应粒度的统计信息。
+
 
 
 ## <a id="TopN" href="TopN"></a> 2. `TopN`
@@ -158,6 +158,7 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 ```
 
 需要注意的是，`topN`是一个近似算法，每一个`Segment`返回前1000条进行合并得到最后的结果，如果`dimension`的基数在1000以内，则是准确的，超过1000就是近似值。
+
 
 ## <a id="GroupBy" href="GroupBy"></a> 3. `GroupBy`
 `GroupBy`类似于`SQL`中的`group by`操作，能对指定的多个维度进行分组，也支持对指定的维度进行排序，并输出`limit`行数。同时，支持`having`操作。
@@ -519,13 +520,14 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 - `analysisTypes`支持指定的属性：`cardinality`,`minmax`,`size`,`intervals`,`queryGranularity`,`aggregators`。
 
 ## <a id="UserGroup" href="UserGroup"></a> 7. `UserGroup`
+
 是用户分群查询，支持将多维度和多指标作为分析条件，有针对性地根据你的需要建立分群。`JSON`示例如下:
 ```
 {
     "queryType":"user_group",
     "dataSource":"userinfo",
     "granularity":"all",
-    "intervals":"1000/3000",
+    "intervals": "1000/3000",
     "filter": {
         "type": "selector",
         "dimension": "province",
