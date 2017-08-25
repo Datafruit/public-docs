@@ -27,6 +27,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`post-aggregation`](#post-aggregation)
   - [`having`](#having)
 
+
 ## <a id="dataSource" href="dataSource"></a> dataSource 数据源
 
 数据源相当于数据库中的表。     
@@ -264,7 +265,9 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`Spatial`](#Filter-Spatial)
   - [`All`](#Filter-All)
   - [`Lookup`](#Filter-Lookup)
-  - [`Lucene`](#Filter-Lucene)  
+  - [`Lucene`](#Filter-Lucene) 
+  - [`非空（不过滤空字符串）`](#Filter-notNull)
+  - [`非空（过滤字符串）`](#Filter-notNullAll) 
   
 ### <a id="Filter-Seletor" href="Filter-Seletor"></a>1. `Seletor Filter`
 `Seletor Filter`是最简单的过滤器，它将与具体值匹配，功能类似于`SQL`中的`where key=value`，支持提取功能。`Seletor Filter`的`JSON`示例如下：
@@ -638,6 +641,37 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 查询`address`不为`null`的记录，相当于`where address is not null`。  
+
+### <a id="Filter-notNull" href="Filter-notNull"></a>12. `非空（不过滤空字符串）`
+用于过滤null，。`JSON`示例如下：
+```
+"filter": {
+    "type": "not",
+    "field": {
+        "type": "lucene",
+        "query": "(*:* NOT Province:*)"
+    }
+}
+```
+
+### <a id="Filter-notNullAll" href="Filter-notNullAll"></a>13. `非空（过滤空字符串）`
+用于过滤null和空字符串，。`JSON`示例如下：
+```
+"filter": {
+    "type": "and",
+    "fields": [
+        {
+            "type": "lucene",
+            "query": "(*:* NOT Province:*)"
+        },
+        {
+            "type": "selector",
+            "dimension": "Province",
+            "value": ""
+        }
+    ]
+}
+```
 
 ## <a id="extraction-fn" href="extraction-fn"></a> extraction-fn 提取过滤器
 
