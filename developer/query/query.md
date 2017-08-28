@@ -765,8 +765,8 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 ```
 - `analysisTypes`支持指定的属性：`cardinality`,`minmax`,`size`,`intervals`,`queryGranularity`,`aggregators`。
 
+## <a id="UserGroup" href="UserGroup"></a> 7. `UserGroup`
 
-## <a id="UsreGroup" href="UsreGroup"></a> 7. `UsreGroup`
 是用户分群查询，支持将多维度和多指标作为分析条件，有针对性地根据你的需要建立分群。`JSON`示例如下:
 ```
 {
@@ -778,13 +778,13 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
         "type": "selector",
         "dimension": "province",
         "value": "广东省"
-    }
+    },
     "dimension":"age",
-    "dataConfig":{
-        "hostAndPorts":"153.214.0.1:8046",  //redis集群ip和端口，逗号或分号隔开
-        "clusterMode":true  //redis是否是集群模式
-        "groupId":"1"  //用户分群id
-    }
+    "dataConfig": {
+        "hostAndPorts":"153.214.0.1:8046",  
+        "clusterMode":true,  
+        "groupId":"1"  
+    },
     "aggregations":[
         {
             "name": "sum(age)",
@@ -799,6 +799,9 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
     }
 }
 ```
+- `dataConfig.hostAndPorts` redis集群ip和端口，逗号或分号隔开
+- `dataConfig.clusterMode` redis是否是集群模式
+- `dataConfig.groupId` 用户分群id
 
 
 
