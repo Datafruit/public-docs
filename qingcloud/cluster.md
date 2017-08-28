@@ -114,9 +114,9 @@ c）完成防火墙规则的配置后，点击应用修改。
 
     ![](/assets/qingcloud/cluster/c-12.png) 
 
-1）	将site.collectGateway下的参数改成对应的公网IP（可直接复制Alaska的地址）：`http://公网IP`。  
+1）	将 **`site.collectGateway`** 下的参数改成对应的公网IP（可直接复制Alaska的地址）：`http://公网IP`。  
 
-2）	site.sdk_ws_url下的参数改成对应的公网IP（可直接复制Alaska的地址），端口不变：`ws://公网IP:8887`。  
+2）	**`site.websdk_app_host`** 下的参数改成对应的公网IP（可直接复制Alaska的地址），端口不变：`ws://公网IP:8887`。  
 
 3）	修改完成后点击保存。
 
