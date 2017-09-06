@@ -1,12 +1,10 @@
 ## rsyslog集中化nginx日志
 
-[nginx](http://nginx.org/)自`1.7.1`后，支持将日志记录到syslog中，这将意味着可通过[rsyslog.](http://www.rsyslog.com/)，把多个nginx产生的日志集中在一个位置，并使用[logrotate](https://github.com/logrotate/logrotate)进行初步处理，若nginx版本小于`1.7.1`，推荐使用Sugo-C收集nginx日志将更方便。在使用此功能前，需确保满足以下条件：
+[nginx](http://nginx.org/)自`1.7.1`后，支持将日志记录到syslog中，这将意味着可通过[rsyslog](http://www.rsyslog.com/)，把多个nginx产生的日志集中在一个位置，若nginx版本小于`1.7.1`，推荐使用Sugo-C收集nginx日志将更方便。在使用此功能前，需确保满足以下条件：
 
 1. 服务端与客户端之间可连通
 2. 客户端安装了nginx，且nginx配置了`ngx_http_log_module`
-3. 服务端安装了rsyslog、logrotate
-
-*备注：请不要将服务端与客户端部署到同一台设备中，当nginx自发自收时，日志数据将会出现循环自读写情况*
+3. 服务端安装了rsyslog
 
 #### 服务端配置
 
@@ -36,7 +34,7 @@ $UDPServerRun 514
 # $template originalFormat,"%msg%\n"
 # $ActionFileDefaultTemplate originalFormat
 # 若不希望改动全部日志格式，可在facility设置的路径后添加";originalFormat"，例子如下：
-# *.*													/path/to/log;originalFormat
+# *.*                                                 /path/to/log;originalFormat
 
 # Use default timestamp format
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
