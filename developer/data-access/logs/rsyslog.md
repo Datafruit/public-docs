@@ -1,6 +1,8 @@
 ## rsyslog集中化nginx日志
 
-[nginx](http://nginx.org/)自`1.7.1`后，支持将日志记录到syslog中，这将意味着可通过[rsyslog](http://www.rsyslog.com/)，把多个nginx产生的日志集中在一个位置，若nginx版本小于`1.7.1`，推荐使用Sugo-C收集nginx日志将更方便。在使用此功能前，需确保满足以下条件：
+[nginx](http://nginx.org/)自`1.7.1`后，支持将日志记录到syslog中，这将意味着可通过[rsyslog](http://www.rsyslog.com/)，把多个nginx产生的日志集中在一个位置，若nginx版本小于`1.7.1`，推荐使用更方便的Sugo-C收集nginx日志。
+
+在使用此功能前，需满足以下条件：
 
 1. 服务端与客户端之间可连通
 2. 客户端安装了nginx，且nginx配置了`ngx_http_log_module`
