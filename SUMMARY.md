@@ -96,5 +96,8 @@
         * [kafka动态维接入](developer/data-access/default-kafka.md)
         * [hadoop接入](developer/data-access/hadoop.md)
         * [数据段合并](developer/data-access/merge-druid.md)
+        * 日志记录接入
+          * [rsyslog集中化nginx日志](developer/data-access/logs/rsyslog.md)
+          * [日志切割](developer/data-access/logs/rotate.md)
       * [parser 类型](developer/data-access/parser.md)
       
