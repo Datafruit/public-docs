@@ -25,8 +25,8 @@ com.metamx.common.ISE: Cannot create task basePersistDirectory[/data2/druidTask/
 用户没有权限在目录/data2/druidTask/storage/下创建目录
 
 #### 解决方案：
-1.检查目录是否存在
-2.检查用户是否有创建目录的权限，一般druid用户需要对/data2/druidTask/storage/目录的写权限
+1. 检查目录是否存在
+2. 检查用户是否有创建目录的权限，一般druid用户需要对/data2/druidTask/storage/目录的写权限
 
 ### 2. 220环境druid更新部署失败
 在ambari界面更新druid后台时报错，错误信息：
@@ -62,6 +62,7 @@ FATAL ERROR in native method: JDWP No transports initialized, jvmtiError=AGENT_E
 
 ### 原因：
 MiddleManager的配置中多了一项：`-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=6305`以用于调试，它需要占用一个端口。在启动第一个task时会绑定指定的端口，但当第二个任务启动时，也需要绑定该端口，但同一个端口只能被一个进程绑定。
+
 
 ### 解决方案：
 1. 登录集群的`ambri`控制台页面

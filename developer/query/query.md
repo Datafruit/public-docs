@@ -3,6 +3,9 @@
 
 - [Timeseries](#Timeseries)
 - [GroupBy](#GroupBy)
+- [NumericGroup](#NumericGroup)
+- [CustomGroup](#CustomGroup)
+- [NumericGroupBy](#NumericGroupBy)
 - [Select](#Select)
 - [Search](#Search)
 - [TimeBoundary](#TimeBoundary)
@@ -11,6 +14,8 @@
 - [Scan](#Scan)
 - [FirstN](#FirstN)
 - [MultiHaving](#MultiHaving)
+
+
 
 `Query`，即查询。`Druid`包含多种查询类型。
 
@@ -161,6 +166,8 @@ context | 指定一些查询参数，如结果是否进缓存等 | 否
 
 
 ## <a id="GroupBy" href="GroupBy"></a> 3. `GroupBy`
+### 3.1 `GroupBy`
+
 `GroupBy`类似于`SQL`中的`group by`操作，能对指定的多个维度进行分组，也支持对指定的维度进行排序，并输出`limit`行数。同时，支持`having`操作。
 
 查询示例如下：
@@ -291,6 +298,245 @@ context    | 指定一些查询参数，如结果是否进缓存等 | 否
 - **having**
 
  类似于`SQL`中的`having`操作，对`GroupBy`的结果进行筛选，详见[`having`](/developer/query/#having)。
+
+> 以上`GroupBy`仅支持对`String`类型的维度进行分组,而以下的`NumericGroup`,`CustomGroup`,`numericGroupBy`则支持对数字维度(包括`int`,`float`,`double`类型)的分组
+
+### <a id="NumericGroup" href="NumericGroup"></a> 3.2 `NumericGroup`
+`NumericGroup`支持对数字维度按指定的间隔(间隔必须大于1)进行分组
+
+查询示例如下:
+```
+{
+    "queryType": "lucene_groupBy",
+    "dataSource": "userinfo",
+    "intervals": "1000/3000",
+    "granularity": "all",
+    "context": {
+        "timeout": 180000,
+        "useOffheap": true,
+        "groupByStrategy": "v2"
+    },
+    "dimensions": [
+        {
+            "type": "numericGroup",
+            "dimension": "age",
+            "outputName": "groupAge",
+            "interval":5,
+            "min":10,
+            "max":29
+            
+        }
+    ],
+    "aggregations": [
+        {
+            "name": "sum(average)",
+            "type": "lucene_doubleSum",
+            "fieldName": "average"
+        }
+    ],
+    "limitSpec": {
+        "type": "default",
+        "columns": [
+            {
+                "dimension": "sum(average)"
+            }
+        ],
+        "limit": 3
+    }
+}
+
+```
+查询的结果如下：
+```
+[
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "25.000000~29.000000",
+            "sum(average)": 1248982.8500000006
+        }
+    },
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "20.000000~25.000000",
+            "sum(average)": 1252797.83
+        }
+    },
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "15.000000~20.000000",
+            "sum(average)": 1258379.9299999997
+        }
+    }
+]
+```
+`NumericGroup`与`GroupBy`相比,只有`dimensions`里的`dimension`属性不同,它使用类型为`numericGroup`的`dimension`,详见[`dimension`](/developer/query/#dimension)
+
+### <a id="CustomGroup" href="CustomGroup"></a> 3.3 `CustomGroup`
+`CustomGroup`支持对数字维度进行自定义的间隔进行分组
+
+查询示例如下:
+```
+{
+    "queryType": "lucene_groupBy",
+    "dataSource": "userinfo",
+    "intervals": "1000/3000",
+    "granularity": "all",
+    "context": {
+        "timeout": 180000,
+        "useOffheap": true,
+        "groupByStrategy": "v2"
+    },
+    "dimensions": [
+        {
+            "type": "customGroup",
+            "dimension": "age",
+            "outputName": "groupAge",
+            "groups":[
+            	{
+            		"name": "children",
+            		"lower": 10,
+            		"upper": 18
+            	},
+            	{
+            		"name": "young people",
+            		"lower": 18,
+            		"upper": 29
+            	}
+        	],
+        	"outOfBound":true
+            
+        }
+    ],
+    "aggregations": [
+        {
+            "name": "sum(average)",
+            "type": "lucene_doubleSum",
+            "fieldName": "average"
+        }
+    ],
+    "limitSpec": {
+        "type": "default",
+        "columns": [
+            {
+                "dimension": "sum(average)"
+            }
+        ],
+        "limit": 3
+    }
+}
+
+```
+查询结果如下:
+```
+[
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "OUT_OF_BOUND",
+            "sum(average)": 249973.47
+        }
+    },
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "children",
+            "sum(average)": 2026039.5100000002
+        }
+    },
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "young people",
+            "sum(average)": 2750655.9500000016
+        }
+    }
+]
+```
+`CustomGroup`与`GroupBy`相比,只有`dimensions`里的`dimension`属性不同,它使用类型为`customGroup`的`dimension`,详见[`dimension`](/developer/query/#dimension)
+
+### <a id="NumericGroupBy" href="NumericGroupBy"></a> 3.4 `NumericGroupBy`
+`NumericGroupBy`支持对数字维度进行间隔为1的分组
+
+查询实例如下:
+```
+{
+    "queryType": "lucene_groupBy",
+    "dataSource": "userinfo",
+    "intervals": "1000/3000",
+    "granularity": "all",
+    "context": {
+        "timeout": 180000,
+        "useOffheap": true,
+        "groupByStrategy": "v2"
+    },
+    "dimensions": [
+        {
+            "type": "numericGroupBy",
+            "dimension": "age",
+            "outputName": "groupAge"
+            
+        }
+    ],
+    "aggregations": [
+        {
+            "name": "sum(average)",
+            "type": "lucene_doubleSum",
+            "fieldName": "average"
+        }
+    ],
+    "limitSpec": {
+        "type": "default",
+        "columns": [
+            {
+                "dimension": "sum(average)"
+            }
+        ],
+        "limit": 3
+    }
+}
+
+```
+查询结果如下:
+```
+[
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "14",
+            "sum(average)": 240744.52999999997
+        }
+    },
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "28",
+            "sum(average)": 242116.0299999999
+        }
+    },
+    {
+        "v": "v1",
+        "timestamp": "1000-01-01T00:00:00.000Z",
+        "event": {
+            "groupAge": "19",
+            "sum(average)": 243802.67
+        }
+    }
+]
+```
+`NumericGroupBy`与`GroupBy`相比,只有`dimensions`里的`dimension`属性不同,它使用类型为`numericGroupBy`的`dimension`,详见[`dimension`](/developer/query/#dimension)
+
+
 
 
 ## <a id="Select" href="Select"></a> 4. `Select`
@@ -742,4 +988,7 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 name | 指定返回结果的属性名 | 是
 havingSpec | 对分组数据进行having过滤，详见[`having`](/developer/query/#having) | 是
 aggregatorSpecs | 对having过滤后的结果进行聚合的方式 | 是
+
+
+
 
