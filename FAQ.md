@@ -90,3 +90,41 @@ Java.lang.OutOfMemoryError: GC overhead limit exceeded
 
 ### 解决方案：
 如果历史数据的时间跨度太大，要注意相应调整段聚合粒度的大小，保证段的数量不会过多。
+
+### 6. 任务失败，无法分配segment
+
+task中的错误日志信息如下：  
+```
+2017-09-12T09:21:30,098 INFO [task-runner-0-priority-0] io.druid.segment.realtime.appenderator.FiniteAppenderatorDriver - Allocate new segment...
+2017-09-12T09:21:30,106 INFO [task-runner-0-priority-0] io.druid.indexing.common.actions.RemoteTaskActionClient - Performing action for task[lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig]: SegmentAllocateAction{dataSource='com_SJ1B_Zq6e_project_BJrOA8HZW', timestamp=2017-09-12T08:16:59.000Z, queryGranularity=NoneGranularity, preferredSegmentGranularity=HOUR, sequenceName='lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_1', previousSegmentId='null'}
+2017-09-12T09:21:30,120 INFO [task-runner-0-priority-0] io.druid.indexing.common.actions.RemoteTaskActionClient - Submitting action for task[lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig] to overlord[http://dev6.bbk.sugo:8090/druid/indexer/v1/action]: SegmentAllocateAction{dataSource='com_SJ1B_Zq6e_project_BJrOA8HZW', timestamp=2017-09-12T08:16:59.000Z, queryGranularity=NoneGranularity, preferredSegmentGranularity=HOUR, sequenceName='lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_1', previousSegmentId='null'}
+
+
+2017-09-12T09:21:30,501 ERROR [task-runner-0-priority-0] io.druid.indexing.overlord.ThreadPoolTaskRunner - Exception while running task[LuceneKafkaIndexTask{id=lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig, type=lucene_index_kafka, dataSource=com_SJ1B_Zq6e_project_BJrOA8HZW}]
+com.metamx.common.ISE: Could not allocate segment for row with timestamp[2017-09-12T08:16:59.000Z]
+	at io.druid.indexing.kafka.LuceneKafkaIndexTask.run(LuceneKafkaIndexTask.java:439) ~[?:?]
+	at io.druid.indexing.overlord.ThreadPoolTaskRunner$ThreadPoolTaskRunnerCallable.call(ThreadPoolTaskRunner.java:436) [druid-indexing-service-1.0.0.jar:1.0.0]
+	at io.druid.indexing.overlord.ThreadPoolTaskRunner$ThreadPoolTaskRunnerCallable.call(ThreadPoolTaskRunner.java:408) [druid-indexing-service-1.0.0.jar:1.0.0]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_91]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_91]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_91]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_91]
+2017-09-12T09:21:30,508 INFO [task-runner-0-priority-0] io.druid.indexing.overlord.TaskRunnerUtils - Task [lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig] status changed to [FAILED].
+2017-09-12T09:21:30,509 INFO [task-runner-0-priority-0] io.druid.indexing.worker.executor.ExecutorLifecycle - Task completed with status: {
+  "id" : "lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig",
+  "status" : "FAILED",
+  "duration" : 704
+}
+```
+overlord服务的日志中可以发现如下异常日志：  
+```
+2017-09-12 09:21:30.249 INFO [qtp670996243-84][Logger.java:69] - Adding lock on interval[2017-09-12T08:00:00.000Z/2017-09-12T09:00:00.000Z] version[2017-09-12T08:00:04.172Z] for task: lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig
+2017-09-12 09:21:30.398 WARN [qtp670996243-84][Logger.java:82] - Cannot use existing pending segment [com_SJ1B_Zq6e_project_BJrOA8HZW_2017-09-12T07:00:00.000Z_2017-09-12T08:00:00.000Z_2017-09-12T07:00:02.889Z_39] for sequence[lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_1] (previous = []) in DB, does not match requested interval[2017-09-12T08:00:00.000Z/2017-09-12T09:00:00.000Z]
+2017-09-12 09:21:30.768 INFO [qtp670996243-92][Logger.java:69] - Generating: http://dev15.bbk.sugo:8091
+2017-09-12 09:21:31.094 INFO [Curator-PathChildrenCache-0][Logger.java:69] - Worker[dev15.bbk.sugo:8091] wrote FAILED status for task [lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig] on [TaskLocation{host='dev15.bbk.sugo', port=8101}]
+2017-09-12 09:21:31.094 INFO [Curator-PathChildrenCache-0][Logger.java:69] - Worker[dev15.bbk.sugo:8091] completed task[lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_goalffig] with status[FAILED]
+```
+
+### 解决方案：
+修改参数lateMessageRejectionPeriod的配置：P30D或更长时间，用于修改sequenceName的hash值lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_1
+
