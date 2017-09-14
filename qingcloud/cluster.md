@@ -188,7 +188,7 @@ c）完成防火墙规则的配置后，点击应用修改。
 ### 操作步骤：先在Alaska界面上删除主机，后在青云控制台上删除节点。
 #### 第一步 在Alaska界面上删除主机
 1. 使用谷歌浏览器打开网址： http://公网IP:8080 ，进入Alaska的主机界面，后点击进入需要删除的主机详情页；
-![](/assets/qingcloud/cluster/c-22.png) 
+![](/assets/qingcloud/cluster/setting.png) 
 2. 如果主机上存在组件（确保组件删除后不影响现有业务），需要先把所有组件先停止，在已停止的状态中进行删除操作；
 ![](/assets/qingcloud/cluster/c-31.png) 
 3. 将所有的组件删除后，进行删除主机的操作。
