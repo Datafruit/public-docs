@@ -39,8 +39,8 @@
     * 从节点的自定义磁盘容量, 根据数据量的大小来调整磁盘的容量大小，数果建议使用500G以上的磁盘   
     * 选择创建好的私有网络
  
-  ![](/assets/qingcloud/cluster/c-1.png)
-![](/assets/qingcloud/cluster/c-2.png)
+   ![](/assets/qingcloud/cluster/c-1.png)
+   ![](/assets/qingcloud/cluster/c-2.png)
  
 3. 当“创建资源”的提示消失，大概10分钟以内完成安装，复制角色为主节点的内网IP用于下一步设置端口转发
 
@@ -146,25 +146,11 @@ c）完成防火墙规则的配置后，点击应用修改。
 ## 启动应用
  ![](/assets/qingcloud/cluster/c-20.png) 
 
- 
+
 ## 扩展集群
-当资源不能满足业务需求时，可以扩展集群的容量。有两种扩展方式，一是横向扩展，增加集群的节点数量；二是纵向扩展，增加集群节点的资源容量。
+当资源不能满足业务需求时，可以扩展集群的容量。目前可以通过纵向扩展，增加集群节点的资源容量。
 
- > 但目前版本暂不建议自行增加集群节点数量，如果有节点数扩展需求或扩展不顺利，可联系数果人员获取支持
-
-### 方式1：横向扩展
-1. 进入“AppCenter->集群列表”，选择进入需要扩展的应用集群详情页。点击新增从节点，可不填写名称进行提交创建。 
- ![](/assets/qingcloud/cluster/c-21.png) 
-2. 当“添加资源节点”的提示消失后，大概需要2分钟即可完成创建。
-3. 使用谷歌浏览器打开网址： `http://公网IP:8080` ，回到Alaska界面，进入新增加的主机详情
-  ![](/assets/qingcloud/cluster/c-22.png) 
-4. 在主机中点击增加，选择组件进行增加主机扩展，如选择Kafka Broker。
-  ![](/assets/qingcloud/cluster/c-23.png) 
-5. 安装组件Kafka Broker成功后，回到主界面的 Kafka-sugo进行服务重启，重启后则完成了对组件Kafka Broker的机器扩展。
-  ![](/assets/qingcloud/cluster/c-24.png) 
-
-
-### 方式2：纵向扩展
+### 操作方式
 1. 在左侧列表中进入“AppCenter->集群列表”，右击应用ID，选择扩容集群。
   ![](/assets/qingcloud/cluster/c-25.png) 
   ![](/assets/qingcloud/cluster/c-26.png) 
@@ -177,30 +163,6 @@ c）完成防火墙规则的配置后，点击应用修改。
 3. 查看集群详情，主节点的配置已经完成扩容。
 
    ![](/assets/qingcloud/cluster/c-28.png) 
-
-
-## 删除集群节点
-当业务需求减小或其他原因造成集群资源闲置时，可以删除集群的节点。
-删除集群节点前需要注意：
-1. 集群节点数量必须大于3；
-2. 确保删除节点的必要组件已转移。（尽量不要删除最初创建的组件最多的三个节点，如必须删除请务必将节点的组件转移到其他节点中。）
-
-### 操作步骤：先在Alaska界面上删除主机，后在青云控制台上删除节点。
-#### 第一步 在Alaska界面上删除主机
-1. 使用谷歌浏览器打开网址： http://公网IP:8080 ，进入Alaska的主机界面，后点击进入需要删除的主机详情页；
-![](/assets/qingcloud/cluster/setting.png) 
-2. 如果主机上存在组件（确保组件删除后不影响现有业务），需要先把所有组件先停止，在已停止的状态中进行删除操作；
-![](/assets/qingcloud/cluster/c-31.png) 
-3. 将所有的组件删除后，进行删除主机的操作。
-![](/assets/qingcloud/cluster/c-32.png) 
-
-#### 第二步 在青云控制台上删除节点
-1. 在左侧列表进入“AppCenter->集群列表”，在列表中点击进入需要删除节点的集群。
-![](/assets/qingcloud/cluster/c-33.png) 
-
-2. 勾选需要删除的节点，点击删除。即完成删除集群节点。
-![](/assets/qingcloud/cluster/c-34.png) 
-
 
 ## 删除并恢复集群
 
