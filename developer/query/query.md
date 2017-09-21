@@ -32,7 +32,7 @@
     "queryType": "lucene_timeseries",
     "dataSource": "userinfo",
     "intervals": "1000/3000",
-    "granularity": " qall",
+    "granularity": " all",
     "context": {
         "timeout": 180000,
         "useOffheap": true,
