@@ -158,14 +158,12 @@ LIMIT 4
 
 将LOOKUP作为过滤条件查询
 
-> 注意这里的时间ISO格式
-
 ```sql
 plyql -h 192.168.60.100:8082 -q '
 SELECT page as pg, 
 is_active as flag
 FROM sugo
-WHERE UserID LOOKUP_IN("lookup_id") -- 或者可以去掉括号 UserID LOOKUP_IN "lookup_id"
+WHERE UserID LOOKUP_IN("lookup_id") AND SID LOOKUP_IN "looup_id2" -- 或者可以去掉括号 UserID LOOKUP_IN "lookup_id"
 LIMIT 4
 '
 ```
