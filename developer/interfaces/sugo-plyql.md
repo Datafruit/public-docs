@@ -51,6 +51,7 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
     - [函数查询](#query-function)
     - [CASE-WHEN查询](#case-when)
     - [having查询](#query-having)
+    - [LOOKUP_IN过滤查询](#query-lookup)
     - [高级查询](#adv-query)
     - [所有查询示例](#query-all)
 
@@ -136,6 +137,33 @@ SELECT page as pg,
 is_active as flag 
 FROM sugo
 WHERE is_active='1' AND __time > "2016-01-24T16:00:00Z" AND __time < "2016-09-24T16:00:00Z"
+LIMIT 4
+'
+```
+
+结果集:
+  
+```
+┌─────────────────────┬─────┐
+│ pg                  │flag │
+├─────────────────────┼─────┤
+│ Jeremy Corbyn       │ 1   │
+│ Jeremy 111111       │ 1   │
+│ Jeremy 222222       │ 1   │
+│ Jeremy 333333       │ 1   │
+└─────────────────────┴─────┘
+```
+
+#### <a id="query-lookup" href="query-lookup"></a> LOOKUP_IN条件过滤查询
+
+将LOOKUP作为过滤条件查询
+
+```sql
+plyql -h 192.168.60.100:8082 -q '
+SELECT page as pg, 
+is_active as flag
+FROM sugo
+WHERE UserID LOOKUP_IN("lookup_id") AND SID LOOKUP_IN "looup_id2" -- 或者可以去掉括号 UserID LOOKUP_IN "lookup_id"
 LIMIT 4
 '
 ```
@@ -598,7 +626,7 @@ LIMIT 5;
     CUSTOM('blah') AS 'Custom1',
     CUSTOM_AGGREGATE('blah') AS 'Custom2'
     FROM \`wiki\`
-    WHERE \`language\`="en"  ;  -- This is just some comment
+    WHERE \`language\`="en"  AND UserID LOOKUP_IN('lookup_id');  -- This is just some comment
 ```
 
 
