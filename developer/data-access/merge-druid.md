@@ -71,6 +71,7 @@
   "interval": "2017-06-01/2017-06-30",
   "triggerMergeCount": 2,
   "mergeGranularity":"DAY",
+  "maxSizePerSegment":"800MB"
   "context": {
     "debug": true
   }   
@@ -84,6 +85,7 @@ dataSource | 要合并的datasource名称
 interval　| 需要进行合并的时间间隔，在间隔范围外的不进行合并
 triggerMergeCount |  设定针对多少个分段碎片进行合并，默认为２
 mergeGranularity | 指定合并的粒度，可选项有：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY、WEEK`、`MONTH`、`YEAR`
+maxSizePerSegment | 指定合并后数据段的最大值
 context　| 指定任务的其它环境参数
 
 
