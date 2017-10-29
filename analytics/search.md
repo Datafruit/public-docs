@@ -90,6 +90,6 @@ request_time: [0.020000 TO 0.030000] AND (extension:php OR extension:html)
 
 
 关于日志分析的介绍：
-* [界面介绍](analytics/log-index.md#intro)
-* [日志记录](analytics/log.md)
-* [图表统计](analytics/log.md#graphic)
+* [界面介绍](log-index.md#intro)
+* [日志记录](log.md)
+* [图表统计](log.md#graphic)
