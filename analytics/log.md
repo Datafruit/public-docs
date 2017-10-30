@@ -33,3 +33,10 @@
  ![](/assets/log/log-11.gif)
 * 方式二：点击维度的“+”亦可将该维度作为新的一列查看日志数据
  ![](/assets/log/log-12.gif)
+
+
+
+ 关于日志分析的介绍：
+* [界面介绍](log-index.md#intro)
+* [搜索/过滤](search.md)
+* [图表统计](log.md#graphic)
