@@ -72,6 +72,7 @@
       * [路线图](developer/interfaces/plyql-roadmap.md)
     * [Tindex接口使用文档](developer/query/index.md)
       - [查询接口文档](/developer/query/query.md)
+      - [lookup使用文档](/developer/interfaces/lookup-jdbc.md)
     * 数据接入
       * [Kafka接入](developer/data-access/kakfa-druid.md)
       * [Csv文件接入](developer/data-access/csv-druid.md)

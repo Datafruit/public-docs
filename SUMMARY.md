@@ -87,6 +87,7 @@
       * [路线图](developer/interfaces/plyql-roadmap.md)
     * [Tindex接口使用文档](developer/query/index.md)
       - [查询接口文档](/developer/query/query.md)
+      - [lookup使用文档](/developer/interfaces/lookup-jdbc.md)
     * [UIndex使用文档](developer/interfaces/uindex.md)
     * [数据接入](developer/data-access/index.md)
       * [查找MiddleManager与Overlord](developer/data-access/overlord_middlemanager_guid.md)
