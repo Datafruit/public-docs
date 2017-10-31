@@ -5,7 +5,9 @@
 ***注：一个lookup只能关联一个字段，如有多个字段需创建多个lookup***
 
  - [创建Lookup-JDBC](#create)
+
  - [GroupBy查询使用Looup-JDBC](#groupBy)
+
  - [过滤(FisrtN)查询使用Looup-JDBC](#fisrtN)
 
 ## <a id="create" href="create"></a> 1. 创建lookup，通过jdbc驱动从MySQL数据库中读取数据
@@ -54,7 +56,8 @@ post参数如下：
 
 **`dataLoader.query:`** 关联查询的SQL，SQL中只能查出两个字段，第一个字段作为key，第二个字段作为value，其他字符丢弃。  
 
-   > select规则：第一列是跟Tindex关联的字段列，第二列为映射显示的字段列
+   > SELECT规则：第一列是跟Tindex关联的字段列，第二列为映射显示的字段列
+   > SQL查想Key. Value必须要做非空处理，否则查询时会出错
 
 **`dataLoader.groupId:`**  定义Lookup的名称。
 
