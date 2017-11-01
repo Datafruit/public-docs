@@ -15,15 +15,15 @@
 发送post请求到:
 `http://<CoordinatorIP>:8081/druid/coordinator/v1/lookups/__default/<LookupName>`
 
-**`CoordinatorIP:`** Tindex机器内coordinator服务节点ip
+**`CoordinatorIP:`** Tindex集群内coordinator服务节点ip
 
-**`LookupName:`** 定义Lookup的名称（需保证唯一性）
+**`LookupName:`** 定义Lookup的名称,如jdbc_1001（需保证唯一性）
 
 post参数如下：
 ```json
 {
     "type": "cachingLookup",
-    "version": "1",
+    "version": "abcdefg",
     "dataLoader": {
         "type": "jdbc",
         "connectorConfig": {
@@ -32,7 +32,7 @@ post参数如下：
             "encrypted": false,
             "password": "123456"
         },
-        "query": "SELECT userId, name, address FROM user WHERE userId IS NOT NULL AND userId <> '' AND name IS NOT NULL AND name <> ''",
+        "query": "SELECT userId, name FROM user WHERE userId IS NOT NULL AND userId <> '' AND name IS NOT NULL AND name <> ''",
         "groupId": "<LookupName>",
         "loadPeriod": "PT5M",
         "rowLimit": 100
@@ -42,7 +42,7 @@ post参数如下：
 
 关键参数说明：  
 
-**`version:`** lookup创建版本。
+**`version:`** lookup创建版本,修改配置信息后需要修改版本号才会生效。
 
 **`dataLoader.connectorConfig.connectURI:`** 关系型数据库连接字符串（包括数据库）。
 
@@ -54,19 +54,19 @@ post参数如下：
 
   > 数据库连接密码默认不加密，如果需要加密，需要设置`encrypted=true`。目前默认使用DES加密算法。  
 
-**`dataLoader.query:`** 关联查询的SQL，SQL中只能查出两个字段，第一个字段作为key，第二个字段作为value，其他字符丢弃。  
+**`dataLoader.query:`** 关联查询的SQL，SQL中只能查出两个字段，第一个字段作为key，第二个字段作为value，其他字段丢弃。  
 
    > SELECT规则：第一列是跟Tindex关联的字段列，第二列为映射显示的字段列
    
-   > SQL查想Key. Value必须要做非空处理，否则查询时会出错
+   > SQL查询Key，Value必须要做非空处理
 
-**`dataLoader.groupId:`**  定义Lookup的名称。
+**`dataLoader.groupId:`**  定义Lookup的名称，最好和前面的lookup name一样，如jdbc_1001，并且具有唯一性。
 
 **`dataLoader.loadPeriod:`** 周期性从数据库中加载数据频率粒度，可以按业务场景设置加载周期，比如：`PT1H`每小时, `P1D`每天等。
 
 **`dataLoader.rowLimit:`**  加载关联数据行数限制，默认10000行，最大支持100w。
 
-## 2. 在使用Lookup-JDBC查询Tindex数据
+## 2. 使用Lookup-JDBC查询Tindex数据
 
 ### <a id="groupBy" href="groupBy"></a> GroupBy查询使用lookup-jdbc
 
@@ -90,8 +90,8 @@ post参数如下：
 		"dimension": "UserID",                  // Tindex里(关联)维度名
 		"outputName": "UserId",
     "retainMissingValue": "false",
-    "replaceMissingValueWith": "未匹配",     // 设置未关联数据的分组名
-	  "name": "abc"                           // 指定查询使用的lookup名称
+    "replaceMissingValueWith": "未匹配",     // 设置未关联数据的分组名
+	  "name": "jdbc_1001"                           // 指定查询使用的lookup名称
 	}],
 	"aggregations": [{
 		"name": "count()",
@@ -127,7 +127,7 @@ post参数如下：
 		"outputName": "numId",
     "maxCardinality":100000,
     "retainMissingValue": "false",
-    "replaceMissingValueWith": "未匹配",     // 设置未关联数据的分组名
+    "replaceMissingValueWith": "未匹配",     // 设置未关联数据的分组名
 		"name": "numName"                       // 指定查询使用的lookup名称
 	}],
 	"aggregations": [{
