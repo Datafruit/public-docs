@@ -32,7 +32,7 @@ post参数如下：
             "encrypted": false,
             "password": "123456"
         },
-        "query": "SELECT userId, name, address FROM user WHERE userId IS NOT NULL AND userId <> '' AND name IS NOT NULL AND name <> ''",
+        "query": "SELECT userId, name FROM user WHERE userId IS NOT NULL AND userId <> '' AND name IS NOT NULL AND name <> ''",
         "groupId": "<LookupName>",
         "loadPeriod": "PT5M",
         "rowLimit": 100
@@ -42,7 +42,7 @@ post参数如下：
 
 关键参数说明：  
 
-**`version:`** lookup创建版本。
+**`version:`** lookup创建版本,修改配置信息后需要修改版本号才会生效。
 
 **`dataLoader.connectorConfig.connectURI:`** 关系型数据库连接字符串（包括数据库）。
 
@@ -54,13 +54,13 @@ post参数如下：
 
   > 数据库连接密码默认不加密，如果需要加密，需要设置`encrypted=true`。目前默认使用DES加密算法。  
 
-**`dataLoader.query:`** 关联查询的SQL，SQL中只能查出两个字段，第一个字段作为key，第二个字段作为value，其他字符丢弃。  
+**`dataLoader.query:`** 关联查询的SQL，SQL中只能查出两个字段，第一个字段作为key，第二个字段作为value，其他字段丢弃。  
 
    > SELECT规则：第一列是跟Tindex关联的字段列，第二列为映射显示的字段列
    
-   > SQL查想Key. Value必须要做非空处理，否则查询时会出错
+   > SQL查询Key. Value必须要做非空处理，否则查询时会出错
 
-**`dataLoader.groupId:`**  定义Lookup的名称。
+**`dataLoader.groupId:`**  定义Lookup的名称，最好和前面的lookup name一样，并且具有唯一性。
 
 **`dataLoader.loadPeriod:`** 周期性从数据库中加载数据频率粒度，可以按业务场景设置加载周期，比如：`PT1H`每小时, `P1D`每天等。
 
