@@ -8,6 +8,7 @@
     * [日志导入](project-management.md#log-access)
     * [创建子项目](project-management.md#create-son)
   * [数据导入工具](data-import.md)
+  * [业务表管理](business-management.md)
   * [维度管理](dimension-management.md)
     * [创建维度](dimension-management.md#anchor-1)
     * [维度标签](dimension-management.md#anchor-2)
