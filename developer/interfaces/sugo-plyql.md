@@ -23,6 +23,9 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
 
   - [终端命令模式](#dos)
   - [HTTP REST API模式](#rest)
+    - [`/plyql`SQL查询接口](#rest-plyql)
+    - [`/tindex`Tindex原始QueryJSON查询接口](#rest-tindex)
+    - [`/get-query`SQL转Tindex-QueryJSON接口](#rest-get-query)
   - [JDBC驱动模式](/developer/interfaces/jdbc.md)
 
 ---
@@ -217,7 +220,7 @@ SELECT province as pg,
 age,
 date_format(__time,"%Y-%m-%d") time
 COUNT() as cnt
-FROM sugo_test 
+FROM sugo_test
 WHERE "2015-09-12T00:00:00" <= __time AND __time < "2015-09-13T00:00:00"
 GROUP BY GROUPING SETS (1, (2, 3))
 ORDER BY cnt DESC
@@ -909,21 +912,20 @@ OR                      | 逻辑或
 plyql -h 192.168.60.100  --json-server  8001
 ```
 
-##### 1. HTTP SQL接口请求
+##### 1. <a id="rest-plyql" href-"rest-plyql"></a> HTTP SQL接口请求
 
 发送post请求到 `http://192.168.60.100:8001/plyql`
-```http
+```json
 // post请求: application/json 参数
 {
-  "sql":
-  "SHOW TABLES"
+  "sql": "SHOW TABLES"
 }
 ```
 
-##### 2. HTTP 原生Tindex-JSON接口请求
+##### <a href="rest-tindex" href-"rest-tindex"></a> 2. HTTP 原生Tindex-JSON接口请求
 
 发送post请求到 `http://192.168.60.100:8001/tindex`
-```http
+```json
 // post请求: application/json 参数
 {
     "queryType": "lucene_timeseries",
@@ -943,7 +945,7 @@ plyql -h 192.168.60.100  --json-server  8001
 }
 ```
 
-##### 3. HTTP 将SQL转换为Tindex原生queryJSON接口
+##### 3. <a id="rest-get-query" href-"rest-get-query"></a> HTTP 将SQL转换为Tindex原生queryJSON接口
 
 发送post请求到 `http://192.168.60.100:8001/get-query`
 
