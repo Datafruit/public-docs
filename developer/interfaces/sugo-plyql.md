@@ -23,6 +23,9 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
 
   - [终端命令模式](#dos)
   - [HTTP REST API模式](#rest)
+    - [`/plyql`SQL查询接口](#rest-plyql)
+    - [`/tindex`Tindex原始QueryJSON查询接口](#rest-tindex)
+    - [`/get-query`SQL转Tindex-QueryJSON接口](#rest-get-query)
   - [JDBC驱动模式](/developer/interfaces/jdbc.md)
 
 ---
@@ -46,11 +49,13 @@ plyql目前支持`SELECT`，`DESCRIBE`，和`SHOW TABLES`查询。
     - [普通查询](#query-normal)
     - [条件过滤查询](#query-where)
     - [分组查询](#query-group-by)
+    - [分组GROUPING SETS查询](#query-group-by-grouping-sets)
     - [聚合查询](#query-aggregation)
     - [聚合查询带where](#agg-where)
     - [函数查询](#query-function)
     - [CASE-WHEN查询](#case-when)
     - [having查询](#query-having)
+    - [LOOKUP_IN过滤查询](#query-lookup)
     - [高级查询](#adv-query)
     - [所有查询示例](#query-all)
 
@@ -153,6 +158,33 @@ LIMIT 4
 └─────────────────────┴─────┘
 ```
 
+#### <a id="query-lookup" href="query-lookup"></a> LOOKUP_IN条件过滤查询
+
+将LOOKUP作为过滤条件查询
+
+```sql
+plyql -h 192.168.60.100:8082 -q '
+SELECT page as pg, 
+is_active as flag
+FROM sugo
+WHERE UserID LOOKUP_IN("lookup_id") AND SID LOOKUP_IN "looup_id2" -- 或者可以去掉括号 UserID LOOKUP_IN "lookup_id"
+LIMIT 4
+'
+```
+
+结果集:
+  
+```
+┌─────────────────────┬─────┐
+│ pg                  │flag │
+├─────────────────────┼─────┤
+│ Jeremy Corbyn       │ 1   │
+│ Jeremy 111111       │ 1   │
+│ Jeremy 222222       │ 1   │
+│ Jeremy 333333       │ 1   │
+└─────────────────────┴─────┘
+```
+
 #### <a id="query-group-by" href="query-group-by"></a> 分组查询
 
 ```sql
@@ -161,7 +193,7 @@ SELECT page as pg,
 COUNT() as cnt 
 FROM sugo_test 
 WHERE "2015-09-12T00:00:00" <= __time AND __time < "2015-09-13T00:00:00"
-GROUP BY page 
+GROUP BY page
 ORDER BY cnt DESC 
 LIMIT 5;
 '
@@ -178,6 +210,42 @@ LIMIT 5;
 │ Jeremy 222222       │ 2   │
 │ Jeremy 333333       │ 2   │
 └─────────────────────┴─────┘
+```
+
+#### <a id="query-group-by-grouping-sets" href="query-group-by-grouping-sets"></a> 分组查询
+
+```sql
+plyql -h 192.168.60.100:8082 -q '
+SELECT province as pg,
+age,
+date_format(__time,"%Y-%m-%d") time
+COUNT() as cnt
+FROM sugo_test
+WHERE "2015-09-12T00:00:00" <= __time AND __time < "2015-09-13T00:00:00"
+GROUP BY GROUPING SETS (1, (2, 3))
+ORDER BY cnt DESC
+LIMIT 5;
+'
+```
+
+结果集:
+  
+```
+┌─────┬──────────┬──────┬────────────┬───────┐
+│ GID │ province │ age  │ time       │ total │
+├─────┼──────────┼──────┼────────────┼───────┤
+│ 0   │ 上海市    │ NULL │ 2017-05-13 │ 25768 │
+│ 0   │ 云南省    │ NULL │ 2017-05-13 │ 25595 │
+│ 0   │ 内蒙古    │ NULL │ 2017-05-13 │ 25756 │
+│ 0   │ 北京市    │ NULL │ 2017-05-13 │ 25490 │
+│ 1   │ NULL     │ 11   │ 2017-05-13 │ 43524 │
+│ 1   │ NULL     │ 12   │ 2017-05-13 │ 43428 │
+│ 1   │ NULL     │ 13   │ 2017-05-13 │ 43726 │
+│ 1   │ NULL     │ 14   │ 2017-05-13 │ 43606 │
+│ 1   │ NULL     │ 15   │ 2017-05-13 │ 43376 │
+│ 1   │ NULL     │ 16   │ 2017-05-13 │ 43599 │
+│ 1   │ NULL     │ 29   │ 2017-05-19 │ 49927 │
+└─────┴──────────┴──────┴────────────┴───────┘
 ```
 
 ##### 时间分组
@@ -598,7 +666,7 @@ LIMIT 5;
     CUSTOM('blah') AS 'Custom1',
     CUSTOM_AGGREGATE('blah') AS 'Custom2'
     FROM \`wiki\`
-    WHERE \`language\`="en"  ;  -- This is just some comment
+    WHERE \`language\`="en"  AND UserID LOOKUP_IN('lookup_id');  -- This is just some comment
 ```
 
 
@@ -844,21 +912,20 @@ OR                      | 逻辑或
 plyql -h 192.168.60.100  --json-server  8001
 ```
 
-##### 1. HTTP SQL接口请求
+##### 1. <a id="rest-plyql" href-"rest-plyql"></a> HTTP SQL接口请求
 
-发送post请求到 `http://192.168.60.100:8001/plyql/`
-```http
+发送post请求到 `http://192.168.60.100:8001/plyql`
+```json
 // post请求: application/json 参数
 {
-  "sql":
-  "SHOW TABLES"
+  "sql": "SHOW TABLES"
 }
 ```
 
-##### 2. HTTP 原生Tindex-JSON接口请求
+##### <a href="rest-tindex" href-"rest-tindex"></a> 2. HTTP 原生Tindex-JSON接口请求
 
-发送post请求到 `http://192.168.60.100:8001/tindex/`
-```http
+发送post请求到 `http://192.168.60.100:8001/tindex`
+```json
 // post请求: application/json 参数
 {
     "queryType": "lucene_timeseries",
@@ -877,4 +944,19 @@ plyql -h 192.168.60.100  --json-server  8001
     ]
 }
 ```
+
+##### 3. <a id="rest-get-query" href-"rest-get-query"></a> HTTP 将SQL转换为Tindex原生queryJSON接口
+
+发送post请求到 `http://192.168.60.100:8001/get-query`
+
+```json
+  {
+    sql: 'select * from events',
+    // 可选参数
+    scanQuery: false, // 是否scanQuery
+    hasLimit: true,   // 是否包含limit
+    timeout: 180000   // 设置timeout
+  }
+```
+
 #### 更多Tindex查询类型请参考 [查询 Tindex-Query-Json](/developer/query/query.md)

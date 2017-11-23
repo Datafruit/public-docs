@@ -80,6 +80,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
   - [`Lookup`](#Lookup)
   - [`NumericGroup`](#NumericGroup)
   - [`CustomGroup`](#CustomGroup)
+  - [`NumericGroupBy`](#NumericGroupBy)
 
 ### <a id="Default" href="Default"></a>1. `Default Dimension`
 `Default Dimension` 返回维度值，并可选择对维度进行重命名。`JSON`示例如下：
@@ -167,7 +168,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 
 ### <a id="NumericGroup" href="NumericGroup"></a> 6. `NumericGroup Dimension`
 
-`NumericGroup Dimension`可以对维度进行数字分组。`JSON`示例如下：
+`NumericGroup Dimension`可以对维度进行指定间隔的数字分组。`JSON`示例如下：
 ```
 {	
      "type": "numericGroup",
@@ -182,7 +183,7 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
      }
 }
 ```
-`min`和`max`为数字的边界，`interval` 为每个分组的长度，这里`period`为`P1D`,即为以一天为周期进行聚合。
+`min`和`max`为数字的边界，`interval` 为每个分组的间隔，这里`period`为`P1D`,即为以一天为周期进行聚合。
 
 ### <a id="CustomGroup" href="CustomGroup"></a> 7. `CustomGroup Dimension`
 
@@ -209,6 +210,24 @@ Tindex的原生查询接口是HTTP REST风格查询方式，还有其它客户�
 }
 ```
 `groups`为分组列表，可以存放多个分组。其中，`name`为分组的名字，`lower`和`upper`为边界。`outOfBound`超出边界的是否存放到另外一个分组里。
+
+### <a id="NumericGroupBy" href="NumericGroupBy"></a> 8. `NumericGroupBy Dimension`
+
+`NumericGroupBy Dimension`可以对维度进行间隔为1分组。`JSON`示例如下：  
+
+```
+{
+    "type": "NumericGroupBy",
+    "dimension": "event_time",
+    "outputName": "test_time",
+    "maxCardinality":1000,
+    "granularity": {
+         "period": "P1D",
+         "type": "period"
+     }
+}
+```
+`maxCardinality`为维度基数, 这里`period`为`P1D`,即为以一天为周期进行聚合。
 
 ## <a id="interval" href="interval"></a> interval 时间区间
 

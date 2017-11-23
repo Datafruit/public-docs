@@ -30,18 +30,10 @@
   ![](/assets/qingcloud/stand-alone/sa-6.png)
     2）	填写各项配置, 然后提交等待安装完成：
     * 版本选择集群版
-    * 主节点的CPU，数果建议选择4核以上
-    * 主节点的内存，数果建议选择16G以上
     * 主节点的自定义磁盘容量, 根据数据量的大小来调整磁盘的容量大小，数果建议使用500G以上的磁盘
-    * 从节点的CPU，数果建议选择4核以上
-    * 从节点的内存，数果建议选择16G以上
-    * 从节点的数量选择2
-    * 从节点的自定义磁盘容量, 根据数据量的大小来调整磁盘的容量大小，数果建议使用500G以上的磁盘   
+    * 从节点的自定义磁盘容量, 根据数据量的大小来调整磁盘的容量大小，数果建议使用500G以上的磁盘
     * 选择创建好的私有网络
- 
-  ![](/assets/qingcloud/cluster/c-1.png)
-![](/assets/qingcloud/cluster/c-2.png)
- 
+
 3. 当“创建资源”的提示消失，大概10分钟以内完成安装，复制角色为主节点的内网IP用于下一步设置端口转发
 
  ![](/assets/qingcloud/cluster/c-3.png)
@@ -64,7 +56,7 @@ Alaska账号修改密码见[Alaska修改密码](#password)
 
    ![](/assets/qingcloud/cluster/c-6.png)
      ![](/assets/qingcloud/cluster/c-7.png)
- 
+
 
 这时需要回到左侧列表的“计算与网络->VPC网络”中，进入创建好的VPC网络详情界面中，点击切换到管理配置界面中，根据下方表格的参数继续添加端口转发的规则。
 
@@ -114,9 +106,9 @@ c）完成防火墙规则的配置后，点击应用修改。
 
     ![](/assets/qingcloud/cluster/c-12.png) 
 
-1）	将site.collectGateway下的参数改成对应的公网IP（可直接复制Alaska的地址）：`http://公网IP`。  
+1）	将 **`site.collectGateway`** 下的参数改成对应的公网IP（可直接复制Alaska的地址）：`http://公网IP`。  
 
-2）	site.sdk_ws_url下的参数改成对应的公网IP（可直接复制Alaska的地址），端口不变：`ws://公网IP:8887`。  
+2）	将**`site.websdk_app_host`** 下的参数改成对应的公网IP（可直接复制Alaska的地址），端口不变：`公网IP:8000`。  
 
 3）	修改完成后点击保存。
 
@@ -145,37 +137,6 @@ c）完成防火墙规则的配置后，点击应用修改。
 
 ## 启动应用
  ![](/assets/qingcloud/cluster/c-20.png) 
-
- 
-## 扩展集群容量
-当资源不能满足业务需求时，可以扩展集群的节点。有两种扩展方式，一是横向扩展，增加集群的节点数量；二是纵向扩展，增加集群节点的资源容量。
-
-### 方式1：横向扩展
-1. 进入“AppCenter->集群列表”，选择进入需要扩展的应用集群详情页。点击新增从节点，可不填写名称进行提交创建。 
- ![](/assets/qingcloud/cluster/c-21.png) 
-2. 当“添加资源节点”的提示消失后，大概需要2分钟即可完成创建。
-3. 使用谷歌浏览器打开网址： `http://公网IP:8080` ，回到Alaska界面，进入新增加的主机详情
-  ![](/assets/qingcloud/cluster/c-22.png) 
-4. 在主机中点击增加，选择组件进行增加主机扩展，如选择Kafka Broker。
-  ![](/assets/qingcloud/cluster/c-23.png) 
-5. 安装组件Kafka Broker成功后，回到主界面的 Kafka-sugo进行服务重启，重启后则完成了对组件Kafka Broker的机器扩展。
-  ![](/assets/qingcloud/cluster/c-24.png) 
-
-
-
-### 方式2：纵向扩展
-1. 在左侧列表中进入“AppCenter->集群列表”，右击应用ID，选择扩容集群。
-  ![](/assets/qingcloud/cluster/c-25.png) 
-  ![](/assets/qingcloud/cluster/c-26.png) 
-  > 1）	扩容主节点，增大主节点主机的CPU，内存和磁盘容量；
-  > 2）	扩容从节点，增大两台从节点主机的CPU，内存和磁盘容量。
-
-2. 使用谷歌浏览器打开网址： `http://公网IP:8080` ，能正常进入并管理Alaska即表示完成扩容没有问题。
-
-  ![](/assets/qingcloud/cluster/c-27.png) 
-3. 查看集群详情，主节点的配置已经完成扩容。
-
-   ![](/assets/qingcloud/cluster/c-28.png) 
 
 ## 删除并恢复集群
 

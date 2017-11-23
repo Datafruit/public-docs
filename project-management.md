@@ -14,9 +14,10 @@
 ***
 
 ## 数据接入
-我们目前提供了两种数据接入方式：SDK接入、文件导入。
+我们目前提供了三种数据接入方式：SDK接入、文件导入、日志导入。
 SDK接入：主要针对可视化埋点数据的接入（Web/Android/IOS）；
 文件导入：主要针对小规模数据的导入；
+日志导入：主要针对服务器日志的采集或历史日志数据的导入；
 
 此外，我们还提供了数据导入工具，便于进行大规模的数据导入。
 
@@ -72,25 +73,14 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 ![](/assets/project-management/2-8.png)
 
 此功能可以通过向页面注入代码，在页面载入时，自动上报指定的内容到指定维度字段。
-此功能仅支持HTML页面，函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。  
-  > **`e`:** 表示当前JS点击事件的Event对象  
-  > **`element`:** 表示当前点击元素的DOM对象  
-  > **`conf`:** SDK初始化的一些配置信息，如：`app_host`, `api_host`, `token`等  
-  > **`instance`:** 当前初始化SDK的JS对象（sugoio对象） 
-   
-例如有如下需求：
-  > 我们需要将当前点击元素的文本上报到自定义维度EventText上，同时要将搜索框中输入的内容上报到SearchText维度上。 
-  > 我们可以注入如下代码来实现此需求：
-
+此功能仅支持HTML页面，函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。
+示例说明：
 ```javascript
-// 获取当前点击元素的text
-var _clickText = element.innerText;  
+var text = element.innerText;  // 获取当前点击元素的text
 
-//假设inpSearch为搜索框input框的id
-var _searchText = document.getElementById('inpSearch').value;  
+var custom1 = document.getElementById('xxx').value  //假设xxx为一个input框的id，我们又想在点击元素时同时上报这个input的value值。
 
-// 注：整个代码注入是一个函数内容体, 最终返回一个JSON对象，其中JSON对象的每个属性代表一个自定义维度的上报。
-return { EventText: _clickText, SearchText: _searchText };  
+return {EventText: text, Custom1: custom1}  // 这里写的是一个函数内容,最终返回为json对象的自定义属性。
 ```
 
 **HTML页面元素埋点**
@@ -134,47 +124,52 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 首次进行埋点时，需输入项目首页的地址。
 
 ![](/assets/project-management/2-17.png)
-进入埋点界面后我们可以看到项目页面本身，以及埋点工具栏。
+进入埋点界面后我们可以看到项目页面本身，以及埋点工具按钮。埋点工具按钮可以任意拖动位置。
+鼠标悬停埋点工具按钮时，将出现埋点工具菜单：页面设置、创建埋点、埋点列表、页面分类、部署埋点。
 
+
+**页面设置**
+
+页面设置功能主要用于设置页面名称的上报规则。
 ![](/assets/project-management/2-18.png)
-点击“创建事件”按钮之后，可以使用鼠标点选要进行埋点的页面元素，被圈选的元素会被绿色外框标记。
+
+页面路径：默认为当前页面的URL，即表达下面的页面名称等设置对此URL生效。页面路径支持通配符“*”，当使用通配符时，将会让本页面的埋点事件对所有符合页面路径的页面有效。
+
+页面名称：分为自动获取和人工设置两种上报方式。自动获取是指数据上报时，自动获取页面head标签里，title标签中的内容作为页面名称，当title发生修改时，无需重新设置；人工设置是指人工输入要上报的固定页面名称。
+
+页面分类：显示当前页面所匹配的页面分类名称，详见下文的页面分类功能说明。
+注入代码：根据需要填入js代码，可在页面载入时抓取页面指定内容，并上报至指定字段。详细说明可参考上文APP埋点部分的注入代码。
+
+**创建埋点**
 
 ![](/assets/project-management/2-19.png)
 
-点击页面元素后，将自动打开埋点设置对话窗，对话窗中的内容包括：
-1.	页面：当前页面的地址；
-2.	元素：当前所选中的页面元素的路径；
-3.	同类元素：设置此埋点是否对页面中的同类元素一并生效。同类元素通过元素路径进行判别，例如一个商品列表中，每个商品都可视为同类元素；
+点击创建埋点按钮后，页面将进入埋点状态，此时页面将不可跳转，鼠标悬停在页面元素时会显示绿色的圈选框。当圈选需要埋点的元素后，点击鼠标左键即可弹出埋点设置菜单。
+
 ![](/assets/project-management/2-20.png)
 
-4.	是否全局：设置此埋点是否对所有页面中的同类元素一并生效（例如下图全局导航的按钮）；
-![](/assets/project-management/2-21.png)
+我们在埋点设置菜单中完成对圈选元素的埋点事件配置。
+1.	页面路径：取自页面设置中的页面路径，若页面设置的页面路径发生修改，此处会相应变化。上面图中页面路径带有通配符，意味着本事件将对所有符合页面路径规则的页面生效。
+2.	元素路径：当前圈选的页面元素的路径。
+3.	事件名称：为本事件输入名称，此名称将会被上报，在进行数据分析时使用。
+4.	事件类型：用于设置事件触发上报的条件。点击，当元素被点击时触发事件上报；改变，当元素内容改变时触发事件上报（例如下拉菜单选项改变）；对焦，当元素获取焦点时触发事件上报（例如光标点入一个输入框）。
+5.	同类有效：设置此埋点是否对页面中的同类元素一并生效。同类元素通过元素的全量路径进行判别，可任意定制元素的父级影响范围。原始埋点元素为蓝色，同类元素为红色。
 
-5.	类型：埋点事件类型，包括：点击、改变、对焦；
-6.	名称：埋点事件的名称，请使用辨识度较高的名称，便于今后查询；
-7.	代码：根据需要填入js代码，例如可抓取页面指定内容，并上报至指定字段。  
- 函数自带了 `e`, `element`, `conf`, `instance`这些参数, 可以直接调用执行变量。  
-  > **`e`:** 表示当前JS点击事件的Event对象  
-  > **`element`:** 表示当前点击元素的DOM对象  
-  > **`conf`:** SDK初始化的一些配置信息，如：`app_host`, `api_host`, `token`等  
-  > **`instance`:** 当前初始化SDK的JS对象（sugoio对象） 
-  
-例如有如下需求：  
-   > 我们需要将当前点击元素的文本上报到自定义维度EventText上，同时要将搜索框中输入的内容上报到SearchText维度上。  
-   > 我们可以注入如下代码来实现此需求：  
+    ![](/assets/project-management/2-21.gif)
 
-```javascript
-// 获取当前点击元素的text
-var _clickText = element.innerText;  
+6.	全局有效：设置此埋点是否对整个网站内的同一全局元素一并生效。全局元素通过元素路径进行判别，例如几乎贯穿全站的主导航栏，通常具有相同的元素路径，无论它位于哪个页面，都可视为同一个全局元素。
+7.	高级选项-上报数据：在当前埋点事件触发时，将页面中某个或多个指定可视元素的文本上报至自定义维度字段（需要在维度管理中预先创建维度）；
+![](/assets/project-management/2-22.gif)
 
-//假设inpSearch为搜索框input框的id
-var _searchText = document.getElementById('inpSearch').value;  
-
-// 注：整个代码注入是一个函数内容体, 最终返回一个JSON对象，其中JSON对象的每个属性代表一个自定义维度的上报。
-return { EventText: _clickText, SearchText: _searchText };  
-```
+8.	高级选项-注入代码：根据需要填入js代码，可在页面载入时抓取页面指定内容，并上报至指定字段。详细说明可参考上文APP埋点部分的注入代码。
 
 ![](/assets/project-management/2-22.png)
+
+**埋点小技巧-恢复原始点击事件**
+
+在进入创建埋点的状态后，无法点击按钮的原始事件就不能对事件的弹窗进行埋点。这时候只需要按住ctrl(windows\linux)或command(OSX)键，再点击按钮即可触发原始的事件。这时候松开按键后就回到埋点的状态，就能对事件的弹窗进行埋点操作了。
+ ![](/assets/project-management/tips.gif)
+
 已创建完毕的埋点事件会在页面中用色框进行标记。创建完毕的事件并不会直接生效，需要点击“部署事件”按钮，进行部署之后才会发挥作用。
 已经创建的事件或完成的修改，即使不进行部署也都已保存，下次进入埋点页面可延续上次的工作。
 
@@ -198,7 +193,107 @@ return { EventText: _clickText, SearchText: _searchText };
 5.	设置主时间字段：将某一列设置为时间维度列，即数据分析时的时间轴。此列的数据格式必须为date；
 6.	选择导入数据列：可自由选择将那些列进行导入，默认为全部导入。
 
-## <span id = "create-son">子项目</span>
+### <span id = "log-access">日志导入</span>
+日志导入主要是用于快速采集/导入日志数据文件，通过简单的配置即可简单便捷实现日志数据的采集。用以做日志的查询和分析，同时也支持导入历史的日志数据，提供任意文件格式的支持。
+
+#### 创建项目
+新建项目后，选择数据导入方式为日志接入，点击下一步即可进入日志接入的操作步骤。
+  ![](/assets/log/as-1.png)
+
+#### 日志接入操作流程
+1. 检验数据
+  ![](/assets/log/as-2.png)
+* 选择需要接入的日志数据类型：提供nginx、tomcat、apache 三种类型
+* 日志格式：根据选择的日志类型进行数据格式的配置
+* 生成 Grok 表达式：填写日志格式后会自动生成，生成后可根据业务的情况点击进行修改。
+* 样例数据：请输入您采集的服务器中其中的一条数据（截取格式对应的日志数据填入）
+* 结果预览：若样例数据适配生成的Grok表达式，则自动生成结果预览。请核对字段与字段值是否匹配，如不匹配对日志格式或Grok表达式进行调整。
+ ![](/assets/log/as-3.gif)
+
+2. 设定时间维度
+* 选择时间列：时间维度是很重要的维度，请与Grok表达式中表示时间维度的维度名进行对应。默认会选择第一个时间类型的字段，可点击下拉修改；
+* 预估每天数据量：对采集的服务器预估每天会采集的数据量。需要注意，填写该项能大大提高产品的使用性能。预估值将用于优化收集器的配置，越接近真实值，优化效果越好。
+  ![](/assets/log/as-4.png)
+
+3. 接入数据
+日志数据的接入，数果提供两种方式接入：
+* 方式一：下载Sugo-C 采集器
+* 填写日志文件目录：被采集的日志所在的目录地址，请填写绝对地址。
+* 填写日志文件名字：被采集的日志的文件名字，若为多个文件，可填写正则表达式来匹配。
+服务端将按照基础配置中填写的信息进行配置并打包，点击下载按钮，下载Sugo-C日志采集器。
+
+以下是下载采集器后的使用说明：
+#### 解压
+下载后的文件以`tar.gz`为后缀，可使用通用的解压工具解压，或在命令行中，进入下载目录，使用如下命令进行解压：
+
+```shell
+tar -zxvf Sugo-C.tar.gz
+```
+
+#### 使用
+
+进入`Sugo-C`目录，使用`bin`目录下的脚本进行启动或停止采集器。
+
+```shell
+cd Sugo-C
+```
+
+#### 启动：
+
+```shell
+bin/start.sh
+```
+#### 停止：
+
+```shell
+bin/stop.sh
+```
+
+#### 检测
+
+在启动后，点击检测按钮测试采集器是否正常采集日志并上报。
+
+#### 自定义配置
+
+`conf`目录内的`collect.properties`文件是采集器的配置文件，其配置参数如下：
+
+**参数说明**
+
+| 参数 | 默认值 | 说明 |
+| --- | --- | --- |
+| file.reader.log.dir | | 采集的日志所在目录 |
+| file.reader.log.regex | | 采集的文件名正则表达式（单文件可直接填写文件名） |
+| file.reader.grok.patterns.path | [${user.dir}/conf/patterns](https://github.com/Datafruit/log-collector/blob/master/src/main/resources/patterns) |（可选）grok表达式配置文件路径 |
+| file.reader.csv.dimPath | $\{user.dir\}/conf/dimension | csv维度配置文件，`parser.class`为`io.sugo.collect.parser.CSVParser`时生效 |
+| file.reader.csv.separator | ,（逗号）| csv文件分隔符，空格分隔可填`space`， `parser.class`为`io.sugo.collect.parser.CSVParser`时生效 |
+| file.reader.log.type | separate | 日志文件类型，日志若是以分离形式生成，则为`separate`，若是以单一文件不断增加内容的形式，则为`only` |
+| file.reader.batch.size | | 数据分批发送，此配置为每个批次的大小 |
+| file.reader.scan.timerange | | 目录过期时间，采集程序不采集超过此时间的目录，单位(minutes) |
+| file.reader.scan.interval | | 目录扫描时间，单位(ms) |
+| file.reader.threadpool.size | | reader线程池大小，一个线程负责一个采集子目录 |
+| file.reader.host | InetAddress.getLocalHost().getHostAddress() | 采集日志所在机器的IP地址 |
+| file.reader.grok.expr | | grok 表达式 |
+| kafka.bootstrap.servers | | 以部署Kafka的地址，格式为`host:port`，多个请以`,`分割 |
+| writer.kafka.topic | | Kafka的topic名称 |
+| writer.class | | writer类名，数据写入到`kafka`使用`io.sugo.collect.writer.kafka.KafkaWriter`，发送到`gateway`使用`io.sugo.collect.writer.gateway.GatewayWriter` |
+| writer.gateway.api | | 发送到网关的接口 |
+| parser.class | |parser类名，`CSV`文件使用 `io.sugo.collect.parser.CSVParser`，`nginx`日志建议使用`io.sugo.collect.parser.GrokParser` |
+| reader.class | |reader类名，暂时只有`io.sugo.collect.reader.file.DefaultFileReader` |
+
+
+采集器的状态检测可能需要1分钟至10分钟不等，根据采集的数据量决定，数据量越大需要消耗的时间越长。 当检测成功后，即可开始日志分析。
+
+
+
+* 方式二：上传文件
+1. 支持上传任意格式的文本文件
+2. 文件大小不超过 100M
+
+采集日志数据需要注意的是：若数据为两个小时前的则视为历史数据，不会马上落地，所以无法马上从日志分析查询得到，您可以用过暂停项目触发历史数据的落地。
+
+
+
+## 子项目
 
 以某个项目数据为基础，通过设置筛选条件，将符合条件的数据划归一个新的项目。新的项目即为原项目的子项目。
 子项目主要用于实现对数据的分权管理，将项目内的指定数据对指定人员开放。

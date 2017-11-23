@@ -87,6 +87,8 @@
       * [路线图](developer/interfaces/plyql-roadmap.md)
     * [Tindex接口使用文档](developer/query/index.md)
       - [查询接口文档](/developer/query/query.md)
+      - [lookup使用文档](/developer/interfaces/lookup-jdbc.md)
+    * [UIndex使用文档](developer/interfaces/uindex.md)
     * [数据接入](developer/data-access/index.md)
       * [查找MiddleManager与Overlord](developer/data-access/overlord_middlemanager_guid.md)
       * 数据接入文档
@@ -96,5 +98,7 @@
         * [kafka动态维接入](developer/data-access/default-kafka.md)
         * [hadoop接入](developer/data-access/hadoop.md)
         * [数据段合并](developer/data-access/merge-druid.md)
+        * 日志记录接入
+          * [rsyslog集中化nginx日志](developer/data-access/logs/rsyslog.md)
+          * [日志切割](developer/data-access/logs/rotate.md)
       * [parser 类型](developer/data-access/parser.md)
-      
