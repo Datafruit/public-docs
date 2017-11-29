@@ -66,7 +66,23 @@ post参数如下：
 
 **`dataLoader.rowLimit:`**  加载关联数据行数限制，默认10000行，最大支持100w。
 
+
+
+#### 查看已创建的lookup列表（get请求)
+`http://<CoordinatorIP>:8081/druid/coordinator/v1/lookups/__default`  
+> **`CoordinatorIP:`** Tindex集群内coordinator服务节点ip
+
+#### 查看已创建的成功lookup详情列表 (get请求)
+`http://<HistoryIP>:8083/druid/listen/v1/lookups/`  
+> **`HistoryIP:`** Tindex集群内history服务节点ip
+
 ## 2. 使用Lookup-JDBC查询Tindex数据
+
+(所有查询接口)发送POST请求到
+`http://<BrokerIP>:8082/druid/v2?prettry`
+> **`BrokerIP:`** Tindex集群内broker服务节点ip
+
+[查看更多Tindex查询接口](/developer/query/query.md)
 
 ### <a id="groupBy" href="groupBy"></a> GroupBy查询使用lookup-jdbc
 
