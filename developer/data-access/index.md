@@ -7,5 +7,6 @@
     - [Kafka接入](kakfa-druid.md)
     - [kafka动态维接入](default-kafka.md)
     - [hadoop接入](hadoop.md)
+    - [预聚合接入](rollup-druid.md)
     - [数据段合并](merge-druid.md)
 - [parser 类型](parser.md)

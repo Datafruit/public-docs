@@ -71,7 +71,7 @@
   "interval": "2017-06-01/2017-06-30",
   "triggerMergeCount": 2,
   "mergeGranularity":"DAY",
-  "maxSizePerSegment":"800MB"
+  "maxSizePerSegment":"800MB",
   "context": {
     "debug": true
   }   
