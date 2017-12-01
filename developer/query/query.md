@@ -14,6 +14,8 @@
 - [Scan](#Scan)
 - [FirstN](#FirstN)
 - [MultiHaving](#MultiHaving)
+- [Funnel](#Funnel)
+- [Retention](#Retention)
 
 
 
@@ -913,7 +915,6 @@ context | 查询`Context`，可以指定是否缓存查询结果等 | 否
 ## <a id="MultiHaving" href="MultiHaving"></a> 10. `MultiHaving`
 用于对`GroupBy`分组数据进行不同的`having`条件过滤，分组时能对指定的多个维度进行分组，每个`having`过滤结果可以经过多个`aggregatorSpecs`进行聚合，`JSON`示例如下：
 
-
 ```
 {
     "queryType": "multi_having",
@@ -990,5 +991,157 @@ havingSpec | 对分组数据进行having过滤，详见[`having`](/developer/que
 aggregatorSpecs | 对having过滤后的结果进行聚合的方式 | 是
 
 
+## <a id="Funnel" href="Funnel"></a> 11. `Funnel`   
+`Funnel查询`也叫漏斗查询,该查询可以设置多个步骤,每个步骤都会在上一个步骤的结果中查询出符合条件的数据,最后将每个步骤的结果返回,`JSON`示例如下：
+```json
+{
+  "queryType":"funnel",
+  "dataSource":"rollup-normal-test5",
+  "context":
+  {
+    "groupByStrategy":"v2",
+    "useOffheap":true,
+    "timeout":180000
+  },
+  "intervals":"2017-08-20T00:00:00.000Z/2017-08-22T23:59:59.999Z",
+  "granularity":  {
+    "type":"period",
+    "period":"P2D"
+  },
+  "dimension":null,
+  "field":"uid",
+  "steps":[
+    {
+      "name":"第 1 步",
+      "filter":"event:访问"
+    },
+    
+    {
+      "name":"第 2 步",
+      "filter":"event:登录"
+    }
+  ],
+  "slidingWindow":
+  {
+    "type":"period",
+    "period":"P1D"
+  }
+}
+```
 
+查询结果:
+```json
+[
+    {
+        "v": "FunnelResultRow",
+        "timestamp": "2017-08-20T00:00:00.000Z",
+        "event": {
+            "第 1 步": 527595.2736384192,
+            "第 2 步": 459295.1286562972
+        },
+        "type": "window"
+    },
+    {
+        "v": "FunnelResultRow",
+        "timestamp": "2017-08-21T00:00:00.000Z",
+        "event": {
+            "第 1 步": 388632.1614757022,
+            "第 2 步": 245955.00990854224
+        },
+        "type": "window"
+    },
+    {
+        "v": "FunnelResultRow",
+        "timestamp": "2017-08-22T00:00:00.000Z",
+        "event": {
+            "第 1 步": 390788.5262813083,
+            "第 2 步": 247582.08635253785
+        },
+        "type": "window"
+    },
+    {
+        "v": "FunnelResultRow",
+        "timestamp": "2017-08-20T00:00:00.000Z",
+        "event": {
+            "第 1 步": 574921.653267394,
+            "第 2 步": 516034.8059116008
+        },
+        "type": "total"
+    }
+]
+```
+- `granularity.period` 指定`Funnel`的查询粒度,`P2D`表示查询粒度为2天
+- `dimension` 指定查询的分组维度
+- `field` 指定用于基数统计的维度
+- `steps`  指定漏斗的查询条件
+- `steps.name`  指定查询条件的名称
+- `steps.filter`  指定查询具体的过滤条件,用`lucene`表达式设置
+- `slidingWindow` 指定查询的滑动窗口,即展示结果的时间间隔,目前仅支持设为一天,即`P1D`
 
+## <a id="Retention" href="Retention"></a> 12. `Retention`
+`Retention查询`也叫留存查询,它要先设置一个起始条件,然后设置一个转化条件.然后在起始条件的结果里进行转化条件的过滤,最后返回各个条件的查询结果,`JSON`示例如下： 
+
+```json
+{
+  "queryType":"retention",
+  "dataSource":"rollup-normal-test5",
+  "context":
+  {
+    "groupByStrategy":"v2",
+    "useOffheap":true,
+    "timeout":180000
+  },
+  "intervals":"2017-08-20T00:00:00.000Z/2017-08-27T23:59:59.999Z",
+  "granularity":
+  {
+    "type":"period",
+    "period":"P3D"
+
+  },
+  "field":"uid",
+  "startStep":
+  {
+    "name":"total",
+    "filter":"event:访问 "
+  },
+  "returnStep":
+  {
+    "name":"total_return",
+    "filter":"event:购买"
+  }
+}
+```
+查询结果:
+```json
+[
+    {
+        "timestamp": "2017-08-25T00:00:00.000Z",
+        "result": {
+            "total": 358710.1861640895,
+            "2017-08-25T00:00:00.000Z": 246955.86689676947
+        }
+    },
+    {
+        "timestamp": "2017-08-22T00:00:00.000Z",
+        "result": {
+            "total": 571790.5760884841,
+            "2017-08-22T00:00:00.000Z": 561162.0445494938,
+            "2017-08-25T00:00:00.000Z": 391989.24259191006
+        }
+    },
+    {
+        "timestamp": "2017-08-19T00:00:00.000Z",
+        "result": {
+            "2017-08-19T00:00:00.000Z": 490870.6724267715,
+            "total": 527595.2736384192,
+            "2017-08-22T00:00:00.000Z": 519098.24003230926,
+            "2017-08-25T00:00:00.000Z": 362174.31900703744
+        }
+    }
+]
+```
+
+- `granularity.period` 指定查询粒度
+- `field` 指定用于基数统计的维度
+- `startStep.filter` 指定起始条件,用`lucene`表达式设置
+- `returnStep.filter` 指定结束条件,用`lucene`表达式设置
