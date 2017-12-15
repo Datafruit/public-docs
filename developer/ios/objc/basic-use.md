@@ -103,11 +103,21 @@
 
 ##### UITableView
 
-所有`UITableView`类及其子类，需要指定其`delegate`属性，方可被埋点绑定事件。基于`UITableView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UITableView`被选中的详细位置信息。
+所有`UITableView`类及其子类，需要指定其`delegate`属性，并实现以下方法，方可被埋点绑定事件。基于`UITableView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UITableView`被选中的详细位置信息。
 
+```
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+```
+
+##### UICollectionView
+
+所有`UICollectionView`类及其子类，需要指定其`delegate`属性，并实现以下方法，方可被埋点绑定事件。基于`UICollectionView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UICollectionView`被选中的详细位置信息。
+
+```
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+```
 
 #### 2.4.2 UIWebView
-
 
 所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法:
 
