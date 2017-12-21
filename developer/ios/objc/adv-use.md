@@ -127,3 +127,15 @@ Sugo *sugo = [Sugo sharedInstance];
 sugo.timeEvent(event_name);					// 在开始统计时长的时候调用
 sugo.track(event_id, event_name, props);	// 准备把自定义事件发送到服务器时
 ```
+
+#### 3.2.5 跟踪用户首次登录
+
+当需要跟踪用户首次登录用户账户时，可调用
+
+* `- (void)trackFirstLoginWith:(nullable NSString *)identifer dimension:(nullable NSString *)dimension;`
+
+示例如下(其中`dimension`参数为用户已自定义的维度名)：
+
+```
+[[Sugo sharedInstance] trackFirstLoginWith:@"user_id" dimension: @"user_id_dimension"]; 
+```
