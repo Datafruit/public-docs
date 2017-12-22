@@ -39,6 +39,7 @@
   * [图表统计](analytics/log.md#graphic)
 * [监控告警](analytics/monitoring.md)
 * [用户运营](user/user-operation.md)
+  * [用户指标](user/user-quota.md)
   * [场景数据设置](user/user-operation.md#scene-setting)
   * [用户分群](user/user-segmentation.md)
   * [用户行为轨迹](user/user-segmentation.md#behavior-trace)
