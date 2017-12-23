@@ -60,8 +60,8 @@
   * [RFM客户细分](rfm/intro.md)
       * [RFM模型介绍](rfm/background.md)
       * [应用场景](rfm/index.md)
-* [开发者文档](developer-docs-web.md)
-  * [WEB SDK](developer-docs-web.md)
+* [开发者文档](developer/web/developer-docs-web.md)
+  * [WEB SDK](developer/web/developer-docs-web.md)
   * Android SDK
     * [SDK 集成](developer/android/README.md#anchor-1)
     * [SDK 配置](developer/android/README.md#anchor-2)
