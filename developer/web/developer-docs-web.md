@@ -118,6 +118,28 @@
   });
 ```
 
+
 ### sugoio.register_once(object)
 
 在 Cookie 中永久保存属性，如果存在这个属性了则不覆盖
+
+
+
+## 用户登录事件
+用户成功登录后，上报用户的登录信息
+```javascript
+  sugoio.track_first_time('test_user_id', 'user_real_dimension', callbakFunc);
+```
+
+用户退出登录后，不再上报用户的登录信息
+```javascript
+sugoio.clear_first_login('test_user_id');  // 清除用户登录状态
+```
+
+* **test_user_id:** 用户真实id；（必填）
+* **user_real_dimension:** 用户真实id所属维度名称。需要在数果平台上创建自定义维度用于存储用户的真实id；（必填）
+* **callbakFunc:** 方法回调函数；（非必填）
+
+  例如：`sugoio.track_first_time('sugovip', 'user_id', function (err){console.log(err)});
+`
+* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](project-management.md#user-library)
