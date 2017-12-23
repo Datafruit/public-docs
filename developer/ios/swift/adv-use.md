@@ -124,3 +124,17 @@ Sugo.mainInstance().clearSuperProperties()
 sugo.timeEvent(event_name);	// 在开始统计时长的时候调用
 sugo.track(event_id, event_name, props);	// 准备把自定义事件发送到服务器时
 ```
+
+#### 3.2.5 用户登录事件
+
+当需要跟踪用户首次登录用户账户时，可调用
+
+* `open func trackFirstLogin(with id: String, dimension: String)`
+
+示例如下(其中`dimension`参数为用户已自定义的维度名)：
+
+```
+Sugo.mainInstance().trackFirstLogin(with: "userId", dimension: "userIdDimension")
+```
+
+* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](project-management.md#user-library)

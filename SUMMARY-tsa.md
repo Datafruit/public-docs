@@ -7,6 +7,7 @@
     * [数据文件导入](project-management.md#file-access)
     * [日志导入](project-management.md#log-access)
     * [创建子项目](project-management.md#create-son)
+    * [用户库](project-management.md#user-library)
   * [数据导入工具](data-import.md)
   * [业务表管理](business-management.md)
   * [维度管理](dimension-management.md)
@@ -47,8 +48,8 @@
   * [留存分析](user/retation-analytics.md)
   * [漏斗分析](user/funnel-analytics.md)
   * [事件分析](user/event-analytics.md)
-* [开发者文档](developer-docs-web.md)
-  * [WEB SDK](developer-docs-web.md)
+* [开发者文档](developer/web/developer-docs-web.md)
+  * [WEB SDK](developer/web/developer-docs-web.md)
   * Android SDK
     * [SDK 集成](developer/android/README.md#anchor-1)
     * [SDK 配置](developer/android/README.md#anchor-2)

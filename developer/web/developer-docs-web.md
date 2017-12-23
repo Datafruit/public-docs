@@ -130,7 +130,7 @@
 ```javascript
   sugoio.track_first_time('test_user_id', 'user_real_dimension', callbakFunc);
 ```
-## 用户退出登录
+
 用户退出登录后，不再上报用户的登录信息
 ```javascript
 sugoio.clear_first_login('test_user_id');  // 清除用户登录状态
@@ -142,3 +142,4 @@ sugoio.clear_first_login('test_user_id');  // 清除用户登录状态
 
   例如：`sugoio.track_first_time('sugovip', 'user_id', function (err){console.log(err)});
 `
+* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](project-management.md#user-library)

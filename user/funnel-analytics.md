@@ -109,6 +109,9 @@
 ![](/assets/user/fun-9.png)
 
 关于用户运营的介绍：
+  * [用户运营](user-operation.md)
+  * [用户指标](user-quota.md)
+  * [场景数据设置](user-operation.md#scene-setting)
   * [用户分群](user-segmentation.md)
   * [用户行为轨迹](user-segmentation.md#behavior-trace)
   * [路径分析](path-analytics.md)
