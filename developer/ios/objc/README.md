@@ -2,7 +2,7 @@
 
 ## 介绍
 
-欢迎集成使用由sugo.io提供的iOS端Objective-C版采集并分析用户行为。
+欢迎集成使用由听云提供的iOS端Objective-C版采集并分析用户行为。
 
 `sugo-objc-sdk`是一个开源项目，我们很期待能收到各界的代码贡献。
 
@@ -63,7 +63,7 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 
 ### 2.1 获取SDK配置信息
 
-登陆数果星盘后，可在平台界面中创建项目和数据接入方式，创建数据接入方式时，即可获得项目ID与Token。
+登陆听云星盘后，可在平台界面中创建项目和数据接入方式，创建数据接入方式时，即可获得项目ID与Token。
 
 ### 2.2 配置并获取SDK对象
 
@@ -134,7 +134,7 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 
 ##### 2.3.1.4 连接
 
-登陆数果星盘，进入对应Token的可视化埋点界面，可看见二维码，保持埋点设备网络畅通，通过设备任意可扫二维码的应用扫一扫，然后用Safari打开链接，点击网页中的链接，即可进入可视化埋点模式。
+登陆听云星盘，进入对应Token的可视化埋点界面，可看见二维码，保持埋点设备网络畅通，通过设备任意可扫二维码的应用扫一扫，然后用Safari打开链接，点击网页中的链接，即可进入可视化埋点模式。
 此时设备上方将出现可视化埋点连接条，网页可视化埋点界面将显示设备当前页面及相应可绑定控件信息。
 
 #### 2.3.2 通过自身应用进行扫码
@@ -309,4 +309,4 @@ sugo.track(event_id, event_name, props);	// 准备把自定义事件发送到服
 
 已经成功集成了此SDK了，想了解SDK的最新动态, 请`Star` 或 `Watch` 我们的仓库： [Github](https://github.com/Datafruit/sugo-swift-sdk.git)。
 
-有问题解决不了? 发送邮件到 [developer@sugo.io](developer@sugo.io) 或提出详细的issue，我们的进步，离不开各界的反馈。
+有问题解决不了? 发送邮件到 [cs@tingyun.com](cs@tingyun.com) 或提出详细的issue，我们的进步，离不开各界的反馈。

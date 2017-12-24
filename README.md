@@ -1,6 +1,6 @@
 # public-docs
 
-数果产品文档，使用gitbook发布
+听云产品文档，使用gitbook发布
 
 ## 开始使用
 

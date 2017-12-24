@@ -1,6 +1,6 @@
 # Android SDK 使用文档
 
-数果智能的Android SDK使用文档有SDK集成、SDK配置、SDK使用三部分组成，讲述整个数果智能平台Android SDK接入的使用流程。。
+听云的Android SDK使用文档有SDK集成、SDK配置、SDK使用三部分组成，讲述整个听云平台Android SDK接入的使用流程。。
 
 ## SDK 集成
 > 集成 Sugo Android SDK 有两种方式，**选择其中一种即可**。
@@ -28,7 +28,7 @@ dependencies {
 
 ## SDK 配置 <span id ="anchor-1"></span>
 
-> 请先登录您的【数果星盘】管理台，在数据管理-埋点项目-新建项目-新建应用中，创建您的应用，以获取对应的 Token 等。   
+> 请先登录您的【听云星盘】管理台，在数据管理-埋点项目-新建项目-新建应用中，创建您的应用，以获取对应的 Token 等。   
 
 ### 1 AndroidManifest.xml 基本配置   
 
@@ -243,7 +243,7 @@ if(imageUpload()){
 
 调用 `SugoAPI.logout()` 退出登录，这两个维度将不会继续上报。
 
-* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](project-management.md#user-library)
+* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](/project-management.md#user-library)
 
 ### 1.4 开启 H5 埋点   
 
