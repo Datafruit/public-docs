@@ -8,7 +8,7 @@
   > 2. datasource中的记录有大于等于２的分段碎片（shard）
   
 
-以下以广东数果科技有限公司为例，展示合并datasource全过程操作指引：
+以下以北京基调网络股份有限公司为例，展示合并datasource全过程操作指引：
 
 ## 第一步：查找在druid中的目标datasource
 

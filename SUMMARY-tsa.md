@@ -1,5 +1,5 @@
 # Summary
-* [SUGO-TSA简介](book-index-tsa.md)
+* [TSA简介](book-index-tsa.md)
 * 数据管理
   * [项目管理](project-management.md)
     * [创建项目](project-management.md#create-project)
@@ -86,7 +86,3 @@
         * [hadoop接入](developer/data-access/hadoop.md)
         * [数据段合并](developer/data-access/merge-druid.md)
       * [parser 类型](developer/data-access/parser.md)
-  * 青云环境部署文档
-    * [单机版部署](qingcloud/stand-alone.md)
-    * [集群版部署](qingcloud/cluster.md)
-

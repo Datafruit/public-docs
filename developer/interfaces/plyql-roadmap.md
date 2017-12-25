@@ -14,4 +14,4 @@
 
  # 问题与支持
 
-  发送邮件到 developer@sugo.io 或提出详细的issue，我们的进步，离不开各界的反馈。
+  发送邮件到 cs@tingyun.com 或提出详细的issue，我们的进步，离不开各界的反馈。

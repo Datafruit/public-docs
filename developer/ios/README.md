@@ -1,6 +1,6 @@
 ## iOS SDK 使用文档
 
-数果智能的iOS SDK分为Objective-C和Swift两个语言版本，各语言版本皆通过
+听云的iOS SDK分为Objective-C和Swift两个语言版本，各语言版本皆通过
 
 	* 集成
 	* SDK的基础调用

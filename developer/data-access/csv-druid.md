@@ -7,7 +7,7 @@
 
 ![](/assets/datacsv/datacsv1.png)
 
-以下以广东数果科技有限公司为例，从 cvs 导入到 csv 落地全过程操作指引：
+以下以北京基调网络股份有限公司为例，从 cvs 导入到 csv 落地全过程操作指引：
 
 ## 第一步：找MiddleManagers服务IP
 
