@@ -22,13 +22,11 @@ import Sugo
 func initSugo() {
     let id: String = "Add_Your_Project_ID_Here"
     let token: String = "Add_Your_App_Token_Here"
-//        Sugo.BindingsURL = ""     // 设置获取绑定事件配置的URL，端口默认为8000
-//        Sugo.CollectionURL = ""   // 设置传输绑定事件的网管URL，端口默认为80
-//        Sugo.CodelessURL = ""     // 设置连接可视化埋点的URL，端口默认为8887
     Sugo.initialize(id: id, token: token)
-    Sugo.mainInstance().loggingEnabled = true    // 如果需要查看SDK的Log，请设置为true
-    Sugo.mainInstance().flushInterval = 5    // 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒
-    Sugo.mainInstance().cacheInterval = 60    // 从服务端拉取绑定事件配置的时间间隔，单位是秒，如若不设置，默认时间是1小时
+    Sugo.mainInstance().loggingEnabled = true   // 如果需要查看SDK的Log，请设置为true
+    Sugo.mainInstance().flushInterval = 5       // 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒
+    Sugo.mainInstance().cacheInterval = 60      // 从服务端拉取绑定事件配置的时间间隔，单位是秒，如若不设置，默认时间是1小时
+    // Sugo.mainInstance().registerModule()     // 需要支持Weex可视化埋点时调用
 }
 ```
 #### 2.2.3 调用SDK对象初始化代码
@@ -52,7 +50,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 在Xcode中，点击App的`xcodeproj`文件，进入`info`便签页，添加`URL Types`。
 
 * Identifier: Sugo
-* URL Schemes: sugo.\*	(“*”位置替换成Token)
+* URL Schemes: sugo.\*  (“*”位置替换成Token)
 * Icon: (可随意)
 * Role: Editor
 
@@ -97,10 +95,18 @@ Sugo.mainInstance().connectToCodeless(via: url)    // url参数为扫描二维�
 
 **对于所有`UIView`，都有一个`String?`类型的`sugoViewId`属性，可以用于唯一指定容易混淆的可视化埋点视图，推荐初始化时设置使用**
 
-##### UIControl
+可以通过如下方式设置：
 
+```
+view.sugoViewId = "CustomStringValue"
+```
 
-所有`UIControl`类及其子类，皆可被埋点绑定事件。
+##### UIView
+
+满足以下条件的`UIView`及其子类可以被可视化埋点绑定事件：
+
+* `userInteractionEnabled`属性为`true`，且是`UIControl`或其子类
+* `userInteractionEnabled`属性为`true`，且`gestureRecognizers`数组属性中包含`UITapGestureRecognizer`或其子类的手势实例，且其`enabled`属性为`true`
 
 ##### UITableView
 
@@ -120,21 +126,11 @@ optional func collectionView(_ collectionView: UICollectionView, didSelectItemAt
 
 #### 2.4.2 UIWebView
 
-
 所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法：
 
 * `optional func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool`
 * `optional public func webViewDidStartLoad(_ webView: UIWebView)`
 * `optional public func webViewDidFinishLoad(_ webView: UIWebView)`
-
-其中，`optional func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool`内需指定返回值（若有类似功能的实现，请确保SDK的返回值优先级最低，在此方法最后调用即可），例子如下：
-
-```
-	func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-
-        return Sugo.mainInstance().webView(webView, shouldStartLoadWith: request, navigationType: navigationType)
-	}
-```
 
 #### 2.4.3 WKWebView
 
