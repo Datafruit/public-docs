@@ -39,6 +39,7 @@
   * [日志记录](analytics/log.md)
   * [图表统计](analytics/log.md#graphic)
 * [监控告警](analytics/monitoring.md)
+  * [错误码管理](analytics/monitoring.md#error-code)
 * [用户运营](user/user-operation.md)
   * [用户指标](user/user-quota.md)
   * [场景数据设置](user/user-operation.md#scene-setting)
@@ -86,7 +87,3 @@
         * [hadoop接入](developer/data-access/hadoop.md)
         * [数据段合并](developer/data-access/merge-druid.md)
       * [parser 类型](developer/data-access/parser.md)
-  * 青云环境部署文档
-    * [单机版部署](qingcloud/stand-alone.md)
-    * [集群版部署](qingcloud/cluster.md)
-
