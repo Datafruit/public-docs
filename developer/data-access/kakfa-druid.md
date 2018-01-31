@@ -143,5 +143,5 @@
 - **`ioConfig.consumerProperties:`** kafka消费端接口的配置，比如kafka的服务器配置  
 - **`taskCount:`** 启动的任务进程数  
 - **`replicas:`** 任务的副本数  
-- **`taskDuration:`** 任务持续时间，超过指定时间后，任务会停止接收数据，等数据持久化之后会创建新的任务进程。可设置的格式：一分钟：`PT60S`, 十分钟：`PT10M`, 一天：`PT1D`  
+- **`taskDuration:`** 任务持续时间，超过指定时间后，任务会停止接收数据，等数据持久化之后会创建新的任务进程。可设置的格式：一分钟：`PT60S`, 十分钟：`PT10M`, 一天：`P1D`  
 - **`useEarliestOffset:`** 从kafka的最早的`offset`开始消费  

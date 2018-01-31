@@ -128,3 +128,11 @@ overlord服务的日志中可以发现如下异常日志：
 ### 解决方案：
 修改参数lateMessageRejectionPeriod的配置：P30D或更长时间，用于修改sequenceName的hash值lucene_index_kafka_com_SJ1B_Zq6e_project_BJrOA8HZW_883bd68ff7f9654_1
 
+### 7. 接数据时报错 OffsetOutOfRangeException
+查看task的日志,出现报错:
+```
+2017-10-10 16:29:14.879 WARN [task-runner-0-priority-0] io.druid.indexing.kafka.BatchKafkaIndexTask - OffsetOutOfRangeException with message [Offsets out of range with no configured reset policy for partitions: {visitRecord001-0=4247231}], retrying in 30000ms
+```
+
+### 解决方案：
+将对应的Supervisor进行reset,数据可正常接入

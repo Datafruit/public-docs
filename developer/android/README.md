@@ -234,9 +234,20 @@ if(imageUpload()){
 }
 ```   
 
-### 1.3 开启 H5 埋点   
+#### 1.3 首次登录
+调用 `SugoAPI.login(userIdKey, userIdValue)` 来记录一次用户登录行为（后台需要配置用户表）
 
-##### 1.3.1. WebView 支持   
+其中，`userIdKey` 是上报 `userIdValue` 的维度名，`userIdValue` 一般是用户标识，例如 `SugoAPI.login("userId", 123456)` 。
+
+调用 `login`之后，如果是第一次登录，则触发【首次登录】事件，并且将来所有上报的事件都会带上【首次登录时间】【userIdKey】这个维度。
+
+调用 `SugoAPI.logout()` 退出登录，这两个维度将不会继续上报。
+
+* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](project-management.md#user-library)
+
+### 1.4 开启 H5 埋点   
+
+##### 1.4.1. WebView 支持   
 
 ```Java   
 
@@ -261,7 +272,7 @@ webView.setWebViewClient(new WebViewClient() {
     });
 ```
 
-##### 1.3.2 XWalkView 支持   
+##### 1.4.2 XWalkView 支持   
 
 > 如果您想要在项目中支持 XWalkView 的可视化埋点 ，可以使用以下代码
 > (先要引用 sugo android sdk 的 xwalk 扩展库)
@@ -295,9 +306,9 @@ webView.setWebViewClient(new WebViewClient() {
 才能使得 XWalkView 的网页内容被上传至可视化埋点   
 
 
-##### 1.3.3 H5 代码埋点   
+##### 1.4.3 H5 代码埋点   
 
-在进行了 `1.3.1` 或 `1.3.2` 的操作之后，SugoSDK 可支持 H5 的可视化埋点。   
+在进行了 `1.4.1` 或 `1.4.2` 的操作之后，SugoSDK 可支持 H5 的可视化埋点。   
 如果需要代码埋点，可在 js 中调用以下方法：   
 
 自定义事件，参数如下：   
@@ -311,13 +322,13 @@ webView.setWebViewClient(new WebViewClient() {
 sugo.track(event_id, event_name, props);
 ```
 
-时长事件（可参照 3.1.2）   
+时长事件（可参照 1.2）   
 
 ```JavaScript
 sugo.timeEvent(event_name);
 ```
 
-#### 1.4 默认属性   
+#### 1.5 默认属性   
 
 有一种很常见的情况，你想让一些常见的属性在每一个事件中都添加上，因此，你可以将这些属性注册为`默认属性`。   
 

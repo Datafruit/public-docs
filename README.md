@@ -16,8 +16,9 @@ npm i -g gitbook-cli
 gitbook install
 
 # 预览
-gitbook serve
+gitbook serve 或者 npm start
 # 然后浏览器访问http://localhost:4000
+
 ```
 
 ## 编辑并提交内容

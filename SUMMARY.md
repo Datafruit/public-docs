@@ -60,21 +60,21 @@
   * [RFM客户细分](rfm/intro.md)
       * [RFM模型介绍](rfm/background.md)
       * [应用场景](rfm/index.md)
-* [开发者文档](developer-docs-web.md)
-  * [WEB SDK](developer-docs-web.md)
+* [开发者文档](developer/web/developer-docs-web.md)
+  * [WEB SDK](developer/web/developer-docs-web.md)
   * Android SDK
     * [SDK 集成](developer/android/README.md#anchor-1)
     * [SDK 配置](developer/android/README.md#anchor-2)
     * [SDK 使用](developer/android/README.md#anchor-3)
   * iOS SDK
     * [Objective-C](developer/ios/objc/README.md)
-      * [SDK 集成](developer/ios/objc/README.md#anchor-1)
-      * [SDK 基础调用](developer/ios/objc/README.md#anchor-2)
-      * [SDK 进阶调用](developer/ios/objc/README.md#anchor-3)
+      * [SDK 集成](developer/ios/objc/integration.md)
+      * [SDK 基础调用](developer/ios/objc/basic-use.md)
+      * [SDK 进阶调用](developer/ios/objc/adv-use.md)
     * [Swift](developer/ios/swift/README.md)
-      * [SDK 集成](developer/ios/swift/README.md#anchor-1)
-      * [SDK 基础调用](developer/ios/swift/README.md#anchor-2)
-      * [SDK 进阶调用](developer/ios/swift/README.md#anchor-3)
+      * [SDK 集成](developer/ios/swift/integration.md)
+      * [SDK 基础调用](developer/ios/swift/basic-use.md)
+      * [SDK 进阶调用](developer/ios/swift/adv-use.md)
   * [预置属性](developer/web/dimensions.md)
   * 接口文档
     * [Sugo Plyql 使用文档](developer/interfaces/sugo-plyql.md)
@@ -87,6 +87,8 @@
       * [路线图](developer/interfaces/plyql-roadmap.md)
     * [Tindex接口使用文档](developer/query/index.md)
       - [查询接口文档](/developer/query/query.md)
+      - [lookup使用文档](/developer/interfaces/lookup-jdbc.md)
+    * [UIndex使用文档](developer/interfaces/uindex.md)
     * [数据接入](developer/data-access/index.md)
       * [查找MiddleManager与Overlord](developer/data-access/overlord_middlemanager_guid.md)
       * 数据接入文档
@@ -100,4 +102,3 @@
           * [rsyslog集中化nginx日志](developer/data-access/logs/rsyslog.md)
           * [日志切割](developer/data-access/logs/rotate.md)
       * [parser 类型](developer/data-access/parser.md)
-      
