@@ -1018,10 +1018,10 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/a_cyz-te
 ]
 ```
 
-- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments`  
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments/{interval}/sortAndSearch`  
 **基本信息**   
 接口说明:查看数据源中指定区间的失效数据段   
-请求方式:POST  
+请求方式:GET  
 请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments`  
 响应类型:application/json  
 数据类型:\*/\*      
@@ -1029,23 +1029,20 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/a_cyz-te
     参数名 | 是否必须 | 类型 | 描述  | 默认值
     ---- | ----- | --- | --- | ---- |   
     dataSourceName | 是 | string | 要查看的数据源名字 | 
+    interval | 是 | string | 指定区间段 | 
     isDescending | 否 | boolean | 指定排序的方向 |  false
     searchSegment | 否 | string | 指定要搜索的失效数据段 | 
-    full | 否 | string | 获取数据段的详细信息 | 
-    Body数据 | 是 | json_string | 指定要查询的区间 | 
+    full | 否 | string | 获取数据段的详细信息 |  
 
 请求示例:
 ```
-type:post
-url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/disableSegments?isDescending=true
-Body数据:
-["2017-10-05T00:00:00.000Z/2017-10-06T00:00:00.000Z"]
+type:get
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/default-test2/disableSegments/2017-09-19T00:00:00.000Z_2017-09-20T00:00:00.000Z/sortAndSearch?isDescending=false&searchSegment=default-test2_2017-09-19T00:00:00.000Z_2017-09-20T00:00:00.000Z_2017-09-26T07:50:56.580Z_1
 ```
 结果示例:
 ```json
 [
-    "admin-test001_2017-10-05T00:00:00.000Z_2017-10-06T00:00:00.000Z_2017-10-05T00:00:00.340Z_1",
-    "admin-test001_2017-10-05T00:00:00.000Z_2017-10-06T00:00:00.000Z_2017-10-05T00:00:00.340Z"
+    "default-test2_2017-09-19T00:00:00.000Z_2017-09-20T00:00:00.000Z_2017-09-26T07:50:56.580Z_1"
 ]
 ```
 
@@ -1649,10 +1646,10 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/userinfo/interval
 ]
 ```
 
-- `/druid/coordinator/v1/datasources/{dataSourceName}/segments`  
+- `/druid/coordinator/v1/datasources/{dataSourceName}/segments/{interval}/sortAndSearch`  
 **基本信息**   
 接口说明:查看数据源中指定区间内的数据段,支持搜索和排序      
-请求方式:POST  
+请求方式:GET  
 请求地址:`/druid/coordinator/v1/datasources/{dataSourceName}/segments`  
 响应类型:application/json  
 数据类型:\*/\*       
@@ -1660,58 +1657,22 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/userinfo/interval
     参数名 | 是否必须 | 类型 | 描述  | 默认值
     ---- | ----- | --- | --- | ---- |    
     dataSourceName | 是 | string | 指定数据源的名字 | 
+    interval | 是 | string | 指定区间段 | 
     full | 否 | string | 查看数据段的详细情况 | 
     searchSegment | 否 | string | 要搜索的数据源名字 | 
     isDescending | 否 | boolean | 指定排序方式 |  false
-    Body数据 | 是 | json_string | 指定区间 |  
 
 
 请求示例:
 ```
-type:POST
-url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/default-test1/segments?full&isDescending=true
+type:GET
+url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/default-test2/segments/2017-09-18T00:00:00.000Z_2017-09-28T00:00:00.000Z/sortAndSearch?isDescending=true&searchSegment=default-test2_2017-09-18T00:00:00.000Z_2017-09-19T00:00:00.000Z_2017-09-26T07:50:56.180
 ```
 结果示例:
 ```json
 [
-    {
-        "dataSource": "default-test1",
-        "interval": "2017-09-26T00:00:00.000Z/2017-09-27T00:00:00.000Z",
-        "version": "2017-09-26T08:31:27.184Z",
-        "loadSpec": {
-            "type": "hdfs",
-            "path": "/druid/default-test1/20170926T000000.000Z_20170927T000000.000Z/2017-09-26T08_31_27.184Z/1/index.zip"
-        },
-        "dimensions": "",
-        "metrics": "",
-        "shardSpec": {
-            "type": "numbered",
-            "partitionNum": 1,
-            "partitions": 0
-        },
-        "binaryVersion": 9,
-        "size": 24072,
-        "identifier": "default-test1_2017-09-26T00:00:00.000Z_2017-09-27T00:00:00.000Z_2017-09-26T08:31:27.184Z_1"
-    },
-    {
-        "dataSource": "default-test1",
-        "interval": "2017-09-26T00:00:00.000Z/2017-09-27T00:00:00.000Z",
-        "version": "2017-09-26T08:31:27.184Z",
-        "loadSpec": {
-            "type": "hdfs",
-            "path": "/druid/default-test1/20170926T000000.000Z_20170927T000000.000Z/2017-09-26T08_31_27.184Z/0/index.zip"
-        },
-        "dimensions": "",
-        "metrics": "",
-        "shardSpec": {
-            "type": "numbered",
-            "partitionNum": 0,
-            "partitions": 0
-        },
-        "binaryVersion": 9,
-        "size": 29106,
-        "identifier": "default-test1_2017-09-26T00:00:00.000Z_2017-09-27T00:00:00.000Z_2017-09-26T08:31:27.184Z"
-    }
+    "default-test2_2017-09-18T00:00:00.000Z_2017-09-19T00:00:00.000Z_2017-09-26T07:50:56.180Z_1",
+    "default-test2_2017-09-18T00:00:00.000Z_2017-09-19T00:00:00.000Z_2017-09-26T07:50:56.180Z"
 ]
 ```
 
