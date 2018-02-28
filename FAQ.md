@@ -135,4 +135,7 @@ overlord服务的日志中可以发现如下异常日志：
 ```
 
 ### 解决方案：
-将对应的Supervisor进行reset,数据可正常接入
+在`overlord-IP:8090`界面将对应的Supervisor进行reset，或者使用如下命令
+```
+curl -X POST -H 'Content-Type:application/json' http://{overlord-IP}:8090/druid/indexer/v1/supervisor/{supervisorId}/reset
+```
