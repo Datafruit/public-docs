@@ -148,12 +148,12 @@ curl -X POST -H 'Content-Type:application/json' http://{overlord-IP}:8090/druid/
 还有一种原因是启动task进程时权限不足。 查看overlord和middlemanage的日志，根据日志查看对应的错误
 
 ### 解决方案：
-检查zk上的数据，进入/opt/apps/zookeeper_sugo目录，执行bin/zkCli.sh命令，进入zk的cli模式下。    
-检查/druid/indexer/status/{middlemanage的域名，在8090界面可以查看到task所在的middlemanage}目录下是否存在对应的taskid    
-比如ls /druid/indexer/status/dev222.sugo.net:8091    
-是否包含lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh    
+检查zk上的数据，进入`/opt/apps/zookeeper_sugo`目录，执行`bin/zkCli.sh`命令，进入zk的cli模式下。    
+检查`/druid/indexer/status/{middlemanage`的域名，在8090界面可以查看到task所在的middlemanage}目录下是否存在对应的taskid    
+比如`ls /druid/indexer/status/dev222.sugo.net:8091`    
+是否包含`lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh`    
 如果包含，则删除：    
-rmr /druid/indexer/status/dev222.sugo.net:8091/lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh    
+`rmr /druid/indexer/status/dev222.sugo.net:8091/lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh`    
  
  
  
