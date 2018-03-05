@@ -139,3 +139,22 @@ overlord服务的日志中可以发现如下异常日志：
 ```
 curl -X POST -H 'Content-Type:application/json' http://{overlord-IP}:8090/druid/indexer/v1/supervisor/{supervisorId}/reset
 ```
+
+### 8. 在overlord管理界面（端口为8090的界面）可以看到很多task（但找不到对应的进程，并且druid_tasks数据库表中的记录状态也为false），导致新的任务一直在pendding Tasks列表中。
+问题：    
+由于某种原因，导致task在创建时就失败了，进程没有启动。数据库表druid_tasks中的记录状态为false。即使删除记录，页面上还是可以看到这条记录。
+问题原因：    
+可能的一种原因是因为磁盘爆满了，导致启动task进程失败。df -lh检查磁盘使用情况
+还有一种原因是启动task进程时权限不足。 查看overlord和middlemanage的日志，根据日志查看对应的错误
+
+### 解决方案：
+检查zk上的数据，进入/opt/apps/zookeeper_sugo目录，执行bin/zkCli.sh命令，进入zk的cli模式下。    
+检查/druid/indexer/status/{middlemanage的域名，在8090界面可以查看到task所在的middlemanage}目录下是否存在对应的taskid    
+比如ls /druid/indexer/status/dev222.sugo.net:8091    
+是否包含lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh    
+如果包含，则删除：    
+rmr /druid/indexer/status/dev222.sugo.net:8091/lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh    
+ 
+ 
+ 
+ 
