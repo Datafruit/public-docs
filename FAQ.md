@@ -155,6 +155,26 @@ curl -X POST -H 'Content-Type:application/json' http://{overlord-IP}:8090/druid/
 如果包含，则删除：    
 `rmr /druid/indexer/status/dev222.sugo.net:8091/lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh`    
  
- 
+ ### 9. 加载drop掉的datasource
+1. 删除掉drop该datasource的的rule
+进入postgres目录，执行指令
+`bin/psql -p 15432 -U postgres -d druid -c "delete from druid_rules where datasource = '{datasource_name}'"`
+2. 将该datasource的segment的加载状态改为true
+进入postgres目录，执行指令
+`bin/psql -p 15432 -U postgres -d druid -c "update druid_segments set used = true where datasource = '{datasource_name}'`
+
+### 10. postgres 重用命令
+1. 登录
+`psql -p 15432 -U username -d dbname`
+2. 列所有的数据库
+`\l`
+3. 切换数据库
+`\c dbname`
+4. 列出当前数据库下的数据表
+`\d`
+5. 查看指定表的所有字段
+`\d tablename`
+6. 退出登录
+`\q`
  
  
