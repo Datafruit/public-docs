@@ -178,3 +178,16 @@ curl -X POST -H 'Content-Type:application/json' http://{overlord-IP}:8090/druid/
 `\q`
  
  
+### 11. task落地失败，报gc overhead limit exceeded。
+问题：    
+task落地失败，报gc overhead limit exceeded
+问题原因：  
+由于task处理了大量历史数据（例如3月份的task出来2月份的数据），导致segment太多
+
+### 解决方案：
+spec设置
+ioConfig.lateMessageRejectionPeriod 和 ioConfig.earlyMessageRejectionPeriod 抛掉超出时间范围的数据
+
+如抛弃一天前和一天后的数据：
+ioConfig.lateMessageRejectionPeriod="P1D"
+ioConfig.earlyMessageRejectionPeriod="P1D"
