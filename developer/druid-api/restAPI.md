@@ -302,7 +302,28 @@ url:http://192.168.0.212:8090/druid/indexer/v1/waitingTasks
 []
 ```
 
-    
+- `/druid/indexer/v1/{supervisorId}/waitingTasks`  
+**基本信息**   
+接口说明:获取对应supervisor中正在等待锁的任务列表   
+请求方式:GET  
+请求地址:`/druid/indexer/v1/{supervisorId}/waitingTasks`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |
+    supervisorId  | 是 | string | 要查询的supervisorId |
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |
+请求示例:
+```
+type:get
+url:http://192.168.0.212:8090/druid/indexer/v1/a_cyz_test/waitingTasks
+```
+结果示例:
+```JSON
+[]
+```
+
 - `/druid/indexer/v1/pendingTasks`  
 **基本信息**   
 接口说明:获取正在等待分配给worker的任务列表   
@@ -318,6 +339,28 @@ url:http://192.168.0.212:8090/druid/indexer/v1/waitingTasks
 ```
 type:get
 url:http://192.168.0.212:8090/druid/indexer/v1/pendingTasks
+```
+结果示例:
+```JSON
+[]
+```
+
+- `/druid/indexer/v1/{supervisorId}/pendingTasks`  
+**基本信息**   
+接口说明:获取对应supervisor中正在等待分配给worker的任务列表   
+请求方式:GET  
+请求地址:`/druid/indexer/v1/{supervisorId}/pendingTasks`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- | 
+    supervisorId  | 是 | string | 要查询的supervisorId |  
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |
+请求示例:
+```
+type:get
+url:http://192.168.0.212:8090/druid/indexer/v1/a_cyz_test/pendingTasks
 ```
 结果示例:
 ```JSON
@@ -355,6 +398,40 @@ url:http://192.168.0.220:8090/druid/indexer/v1/runningTasks
 ]
 ```
 
+- `/druid/indexer/v1/{supervisorId}/runningTasks`  
+**基本信息**   
+接口说明:获取对应supervisor中正在运行的任务列表   
+请求方式:GET  
+请求地址:`/druid/indexer/v1/{supervisorId}/runningTasks`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    supervisorId  | 是 | string | 要查询的supervisorId |  
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |
+请求示例:
+```
+type:get
+url:http://192.168.0.220:8090/druid/indexer/v1/a_cyz_test/runningTasks
+```
+结果示例:
+```JSON
+[
+    {
+        "id": "lucene_index_kafka_a_cyz_test_90c09786cdf2246_bojelcmi",
+        "createdTime": "2017-12-04T10:20:05.853Z",
+        "queueInsertionTime": "2017-12-04T10:20:06.805Z",
+        "location": {
+            "host": "dev224.sugo.net",
+            "port": 8100
+        },
+        "datasource": "a_cyz_test",
+        "type": "lucene_index_kafka"
+    }
+]
+```
+
 - `/druid/indexer/v1/completeTasks`  
 **基本信息**   
 接口说明:获取已完成任务的任务列表   
@@ -383,6 +460,152 @@ url:http://192.168.0.220:8090/druid/indexer/v1/completeTasks
         "offsets": "{\"0\":0}"
     }
 ]
+```
+
+- `/druid/indexer/v1/completeTasks/custom/list`  
+**基本信息**   
+接口说明:根据自定义条件获取已完成任务的任务列表,支持搜索,排序和分页   
+请求方式:POST  
+请求地址:`/druid/indexer/v1/completeTasks/custom/list`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |  
+    {Body数据} | 否 | json_string | 要查询的task相关信息,如搜索id,排序等 | 
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |  
+请求示例:
+```Json
+type:post
+url:http://192.168.0.220:8090/druid/indexer/v1/completeTasks/custom/list
+Body数据:
+{
+    "taskId" : "test",
+    "taskPageItem" : {"offset": 0, "size": 10},
+    "taskSortItem" : {
+        "sortDimension": "created_date", 
+        "sortDirection": "DESC"
+    },
+    "taskStatus": "SUCCESS",
+    "taskTopic": "wuxianjiRT"
+}
+```
+结果示例:
+```JSON
+[
+    {
+        "id": "lucene_index_kafka_a_cyz_test_90c09786cdf2246_iknoajan",
+        "status": "SUCCESS",
+        "duration": "14,407,264",
+        "createdTime": "2017-12-04T06:19:58.213Z",
+        "topic": "wuxianjiRT",
+        "offsets": "{\"0\":21570}"
+    },
+    ...
+]
+```
+
+- `/druid/indexer/v1/completeTasks/custom/count`  
+**基本信息**   
+接口说明:根据自定义条件获取已完成任务的总数   
+请求方式:POST  
+请求地址:`/druid/indexer/v1/completeTasks/custom/count`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |  
+    {Body数据} | 否 | json_string | 要查询的task相关信息,如搜索id | 
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |  
+请求示例:
+```Json
+type:post
+url:http://192.168.0.220:8090/druid/indexer/v1/completeTasks/custom/count
+Body数据:
+{
+    "taskId" : "test",
+    "taskStatus": "SUCCESS",
+    "taskTopic": "wuxianjiRT"
+}
+```
+结果示例:
+```JSON
+{
+    "total": 5
+}
+```
+
+- `/druid/indexer/v1/completeTasks/{supervisorId}`  
+**基本信息**   
+接口说明:根据自定义条件获取对应supervisorId中已完成任务的任务列表,支持搜索,排序和分页   
+请求方式:POST  
+请求地址:`/druid/indexer/v1/completeTasks/{supervisorId}`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |  
+    {Body数据} | 否 | json_string | 要查询的task相关信息,如搜索id,排序等 | 
+    supervisorId  | 是 | string | 要查询的supervisorId | 
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |  
+请求示例:
+```Json
+type:post
+url:http://192.168.0.220:8090/druid/indexer/v1/completeTasks/a_cyz_test
+Body数据:
+{
+    "taskId" : "jan",
+    "taskPageItem" : {"offset": 0, "size": 10},
+    "taskSortItem" : {
+        "sortDimension": "created_date", 
+        "sortDirection": "DESC"
+    },
+    "taskStatus": "SUCCESS"
+}
+```
+结果示例:
+```JSON
+[
+    {
+        "id": "lucene_index_kafka_a_cyz-test3_34eadda86bea314_cjanbmie",
+        "status": "SUCCESS",
+        "duration": "20,007,134",
+        "createdTime": "2017-11-22T05:04:40.528Z",
+        "topic": "testKafkaData2",
+        "offsets": "{\"0\":61053061}"
+    },
+    ...
+]
+```
+
+- `/druid/indexer/v1/completeTasks/{supervisorId}/count`  
+**基本信息**   
+接口说明:根据自定义条件获取对应supervisorId中已完成任务的总数   
+请求方式:POST  
+请求地址:`/druid/indexer/v1/completeTasks/{supervisorId}/count`  
+响应类型:application/json  
+数据类型:\*\/\*   
+请求参数:   
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |  
+    {Body数据} | 否 | json_string | 要查询的task相关信息,如搜索id | 
+    supervisorId  | 是 | string | 要查询的supervisorId | 
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |  
+请求示例:
+```Json
+type:post
+url:http://192.168.0.220:8090/druid/indexer/v1/completeTasks/a_cyz_test/count
+Body数据:
+{
+    "taskId" : "jan",
+    "taskStatus": "SUCCESS"
+}
+```
+结果示例:
+```JSON
+{
+    "total":2
+}
 ```
 
 - `/druid/indexer/v1/workers`  
@@ -609,6 +832,88 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/?include
 ]
 ```
 
+- `/druid/coordinator/v1/metadata/datasources/sortAndSearch`  
+**基本信息**   
+接口说明:查看有效数据源的元信息,支持搜索和排序   
+请求方式:GET  
+请求地址:`/druid/coordinator/v1/metadata/datasources/sortAndSearch`  
+响应类型:application/json  
+数据类型:\*/\*      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    includeDisabled | 否 | string | 指定是否查看的数据源包括已经屏蔽的数据源 |
+    simple | 否 | string | 查看所有数据源的统计信息 |
+    full | 否 | string | 查看所有数据源的明细 | 
+    sortDimension | 否 | string | 指定排序的维度 | 
+    isDescending | 否 | boolean | 指定排序的方向 |  true
+    searchDatasource | 否 | string | 指定要搜索的数据源 | 
+    Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |
+请求示例:
+```
+type:get
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/sortAndSearch?simple=true&isDescending=false&searchDatasource=admin
+```
+结果示例:
+```json
+[
+    {
+        "name": "admin-test001",
+        "properties": {
+            "segments": {
+                "maxTime": "2017-10-21T00:00:00.000Z",
+                "size": 6643964013,
+                "minTime": "2017-01-02T00:00:00.000Z",
+                "intervalCount": 30,
+                "count": 104
+            }
+        }
+    },
+    {
+        "name": "admin-test002",
+        "properties": {
+            "segments": {
+                "maxTime": "2017-10-21T00:00:00.000Z",
+                "size": 3368636311,
+                "minTime": "2017-09-24T00:00:00.000Z",
+                "intervalCount": 12,
+                "count": 34
+            }
+        }
+    }
+]
+```
+
+- `/druid/coordinator/v1/metadata/disableDatasources`  
+**基本信息**   
+接口说明:查看失效的数据源(数据库中的used全部为false)元信息,支持搜索和排序   
+请求方式:GET  
+请求地址:`/druid/coordinator/v1/metadata/disableDatasources`  
+响应类型:application/json  
+数据类型:\*/\*      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    isDescending | 否 | boolean | 指定排序的方向 |  false
+    searchDatasource | 否 | string | 指定要搜索的数据源 | 
+请求示例:
+```
+type:get
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/disableDatasources?isDescending=false&searchDatasource=big
+```
+结果示例:
+```json
+[
+    {
+        "name": "bigdecimal-1"
+    },
+    {
+        "name": "bigdecimal-2"
+    },
+    ...
+]
+```
+
 - `/druid/coordinator/v1/metadata/datasources/{dataSourceName}`  
 **基本信息**   
 接口说明:查看指定数据源的元数据信息，包括数据段信息   
@@ -657,74 +962,87 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/druid-te
 }
 ```
 
-- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments`  
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableIntervals`  
 **基本信息**   
-接口说明:查看指定数据源的数据段信息
+接口说明:查看指定数据源中失效数据段的区间   
 请求方式:GET  
-请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments`  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableIntervals`  
 响应类型:application/json  
 数据类型:\*/\*      
 请求参数:  
     参数名 | 是否必须 | 类型 | 描述  | 默认值
     ---- | ----- | --- | --- | ---- |   
     dataSourceName | 是 | string | 要查看的数据源名字 | 
-    full | 否 | string | 查看所有数据段的明细 | 
+    isDescending | 否 | boolean | 指定排序的方向 |  true
+    searchInterval | 否 | string | 指定要搜索的区间 | 
+
 请求示例:
 ```
 type:get
-url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/druid-test001/segments
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/disableIntervals?searchInterval=2017-10-06T00:00:00.000Z&sortDimension=interval&isDescending=true
+```
+结果示例:
+```json
+["2017-10-05T00:00:00.000Z/2017-10-06T00:00:00.000Z"]
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments`  
+**基本信息**   
+接口说明:查看数据源中所有的失效数据段,支持搜索和排序   
+请求方式:GET  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments`  
+响应类型:application/json  
+数据类型:\*/\*      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 要查看的数据源名字 | 
+    isDescending | 否 | boolean | 指定排序的方向 |  false
+    searchSegment | 否 | string | 指定要搜索的失效数据段 | 
+
+请求示例:
+```
+type:get
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/a_cyz-test2/disableSegments?isDescending=true
 ```
 结果示例:
 ```json
 [
     {
-        "dataSource": "druid-test001",
-        "interval": "2017-05-01T00:00:00.000Z/2017-05-02T00:00:00.000Z",
-        "version": "2017-08-30T07:40:21.179Z",
-        "loadSpec": {
-            "type": "local",
-            "path": "/data1/druid/storage/druid-test001/2017-05-01T00:00:00.000Z_2017-05-02T00:00:00.000Z/2017-08-30T07:40:21.179Z/0/index.zip"
-        },
-        "dimensions": "",
-        "metrics": "",
-        "shardSpec": {
-            "type": "linear",
-            "partitionNum": 0
-        },
-        "binaryVersion": 9,
-        "size": 12238777,
-        "identifier": "druid-test001_2017-05-01T00:00:00.000Z_2017-05-02T00:00:00.000Z_2017-08-30T07:40:21.179Z"
+        "identifier": "a_cyz-test2_2017-01-18T00:00:00.000Z_2017-01-19T00:00:00.000Z_2017-10-30T09:23:41.442Z"
+    },
+    {
+        "identifier": "a_cyz-test2_2017-01-15T00:00:00.000Z_2017-01-16T00:00:00.000Z_2017-10-30T09:23:41.234Z"
     },
     ...
 ]
 ```
 
-- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments`  
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments/{interval}/sortAndSearch`  
 **基本信息**   
-接口说明:查看数据源指定时间范围内的数据段
-请求方式:POST  
-请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments`  
+接口说明:查看数据源中指定区间的失效数据段   
+请求方式:GET  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disableSegments`  
 响应类型:application/json  
-数据类型:application/json      
+数据类型:\*/\*      
 请求参数:  
     参数名 | 是否必须 | 类型 | 描述  | 默认值
     ---- | ----- | --- | --- | ---- |   
     dataSourceName | 是 | string | 要查看的数据源名字 | 
-    full | 否 | string | 查看所有的明细 | 
-    {Body数据} | 否 | json_string | 指定要查询的数据段时间范围 |
+    interval | 是 | string | 指定区间段 | 
+    isDescending | 否 | boolean | 指定排序的方向 |  false
+    searchSegment | 否 | string | 指定要搜索的失效数据段 | 
+    full | 否 | string | 获取数据段的详细信息 |  
 
 请求示例:
 ```
-type:post
-url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/druid-test001/segments  
-Body数据:
-["2017-05-20T00:00:00.000Z/2017-05-21T23:59:59.999Z"]
+type:get
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/default-test2/disableSegments/2017-09-19T00:00:00.000Z_2017-09-20T00:00:00.000Z/sortAndSearch?isDescending=false&searchSegment=default-test2_2017-09-19T00:00:00.000Z_2017-09-20T00:00:00.000Z_2017-09-26T07:50:56.580Z_1
 ```
 结果示例:
 ```json
 [
-    "druid-test001_2017-05-20T00:00:00.000Z_2017-05-21T00:00:00.000Z_2017-08-30T07:40:21.179Z",
-    "druid-test001_2017-05-21T00:00:00.000Z_2017-05-22T00:00:00.000Z_2017-08-30T07:40:21.179Z"
+    "default-test2_2017-09-19T00:00:00.000Z_2017-09-20T00:00:00.000Z_2017-09-26T07:50:56.580Z_1"
 ]
 ```
 
@@ -766,6 +1084,202 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/druid-te
     "identifier": "druid-test001_2017-05-20T00:00:00.000Z_2017-05-21T00:00:00.000Z_2017-08-30T07:40:21.179Z"
 }
 ```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}/disable`  
+**基本信息**   
+接口说明:失效数据源中segmentId对应的数据段(把postgre数据表中的used设为false)
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}/disable`  
+响应类型:application/json  
+数据类型:\*/\*      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 | 
+    segmentId | 否 | string | 数据段标识 | 
+请求示例:
+```
+type:DELETE
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/segments/admin-test001_2017-10-05T00:00:00.000Z_2017-10-06T00:00:00.000Z_2017-11-03T06:20:51.502Z/disable  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}/delete`  
+**基本信息**   
+接口说明:删除数据源中segmentId对应的数据段(把postgre数据表中的记录删除,并不是hdfs上的删除)
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}/delete`  
+响应类型:application/json  
+数据类型:\*/\*      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 | 
+    segmentId | 否 | string | 数据段标识 | 
+请求示例:
+```
+type:DELETE
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/segments/admin-test001_2017-10-05T00:00:00.000Z_2017-10-06T00:00:00.000Z_2017-11-03T06:20:51.502Z/delete  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}/enable`  
+**基本信息**   
+接口说明:恢复数据源中segmentId对应的数据段(把postgre数据表中的used设为true)
+请求方式:POST  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/segments/{segmentId}/enable`  
+响应类型:\*/\*  
+数据类型:application/json      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 | 
+    segmentId | 否 | string | 数据段标识 | 
+请求示例:
+```
+type:POST
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/segments/admin-test001_2017-10-05T00:00:00.000Z_2017-10-06T00:00:00.000Z_2017-10-05T00:00:00.340Z_1/enable  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disable`  
+**基本信息**   
+接口说明:失效数据源的所有数据段(把postgre数据表中的used设为false)
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/disable`  
+响应类型:\*/\*  
+数据类型:\*/\*     
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 |  
+请求示例:
+```
+type:DELETE
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/disable  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/delete`  
+**基本信息**   
+接口说明:删除数据源的所有数据段(把postgre数据表中的记录删除)
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/delete`  
+响应类型:\*/\*  
+数据类型:\*/\*     
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 |  
+请求示例:
+```
+type:DELETE
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/delete  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/enable`  
+**基本信息**   
+接口说明:恢复数据源的所有数据段(把postgre数据表中的used设为true)
+请求方式:POST  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/enable`  
+响应类型:\*/\*  
+数据类型:\*/\*      
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 |  
+请求示例:
+```
+type:POST
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/a_cyz-test2/enable 
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/intervals/{interval}/disable`  
+**基本信息**   
+接口说明:失效数据源中指定interval内的所有数据段(把postgre数据表中used设为false)
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/intervals/{interval}/disable`  
+响应类型:\*/\*  
+数据类型:\*/\*     
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 |  
+    interval | 是 | string | 指定要失效的interval |
+请求示例:
+```
+type:DELETE
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/intervals/2017-09-29T00:00:00.000Z_2017-09-30T00:00:00.000Z/disable  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/intervals/{interval}/delete`  
+**基本信息**   
+接口说明:删除数据源中指定interval内的所有数据段(把postgre数据表中的记录删除)
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/intervals/{interval}/delete`  
+响应类型:\*/\*  
+数据类型:\*/\*     
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 |  
+    interval | 是 | string | 指定要删除的interval |
+请求示例:
+```
+type:DELETE
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/admin-test001/intervals/2017-09-29T00:00:00.000Z_2017-09-30T00:00:00.000Z/delete  
+```
+结果示例:
+```json
+
+```
+
+- `/druid/coordinator/v1/metadata/datasources/{dataSourceName}/intervals/{interval}/enable`  
+**基本信息**   
+接口说明:恢复数据源中指定interval内的所有数据段(把postgre数据表中的used设为true)
+请求方式:POST  
+请求地址:`/druid/coordinator/v1/metadata/datasources/{dataSourceName}/intervals/{interval}/enable`  
+响应类型:\*/\*  
+数据类型:\*/\*     
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 数据源名字 |  
+    interval | 是 | string | 指定要恢复的interval |
+请求示例:
+```
+type:POST
+url:http://192.168.0.212:8081/druid/coordinator/v1/metadata/datasources/csv-test/intervals/2017-05-30T00:00:00.000Z_2017-05-31T00:00:00.000Z/enable  
+```
+结果示例:
+```json
+
+```
+
 
 ---
 
@@ -945,7 +1459,7 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/rules/history
 
 - `/druid/coordinator/v1/datasources`  
 **基本信息**   
-接口说明:查看所有的数据源
+接口说明:查看已加载的所有数据源
 请求方式:GET  
 请求地址:`/druid/coordinator/v1/datasources`  
 响应类型:application/json  
@@ -955,6 +1469,8 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/rules/history
     ---- | ----- | --- | --- | ---- |    
     simple | 否 | string | 查看所有数据源的统计情况 | 
     full | 否 | string | 查看所有数据源的明细 | 
+    isDescending | 否 | boolean | 指定排序方式 | false
+    searchDatasource | 否 | string | 指定要搜索的数据源 | 
     Druid-Auth-Token{RequestAttribute} | 否 | string | 认证口令 |
 
 请求示例:
@@ -1039,13 +1555,35 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/rollup-0901
     参数名 | 是否必须 | 类型 | 描述  | 默认值
     ---- | ----- | --- | --- | ---- |    
     dataSourceName | 是 | string | 要删除的数据源名字 | 
-    kill | 否 | boolean | 指定删除的方式(启动Kill Task删除还是直接删除) | 
+    kill | 否 | boolean | 指定删除的方式(启动Kill Task删除还是直接设置数据表的used为false) | 
     interval | 否 | string | 指定要删除的数据段的时间区间 | 
 
 请求示例:
 ```
 type:delete
 url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/rollup-0901
+```
+结果示例:
+```json
+```
+
+- `/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}`  
+**基本信息**   
+接口说明:删除数据源指定区间内的数据段   
+请求方式:DELETE  
+请求地址:`/druid/coordinator/v1/datasources/{dataSourceName}/intervals/{interval}`  
+响应类型:application/json  
+数据类型:\*/\*       
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |    
+    dataSourceName | 是 | string | 要删除的数据源名字 | 
+    interval | 否 | string | 指定要删除的数据段的时间区间 | 
+
+请求示例:
+```
+type:delete
+url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/rollup-0901/intervals/2017-07-26T00:00:00.000Z_2017-07-27T00:00:00.000Z
 ```
 结果示例:
 ```json
@@ -1108,6 +1646,36 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/userinfo/interval
 ]
 ```
 
+- `/druid/coordinator/v1/datasources/{dataSourceName}/segments/{interval}/sortAndSearch`  
+**基本信息**   
+接口说明:查看数据源中指定区间内的数据段,支持搜索和排序      
+请求方式:GET  
+请求地址:`/druid/coordinator/v1/datasources/{dataSourceName}/segments`  
+响应类型:application/json  
+数据类型:\*/\*       
+请求参数:  
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |    
+    dataSourceName | 是 | string | 指定数据源的名字 | 
+    interval | 是 | string | 指定区间段 | 
+    full | 否 | string | 查看数据段的详细情况 | 
+    searchSegment | 否 | string | 要搜索的数据源名字 | 
+    isDescending | 否 | boolean | 指定排序方式 |  false
+
+
+请求示例:
+```
+type:GET
+url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/default-test2/segments/2017-09-18T00:00:00.000Z_2017-09-28T00:00:00.000Z/sortAndSearch?isDescending=true&searchSegment=default-test2_2017-09-18T00:00:00.000Z_2017-09-19T00:00:00.000Z_2017-09-26T07:50:56.180
+```
+结果示例:
+```json
+[
+    "default-test2_2017-09-18T00:00:00.000Z_2017-09-19T00:00:00.000Z_2017-09-26T07:50:56.180Z_1",
+    "default-test2_2017-09-18T00:00:00.000Z_2017-09-19T00:00:00.000Z_2017-09-26T07:50:56.180Z"
+]
+```
+
 - `/druid/coordinator/v1/datasources/{dataSourceName}/segments`  
 **基本信息**   
 接口说明:查看数据源所有的数据段      
@@ -1119,6 +1687,8 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/userinfo/interval
     参数名 | 是否必须 | 类型 | 描述  | 默认值
     ---- | ----- | --- | --- | ---- |    
     dataSourceName | 是 | string | 指定数据源的名字 | 
+    searchSegment | 否 | string | 要搜索的数据源名字 | 
+    isDescending | 否 | boolean | 指定排序方式 | false
     full | 否 | string | 查看数据段的详细情况 | 
 
 请求示例:
@@ -1332,23 +1902,45 @@ url:http://192.168.0.212:8081/druid/coordinator/v1/datasources/userinfo/interval
 请求地址:`/druid/indexer/v1/supervisor`  
 响应类型:application/json  
 数据类型:无       
-请求参数:无 
+请求参数:
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |    
+    full | 否 | string | 是否获取supervisor的详细信息 |  
 
 请求示例:
 ```
 type:get
-url:http://192.168.0.220:8090/druid/indexer/v1/supervisor
+url:http://192.168.0.220:8090/druid/indexer/v1/supervisor?full=true
 ```
 结果示例:
 ```json
 [
-    "com_SJLnjowGe_project_r1MqbHhy5b",
-    "com_SJLnjowGe_project_HygkE83y9b",
-    "com_SJLnjowGe_project_ryEljIIKb",
-    "com_SJLnjowGe_project_BJerkXI8tb",
-    "com_SJLnjowGe_project_H1ejJETYZ",
-    "com_SJLnjowGe_project_BySs3_IFb",
-    "com_SJLnjowGe_project_Hyl3t5rptZ"
+    {
+        "id": "a_cyz_test",
+        "payload": {
+            "dataSource": "a_cyz_test",
+            "topic": "wuxianjiRT",
+            "partitions": 1,
+            "replicas": 1,
+            "durationSeconds": 14400,
+            "activeTasks": [
+                {
+                    "id": "lucene_index_kafka_a_cyz_test_90c09786cdf2246_nfjglhbg",
+                    "startingOffsets": {
+                        "0": 21570
+                    },
+                    "startTime": "2017-12-05T08:15:53.103Z",
+                    "remainingSeconds": 10368,
+                    "type": "ACTIVE",
+                    "currentOffsets": {
+                        "0": 21570
+                    }
+                }
+            ],
+            "publishingTasks": []
+        },
+        "type": "lucene_supervisor"
+    }
 ]
 ``` 
 
@@ -1467,6 +2059,155 @@ url:http://192.168.0.220:8090/druid/indexer/v1/supervisor/history
     ...
 }
 ``` 
+
+- `/druid/indexer/v1/supervisor/history/part`  
+**基本信息**   
+接口说明:查询一部分已完成的supervisor,支持排序,分页和搜索          
+请求方式:POST  
+请求地址:`/druid/indexer/v1/supervisor/history/part`  
+响应类型:application/json  
+数据类型:无   
+请求参数:
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |    
+    Body数据 | 是 | json_string | 指定查询条件,如搜索条件,排序方式等 |
+
+请求示例:
+```
+type:post
+url:http://192.168.0.220:8090/druid/indexer/v1/supervisor/history/part
+body数据:
+{
+	"supervisorId":"merge",
+	"supervisorPageItem":{
+		"offset": 0, 
+		"size": 10
+		
+	},
+	"supervisorSortItem":{
+		"sortDimension": "created_date", 
+		"sortDirection": "DESC"
+		
+	},
+	"supervisorType":"lucene_supervisor"
+}
+```
+结果示例:
+```json
+[
+        {
+        "id": "testMerge1",
+        "detail": {
+            "spec": {
+                "type": "lucene_supervisor",
+                "dataSchema": {
+                    "dataSource": "testMerge1",
+                    "parser": {
+                        "type": "string",
+                        "parseSpec": {
+                            "format": "json",
+                            "dimensionsSpec": {
+                                "dynamicDimension": true,
+                                "dimensions": []
+                            },
+                            "timestampSpec": {
+                                "column": "d|time",
+                                "excludeTimeColumn": false,
+                                "format": "millis"
+                            }
+                        }
+                    },
+                    "metricsSpec": [],
+                    "granularitySpec": {
+                        "type": "uniform",
+                        "segmentGranularity": "DAY",
+                        "queryGranularity": {
+                            "type": "none"
+                        },
+                        "rollup": false,
+                        "intervals": null
+                    }
+                },
+                "tuningConfig": {
+                    "type": "kafka",
+                    "maxRowsInMemory": 10000000,
+                    "maxRowsPerSegment": 20000000,
+                    "intermediatePersistPeriod": "PT10M",
+                    "basePersistDirectory": "/data1/druidio/var/tmp",
+                    "basePersistDirectoryStr": null,
+                    "maxPendingPersists": 0,
+                    "indexSpec": {
+                        "bitmap": {
+                            "type": "concise"
+                        },
+                        "dimensionCompression": null,
+                        "metricCompression": null
+                    },
+                    "buildV9Directly": true,
+                    "reportParseExceptions": true,
+                    "handoffConditionTimeout": 0,
+                    "workerThreads": null,
+                    "chatThreads": null,
+                    "chatRetries": 8,
+                    "httpTimeout": "PT10S",
+                    "shutdownTimeout": "PT80S",
+                    "maxWarmCount": 1,
+                    "taskDealRowCount": 100000000,
+                    "consumerThreadCount": 1
+                },
+                "ioConfig": {
+                    "topic": "testMerge1",
+                    "replicas": 1,
+                    "taskCount": 1,
+                    "taskDuration": "PT21600S",
+                    "consumerProperties": {
+                        "bootstrap.servers": "192.168.0.220:9092,192.168.0.221:9092,192.168.0.222:9092"
+                    },
+                    "startDelay": "PT5S",
+                    "period": "PT30S",
+                    "useEarliestOffset": true,
+                    "completionTimeout": "PT1800S",
+                    "lateMessageRejectionPeriod": null,
+                    "earlyMessageRejectionPeriod": null,
+                    "skipOffsetGaps": false
+                },
+                "writerConfig": null
+            },
+            "version": "2017-12-05T03:28:11.681Z"
+        }
+    },
+    ...
+]
+```
+
+- `/druid/indexer/v1/supervisor/history/count`  
+**基本信息**   
+接口说明:查询已完成的supervisor总数          
+请求方式:POST  
+请求地址:`/druid/indexer/v1/supervisor/history/count`  
+响应类型:application/json  
+数据类型:无   
+请求参数:
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |    
+    Body数据 | 是 | json_string | 指定查询条件 |
+
+请求示例:
+```
+type:post
+url:http://192.168.0.220:8090/druid/indexer/v1/supervisor/history/part
+body数据:
+{
+	"supervisorId":"merge",
+	"supervisorType":"lucene_supervisor"
+}
+```
+结果示例:
+```json
+{
+    "total": 28
+}
+```
 
 - `/druid/indexer/v1/supervisor/{id}/history`  
 **基本信息**   
@@ -2039,6 +2780,45 @@ url:http://192.168.0.222:8081/druid/coordinator/v1/lookups/__default/
     "usergroup_SygU8Vly_b",
     "usergroup_rkx3CXkJ_b",
     "usergroup_H1TkR6ADb",
+    ...
+]
+```
+
+- `/druid/coordinator/v1/lookups/{tier}/details`  
+**基本信息**   
+接口说明:查看tier的详细信息            
+请求方式:GET  
+请求地址:`/druid/coordinator/v1/lookups/{tier}/details`  
+响应类型:application/json,application/x-jackson-smile   
+数据类型:\*/\*      
+请求参数:
+    参数名 | 是否必须 | 类型 | 描述  | 默认值
+    ---- | ----- | --- | --- | ---- |    
+    tier | 是 | string | lookup分组 |
+
+请求示例:
+```
+type:get
+url:http://192.168.0.222:8081/druid/coordinator/v1/lookups/__default/details
+```
+结果示例:
+```json
+[
+    {
+        "name": "22",
+        "spec": {
+            "type": "cachingLookup",
+            "version": "1",
+            "dataFetcher": {
+                "type": "redis",
+                "hostAndPorts": "192.168.0.223:6379",
+                "clusterMode": false,
+                "password": null,
+                "groupId": "21"
+            },
+            "lookup": "22"
+        }
+    },
     ...
 ]
 ```
@@ -2663,6 +3443,32 @@ url: http://192.168.0.212:8081/druid/coordinator/v1/servers
 ]
 ```
 
+- `/druid/coordinator/v1/servers/datasources/{dataSourceName}`  
+**基本信息**   
+接口说明: 获取包含指定datasource数据段的servers列表  
+请求方式: GET  
+请求地址: `/druid/coordinator/v1/servers/datasources/{dataSourceName}`  
+响应类型: application/json  
+数据类型: 无   
+请求参数: 
+    参数名 | 是否必须 | 类型 | 描述  | 默认值 
+    ---- | ----- | --- | --- | ---- |   
+    dataSourceName | 是 | string | 要查询的数据源名字 |   
+
+
+请求示例:  
+```
+type: get
+url: http://192.168.0.212:8081/druid/coordinator/v1/servers/datasources/com_SJLnjowGe_project_r1KlZGaub11111
+```
+结果示例:
+```json
+[
+    "dev223.sugo.net:8083",
+    "dev224.sugo.net:8083"
+]
+```
+
 - `/druid/coordinator/v1/servers/{serverName}`  
 **基本信息**   
 接口说明: 获取指定server的信息  
@@ -2733,6 +3539,35 @@ url: http://192.168.0.212:8081/druid/coordinator/v1/servers/192.168.0.212:8083/s
         "size": 415762,
         "identifier": "userinfo_2017-07-30T00:00:00.000Z_2017-07-31T00:00:00.000Z_2017-08-01T04:58:26.782Z_9"
     }
+]
+```
+
+- `/druid/coordinator/v1/servers/{serverName}/segments/sortAndSearch`  
+**基本信息**   
+接口说明: 获取指定server上的部分段的信息,支持搜索和排序  
+请求方式: GET  
+请求地址: `/druid/coordinator/v1/servers/{serverName}/segments/sortAndSearch`  
+响应类型: application/json  
+数据类型: 无   
+请求参数: 
+    参数名 | 是否必须 | 类型 | 描述  | 默认值 
+    ---- | ----- | --- | --- | ---- |   
+    serverName | 是 | string | server的名称 |   
+    full | 否 | string | 是否查看所有信息 | 默认不查看所有信息，只返回段id
+    isDescending | 否 | boolean | 设置排序方式 | false
+    searchSegment | 否 | string | 要搜索的数据段 | 
+
+请求示例:  
+```
+type: get 
+url: http://192.168.0.212:8081/druid/coordinator/v1/servers/192.168.0.212:8083/segments/sortAndSearch?isDescending=false&searchSegment=454 
+```
+结果示例:
+```json
+[
+    "admin-test001_2017-01-04T00:00:00.000Z_2017-01-05T00:00:00.000Z_2017-10-12T07:10:48.454Z",
+    "admin-test001_2017-01-05T00:00:00.000Z_2017-01-06T00:00:00.000Z_2017-10-12T07:10:48.454Z",
+    ...
 ]
 ```
 
