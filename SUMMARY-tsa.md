@@ -55,6 +55,7 @@
     * [SDK 集成](developer/android/README.md#anchor-1)
     * [SDK 配置](developer/android/README.md#anchor-2)
     * [SDK 使用](developer/android/README.md#anchor-3)
+    * [WEEX 支持](developer/android/README.md#anchor-4)
   * iOS SDK
     * [Objective-C](developer/ios/objc/README.md)
       * [SDK 集成](developer/ios/objc/integration.md)
