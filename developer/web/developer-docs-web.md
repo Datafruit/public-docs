@@ -121,9 +121,22 @@
 
 ### sugoio.register_once(object)
 
-在 Cookie 中永久保存属性，如果存在这个属性了则不覆盖
+在 Cookie 中永久保存属性，如果存在这个属性了则不覆盖 (sugoio.register函数存在key则覆盖)
 
+```javascript
+  // cookie中唯一id对应的值里添加了userId,userName值; 注：之后每条上报数据都会带上这里设置的键值对维度数据
+  sugoio.register_once({userId: 'user1', userName: 'name1',...});
 
+```
+
+### sugoio.unregister(key)
+
+删除Cookie中唯一id对应值(对象)中的key
+
+```javascript
+  // 删除cookie中对应key； 注：之后每条上报数据将不在包含此key对应维度数据
+  sugoio.unregister('userId');
+```
 
 ## 用户登录事件
 用户成功登录后，上报用户的登录信息
