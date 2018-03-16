@@ -20,6 +20,8 @@
 
 
 `Query`，即查询。`Druid`包含多种查询类型。
+> http-post请求地址格式为:http://{broker_ip:broker_port}/druid/v2/?pretty    
+eg  http://192.168.0.223:8082/druid/v2/?pretty
 
 ## <a id="Timeseries" href="Timeseries"></a>  1. `Timeseries`
 

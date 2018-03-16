@@ -191,3 +191,49 @@ ioConfig.lateMessageRejectionPeriod 和 ioConfig.earlyMessageRejectionPeriod 抛
 如抛弃一天前和一天后的数据：
 ioConfig.lateMessageRejectionPeriod="P1D"
 ioConfig.earlyMessageRejectionPeriod="P1D"
+
+### 12. 启动uindex集群后,hregionserver的日志中出现segment加载异常,报lock held by this virtual machine 
+在hmaster的日志中报以下错误：
+```
+Caused by: io.druid.segment.loading.SegmentLoadingException: Lock held by this virtual machine: /data1/uindex/segment-cache/janpy-1/1000-01-01T00:00:00.000Z_3000-01-01T00:00:00.000Z/0/0/write.lock
+        at io.druid.hyper.loading.HyperSegmentFactory.factorize(HyperSegmentFactory.java:98) ~[?:?]
+        at io.druid.hyper.loading.HyperSegmentFactoryFactory.factorize(HyperSegmentFactoryFactory.java:28) ~[?:?]
+        at io.druid.hyper.loading.RegionLoaderLocalCacheManager.getHRegion(RegionLoaderLocalCacheManager.java:104) ~[?:?]
+        at io.druid.hyper.coordination.RegionManager.openRegion(RegionManager.java:114) ~[?:?]
+        at io.druid.hyper.coordination.ZkCoordinator.loadRegion(ZkCoordinator.java:271) ~[?:?]
+        ... 18 more
+```
+
+问题:segmen文件没有被锁释放掉,导致的无法加载.但是查看本地的`/data1/uindex/segment-cache/janpy-1/1000-01-01T00:00:00.000Z_3000-01-01T00:00:00.000Z`目录下并没有相应的`write.log`存在
+
+
+### 解决方案:
+
+在元数据库的druid_hypersegments表中删除对应段的记录,重启uindex服务
+
+### 13. 用http接口删除uindex的datasource后,重新建表不成功,多次发送建表请求,报duplicate key value violates unique constraint
+
+在hmaster的日志中报以下错误：
+```
+Error creating datasource uindex_test
+org.skife.jdbi.v2.exceptions.CallbackFailedException: org.skife.jdbi.v2.exceptions.UnableToExecuteStatementException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "druid_hyperdatasource_pkey"
+  Detail: Key (datasource)=(uindex_test) already exists. 
+  ...
+  ...
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "druid_hyperdatasource_pkey"
+  Detail: Key (datasource)=(uindex_test) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2284) ~[?:?]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2003) ~[?:?]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:200) ~[?:?]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:424) ~[?:?]
+```
+问题: 根据描述，是数据库中`dasource`字段的唯一约束导致了错误,`uindex_test`这个值重复定义了
+
+### 解决方案:
+1. 进入集群所用的数据库,进入uindex数据库
+2. 在druid_hyperdatasource和druid_hypersegments两张表中,将`datasource`中含有`uindex_test`的记录删除
+3. 重新用http接口发送建表请求
+4. 等待hmaster.log中出现`Starting coordination. Getting available segments.`信息时再查询是否建表成功
+
+### 原因分析：
+uindex建表后会在元数据库中插入segment信息,但要等待一个加载周期后(是配置而定),broker才能查到datasource信息.
