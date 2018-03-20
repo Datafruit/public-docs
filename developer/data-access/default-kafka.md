@@ -9,15 +9,15 @@
 > `s`代表 string；  
 > `l`代表 long；  
 > `d`代表 date；  
-> `f`代表 float； 
-> `p`代表 double； 
-> `t`代表 text； 
+> `f`代表 float；  
+> `p`代表 double；  
+> `t`代表 text；  
 > `I`代表多值 int；  
 > `S`代表多值 string；  
 > `L`代表多值 long；  
 > `D`代表多值 date；  
-> `F`代表多值 float； 
-> `P`代表多值 double； 
+> `F`代表多值 float；  
+> `P`代表多值 double；  
 
 *多值列的多个值之间用"\003"隔开
 
