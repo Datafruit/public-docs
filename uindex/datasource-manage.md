@@ -76,6 +76,31 @@ curl -X POST 'http://{hmaster_ip}:8086/druid/hmaster/v1/datasources' -H 'Content
 }'
 
 ```
+### 4.2 返回结果  
+1.创建成功  
+状态码:  `200`  
+返回信息:  
+```
+{
+    "msg":"create datasource1 successfully"
+}
+```
+2.非法请求:  
+状态码:400  
+返回信息:  
+```
+{
+    "error":"DataSource[datasource1] already exists"
+}
+```
+3.内部服务器错误    
+状态码:500  
+返回信息:  
+```
+{
+    "error":"Create DataSource[datasource1] failed : {detail exception message}"
+}
+```
 
 ## 5.获取数据源列表接口(包含segment详细信息)
 `curl http://{hmaster_ip}:8086/druid/hmaster/v1/datasources?full=1`  
