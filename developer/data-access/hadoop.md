@@ -163,7 +163,7 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
 
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，不包含时间戳列，每个维度的格式为：```{“name”: “name_string”, “type”:”type_string”}```。Type支持的类型：`string`、`int`、`float`、`long`、`date`
 
-- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围
+- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围,不能为空
 
 - **`spec.dataSchema.granularitySpec.segmentGranularity:`** 段粒度，根据每天的数据量进行设置。  
 小数据量建议DAY，大数据量（每天百亿）可以选择`HOUR`。可选项：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY`、`MONTH`、`YEAR`。
