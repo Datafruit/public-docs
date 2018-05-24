@@ -157,7 +157,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 - **`spec.dataSchema.granularitySpec.queryGranularity:`**　查询粒度
 - **`spec.dataSchema.granularitySpec.type:`** 粒度说明的类型，默认使用 `uniform`
 
-- **`spec.ioConfig:`** 数据的IO说明
+- **`spec.ioConfig:`** 数据的IO说明 
 - **`spec.ioConfig.type:`** 固定为`lucene_index`
 - **`spec.ioConfig.firehose:`** 数据源适配器
 - **`spec.ioConfig.firehose.type:`** 数据源适配器的类型,一般用`local`

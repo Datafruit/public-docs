@@ -150,7 +150,7 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
 
 - **`spec.dataSchema.parser.parseSpec.listDelimiter:`** csv列分隔符
 - **`spec.dataSchema.parser.parseSpec.columns:`** 维度列表，包含时间戳列，`eg:["ts","ProductID"]`
-- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围
+- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围,不能为空
 
 - **`spec.dataSchema.granularitySpec.segmentGranularity:`** 段粒度，根据每天的数据量进行设置。
 
