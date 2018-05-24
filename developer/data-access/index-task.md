@@ -151,7 +151,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.listDelimiter:`**  csv列分隔符
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.columns:`**  维度列表，包含时间戳列，`eg:["da","ProductID"]`
 - **`spec.dataSchema.granularitySpec:`** 数据粒度说明
-- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围,可以指定多个范围
+- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围，不能为空，可以指定多个范围
 - **`spec.dataSchema.granularitySpec.segmentGranularity:`** 段粒度，根据每天的数据量进行设置。 小数据量建议`DAY`，大数据量（每天百亿）可以选择`HOUR`。可选项：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR、SIX_HOUR`、`DAY`、`MONTH`、`YEAR`。
 
 - **`spec.dataSchema.granularitySpec.queryGranularity:`**　查询粒度
