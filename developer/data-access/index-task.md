@@ -41,7 +41,7 @@ scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
 2. 执行 `cd` 命令进入第三步中选择存放 `json` 文件的目录中
 3. 执行 `curl`命令启动 `Task`，具体命令格式如下：
 ```shell
-curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{OverlordIP}:8090/druid/indexer/v1/task
+curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type":"specialEqualDistribution"},"autoScaler":null}' http://{overlordIP}:8090/druid/indexer/v1/worker
 ```
    > **OverlordIP:** druid的overlord节点ip地址
 
@@ -125,7 +125,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 }
 ```
 - **`type:`** 指定数据接入的类型,固定为`lucene_index`
-- **`worker:`** 指定具体的worker,一般的形式为`ip:port`
+- **`worker:`** 指定具体的worker的address,一般的形式为`hostname:port`
 - **`spec:`** 一些参数说明
 - **`spec.dataSchema:`** 关于接入数据的概要说明
 - **`spec.dataSchema.datasource:`** 数据源的名称，类似关系数据库中的表名
