@@ -39,9 +39,13 @@ scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
 ## 第四步：执行命令，启动Task
 1. 通过 `ssh` 远程登录到第三步中选择的 `MiddleManager` 中
 2. 执行 `cd` 命令进入第三步中选择存放 `json` 文件的目录中
-3. 执行 `curl`命令启动 `Task`，具体命令格式如下：
+3. 执行 `curl`命令取消task在worker上的均分策略
 ```shell
 curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type":"specialEqualDistribution"},"autoScaler":null}' http://{overlordIP}:8090/druid/indexer/v1/worker
+```
+4. 执行 `curl`命令启动 `Task`，具体命令格式如下：
+```shell
+curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{OverlordIP}:8090/druid/indexer/v1/task
 ```
    > **OverlordIP:** druid的overlord节点ip地址
 
