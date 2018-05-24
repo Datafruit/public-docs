@@ -39,7 +39,7 @@ scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
 ## 第四步：执行命令，启动Task
 1. 通过 `ssh` 远程登录到第三步中选择的 `MiddleManager` 中
 2. 执行 `cd` 命令进入第三步中选择存放 `json` 文件的目录中
-3. 执行 `curl`命令取消task在worker上的均分策略
+3. 如果task在worker上的分配策略为均分策略，执行 `curl`命令取消之
 ```shell
 curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type":"specialEqualDistribution"},"autoScaler":null}' http://{overlordIP}:8090/druid/indexer/v1/worker
 ```
@@ -47,7 +47,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type"
 ```shell
 curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{OverlordIP}:8090/druid/indexer/v1/task
 ```
-   > **OverlordIP:** druid的overlord节点ip地址
+   > **OverlordIP:** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
 
    > **file_name** `json` 文件名
 
@@ -74,7 +74,20 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
    该数字为数据条数。
    
    关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md)
-   
+
+### 注意事项
+- 如果task在worker上的分配策略为均分策略，执行 `curl`命令取消之
+   ```shell
+   curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type":"specialEqualDistribution"},"autoScaler":null}' http://{overlordIP}:8090/druid/indexer/v1/worker
+   ```
+- **`worker:`** 指定具体的worker的address,格式为`hostname:port`，如`dev224.sugo.net:8091`
+- **`spec.dataSchema.granularitySpec.intervals:`**是数据时间戳范围，不能为空
+- `maxRowsPerSegment` 和概要中提到的 `numShards`是两种不同的 `segment`　生成策略，所以不可同时指定，只能二选一
+- **`spec.tuningConfig.overwrite:`** 设置对 `datasource` 进行覆盖写入还是追加写入，默认为 `false`
+- **`spec.tuningConfig.reportParseExceptions:`** 是否汇报数据解析错误，默认为`false`
+- **`context:`**　任务上下文环境设置，可以不设置
+- **`context.debug:`**　开启 `debug` 模式，调试时开启，生成环境不开启
+
 ### <a id="LuceneIndexTask_instance"></a>  本流程使用的json配置实例如下：
 
 ```json
@@ -172,10 +185,4 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 - **`spec.tuningConfig:`** 优化说明
 - **`spec.tuningConfig.type:`** 固定为`lucene_index`
 - **`spec.tuningConfig.maxRowsPerSegment:`** 每个`segment`最大的存储行数,默认为5000000　
-> 注意：   
-> `maxRowsPerSegment` 和概要中提到的 `numShards`是两种不同的 `segment`　生成策略，所以不可同时指定，只能二选一
-- **`spec.tuningConfig.overwrite:`** 设置对 `datasource` 进行覆盖写入还是追加写入，默认为 `false`
-- **`spec.tuningConfig.reportParseExceptions:`** 是否汇报数据解析错误，默认为`false`
-- **`context:`**　任务上下文环境设置，可以不设置
 
-- **`context.debug:`**　开启 `debug` 模式，调试时开启，生成环境不开启
