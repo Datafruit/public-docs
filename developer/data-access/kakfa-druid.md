@@ -21,7 +21,7 @@
   curl -X POST -H 'Content-Type: application/json' -d @/tmp/json/wiki.json http://overlord_ip:8090/druid/indexer/v1/supervisor
 ```
 > **/tmp/json/wiki.json：** 详见[`wiki.json`](#json)  
-> **overlord_ip：** 为druid的overlord节点ip地址  
+> **overlord_ip：** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
 
 也可以通过网页来操作：  
 1. 登录 overlord_ip:8090/supervisor.html  
@@ -33,7 +33,7 @@
 1. 查看日志
 - 访问：`http://{OverlordIP}:8090/console.html`，点击 `Task` 的日志，查看 `Task` 的执行情况
 
-   > **OverlordIP:** druid的overlord节点ip地址
+   > **OverlordIP:** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
    
    ![](/assets/LuceneIndexTaskPics/log.jpg)
 

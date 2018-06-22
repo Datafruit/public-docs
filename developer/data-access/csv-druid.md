@@ -67,7 +67,7 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
   http://{overlordIP}:8090/console.html
   ```
 
-  > **overlordIP:** druid的overlord节点ip地址
+  > **overlordIP:**  druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
 
 ## 第五步：在需要停止task时，可以发送如下http post请求停止task任务
 
@@ -75,7 +75,7 @@ csv文件上传， 在shell工具登录：MiddleManagers服务器， cd  /data1/
   curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid/indexer/v1/task/{taskId}/shutdown
   ```
 
-  > **overlordIP:** druid的overlord节点ip地址
+  > **overlordIP:** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
 
   > **taskId:** 在`http://{overlordIP}:8090/console.html`task详细页面对应 **id** 列的信息
 
