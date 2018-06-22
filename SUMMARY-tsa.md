@@ -65,7 +65,7 @@
       * [SDK 集成](developer/ios/swift/integration.md)
       * [SDK 基础调用](developer/ios/swift/basic-use.md)
       * [SDK 进阶调用](developer/ios/swift/adv-use.md)
-  * [微信小程序SDK](developer/wx/wx-mini.md)
+  * [微信小程序 SDK](developer/wx/wx-mini.md)
   * [预置属性](developer/web/dimensions.md)
   * 接口文档
     * [Sugo Plyql 使用文档](developer/interfaces/sugo-plyql.md)
