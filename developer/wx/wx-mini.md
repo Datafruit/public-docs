@@ -6,7 +6,7 @@
 
 # App init参数配置
 
-\`\`\`javascript
+```javascript
 const sugoio = require('./util/wx-mini-sdk.js') //引入sugoio
 
 App({
@@ -17,7 +17,7 @@ App({
     })
     console.log('App Launch')
   })
-\`\`\`
+```
 
 * **${appid}：** 为应用TOKEN。
 * **${project_id}：** 为项目ID。
@@ -39,7 +39,7 @@ App({
 * **properties**: object，可选。表示这个事件的属性。
 * **callback**: function，可选。表示已经发送完数据之后的回调。
 
-\`\`\`javascript
+```javascript
   // 追踪浏览商品事件
   sugoio.track('ViewProduct', {
     'ProductId': 123456，
@@ -48,11 +48,8 @@ App({
     'ProductPrice': 888.88,
     'ViewDateTime': +new Date()
   });
-\`\`\`
+```
 
 ### 数据类型说明
 
 * **object:** 上面 properties 是 object 类型，但是里面必须是 key: value 格式。
-
-
-`
