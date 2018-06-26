@@ -61,7 +61,7 @@
 |event_type           | 事件类型 | string | √ | √ | √ | 事件类型click、focus、submit、change |
 |event_label          | 事件源文本 | string | x | √ | √ | 事件源文本 |
 |sugo_lib             | sdk类型 | string | √ | √ | √ | sdk类型 web、Objective-C、Swift、android |
-|token                | 用ID | string | √ | √ | √ | 应用ID |
+|token                | 应用ID | string | √ | √ | √ | 应用ID |
 |from_binding         | 是否绑定事件 | string | √ | √ | √ | 是否绑定事件（null或者true）（用于区分是绑定的，还是系统自动上报的，比如浏览、启动为自动上报，绑定取值1，自动上报取值0） |
 |google_play_service  | GooglePlay服务 | string | x | x | √ | GooglePlay服务 |
 |page_category        | 页面分类 | string | √ | √ | √ | 页面分类 |
