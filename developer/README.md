@@ -5,3 +5,4 @@
 * [WEB SDK 使用文档](/developer/web/README.md)
 * [Android SDK 使用文档](/developer/android/README.md)
 * [iOS SDK 使用文档](/developer/ios/README.md)
+* [微信小程序SDK 使用文档](/developer/wx/wx-mini.md)

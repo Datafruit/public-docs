@@ -47,7 +47,6 @@
     app_host: '', // 可视化配置时服务端地址
     decide_host: '', // 加载已埋点配置地址
     loaded: function(lib) { }, // **sugoio** **sdk** 加载完成回调函数
-    dimensions: { }, // 上报维度自定义映射配置参数
     DEBUG: false // 是否启用debug
   });
 ```
@@ -58,7 +57,6 @@
 * **app_host：** 可视化配置时服务端地址。
 * **decide_host：** 加载已埋点配置地址。
 * **loaded：** sugoio sdk 加载完成回调函数。
-* **dimensions：** 上报维度自定义映射配置参数， 下文详细说明。
 * **DEBUG：** 是否启用debug。
 
 ### 用户自定义维度
@@ -121,9 +119,22 @@
 
 ### sugoio.register_once(object)
 
-在 Cookie 中永久保存属性，如果存在这个属性了则不覆盖
+在 Cookie 中永久保存属性，如果存在这个属性了则不覆盖 (sugoio.register函数存在key则覆盖)
 
+```javascript
+  // cookie中唯一id对应的值里添加了userId,userName值; 注：之后每条上报数据都会带上这里设置的键值对维度数据
+  sugoio.register_once({userId: 'user1', userName: 'name1',...});
 
+```
+
+### sugoio.unregister(key)
+
+删除Cookie中唯一id对应值(对象)中的key
+
+```javascript
+  // 删除cookie中对应key； 注：之后每条上报数据将不在包含此key对应维度数据
+  sugoio.unregister('userId');
+```
 
 ## 用户登录事件
 用户成功登录后，上报用户的登录信息
@@ -142,4 +153,4 @@ sugoio.clear_first_login('test_user_id');  // 清除用户登录状态
 
   例如：`sugoio.track_first_time('sugovip', 'user_id', function (err){console.log(err)});
 `
-* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](/project-management.md#user-library)
+* 需要为项目创建一个用户库以存放用户登录信息，注意如没有设置将无法存储用户上报的登录信息。相关说明参照 [用户库功能](project-management.md#user-library)

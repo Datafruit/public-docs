@@ -135,4 +135,105 @@ overlord服务的日志中可以发现如下异常日志：
 ```
 
 ### 解决方案：
-将对应的Supervisor进行reset,数据可正常接入
+在`overlord-IP:8090`界面将对应的Supervisor进行reset，或者使用如下命令
+```
+curl -X POST -H 'Content-Type:application/json' http://{overlord-IP}:8090/druid/indexer/v1/supervisor/{supervisorId}/reset
+```
+
+### 8. 在overlord管理界面（端口为8090的界面）可以看到很多task（但找不到对应的进程，并且druid_tasks数据库表中的记录状态也为false），导致新的任务一直在pendding Tasks列表中。
+问题：    
+由于某种原因，导致task在创建时就失败了，进程没有启动。数据库表druid_tasks中的记录状态为false。即使删除记录，页面上还是可以看到这条记录。
+问题原因：    
+可能的一种原因是因为磁盘爆满了，导致启动task进程失败。df -lh检查磁盘使用情况
+还有一种原因是启动task进程时权限不足。 查看overlord和middlemanage的日志，根据日志查看对应的错误
+
+### 解决方案：
+检查zk上的数据，进入`/opt/apps/zookeeper_sugo`目录，执行`bin/zkCli.sh`命令，进入zk的cli模式下。    
+检查`/druid/indexer/status/{middlemanage`的域名，在8090界面可以查看到task所在的middlemanage}目录下是否存在对应的taskid    
+比如`ls /druid/indexer/status/dev222.sugo.net:8091`    
+是否包含`lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh`    
+如果包含，则删除：    
+`rmr /druid/indexer/status/dev222.sugo.net:8091/lucene_index_kafka_com_SJLnjowGe_project_HJuRfqI_G_cgfncmoh`    
+ 
+ ### 9. 加载drop掉的datasource
+1. 删除掉drop该datasource的的rule
+进入postgres目录，执行指令
+`bin/psql -p 15432 -U postgres -d druid -c "delete from druid_rules where datasource = '{datasource_name}'"`
+2. 将该datasource的segment的加载状态改为true
+进入postgres目录，执行指令
+`bin/psql -p 15432 -U postgres -d druid -c "update druid_segments set used = true where datasource = '{datasource_name}'`
+
+### 10. postgres 重用命令
+1. 登录
+`psql -p 15432 -U username -d dbname`
+2. 列所有的数据库
+`\l`
+3. 切换数据库
+`\c dbname`
+4. 列出当前数据库下的数据表
+`\d`
+5. 查看指定表的所有字段
+`\d tablename`
+6. 退出登录
+`\q`
+ 
+ 
+### 11. task落地失败，报gc overhead limit exceeded。
+问题：    
+task落地失败，报gc overhead limit exceeded
+问题原因：  
+由于task处理了大量历史数据（例如3月份的task出来2月份的数据），导致segment太多
+
+### 解决方案：
+spec设置
+ioConfig.lateMessageRejectionPeriod 和 ioConfig.earlyMessageRejectionPeriod 抛掉超出时间范围的数据
+
+如抛弃一天前和一天后的数据：
+ioConfig.lateMessageRejectionPeriod="P1D"
+ioConfig.earlyMessageRejectionPeriod="P1D"
+
+### 12. 启动uindex集群后,hregionserver的日志中出现segment加载异常,报lock held by this virtual machine 
+在hmaster的日志中报以下错误：
+```
+Caused by: io.druid.segment.loading.SegmentLoadingException: Lock held by this virtual machine: /data1/uindex/segment-cache/janpy-1/1000-01-01T00:00:00.000Z_3000-01-01T00:00:00.000Z/0/0/write.lock
+        at io.druid.hyper.loading.HyperSegmentFactory.factorize(HyperSegmentFactory.java:98) ~[?:?]
+        at io.druid.hyper.loading.HyperSegmentFactoryFactory.factorize(HyperSegmentFactoryFactory.java:28) ~[?:?]
+        at io.druid.hyper.loading.RegionLoaderLocalCacheManager.getHRegion(RegionLoaderLocalCacheManager.java:104) ~[?:?]
+        at io.druid.hyper.coordination.RegionManager.openRegion(RegionManager.java:114) ~[?:?]
+        at io.druid.hyper.coordination.ZkCoordinator.loadRegion(ZkCoordinator.java:271) ~[?:?]
+        ... 18 more
+```
+
+问题:segmen文件没有被锁释放掉,导致的无法加载.但是查看本地的`/data1/uindex/segment-cache/janpy-1/1000-01-01T00:00:00.000Z_3000-01-01T00:00:00.000Z`目录下并没有相应的`write.log`存在
+
+
+### 解决方案:
+
+在元数据库的druid_hypersegments表中删除对应段的记录,重启uindex服务
+
+### 13. 用http接口删除uindex的datasource后,重新建表不成功,多次发送建表请求,报duplicate key value violates unique constraint
+
+在hmaster的日志中报以下错误：
+```
+Error creating datasource uindex_test
+org.skife.jdbi.v2.exceptions.CallbackFailedException: org.skife.jdbi.v2.exceptions.UnableToExecuteStatementException: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "druid_hyperdatasource_pkey"
+  Detail: Key (datasource)=(uindex_test) already exists. 
+  ...
+  ...
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "druid_hyperdatasource_pkey"
+  Detail: Key (datasource)=(uindex_test) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2284) ~[?:?]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2003) ~[?:?]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:200) ~[?:?]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:424) ~[?:?]
+```
+问题: 根据描述，是数据库中`dasource`字段的唯一约束导致了错误,`uindex_test`这个值重复定义了
+
+### 解决方案:
+1. 进入集群所用的数据库,进入uindex数据库
+2. 在druid_hyperdatasource和druid_hypersegments两张表中,将`datasource`中含有`uindex_test`的记录删除
+3. 重新用http接口发送建表请求
+4. 等待hmaster.log中出现`Starting coordination. Getting available segments.`信息时再查询是否建表成功
+
+### 原因分析：
+uindex建表后会在元数据库中插入segment信息,但要等待一个加载周期后(是配置而定),broker才能查到datasource信息.

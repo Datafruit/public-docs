@@ -32,7 +32,7 @@
   curl -X 'POST' -H 'Content-Type:application/json' -d @LuceneMergeTask.json http://{overlordIP}:8090/druid/indexer/v1/task
   ```
 
-   > **overlordIP:** druid的overlord节点ip地址（本例使用的是：192.168.0.220）
+   > **overlordIP:** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
 
    > **LuceneMergeTask.json** task配置文件，详见下文
 

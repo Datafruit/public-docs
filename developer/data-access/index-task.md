@@ -39,11 +39,15 @@ scp {file_path}  root@{MiddleManagerIP}:{storage_dir}
 ## 第四步：执行命令，启动Task
 1. 通过 `ssh` 远程登录到第三步中选择的 `MiddleManager` 中
 2. 执行 `cd` 命令进入第三步中选择存放 `json` 文件的目录中
-3. 执行 `curl`命令启动 `Task`，具体命令格式如下：
+3. 如果task在worker上的分配策略为均分策略，执行 `curl`命令取消之
+```shell
+curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type":"specialEqualDistribution"},"autoScaler":null}' http://{overlordIP}:8090/druid/indexer/v1/worker
+```
+4. 执行 `curl`命令启动 `Task`，具体命令格式如下：
 ```shell
 curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{OverlordIP}:8090/druid/indexer/v1/task
 ```
-   > **OverlordIP:** druid的overlord节点ip地址
+   > **OverlordIP:** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
 
    > **file_name** `json` 文件名
 
@@ -70,7 +74,20 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
    该数字为数据条数。
    
    关于 `sugo-plyql` 的安装和使用，详见[ sugo-plyql 使用文档](/developer/interfaces/sugo-plyql.md)
-   
+
+### 注意事项
+- 如果task在worker上的分配策略为均分策略，执行 `curl`命令取消之
+   ```shell
+   curl -X 'POST' -H 'Content-Type:application/json' -d  '{"selectStrategy":{"type":"specialEqualDistribution"},"autoScaler":null}' http://{overlordIP}:8090/druid/indexer/v1/worker
+   ```
+- **`worker:`** 指定具体的worker的address,格式为`hostname:port`，如`dev224.sugo.net:8091`
+- **`spec.dataSchema.granularitySpec.intervals:`**是数据时间戳范围，不能为空
+- `maxRowsPerSegment` 和概要中提到的 `numShards`是两种不同的 `segment`　生成策略，所以不可同时指定，只能二选一
+- **`spec.tuningConfig.overwrite:`** 设置对 `datasource` 进行覆盖写入还是追加写入，默认为 `false`
+- **`spec.tuningConfig.reportParseExceptions:`** 是否汇报数据解析错误，默认为`false`
+- **`context:`**　任务上下文环境设置，可以不设置
+- **`context.debug:`**　开启 `debug` 模式，调试时开启，生成环境不开启
+
 ### <a id="LuceneIndexTask_instance"></a>  本流程使用的json配置实例如下：
 
 ```json
@@ -125,7 +142,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 }
 ```
 - **`type:`** 指定数据接入的类型,固定为`lucene_index`
-- **`worker:`** 指定具体的worker,一般的形式为`ip:port`
+- **`worker:`** 指定具体的worker的address,一般的形式为`hostname:port`
 - **`spec:`** 一些参数说明
 - **`spec.dataSchema:`** 关于接入数据的概要说明
 - **`spec.dataSchema.datasource:`** 数据源的名称，类似关系数据库中的表名
@@ -151,13 +168,13 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.listDelimiter:`**  csv列分隔符
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.columns:`**  维度列表，包含时间戳列，`eg:["da","ProductID"]`
 - **`spec.dataSchema.granularitySpec:`** 数据粒度说明
-- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围,可以指定多个范围
+- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围，不能为空，可以指定多个范围
 - **`spec.dataSchema.granularitySpec.segmentGranularity:`** 段粒度，根据每天的数据量进行设置。 小数据量建议`DAY`，大数据量（每天百亿）可以选择`HOUR`。可选项：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR、SIX_HOUR`、`DAY`、`MONTH`、`YEAR`。
 
 - **`spec.dataSchema.granularitySpec.queryGranularity:`**　查询粒度
 - **`spec.dataSchema.granularitySpec.type:`** 粒度说明的类型，默认使用 `uniform`
 
-- **`spec.ioConfig:`** 数据的IO说明
+- **`spec.ioConfig:`** 数据的IO说明 
 - **`spec.ioConfig.type:`** 固定为`lucene_index`
 - **`spec.ioConfig.firehose:`** 数据源适配器
 - **`spec.ioConfig.firehose.type:`** 数据源适配器的类型,一般用`local`
@@ -168,10 +185,4 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 - **`spec.tuningConfig:`** 优化说明
 - **`spec.tuningConfig.type:`** 固定为`lucene_index`
 - **`spec.tuningConfig.maxRowsPerSegment:`** 每个`segment`最大的存储行数,默认为5000000　
-> 注意：   
-> `maxRowsPerSegment` 和概要中提到的 `numShards`是两种不同的 `segment`　生成策略，所以不可同时指定，只能二选一
-- **`spec.tuningConfig.overwrite:`** 设置对 `datasource` 进行覆盖写入还是追加写入，默认为 `false`
-- **`spec.tuningConfig.reportParseExceptions:`** 是否汇报数据解析错误，默认为`false`
-- **`context:`**　任务上下文环境设置，可以不设置
 
-- **`context.debug:`**　开启 `debug` 模式，调试时开启，生成环境不开启

@@ -1,13 +1,21 @@
 # sugo-objc-sdk
 
+
+[![Build Status](https://travis-ci.org/Datafruit/sugo-objc-sdk.svg?branch=master)](https://travis-ci.org/Datafruit/sugo-objc-sdk)
+[![CocoaPods Compatible](http://img.shields.io/cocoapods/v/sugo-objc-sdk.svg)](https://cocoapods.org/pods/sugo-objc-sdk)
+[![Platform](https://img.shields.io/badge/Platform-iOS%208.0+-66CCFF.svg)](https://cocoapods.org/pods/sugo-objc-sdk)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/Datafruit/sugo-objc-sdk/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Datafruit/sugo-objc-sdk.svg)](https://github.com/Datafruit/sugo-objc-sdk/issues)
+[![GitHub stars](https://img.shields.io/github/stars/Datafruit/sugo-objc-sdk.svg)](https://github.com/Datafruit/sugo-objc-sdk/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Datafruit/sugo-objc-sdk.svg)](https://github.com/Datafruit/sugo-objc-sdk/network)
+
 ## 介绍
 
 欢迎集成使用由听云提供的iOS端Objective-C版采集并分析用户行为。
 
 `sugo-objc-sdk`是一个开源项目，我们很期待能收到各界的代码贡献。
 
-
-## 1. 集成SDK <span id ="anchor-1"></span>
+## 1. 集成
 
 ### 1.1 CocoaPods
 
@@ -23,6 +31,13 @@
 ```
 pod 'sugo-objc-sdk'
 ```
+
+若需要支持**Weex**的可视化埋点功能，请**替代**使用
+
+```
+pod 'sugo-objc-sdk/weex'
+```
+
 
 #### 1.1.2 执行集成命令
 
@@ -48,7 +63,7 @@ pod install
 git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 ```
 
-现在在仓库中能看见Sugo项目文件`Sugo.xcodeproj`了。 
+现在在仓库中能看见Sugo项目文件`Sugo.xcodeproj`了。
 
 #### 1.2.2 把`Sugo.xcodeproj`拖到你的项目（或工作空间）中
 
@@ -58,8 +73,7 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 
 选择需要被集成此SDK的项目target，把`Sugo.framework`以embeded binary形式添加进去。
 
-***
-## 2. SDK的基础调用 <span id ="anchor-2"></span>
+## 2. SDK的基础调用
 
 ### 2.1 获取SDK配置信息
 
@@ -75,18 +89,26 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 @import Sugo;
 ```
 
+若使用支持**Weex**可视化埋点功能的SDK时，出现问题，可替代使用：
+
+```
+#import "Sugo.h"
+#import "Sugo+Weex.h"
+```
+
 #### 2.2.2 添加SDK对象初始化代码
 
 把以下代码复制到`AppDelegate.m`中，并填入已获得的项目ID与Token：
 
 ```
 - (void)initSugo {
-    NSString *projectID = @"Add_Your_Project_ID_Here";
-    NSString *appToken = @"Add_Your_App_Token_Here";
-    [Sugo sharedInstanceWithID:projectID token:appToken launchOptions:nil];
-    [[Sugo sharedInstance] setEnableLogging:YES];  // 如果需要查看SDK的Log，请设置为true
-    [[Sugo sharedInstance] setFlushInterval:5];    // 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒
-    [[Sugo sharedInstance] setCacheInterval:60];   // 从服务端拉取绑定事件配置的时间间隔，单位是秒，如若不设置，默认时间是1小时
+	NSString *projectID = @"Add_Your_Project_ID_Here";
+	NSString *appToken = @"Add_Your_App_Token_Here";
+	[Sugo sharedInstanceWithID:projectID token:appToken launchOptions:nil];
+	[[Sugo sharedInstance] setEnableLogging:YES];	// 如果需要查看SDK的Log，请设置为true
+	[[Sugo sharedInstance] setFlushInterval:5]; 	// 被绑定的事件数据往服务端上传的时间间隔，单位是秒，如若不设置，默认时间是60秒
+	[[Sugo sharedInstance] setCacheInterval:60]; 	// 从服务端拉取绑定事件配置的时间间隔，单位是秒，如若不设置，默认时间是1小时
+    // [[Sugo sharedInstance] registerModule];		// 需要支持Weex可视化埋点时调用
 }
 ```
 
@@ -95,9 +117,9 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [self initSugo];	//调用 `initSugo`
-    return YES;
+	// Override point for customization after application launch.
+	[self initSugo];	//调用 `initSugo`
+	return YES;
 }
 ```
 
@@ -110,7 +132,7 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 在Xcode中，点击App的`xcodeproj`文件，进入`info`便签页，添加`URL Types`。
 
 * Identifier: Sugo
-* URL Schemes: sugo.\*	(“*”位置替换成Token)
+* URL Schemes: sugo.*	(“*”位置替换成Token)
 * Icon: (可随意)
 * Role: Editor
 
@@ -153,18 +175,43 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 
 #### 2.4.1 原生控件
 
-##### UIControl
+**对于所有`UIView`，都有一个`NSString`类型的`sugoViewId`属性，可以用于唯一指定容易混淆的可视化埋点视图，推荐初始化时设置使用**
 
-所有`UIControl`类及其子类，皆可被埋点绑定事件。
+可以通过如下方式设置：
+
+```
+// #import <objc/runtime.h>
+objc_setAssociatedObject(self, @selector(sugoViewId), @"CustomNSStringValue", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+```
+
+##### UIView
+
+满足以下条件的`UIView`及其子类可以被可视化埋点绑定事件：
+
+* `userInteractionEnabled`属性为`YES`，且是`UIControl`或其子类
+* `userInteractionEnabled`属性为`YES`，且`gestureRecognizers`数组属性中包含`UITapGestureRecognizer`或其子类的手势实例，且其`enabled`属性为`YES`
 
 ##### UITableView
 
-所有`UITableView`类及其子类，需要指定其`delegate`属性，方可被埋点绑定事件。基于`UITableView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UITableView`被选中的详细位置信息。
+所有`UITableView`类及其子类，需要指定其`delegate`属性，并实现以下方法，方可被埋点绑定事件。基于`UITableView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UITableView`被选中的详细位置信息。
+
+```
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+```
+
+##### UICollectionView
+
+所有`UICollectionView`类及其子类，需要指定其`delegate`属性，并实现以下方法，方可被埋点绑定事件。基于`UICollectionView`运行原理的特殊性，埋点绑定事件的时候只需要整个圈选，SDK会自动上报`UICollectionView`被选中的详细位置信息。
+
+```
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+```
 
 #### 2.4.2 UIWebView
 
-所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法，方可被埋点绑定事件。
+所有`UIWebView`类及其子类下的网页元素，需要指定其`delegate`属性，且在`delegate`指定类中实现以下指定的方法:
 
+* `- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType`
 * `- (void)webViewDidStartLoad:(UIWebView *)webView;`
 * `- (void)webViewDidFinishLoad:(UIWebView *)webView;`
 
@@ -172,8 +219,7 @@ git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 
 所有`WKWebView`类及其子类下的网页元素，皆可被埋点绑定事件。
 
-***
-## 3. SDK的进阶调用 <span id ="anchor-3"></span>
+## 3. SDK的进阶调用
 
 ### 3.1 获取全局对象
 
@@ -222,7 +268,7 @@ Sugo *sugo = [Sugo sharedInstance];
 然后，在完成跟踪的位置调用`3.2.1`中的方法即可，需要注意的是`eventName`需要与开始时的一样，示例如下：
 
 ```
-[[Sugo sharedInstance] trackEvent:@"TimeEventName"];	
+[[Sugo sharedInstance] trackEvent:@"TimeEventName"];
 ```
 
 ##### 3.2.2.3 更新
@@ -291,7 +337,19 @@ Sugo *sugo = [Sugo sharedInstance];
 示例如下：
 
 ```
- [[Sugo sharedInstance] clearSuperProperties];
+[[Sugo sharedInstance] clearSuperProperties];
+```
+
+#### 3.2.3.5 跟踪用户首次登录
+
+当需要跟踪用户首次登录用户账户时，可调用
+
+* `- (void)trackFirstLoginWith:(nullable NSString *)identifer dimension:(nullable NSString *)dimension;`
+
+示例如下(其中`dimension`参数为用户已自定义的维度名)：
+
+```
+[[Sugo sharedInstance] trackFirstLoginWith:@"user_id" dimension: @"user_id_dimension"]; 
 ```
 
 #### 3.2.4 WebView埋点
@@ -299,14 +357,22 @@ Sugo *sugo = [Sugo sharedInstance];
 当需要在WebView(UIWebView或WKWebView)中进行代码埋点时，在页面加载完毕后，可调用以下API(是`3.2.1`与`3.2.2`同名方法在JavaScript中的接口，实现机制相同)进行JavaScript内容的代码埋点
 
 ```
-sugo.timeEvent(event_name);					// 在开始统计时长的时候调用
 sugo.track(event_id, event_name, props);	// 准备把自定义事件发送到服务器时
+sugo.timeEvent(event_name);					// 在开始统计时长的时候调用
 ```
 
-***
+#### 3.2.5 Weex埋点
+
+当需要在Weex(Vue)中进行代码埋点时，可调用以下API(是`3.2.1`与`3.2.2`同名方法在Weex中的接口，实现机制相同)进行JavaScript的代码埋点
+
+```
+let sugo = weex.requireModule('sugo');
+sugo.track(event_name, props);				// 准备把自定义事件发送到服务器时
+sugo.timeEvent(event_name);					// 在开始统计时长的时候调用
+```
 
 ## 4. 反馈
 
-已经成功集成了此SDK了，想了解SDK的最新动态, 请`Star` 或 `Watch` 我们的仓库： [Github](https://github.com/Datafruit/sugo-swift-sdk.git)。
+已经成功集成了此SDK了，想了解SDK的最新动态, 请`Star` 或 `Watch` 我们的仓库： [Github](https://github.com/Datafruit/sugo-objc-sdk.git)。
 
 有问题解决不了? 发送邮件到 [cs@tingyun.com](cs@tingyun.com) 或提出详细的issue，我们的进步，离不开各界的反馈。

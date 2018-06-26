@@ -15,6 +15,13 @@
 pod 'sugo-objc-sdk'
 ```
 
+若需要支持**Weex**的可视化埋点功能，请**替代**使用
+
+```
+pod 'sugo-objc-sdk/weex'
+```
+
+
 #### 1.1.2 执行集成命令
 
 关闭Xcode，并在`Podfile`目录下执行以下命令：
@@ -39,7 +46,7 @@ pod install
 git submodule add git@github.com:Datafruit/sugo-objc-sdk.git
 ```
 
-现在在仓库中能看见Sugo项目文件`Sugo.xcodeproj`了。 
+现在在仓库中能看见Sugo项目文件`Sugo.xcodeproj`了。
 
 #### 1.2.2 把`Sugo.xcodeproj`拖到你的项目（或工作空间）中
 

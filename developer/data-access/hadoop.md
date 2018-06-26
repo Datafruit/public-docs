@@ -60,7 +60,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @task-spec.json http://{ove
 1. 查看日志  
 访问：`http://{OverlordIP}:8090/console.html`，点击 `Task` 的日志，查看 `Task` 的执行情况
 
-   > **OverlordIP:** druid的overlord节点ip地址
+   > **OverlordIP:** druid的overlord节点ip地址,如果有多个overlord,必须指定leader的ip.
    
    ![](/assets/LuceneIndexTaskPics/log.jpg)
 
@@ -86,6 +86,20 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
 ```  
 - **`overlord_ip`**： druid的overlord节点ip地址
 - **`taskId`**： 在 `http://{overlordIP}:8090/console.html` task详细页面对应 id 列的信息
+
+## 注意事项
+1. **`spec.dataSchema.parser.parseSpec.columns:`** 包含时间戳列，并且先后顺序要和源数据对应
+2. **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 不包含时间戳列，并且`name`要和`parser.parseSpec.columns`对应，`type`要和源数据对应起来。
+3. **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录，注意是否配置正确
+4. 数据源有 date 类型时，要对 taskspec.json 文件 date 类型按要求定义：
+    > Date类型格式 2017-01-01 00:00，则定义为："date","format":"yy-MM-dd HH:mm"  
+    > Date类型格式 2017-01-01 00:00:00，则定义为："date","format":"yy-MM-dd HH:mm:ss"  
+    > Date类型格式 2017-01-01，则定义为："date","format":"yy-MM-dd"  
+    > Date类型格式 2017-01，则定义为："date","format":"yyyy-MM"  
+    > Date类型格式 2017，则定义为："date","format":"yyyy"  
+    > Date类型格式是从1970年1月1日开始所经过的秒数，10位的数字，则定义为："date","format":"posix"  
+    > Date类型格式是从1970年1月1日开始所经过的毫秒数，13位数字，则定义为："date","format":"millis"  
+5. 如果 `segmentGranularity` 即段粒度较小， `interval` 的范围也要较小，否则分片过多，非常耗时。 
 
 ## <a id="json" href="json"></a> task-spec.json详细配置如下：
 ```json
@@ -163,7 +177,7 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
 
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，不包含时间戳列，每个维度的格式为：```{“name”: “name_string”, “type”:”type_string”}```。Type支持的类型：`string`、`int`、`float`、`long`、`date`
 
-- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围
+- **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围,不能为空
 
 - **`spec.dataSchema.granularitySpec.segmentGranularity:`** 段粒度，根据每天的数据量进行设置。  
 小数据量建议DAY，大数据量（每天百亿）可以选择`HOUR`。可选项：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY`、`MONTH`、`YEAR`。
@@ -178,16 +192,4 @@ curl -X 'POST' -H 'Content-Type:application/json' http://{overlordIP}:8090/druid
 - **`spec.tuningConfig.jobProperties.mapreduce.job.queuename:`** 指定yarn上的队列名
 - **`spec.tuningConfig.jobProperties.mapreduce.job.classloader:`** 如果为true，`task`会用 `druid` 中的 `hadoop-dependencies` ，而不是 `hadoop` 集群的配置
 
-### json文件中需要特别注意的是以下几个参数：
-1. **`spec.dataSchema.parser.parseSpec.columns:`** 包含时间戳列，并且先后顺序要和源数据对应
-2. **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 不包含时间戳列，并且`name`要和`parser.parseSpec.columns`对应，`type`要和源数据对应起来。
-3. **`spec.ioConfig.inputSpec.paths:`** 数据文件在hdfs上的目录，注意是否配置正确
-4. 数据源有 date 类型时，要对 taskspec.json 文件 date 类型按要求定义：
-    > Date类型格式 2017-01-01 00:00，则定义为："date","format":"yy-MM-dd HH:mm"  
-    > Date类型格式 2017-01-01 00:00:00，则定义为："date","format":"yy-MM-dd HH:mm:ss"  
-    > Date类型格式 2017-01-01，则定义为："date","format":"yy-MM-dd"  
-    > Date类型格式 2017-01，则定义为："date","format":"yyyy-MM"  
-    > Date类型格式 2017，则定义为："date","format":"yyyy"  
-    > Date类型格式是从1970年1月1日开始所经过的秒数，10位的数字，则定义为："date","format":"posix"  
-    > Date类型格式是从1970年1月1日开始所经过的毫秒数，13位数字，则定义为："date","format":"millis"  
-5. 如果 `segmentGranularity` 即段粒度较小， `interval` 的范围也要较小，否则分片过多，非常耗时。  
+ 
