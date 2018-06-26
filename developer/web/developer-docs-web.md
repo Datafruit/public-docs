@@ -47,7 +47,6 @@
     app_host: '', // 可视化配置时服务端地址
     decide_host: '', // 加载已埋点配置地址
     loaded: function(lib) { }, // **sugoio** **sdk** 加载完成回调函数
-    dimensions: { }, // 上报维度自定义映射配置参数
     DEBUG: false // 是否启用debug
   });
 ```
@@ -58,7 +57,6 @@
 * **app_host：** 可视化配置时服务端地址。
 * **decide_host：** 加载已埋点配置地址。
 * **loaded：** sugoio sdk 加载完成回调函数。
-* **dimensions：** 上报维度自定义映射配置参数， 下文详细说明。
 * **DEBUG：** 是否启用debug。
 
 ### 用户自定义维度
