@@ -2,25 +2,25 @@
 
 |维度名|维度标题|数据类型|iOS|Android|Web|维度描述|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|__time               | 服务端时间 | date | x | x | x | 服务端时间 |
-|sugo_nation          | 国家 | string | x | x | x | 用户所在国家(ip反解析) |
-|sugo_province        | 省份 | string | x | x | x | 用户所在省份(ip反解析) |
-|sugo_city            | 城市 | string | x | x | x | 用户所在城市(ip反解析) |
-|sugo_district        | 地区 | string | x | x | x | 用户所在地区(ip反解析) |
-|sugo_area            | 区域 | string | x | x | x | 用户所在区域(ip反解析) |
-|sugo_latitude        | 纬度 | string | x | x | x | 纬度(ip反解析) |
-|sugo_longitude       | 经度 | string | x | x | x | 经度(ip反解析) |
-|sugo_city_timezone   | 城市时区 | string | x | x | x | 所在时区代表城市(ip反解析) |
-|sugo_timezone        | 时区 | string | x | x | x | 所在时区(ip反解析) |
-|sugo_phone_code      | 国际区号 | string | x | x | x | 国际区号(ip反解析) |
-|sugo_nation_code     | 国家代码 | string | x | x | x | 国家代码(ip反解析) |
-|sugo_continent       | 所在大洲代码 | string | x | x | x | 所在大洲(ip反解析) |
-|sugo_administrative  | 行政区划代码 | string | x | x | x | 中国行政区划代码(ip反解析) |
-|sugo_operator        | 宽带运营商 | string | x | x | x | 用户所在运营商(ip反解析) |
-|sugo_ip              | 客户端IP | string | x | x | x | 客户端IP(nginx) |
-|sugo_http_forward    | 客户端真实IP | string | x | x | x | 客户端真实ip(nginx) |
-|sugo_http_refer      | Referer | string | x | x | x | Referer(nginx) |
-|sugo_user_agent      | 浏览器标识 | string | x | x | x | 浏览器标识(nginx) |
+|__time               | 服务端时间 | date | √ | √ | √ | 服务端时间 |
+|sugo_nation          | 国家 | string | √ | √ | √ | 用户所在国家(ip反解析) |
+|sugo_province        | 省份 | string | √ | √ | √ | 用户所在省份(ip反解析) |
+|sugo_city            | 城市 | string | √ | √ | √ | 用户所在城市(ip反解析) |
+|sugo_district        | 地区 | string | √ | √ | √ | 用户所在地区(ip反解析) |
+|sugo_area            | 区域 | string | √ | √ | √ | 用户所在区域(ip反解析) |
+|sugo_latitude        | 纬度 | string | √ | √ | √ | 纬度(ip反解析) |
+|sugo_longitude       | 经度 | string | √ | √ | √ | 经度(ip反解析) |
+|sugo_city_timezone   | 城市时区 | string | √ | √ | √ | 所在时区代表城市(ip反解析) |
+|sugo_timezone        | 时区 | string | √ | √ | √ | 所在时区(ip反解析) |
+|sugo_phone_code      | 国际区号 | string | √ | √ | √ | 国际区号(ip反解析) |
+|sugo_nation_code     | 国家代码 | string | √ | √ | √ | 国家代码(ip反解析) |
+|sugo_continent       | 所在大洲代码 | string | √ | √ | √ | 所在大洲(ip反解析) |
+|sugo_administrative  | 行政区划代码 | string | √ | √ | √ | 中国行政区划代码(ip反解析) |
+|sugo_operator        | 宽带运营商 | string | √ | √ | √ | 用户所在运营商(ip反解析) |
+|sugo_ip              | 客户端IP | string | √ | √ | √ | 客户端IP(nginx) |
+|sugo_http_forward    | 客户端真实IP | string | √ | √ | √ | 客户端真实ip(nginx) |
+|sugo_http_refer      | Referer | string | x | x | √ | Referer(nginx) |
+|sugo_user_agent      | 浏览器标识 | string | x | x | √ | 浏览器标识(nginx) |
 |browser              | 浏览器名称 | string | x | x | √ | 浏览器名称 |
 |browser_version      | 浏览器版本 | string | x | x | √ | 浏览器版本 |
 |sugo_args            | 请求参数 | string | x | x | √ | 请求参数(nginx) |
