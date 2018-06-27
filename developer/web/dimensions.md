@@ -20,7 +20,6 @@
 |sugo_ip              | 客户端IP | string | √ | √ | √ | 客户端IP(nginx)Header的X-Real-IP，或者 remote_addr |
 |browser              | 浏览器名称 | string | x | x | √ | 浏览器名称 |
 |browser_version      | 浏览器版本 | string | x | x | √ | 浏览器版本 |
-|sugo_args            | 请求参数 | string | x | x | √ | 请求参数(nginx) |
 |app_name             | 应用名称 | string | √ | √ | x | 系统或app的系统名称（应用安装后的名字） |
 |app_version          | 应用版本 | string | √ | √ | x | 系统或app的系统版本 |
 |app_build_number     | 应用编译版本 | string | √ | √ | x | 应用编译版本 |
