@@ -273,3 +273,20 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded
 `maxBufferedDocs`: 每个段缓存在内存中的最大记录数,默认值为-1,不限制.
 `ramBufferSizeMB`: 每个段缓存在内存中的记录所耗内存大小,默认为16MB.
 每个段会缓存一定数量的记录在内存中,默认缓存达到16MB后才会触发写磁盘.如果是导入历史数据,对导入性能要求不高,可以将参数ramBufferSizeMB设置的更小一点,或者设置maxBufferedDocs,比如将maxBufferedDocs设置为1000或更小.
+
+
+### 15. 通过配置不同的tier让task启动后不加载lookup分群信息,减少内存消耗
+在`context`中增加参数`druid.indexer.fork.property.druid.lookup.lookupTier`,指定一个特定值,避免使用系统默认的tier.
+```
+{
+  "type":"lucene_merge",
+  "dataSource": "test",  
+  "interval": "2017-06-01/2017-06-30",
+  "mergeGranularity":"DAY",
+  "triggerMergeCount":2,
+  "maxSizePerSegment":"800MB",
+  "context": {
+    "druid.indexer.fork.property.druid.lookup.lookupTier" : "merge"
+  }   
+}
+```
