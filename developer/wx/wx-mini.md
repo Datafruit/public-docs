@@ -14,10 +14,13 @@ App({
     sugoio.App.init({
       "project_id": "com_H1bIzqK2SZ_project_HyAKaKC5Z", //项目ID
       "token": "2c170b6be6bb15521bd8560a41f8c849" // 项目TOKEN
+      "gateway_host": '<collectGateway>', //数据上报的地址
+      "api_host": '<api_host>', // 可视化配置时服务端地址
       "track_share_app": false, // 自动上报转发事件
       "track_pull_down_fresh": false, // 自动上报下拉刷新事件
       "track_reach_bottom": false, // 自动上报上拉触底事件
-      "track_auto_duration": true // 自动上报提留事件
+      "track_auto_duration": true, // 自动上报提留事件
+      "debug": false // 是否启用debug
     })
     console.log('App Launch')
   })
@@ -71,7 +74,7 @@ App({
  在 WxStorage 中永久保存属性，如果存在这个属性了则不覆盖
  # 删除事件公共属性
 ```javascript
-  // sugoio.unRegister 删除事件公共属性
+  // sugoio.unregister 删除事件公共属性
   sugoio.unregister(key);
 ```
  * **key:** 事件公共属性key
