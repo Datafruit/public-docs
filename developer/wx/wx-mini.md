@@ -59,19 +59,19 @@ App({
 * **object:** 上面 properties 是 object 类型，但是里面必须是 key: value 格式。
 
 # 事件公共属性(超级属性)
-\`\`\`javascript
+```javascript
   // sugoio.register 提供全局设置为每条上报记录都设置共有属性，在 WxStorage 中永久保存属性，永久有效，如果存在这个属性了则覆盖
   sugoio.register({
     Custom1: 'Custom1',
     Custom2: 'Custom2'
     ...
   });
-\`\`\`
+```
  ## sugoio.register_once(object)
  在 WxStorage 中永久保存属性，如果存在这个属性了则不覆盖
  # 删除事件公共属性
-\`\`\`javascript
+```javascript
   // sugoio.unRegister 删除事件公共属性
-  sugoio.unRegister(key);
-\`\`\`
+  sugoio.unregister(key);
+```
  * **key:** 事件公共属性key
