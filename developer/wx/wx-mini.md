@@ -2,7 +2,7 @@
 
 
  - 下载地址：
-  [sugo-wx-mini.program.min.js](http://tas.sugo.io/_bc/sugo-sdk-js/libs/sugo-wx-mini.program.min.js) (右键另存为)
+  [sugo-wx-mini.program.min.js](http://tas.sugo.io/sugo-sdk-js/libs/sugo-wx-mini.program.min.js) (右键另存为)
 
 # App init参数配置
 
@@ -14,6 +14,13 @@ App({
     sugoio.App.init({
       "project_id": "com_H1bIzqK2SZ_project_HyAKaKC5Z", //项目ID
       "token": "2c170b6be6bb15521bd8560a41f8c849" // 项目TOKEN
+      "gateway_host": '<collectGateway>', //数据上报的地址
+      "api_host": '<api_host>', // 可视化配置时服务端地址
+      "track_share_app": false, // 自动上报转发事件
+      "track_pull_down_fresh": false, // 自动上报下拉刷新事件
+      "track_reach_bottom": false, // 自动上报上拉触底事件
+      "track_auto_duration": true, // 自动上报提留事件
+      "debug": false // 是否启用debug
     })
     console.log('App Launch')
   })
@@ -53,3 +60,21 @@ App({
 ### 数据类型说明
 
 * **object:** 上面 properties 是 object 类型，但是里面必须是 key: value 格式。
+
+# 事件公共属性(超级属性)
+```javascript
+  // sugoio.register 提供全局设置为每条上报记录都设置共有属性，在 WxStorage 中永久保存属性，永久有效，如果存在这个属性了则覆盖
+  sugoio.register({
+    Custom1: 'Custom1',
+    Custom2: 'Custom2'
+    ...
+  });
+```
+ ## sugoio.register_once(object)
+ 在 WxStorage 中永久保存属性，如果存在这个属性了则不覆盖
+ # 删除事件公共属性
+```javascript
+  // sugoio.unregister 删除事件公共属性
+  sugoio.unregister(key);
+```
+ * **key:** 事件公共属性key
