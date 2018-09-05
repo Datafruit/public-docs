@@ -2,7 +2,7 @@
 
 
  - 下载地址：
-  [sugo-wx-mini.program.min.js](http://tas.sugo.io/_bc/sugo-sdk-js/libs/sugo-wx-mini.program.min.js) (右键另存为)
+  [sugo-wx-mini.program.min.js](http://tas.sugo.io/sugo-sdk-js/libs/sugo-wx-mini.program.min.js) (右键另存为)
 
 # App init参数配置
 
