@@ -290,3 +290,13 @@ java.lang.OutOfMemoryError: GC overhead limit exceeded
   }   
 }
 ```
+### 16. 配置UIndex的线程池参数
+hregionServer会为每个数据源创建一套线程池,如果项目多了,会创建过多线程池,消耗堆内存,并且无法控制资源使用情况.
+现修改为创建一套所有的数据源共享的线程池,可以调节参数控制线程池大小
+druid.hregionserver.region.commitThreadSize: commit线程池大小,默认为5
+druid.hregionserver.region.pullThreadSize: pull线程池大小,默认为3
+druid.hregionserver.region.persistThreadSize: persist线程池大小,默认为5
+
+### 17. 配置Tindex只保留最近n天的数据
+在coordinator的界面添加规则,先添加一个drop all的rule,然后添加一个load最近n天的rule.
+
