@@ -237,3 +237,66 @@ Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violate
 
 ### 原因分析：
 uindex建表后会在元数据库中插入segment信息,但要等待一个加载周期后(是配置而定),broker才能查到datasource信息.
+
+### 14. 批量导入历史数据时,如果时间跨度比较大,task会出现OOM问题.
+错误信息如下:
+```
+2018-07-27 17:30:27.765 ERROR [task-runner-0-priority-0] io.druid.indexing.overlord.SingleTaskBackgroundRunner - Uncaught Throwable while running task[LuceneKafkaIndexTask{id=lucene_index_kafka_oom1_87febce18db07a8_acicgfoe, type=lucene_index_kafka, dataSource=oom1}]
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+	at java.util.Arrays.copyOf(Arrays.java:3181) ~[?:1.8.0_91]
+	at java.util.ArrayList.grow(ArrayList.java:261) ~[?:1.8.0_91]
+	at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:235) ~[?:1.8.0_91]
+	at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:227) ~[?:1.8.0_91]
+	at java.util.ArrayList.add(ArrayList.java:458) ~[?:1.8.0_91]
+	at org.apache.lucene.document.Document.add(Document.java:64) ~[?:?]
+	at io.druid.lucene.segment.realtime.LuceneDocumentBuilder.addSingleFields(LuceneDocumentBuilder.java:134) ~[?:?]
+	at io.druid.lucene.segment.realtime.LuceneDocumentBuilder.buildLuceneDocument(LuceneDocumentBuilder.java:120) ~[?:?]
+	at io.druid.lucene.segment.realtime.LuceneAppenderator.add(LuceneAppenderator.java:224) ~[?:?]
+	at io.druid.segment.realtime.appenderator.FiniteAppenderatorDriver.add(FiniteAppenderatorDriver.java:210) ~[druid-server-1.5.0.jar:1.5.0]
+	at io.druid.indexing.kafka.LuceneKafkaIndexTask.run(LuceneKafkaIndexTask.java:476) ~[?:?]
+	at io.druid.indexing.overlord.SingleTaskBackgroundRunner$SingleTaskBackgroundRunnerCallable.call(SingleTaskBackgroundRunner.java:417) [druid-indexing-service-1.5.0.jar:1.5.0]
+	at io.druid.indexing.overlord.SingleTaskBackgroundRunner$SingleTaskBackgroundRunnerCallable.call(SingleTaskBackgroundRunner.java:389) [druid-indexing-service-1.5.0.jar:1.5.0]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_91]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_91]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_91]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_91]
+2018-07-27 17:30:27.776 ERROR [main] io.druid.cli.CliPeon - Error when starting up.  Failing.
+```
+### 解决方案:
+在supervisor的配置中设置如下参数:
+```
+"writerConfig" : {
+    "maxBufferedDocs" : 500,
+    "ramBufferSizeMB" : 16.0
+  },
+```
+`maxBufferedDocs`: 每个段缓存在内存中的最大记录数,默认值为-1,不限制.
+`ramBufferSizeMB`: 每个段缓存在内存中的记录所耗内存大小,默认为16MB.
+每个段会缓存一定数量的记录在内存中,默认缓存达到16MB后才会触发写磁盘.如果是导入历史数据,对导入性能要求不高,可以将参数ramBufferSizeMB设置的更小一点,或者设置maxBufferedDocs,比如将maxBufferedDocs设置为1000或更小.
+
+
+### 15. 通过配置不同的tier让task启动后不加载lookup分群信息,减少内存消耗
+在`context`中增加参数`druid.indexer.fork.property.druid.lookup.lookupTier`,指定一个特定值,避免使用系统默认的tier.
+```
+{
+  "type":"lucene_merge",
+  "dataSource": "test",  
+  "interval": "2017-06-01/2017-06-30",
+  "mergeGranularity":"DAY",
+  "triggerMergeCount":2,
+  "maxSizePerSegment":"800MB",
+  "context": {
+    "druid.indexer.fork.property.druid.lookup.lookupTier" : "merge"
+  }   
+}
+```
+### 16. 配置UIndex的线程池参数
+hregionServer会为每个数据源创建一套线程池,如果项目多了,会创建过多线程池,消耗堆内存,并且无法控制资源使用情况.
+现修改为创建一套所有的数据源共享的线程池,可以调节参数控制线程池大小
+druid.hregionserver.region.commitThreadSize: commit线程池大小,默认为5
+druid.hregionserver.region.pullThreadSize: pull线程池大小,默认为3
+druid.hregionserver.region.persistThreadSize: persist线程池大小,默认为5
+
+### 17. 配置Tindex只保留最近n天的数据
+在coordinator的界面添加规则,先添加一个drop all的rule,然后添加一个load最近n天的rule.
+
