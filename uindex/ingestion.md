@@ -52,7 +52,7 @@
 uindex提供了一个数据写入的代理服务,通过代理服务的接口,直接将数据发往代理服务即可,代理服务将自动计算主键值所属的分片,并将数据发往相应的数据节点.   
 ## 单条记录的写入
 接口定义如下:   
-`curl -X POST 'http://{hproxy_ip}:8088/druid/proxy/update/{datasourceName}'  -H 'Content-Type:application/json' -d '{data}'`   
+`curl -X POST 'http://{hproxy_ip}:8085/druid/proxy/update/{datasourceName}'  -H 'Content-Type:application/json' -d '{data}'`   
 数据格式:   
 ```
 {
@@ -72,7 +72,7 @@ uindex提供了一个数据写入的代理服务,通过代理服务的接口,直
 
 ## 批量数据的写入
 接口定义如下:    
-`curl -X POST 'http://{hproxy_ip}:8088/druid/proxy/batchupdate/{datasourceName}'  -H 'Content-Type:application/json' -d '{data}'`   
+`curl -X POST 'http://{hproxy_ip}:8085/druid/proxy/batchupdate/{datasourceName}'  -H 'Content-Type:application/json' -d '{data}'`   
 数据格式:  
 ```
 [
@@ -103,7 +103,7 @@ uindex提供了一个数据写入的代理服务,通过代理服务的接口,直
 
 ## 删除单条记录
 接口定义如下:    
-`curl -X DELETE 'http://{hproxy_ip}:8088/druid/proxy/delete/{datasourceName}/{primaryValue}'  -H 'Content-Type:application/json'`   
+`curl -X DELETE 'http://{hproxy_ip}:8085/druid/proxy/delete/{datasourceName}/{primaryValue}'  -H 'Content-Type:application/json'`   
 `{datasourceName}`: 数据源名称  
 `{primaryValue}`: 待删除行的主键值  
 
