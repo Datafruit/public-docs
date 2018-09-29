@@ -110,3 +110,17 @@ uindex提供了一个数据写入的代理服务,通过代理服务的接口,直
 返回:  
 200: 更新成功  
 500: 未知异常  
+
+## 清空列数据
+接口定义如下:    
+`curl -X POST 'http://{hproxy_ip}:8085/druid/proxy/clean/{datasourceName}'  -H 'Content-Type:application/json' -d '{data}'`   
+数据格式:  
+```
+["app_id","event_id"]
+```
+待删除的列名
+
+返回:  
+200: 更新成功  
+500: 未知异常  
+
