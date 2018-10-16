@@ -22,19 +22,19 @@
 
   b)	输入查询内容
 
-![](/assets/user/微观画像-用户查询.png)
+![](/assets/user/micro-portrait-1.png)
 
 2. 查看基础标签
 
-![](/assets/user/微观画像-查看基础标签.png)
+![](/assets/user/micro-portrait-2.png)
 
 3. 查看用户详情
 
-![](/assets/user/微观画像-查看用户详情.png)
+![](/assets/user/micro-portrait-3.png)
 
 4. 查看行为序列
 
-![](/assets/user/微观画像-查看行为序列.png)
+![](/assets/user/micro-portrait-4.png)
 
 
 
@@ -48,3 +48,7 @@
   * [留存分析](retation-analytics.md)
   * [漏斗分析](funnel-analytics.md)
   * [事件分析](event-analytics.md)
+  * [宏观画像](macro-portrait.md)
+  * [标签体系](tag-system.md)      
+  * [标签体系管理](tag-system-manager.md)  
+  * [标签数据管理](tag-data-manager.md)    

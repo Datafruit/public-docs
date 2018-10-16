@@ -15,17 +15,17 @@
 
 1. 查看子标签覆盖情况
 
-![](/assets/user/标签体系-查看子标签覆盖情况.png)
+![](/assets/user/tag-system-1.png)
 
 2. 创建组合标签
 
   a)	在符合条件的子标签节点右侧点击"+组合标签"按钮, 成为组合标签成员。
 
-![](/assets/user/标签体系-创建组合标签1.png)  
+![](/assets/user/tag-system-2.png)  
 
   b)	在组合标签创建页面内填写名称、标签含义等必填项；选择组合关系；点击保存，完成组合标签的创建。
 
-![](/assets/user/标签体系-创建组合标签2.png)    
+![](/assets/user/tag-system-3.png)    
 
 3. 圈选用户分群
 
@@ -35,27 +35,27 @@
   - 点击"计算人数"按钮得到筛选用户数。
   - 点击"查看用户详情"按钮查看用户列表信息。
 
-![](/assets/user/标签体系-圈选用户分群1.png)  
+![](/assets/user/tag-system-4.png)  
 
   b)	在用户列表页面内点击"保存用户分群"，并填写名称和备注，最后保存，完成用户分群的创建。
 
-![](/assets/user/标签体系-圈选用户分群2.png)    
+![](/assets/user/tag-system-5.png)    
 
 # 应用场景
 
 ## 场景1：创建组合标签
-    比如要创建一个用户所属城市叫"沿海城市"的组合标签：
+   比如要创建一个用户所属城市叫"沿海城市"的组合标签：
  
-    ![](/assets/user/标签体系-创建组合标签demo1.png) 
+![](/assets/user/tag-system-6.png) 
 
-    ![](/assets/user/标签体系-创建组合标签demo2.png) 
+![](/assets/user/tag-system-7.png) 
 
 ## 场景2：圈选用户分群
-    比如要创建一个用户年龄属于"青少年"的用户分群：
+   比如要创建一个用户年龄属于"青少年"的用户分群：
  
-    ![](/assets/user/标签体系-圈选用户分群demo1.png) 
+![](/assets/user/tag-system-8.png) 
 
-    ![](/assets/user/标签体系-圈选用户分群demo2.png)     
+![](/assets/user/tag-system-9.png)     
  
 
 
@@ -69,3 +69,7 @@
   * [留存分析](retation-analytics.md)
   * [漏斗分析](funnel-analytics.md)
   * [事件分析](event-analytics.md)
+  * [宏观画像](macro-portrait.md)
+  * [微观画像](micro-portrait.md)
+  * [标签体系管理](tag-system-manager.md)  
+  * [标签数据管理](tag-data-manager.md)    
