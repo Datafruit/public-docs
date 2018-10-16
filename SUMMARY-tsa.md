@@ -49,6 +49,11 @@
   * [留存分析](user/retation-analytics.md)
   * [漏斗分析](user/funnel-analytics.md)
   * [事件分析](user/event-analytics.md)
+  * [宏观画像](user/macro-portrait.md)
+  * [微观画像](user/micro-portrait.md)
+  * [标签体系](user/tag-system.md)      
+  * [标签体系管理](user/tag-system-manager.md)  
+  * [标签数据管理](user/tag-data-manager.md)    
 * [开发者文档](developer/web/developer-docs-web.md)
   * [WEB SDK](developer/web/developer-docs-web.md)
   * Android SDK
