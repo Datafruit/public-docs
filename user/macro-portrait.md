@@ -21,24 +21,24 @@
 
   b)	当然，您也可以进入用户分群的界面创建一个用户群进行分析
 
-![](/assets/user/宏观画像-选择用户群.png)
+![](/assets/user/macro-portrait-1.png)
 
 2. 选择标签维度
 
   在标签分类的树形节点中选择感兴趣的标签维度。
 
-![](/assets/user/宏观画像-选择标签维度.png)
+![](/assets/user/macro-portrait2.png)
 
 3. 查看结果
 
-![](/assets/user/宏观画像-查看结果.png)
+![](/assets/user/macro-portrait-3.png)
 
 # 应用场景
 
-## 场景1：新用户理财金额
-    比如要查看新投资用户的理财金额分布情况：
- 
-    ![](/assets/user/宏观画像-新投资用户的理财金额分布.png) 
+## 场景1：查看新用户理财金额
+  比如要查看新投资用户的理财金额分布情况：   
+  
+![](/assets/user/macro-portrait-4.png) 
  
 
 
@@ -52,3 +52,7 @@
   * [留存分析](retation-analytics.md)
   * [漏斗分析](funnel-analytics.md)
   * [事件分析](event-analytics.md)
+  * [微观画像](micro-portrait.md)
+  * [标签体系](tag-system.md)      
+  * [标签体系管理](tag-system-manager.md)  
+  * [标签数据管理](tag-data-manager.md)    
