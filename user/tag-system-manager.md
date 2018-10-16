@@ -16,28 +16,28 @@
 
 1. 添加标签分类
 
-![](/assets/user/标签体系管理-添加标签分类.png)
+![](/assets/user/tag-system-manager-1.png)
 
 2. 删除标签分类
 
-![](/assets/user/标签体系管理-删除标签分类.png)
+![](/assets/user/tag-system-manager-2.png)
 
 3. 添加标签
 
-![](/assets/user/标签体系管理-添加标签1.png) 
+![](/assets/user/tag-system-manager-3.png) 
 
-![](/assets/user/标签体系管理-添加标签2.png) 
+![](/assets/user/tag-system-manager-4.png) 
 
 4. 删除标签
 
-![](/assets/user/标签体系管理-删除标签.png)   
+![](/assets/user/tag-system-manager-5.png)   
 
 # 应用场景
 
 ## 场景1：创建新标签
-    比如要创建一个记录用户投资金额的新标签：
+  比如要创建一个记录用户投资金额的新标签：
  
-    ![](/assets/user/标签体系管理-添加标签demo.png) 
+![](/assets/user/tag-system-manager-6.png) 
 
 
  
@@ -53,3 +53,7 @@
   * [留存分析](retation-analytics.md)
   * [漏斗分析](funnel-analytics.md)
   * [事件分析](event-analytics.md)
+  * [宏观画像](macro-portrait.md)
+  * [微观画像](micro-portrait.md)
+  * [标签体系](tag-system.md)      
+  * [标签数据管理](tag-data-manager.md)    

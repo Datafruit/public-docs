@@ -18,37 +18,37 @@
 
 1. 标签数据导入
 
-![](/assets/user/标签数据管理-标签数据导入1.png)
+![](/assets/user/tag-data-manager-1.png)
 
-![](/assets/user/标签数据管理-标签数据导入2.png)
+![](/assets/user/tag-data-manager-2.png)
 
 2. 用户群定义标签
 
-![](/assets/user/标签数据管理-用户群定义标签1.png)
+![](/assets/user/tag-data-manager-3.png)
 
-![](/assets/user/标签数据管理-用户群定义标签2.png)
+![](/assets/user/tag-data-manager-4.png)
 
-![](/assets/user/标签数据管理-用户群定义标签3.png)
+![](/assets/user/tag-data-manager-5.png)
 
 3. SQL计算标签
 
-![](/assets/user/标签数据管理-SQL计算标签1.png) 
+![](/assets/user/tag-data-manager-6.png) 
 
-![](/assets/user/标签数据管理-SQL计算标签2.png) 
+![](/assets/user/tag-data-manager-7.png) 
 
-![](/assets/user/标签数据管理-SQL计算标签3.png) 
+![](/assets/user/tag-data-manager-8.png) 
 
 # 应用场景
 
 ## 场景1：为用户分群更新标签值
-    比如现在有一个叫`青少年用户`的分群，想对这个分群的用户在`人群特征`标签维度上写入"年轻人"这个值。
+  比如现在有一个叫`青少年用户`的分群，想对这个分群的用户在`人群特征`标签维度上写入"年轻人"这个值。
  
-    ![](/assets/user/标签数据管理-用户群定义标签demo.png) 
+![](/assets/user/tag-data-manager-9.png) 
 
 ## 场景2：计算标签值
-    比如要计算每个用户的投资金额这个标签值。
+  比如要计算每个用户的投资金额这个标签值。
  
-    ![](/assets/user/标签数据管理-SQL计算标签demo.png) 
+![](/assets/user/tag-data-manager-10.png) 
 
  
 
@@ -63,3 +63,7 @@
   * [留存分析](retation-analytics.md)
   * [漏斗分析](funnel-analytics.md)
   * [事件分析](event-analytics.md)
+  * [宏观画像](macro-portrait.md)
+  * [微观画像](micro-portrait.md)
+  * [标签体系](tag-system.md)      
+  * [标签体系管理](tag-system-manager.md)  
