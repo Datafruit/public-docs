@@ -60,12 +60,12 @@
 ## 场景1：为用户分群更新标签值
   比如现在有一个叫`青少年用户`的分群，想对这个分群的用户在`人群特征`标签维度上写入"年轻人"这个值。
  
-![](/assets/user/tag-data-manager-11.gif) 
+![](/assets/user/tag-data-manager-9.gif) 
 
 ## 场景2：计算标签值
   比如要计算每个用户的投资金额这个标签值。
  
-![](/assets/user/tag-data-manager-12.gif) 
+![](/assets/user/tag-data-manager-10.gif) 
 
  
 
