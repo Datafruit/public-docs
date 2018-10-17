@@ -20,52 +20,52 @@
 
   a)	点击数据导入按钮
   
-![](/assets/user/tag-data-manager-1.png)
+  ![](/assets/user/tag-data-manager-1.png)
 
   b)	上传数据文件
 
-![](/assets/user/tag-data-manager-2.png)
+  ![](/assets/user/tag-data-manager-2.png)
 
 2. 用户群定义标签
 
   a)	点击创建按钮
 
 
-![](/assets/user/tag-data-manager-3.png)
+  ![](/assets/user/tag-data-manager-3.png)
 
   b)	编辑标签任务属性
 
-![](/assets/user/tag-data-manager-4.png)
+  ![](/assets/user/tag-data-manager-4.png)
 
   c)	启动标签任务
 
-![](/assets/user/tag-data-manager-5.png)
+  ![](/assets/user/tag-data-manager-5.png)
 
 3. SQL计算标签
 
   a)	点击创建按钮
 
-![](/assets/user/tag-data-manager-6.png) 
+  ![](/assets/user/tag-data-manager-6.png) 
 
   b)	编辑计算任务属性
 
-![](/assets/user/tag-data-manager-7.png) 
+  ![](/assets/user/tag-data-manager-7.png) 
 
   c)	启动计算任务
 
-![](/assets/user/tag-data-manager-8.png) 
+  ![](/assets/user/tag-data-manager-8.png) 
 
 # 应用场景
 
 ## 场景1：为用户分群更新标签值
   比如现在有一个叫`青少年用户`的分群，想对这个分群的用户在`人群特征`标签维度上写入"年轻人"这个值。
  
-![](/assets/user/tag-data-manager-9.gif) 
+  ![](/assets/user/tag-data-manager-9.gif) 
 
 ## 场景2：计算标签值
   比如要计算每个用户的投资金额这个标签值。
  
-![](/assets/user/tag-data-manager-10.gif) 
+  ![](/assets/user/tag-data-manager-10.gif) 
 
  
 
