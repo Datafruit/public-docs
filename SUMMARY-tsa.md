@@ -43,7 +43,7 @@
 * [用户运营](user/user-operation.md)
   * [用户指标](user/user-quota.md)
   * [场景数据设置](user/user-operation.md#scene-setting)
-  * [用户分群](user/user-segmentation.md)
+  * [用户分群](user/usergroup.md)
   * [用户行为轨迹](user/user-segmentation.md#behavior-trace)
   * [路径分析](user/path-analytics.md)
   * [留存分析](user/retation-analytics.md)
