@@ -10,7 +10,8 @@
     "anchorjs",
     "expandable-chapters",
     "tbfed-pagefooter",
-    "addcssjs"
+    "addcssjs",
+    "markdown-video"
   ],
   "pluginsConfig": {
     "anchorjs": {

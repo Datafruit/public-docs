@@ -40,6 +40,20 @@ SDK检测可能需要30秒至2分钟不等，若检测失败，可按照页面�
 当SDK安装检测成功，即可开始可视化埋点。
 
 #### APP可视化埋点—开始埋点
+
+##### APP可视化埋点视频教程  
+
+<video id="app-track-video" class="video-js" controls preload="auto" width="769" height="364" data-setup="{}">
+  <source src="http://58.63.110.97:8888/docs/codeless20181018.mp4" type='video/mp4'>
+  <!-- <source src="http://58.63.110.97:8888/docs/codeless20181018.webm" type='video/webm'> -->
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
+</video>  
+
+##### APP可视化埋点页面
+
 ![](/assets/project-management/2-4.png)
 开始可视化埋点界面，首先会出现一个二维码，用手机扫描二维码之后，打开页面，并按页面提示启动APP。
 

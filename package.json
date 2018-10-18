@@ -6,7 +6,9 @@
   "dependencies": {
     "gitbook-plugin-anchorjs": "^2.0.1",
     "gitbook-plugin-expandable-chapters": "^0.2.0",
-    "gitbook-plugin-tbfed-pagefooter": "0.0.1"
+    "gitbook-plugin-markdown-video": "^1.2.0",
+    "gitbook-plugin-tbfed-pagefooter": "0.0.1",
+    "gitbook-plugin-videoplayer": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {
