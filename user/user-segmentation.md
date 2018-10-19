@@ -85,8 +85,9 @@
 ### 用户列表
 
 + 在用户分群界面点击分群菜单栏中的**用户列表**按钮，进入该分群的用户列表界面，可查看该用户群的用户列表，以及用户的最近访问情况。
- ![](/assets/usergroup/wpsCE34.tmp.jpg)
- ![](/assets/usergroup/wpsCE35.tmp.jpg) 
+
+![](/assets/usergroup/wpsCE34.tmp.jpg)
+![](/assets/usergroup/wpsCE35.tmp.jpg) 
 
 ### 导出
 
