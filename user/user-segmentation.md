@@ -19,138 +19,94 @@
 ### 新建分群
 
 1. 点击用户分群界面右上角的**新建用户群**按钮，进入新建用户群界面
-
-![](/assets/usergroup/wpsCE03.tmp.jpg) 
-
+  ![](/assets/usergroup/wpsCE03.tmp.jpg) 
 
 2. 在新建用户群界面中设置基础信息：**分群标题**、**备注**（简单地描述你划分的用户显著特征，以便识别用户群）、**选择用户ID**（选定识别用户的字段，默认选择用户ID）、**分组**、**关联的行为和标签项目**
-
-![](/assets/usergroup/wpsCE04.tmp.jpg) 
-
- 
+  ![](/assets/usergroup/wpsCE04.tmp.jpg) 
 
 3. 选择**更新时间**，可选择手动更新或定时更新，选择定时更新则可根据需求设置每次更新的时间
-
-![](/assets/usergroup/wpsCE05.tmp.jpg) 
+  ![](/assets/usergroup/wpsCE05.tmp.jpg) 
 
 4. 选择**更新方式**，可选择更新后替换原有用户群或更新后累计至原有用户群，可根据需求选择
-
-![](/assets/usergroup/wpsCE16.tmp.jpg) 
+   ![](/assets/usergroup/wpsCE16.tmp.jpg) 
 
 5. **添加创建规则**，点击添加创建规则，可添加行为筛选、标签筛选、用户群筛选规则
-
- 
-
-![](/assets/usergroup/wpsCE17.tmp.jpg) 
-
- 
+   ![](/assets/usergroup/wpsCE17.tmp.jpg) 
 
 6. **行为筛选**，选定用户的时间范围，时间会对以下选择的行为、指标和条件均有影响，添加用户行为筛选、指标筛选、条件筛选（如找不到相应的条件请尝试更改时间范围）
 
-- 用户的行为特征：如选择进行过“点击”“分享”行为的操作；
-
-- 用户的指标特征：如选择“分享次数>1”的特征；
-
-- 用户的条件特征：如选择用户的来源省份为“广东省”的特征。
-
-
-
-
-![](/assets/usergroup/wpsCE18.tmp.jpg)
-![](/assets/usergroup/wpsCE19.tmp.jpg) 
-
- 
+   + 用户的行为特征：如选择进行过“点击”“分享”行为的操作；
+   + 用户的指标特征：如选择“分享次数>1”的特征；
+   + 用户的条件特征：如选择用户的来源省份为“广东省”的特征。
+     ![](/assets/usergroup/wpsCE18.tmp.jpg)
+     ![](/assets/usergroup/wpsCE19.tmp.jpg) 
 
 7. **标签筛选**，可添加标签条件筛选
-
-![](/assets/usergroup/wpsCE1A.tmp.jpg) 
-
- 
+   ![](/assets/usergroup/wpsCE1A.tmp.jpg) 
 
 8. **用户群筛选**，可选择按已有的分群筛选或者选择以文本上传用户ID（上传的字段名必须为distinct_id）的形式，将用户自主全选为一个群。
-
-![](/assets/usergroup/wpsCE1B.tmp.jpg) 
-
- 
+   ![](/assets/usergroup/wpsCE1B.tmp.jpg) 
 
 9. 若已添加了多种筛选条件，可以选择不同的筛选条件之间的计算方式
-
-![](/assets/usergroup/wpsCE1C.tmp.jpg) 
-
- 
+   ![](/assets/usergroup/wpsCE1C.tmp.jpg) 
 
 10. 所有信息都编辑完毕，点击**保存**按钮进行保存，用户分群即创建成功。
-
-![](/assets/usergroup/wpsCE1D.tmp.jpg) 
+    ![](/assets/usergroup/wpsCE1D.tmp.jpg) 
 
 ### 其它新建用户群的方式
 
 + 通过行为分析的用户详情列表，点击右上角的**保存为分群**按钮，输入分群名称和备注则可保存为分群，分群默认保存在行为分析结果分组下。
-
-![](/assets/usergroup/wpsCE1E.tmp.jpg) 
-
-![](/assets/usergroup/wpsCE1F.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE1E.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE1F.tmp.jpg) 
 
  
 
 + 通过用户画像-标签体系的用户详情列表，点击右上角的**保存为分群**按钮，输入分群名称和备注则可保存为分群，分群默认保存在标签圈选结果分组下。
-
-![](/assets/usergroup/wpsCE20.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE20.tmp.jpg) 
 
 ### 多维分析
 
 + 在用户分群界面点击分群菜单栏中的**多维分析**按钮，进入已筛选了该分群的多维分析界面。
-
-![](/assets/usergroup/wpsCE21.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE21.tmp.jpg) 
 
 ### 行为分析
 
 + 当您定位到您所关心的某一用户群体以后，用户行为分析的工具可以进一步帮助您分析群体的行为特征。在用户分群界面点击分群菜单栏中的**行为分析**按钮，弹出路径分析、留存分析、漏斗分析、事件分析选择框，点击对应的行为分析方式进入已筛选了该分群的行为分析界面。
-
-![](/assets/usergroup/wpsCE22.tmp.jpg) 
-
-![](/assets/usergroup/wpsCE23.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE22.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE23.tmp.jpg) 
 
 ### 用户画像
 
 + 在用户分群界面点击分群菜单栏中的**画像**按钮，进入已筛选了该分群的用户画像界面。
-
-![](/assets/usergroup/wpsCE33.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE33.tmp.jpg) 
 
  
 
 ### 用户列表
 
 + 在用户分群界面点击分群菜单栏中的**用户列表**按钮，进入该分群的用户列表界面，可查看该用户群的用户列表，以及用户的最近访问情况。
-
-![](/assets/usergroup/wpsCE34.tmp.jpg)
-![](/assets/usergroup/wpsCE35.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE34.tmp.jpg)
+ ![](/assets/usergroup/wpsCE35.tmp.jpg) 
 
 ### 导出
 
 + 在用户分群界面点击分群菜单栏中的**导出**按钮，可导出该分群的用户数据。
-
-![](/assets/usergroup/wpsCE36.tmp.jpg) 
-
- 
+ ![](/assets/usergroup/wpsCE36.tmp.jpg) 
 
 ### 重新计算
 
 + 在用户分群界面点击分群菜单栏中的**重新计算分群**按钮，可重新计算该分群的用户数据。
-
-![](/assets/usergroup/wpsCE37.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE37.tmp.jpg) 
 
 ### 编辑
 
 + 在用户分群界面点击分群菜单栏中的**编辑**按钮，可进入该分群的信息编辑界面。
-
-![](/assets/usergroup/wpsCE38.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE38.tmp.jpg) 
 
 ### 删除
 
 + 在用户分群界面点击分群菜单栏中的**删除**按钮，再点击确定，可删除该分群。
-
-![](/assets/usergroup/wpsCE39.tmp.jpg) 
+ ![](/assets/usergroup/wpsCE39.tmp.jpg) 
 
 ## 案例：最近30天活跃用户
 
@@ -167,10 +123,9 @@
 6. 保存即建立了符合条件的用户分群。
 
 7. 即在最近30天内该用户的操作记录数达到100以上，则为活跃用户。 
+ ![](/assets/usergroup/wpsCE3A.tmp.gif) 
 
-![](/assets/usergroup/wpsCE3A.tmp.gif) 
-
-### 用户行为轨迹 <div id="behavior-trace"></div>
+## 用户行为轨迹 <div id="behavior-trace"></div>
 当您定位到您所关心的某一用户群体以后，用户细查可以进一步帮助您了解这个群体内的用户在您的产品内的行为轨迹，从而清晰地展现用户与产品的整个交互过程。
 进入用户细查，查看该群的所有用户在分群的时间范围内的行为操作轨迹。便于跟进高价值的用户与发现产品潜在问题。
 1.	具体查看某个用户
