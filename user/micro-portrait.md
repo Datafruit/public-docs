@@ -22,19 +22,19 @@
 
   b)	输入查询内容
 
-![](/assets/user/micro-portrait-1.png)
+  ![](/assets/user/micro-portrait-1.png)
 
 2. 查看基础标签
 
-![](/assets/user/micro-portrait-2.png)
+  ![](/assets/user/micro-portrait-2.png)
 
 3. 查看用户详情
 
-![](/assets/user/micro-portrait-3.png)
+  ![](/assets/user/micro-portrait-3.png)
 
 4. 查看行为序列
 
-![](/assets/user/micro-portrait-4.png)
+  ![](/assets/user/micro-portrait-4.png)
 
 
 

@@ -16,28 +16,28 @@
 
 1. 添加标签分类
 
-![](/assets/user/tag-system-manager-1.png)
+  ![](/assets/user/tag-system-manager-1.png)
 
 2. 删除标签分类
 
-![](/assets/user/tag-system-manager-2.png)
+  ![](/assets/user/tag-system-manager-2.png)
 
 3. 添加标签
 
-![](/assets/user/tag-system-manager-3.png) 
+  ![](/assets/user/tag-system-manager-3.png) 
 
-![](/assets/user/tag-system-manager-4.png) 
+  ![](/assets/user/tag-system-manager-4.png) 
 
 4. 删除标签
 
-![](/assets/user/tag-system-manager-5.png)   
+  ![](/assets/user/tag-system-manager-5.png)   
 
 # 应用场景
 
 ## 场景1：创建新标签
   比如要创建一个记录用户投资金额的新标签：
  
-![](/assets/user/tag-system-manager-6.png) 
+  ![](/assets/user/tag-system-manager-6.png) 
 
 
  
