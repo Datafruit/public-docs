@@ -28,7 +28,8 @@
     0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="sugoio";d.people=d.people||[];d.toString=function(b){var a="sugoio";"sugoio"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};m="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
     for(h=0;h<m.length;h++)e(d,m[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;"undefined"!==typeof SUGOIO_CUSTOM_LIB_URL?b.src=SUGOIO_CUSTOM_LIB_URL:b.src="file:"===e.location.protocol&&"//astro.sugo.io/_bc/sugo-sdk-js/libs/sugoio-latest.min.js".match(/^\/\//)?"https://astro.sugo.io/_bc/sugo-sdk-js/libs/sugoio-latest.min.js":"//astro.sugo.io/_bc/sugo-sdk-js/libs/sugoio-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,
     c)}})(document,window.sugoio||[]);
-    
+
+    // 初始化web sdk
     sugoio.init('YOUR_TOKEN', {'project_id': 'YOUR_PROJECT_ID'});
   </script>
 <!-- end sugoio -->
@@ -43,21 +44,21 @@
 ```javascript
   sugoio.init('YOUR_TOKEN', { // 项目TOKEN
     project_id: 'YOUR_PROJECT_ID', // 项目ID
-    api_host: '', // sugoio-latest.min.js文件以及数据上报的地址
-    app_host: '', // 可视化配置时服务端地址
+    api_host: '', // 数据上报的地址
+    app_host: '', // sugoio-latest.min.js文件以及可视化配置时服务端地址
     decide_host: '', // 加载已埋点配置地址
     loaded: function(lib) { }, // **sugoio** **sdk** 加载完成回调函数
-    DEBUG: false // 是否启用debug
+    debug: false // 是否启用debug
   });
 ```
 
 * **YOUR_TOKEN：** 为项目TOKEN。
 * **YOUR_PROJECT_ID：** 为项目ID。
-* **api_host：** sugoio-latest.min.js文件以及数据上报的地址。
-* **app_host：** 可视化配置时服务端地址。
+* **api_host：** 数据上报的地址。
+* **app_host：** sugoio-latest.min.js文件以及可视化配置时服务端地址。
 * **decide_host：** 加载已埋点配置地址。
 * **loaded：** sugoio sdk 加载完成回调函数。
-* **DEBUG：** 是否启用debug。
+* **debug** 是否启用debug。
 
 ### 用户自定义维度
 

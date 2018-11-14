@@ -8,7 +8,7 @@
 
 ```javascript
 const sugoio = require('./util/wx-mini-sdk.js') //引入sugoio
-
+// 初始化sdk
 App({
   onLaunch: function () {
     sugoio.App.init({
@@ -21,9 +21,17 @@ App({
       "track_reach_bottom": false, // 自动上报上拉触底事件
       "track_auto_duration": true, // 自动上报提留事件
       "debug": false // 是否启用debug
-    })
-    console.log('App Launch')
-  })
+    });
+    console.log('App Launch');
+  });
+
+  // 上报页面浏览记录
+  Page({
+    onLoad: function () {
+      sugoio.Page.init();
+      console.log('Page onLoad')
+    }
+  });
 ```
 
 * **${appid}：** 为应用TOKEN。
