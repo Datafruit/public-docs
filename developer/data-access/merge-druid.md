@@ -83,7 +83,7 @@
 type | 指定任务类型
 dataSource | 要合并的datasource名称
 interval　| 需要进行合并的时间间隔，在间隔范围外的不进行合并
-triggerMergeCount |  设定触发合并的段的数据,超过该值才触发合并，默认为２
+triggerMergeCount |  设定触发合并的段的数量,超过该值才触发合并，默认为２,一般不需要修改
 mergeGranularity | 指定合并的粒度，可选项有：`SECOND`、`MINUTE`、`FIVE_MINUTE`、`TEN_MINUTE`、`FIFTEEN_MINUTE`、`HOUR`、`SIX_HOUR`、`DAY、WEEK`、`MONTH`、`YEAR`
 maxSizePerSegment | 指定合并后数据段的最大值
 context　| 指定任务的其它环境参数
