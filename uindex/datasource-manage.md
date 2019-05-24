@@ -72,6 +72,13 @@ curl -X POST 'http://{hmaster_ip}:8086/druid/hmaster/v1/datasources' -H 'Content
         "type": "string",
         "name": "HEAD_ARGS",
         "hasMultipleValues": true
+    },
+    {
+        "type": "date",
+        "name": "date_time",
+        "hasMultipleValues": true,
+        "format": "yyyy-MM-dd HH:mm:ss.SSS",  // format可以不指定
+        "timeZone": "UTC"         // timeZone可以不指定
     }]
 }'
 
