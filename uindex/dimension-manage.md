@@ -19,9 +19,12 @@
 | ml  | long类型| 多值 | ml_timestamp |  
 |f|float类型|单值|f_avg  |  
 |mf|float类型|多值|mf_score  |  
-|d|double类型|单值|d_value  |  
-|md|double类型|多值|md_value  |  
+|d|date类型|单值|d_value  |  
+|md|date类型|多值|md_value  | 
+|p|double类型|单值|p_value  |  
+|mp|double类型|多值|mp_value  |  
 |s|string类型|单值|s_name  |  
 |ms|string类型|多值|ms_name  |  
 
-其他：string类型，多值，例如：name，没有指定类型，默认是string类型，并且是多值。  
+其他：string类型，多值，例如：name，没有指定类型，默认是string类型，并且是多值。   
+ date类型，动态维情况下格式默认为`yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`。
