@@ -37,7 +37,8 @@
     "value": "广东省"
 }
 ```
-相当于 `WHERE province = ＂广东省＂`。
+相当于 `WHERE province = ＂广东省＂`。  
+`extractionFn`:只有当维度是字符串类型时才生效。如果是数字类型的，将不生效。
 ### <a id="Filter-Regex" href="Filter-Regex"></a>2. `Regex Filter` 
 `Regex Filter`允许用户用正则表达式来筛选维度，任何标准的`Java`正则表达式`Druid`都支持，支持使用提取功能。`Regex Filter`的`JSON`示例如下：
 
