@@ -4,7 +4,7 @@
 
 `Filter`,即过滤器，在查询语句中是一个`JSON`对象，用来对维度进行筛选，表示维度满足`Filter`的行是我们需要的数据。它基本上等同于`SQL`中的`WHERE`子句。
 - `Filter` 类别详情如下：
-  - [`Seletor`](#Filter-Seletor)
+  - [`Selector`](#Filter-Selector)
   - [`Regex`](#Filter-Regex)
   - [`And`](#Filter-And)
   - [`Or`](#Filter-Or)
@@ -17,8 +17,8 @@
   - [`Lookup`](#Filter-Lookup)
   - [`Lucene`](#Filter-Lucene)
   - [`Extraction`](#Filter-Extraction)
-### <a id="Filter-Seletor" href="Filter-Seletor"></a>1. `Seletor Filter`
-`Seletor Filter`是最简单的过滤器，它将与具体值匹配，功能类似于`SQL`中的`where key=value`，支持提取功能。`Seletor Filter`的`JSON`示例如下：
+### <a id="Filter-Selector" href="Filter-Selector"></a>1. `Selector Filter`
+`Selector Filter`是最简单的过滤器，它将与具体值匹配，功能类似于`SQL`中的`where key=value`，支持提取功能。`Selector Filter`的`JSON`示例如下：
 ```
 "filter":{
     "type":"selector",
