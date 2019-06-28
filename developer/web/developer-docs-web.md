@@ -54,11 +54,16 @@
 
 * **YOUR_TOKEN：** 为项目TOKEN。
 * **YOUR_PROJECT_ID：** 为项目ID。
-* **api_host：** 数据上报的地址。
-* **app_host：** sugoio-latest.min.js文件以及可视化配置时服务端地址。
-* **decide_host：** 加载已埋点配置地址。
-* **loaded：** sugoio sdk 加载完成回调函数。
-* **debug** 是否启用debug。
+- **api_host：** 数据上报的地址(网关)。
+- **app_host：** sugoio-latest.min.js文件以及可视化配置时服务端地址。
+- **decide_host：** 加载已埋点配置地址。
+- **loaded：** sugoio sdk 加载完成回调函数。
+- **enable_hash** 单页应用页面设置开启hash配置(默认false)。
+- **duration_track** 是否自动上报停留事件(默认true)。
+- **heatmap** 是否开启热图分析功能(默认false)。
+- **heatmap_grid_track：** 是否开启网格热图事件上报功能(默认false)。
+- **debug** 是否启用debug。
+- **exception_topic** sdk默认异常上报topic名称 不设置则不上报
 
 ### 用户自定义维度
 
