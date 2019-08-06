@@ -91,7 +91,7 @@
         * [本地文件接入](developer/data-access/index-task.md)
         * [Kafka接入](developer/data-access/kakfa-druid.md)
         * [kafka动态维接入](developer/data-access/default-kafka.md)
-        * [嵌套json数据接入](developer/data-access/default-kafka.md)
+        * [嵌套json数据接入](developer/data-access/nested-json-parser.md)
         * [hadoop接入](developer/data-access/hadoop.md)
         * [数据段合并](developer/data-access/merge-druid.md)
       * [parser 类型](developer/data-access/parser.md)
