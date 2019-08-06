@@ -1,4 +1,4 @@
-# 解析嵌套json格式数据
+# 嵌套json数据接入
 
 > ## 概要　　
 > * 本流程主要介绍如何配置解析嵌套json格式数据.
@@ -108,7 +108,7 @@
 - **`dataSchema.parser.type`** 默认的parser类型为string,所以此处可省略.
 - **`dataSchema.parser.parseSpec.format`** parse类型配置为嵌套的"nested".
 - **`dataSchema.parser.parseSpec.decollator`** 分割符默认为".",在本文档是将嵌套的json打平,所以此配置无效.如果想将嵌套的json解析后,保留原来的嵌套格式,比如解析以上json后显示的字段包含"msg.EventTime",则需要此配置.
-- **`dataSchema.parser.parseSpec.timestampSpec`** 配置时间错列,如果数据中没有时间列,可使用当前时间作为时间列.
+- **`dataSchema.parser.parseSpec.timestampSpec`** 配置时间戳列,如果数据中没有时间列,可使用当前时间作为时间列.
 - **`dataSchema.parser.parseSpec.timestampSpec.reNewTime`** 使用当前时间作为时间戳.如果使用该配置,其他项不需要配.
 - **`dataSchema.parser.parseSpec.timestampSpec.missingValue`** 使用固定时间作为时间戳,比如`2016-08-03T12:53:51.999Z`.如果使用该配置,其他项不需要配.
 - **`dataSchema.parser.parseSpec.timestampSpec.column`** 时间戳列.
