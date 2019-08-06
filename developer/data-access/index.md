@@ -6,6 +6,7 @@
     - [本地文件接入](index-task.md)
     - [Kafka接入](kakfa-druid.md)
     - [kafka动态维接入](default-kafka.md)
+    - [嵌套json数据接入](nested-json-parser.md)
     - [hadoop接入](hadoop.md)
     - [预聚合接入](rollup-druid.md)
     - [数据段合并](merge-druid.md)
