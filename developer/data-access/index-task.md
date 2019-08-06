@@ -166,6 +166,7 @@ curl -X 'POST' -H 'Content-Type:application/json' -d @{file_name} http://{Overlo
 
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.dimensions:`** 维度定义列表，每个维度的格式为： `{“name”: “age”, “type”:”string”}` 。Type支持的类型：`string`、`int`、`float`、`long`、`date`
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.listDelimiter:`**  csv列分隔符
+- **`spec.dataSchema.parser.parseSpec.dimensionsSpec.multiValueDelimiter:`**  csv多值列分隔符
 - **`spec.dataSchema.parser.parseSpec.dimensionsSpec.columns:`**  维度列表，包含时间戳列，`eg:["da","ProductID"]`
 - **`spec.dataSchema.granularitySpec:`** 数据粒度说明
 - **`spec.dataSchema.granularitySpec.intervals:`** 数据时间戳范围，不能为空，可以指定多个范围
