@@ -1,6 +1,6 @@
 # 查询Overlord、MiddleManager节点
 
-以下以广东数果科技有限公司为例，查询集群中的 `Overlord` 和 `MiddleManager`
+以下为查询集群中的 `Overlord` 和 `MiddleManager`
 
 ## 第一步：通过浏览器登录Ambari后台页面
 - 访问地址：

@@ -1,5 +1,5 @@
 # Summary
-* [数果智能帮助文档简介](book-index.md)
+* [系统帮助文档简介](book-index.md)
 * 数据管理
   * [项目管理](project-management.md)
     * [创建项目](project-management.md#create-project)
