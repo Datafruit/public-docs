@@ -1,6 +1,6 @@
 # public-docs
 
-听云产品文档，使用gitbook发布
+系统产品文档，使用gitbook发布
 
 ## 开始使用
 

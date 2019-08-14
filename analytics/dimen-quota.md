@@ -3,7 +3,7 @@
 &emsp;&emsp;维度是我们接入数据的每一个字段名称，指研究对象的描述性属性或特征，就是我们常说的字段。维度区域中罗列了维度管理中的所有维度。维度介绍具体详情见[维度管理](/dimension-management.md)。
 
 ## 维度数值类型
-&emsp;&emsp;SUGO-BTSA支持多类型数值处理：
+&emsp;&emsp;系统支持多类型数值处理：
 
 
 &emsp;&emsp;![](/assets/data-analysis/dimen-1.png)&emsp;表示Float浮点类型，精确到小数点后两位。

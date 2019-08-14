@@ -1,11 +1,11 @@
 {
-  "title": "听云使用手册",
-  "description": "听云产品使用手册",
+  "title": "系统使用手册",
+  "description": "平台系统产品使用手册",
   "structure": {
     "readme": "book-index-tsa.md",
     "summary": "SUMMARY-tsa.md"
   },
-  "author": "北京听云",
+  "author": "",
   "plugins": [
     "anchorjs",
     "expandable-chapters",
@@ -18,8 +18,8 @@
       "visible": "always"
     },
     "tbfed-pagefooter": {
-      "copyright":"&copy 北京听云",
-      "modify_label": "问题反馈邮件：cs@tingyun.com",
+      "copyright":"",
+      "modify_label": "",
       "modify_format": "YYYY-MM-DD HH:mm:ss"
     },
     "addcssjs": {
