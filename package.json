@@ -11,7 +11,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gitbook serve"
+    "start": "gitbook serve",
+    "pdf": "gitbook pdf .",
+    "build": "gitbook build"
   },
   "repository": {
     "type": "git",
