@@ -12,13 +12,13 @@
 （如无，请创建或从我们提供的SugoDemo目录中[获取](https://github.com/Datafruit/sugo-objc-sdk/blob/master/SugoDemo/Podfile)并作出相应修改）文件中添加以下字符串：
 
 ```
-pod 'sugo-objc-sdk'
+pod 'sugo-objc-sdk','xxxx' (请联系技术人员获取最新的版本号)
 ```
 
 若需要支持**Weex**的可视化埋点功能，请**替代**使用
 
 ```
-pod 'sugo-objc-sdk/weex'
+pod 'sugo-objc-sdk/weex','xxxx' (请联系技术人员获取最新的版本号)
 ```
 
 

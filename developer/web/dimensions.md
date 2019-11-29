@@ -61,3 +61,4 @@
 |page_category        | 页面分类 | string | √ | √ | √ | 页面分类 |
 |first_visit_time     | 首次访问时间 | date | √ | √ | √ | 首次访问时间（用户唯一ID的首次访问时间） |
 |first_login_time     | 首次登陆时间 | date | √ | √ | √ | 首次登陆时间（业务ID的首次登录时间，需要把业务ID 传给sdk） |
+|screen_pixel         | 屏幕分辨率 | string | √ | √ | √ | 手机屏幕的分辨率 |

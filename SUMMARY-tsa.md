@@ -55,6 +55,7 @@
   * [标签体系管理](user/tag-system-manager.md)  
   * [标签数据管理](user/tag-data-manager.md)    
 * [开发者文档](developer/web/developer-docs-web.md)
+  * [移动端SDK常规事件上报事件说明](developer/common/default-event-flow.md)
   * [WEB SDK](developer/web/developer-docs-web.md)
   * Android SDK
     * [SDK 集成](developer/android/README.md#anchor-1)
@@ -72,6 +73,7 @@
       * [SDK 进阶调用](developer/ios/swift/adv-use.md)
   * [微信小程序 SDK](developer/wx/wx-mini.md)
   * [预置属性](developer/web/dimensions.md)
+  * [预置事件名称描述](developer/web/event-name-desc.md)
   * 接口文档
     * [Sugo Plyql 使用文档](developer/interfaces/sugo-plyql.md)
       * [示例](developer/interfaces/sugo-plyql.md#example)
