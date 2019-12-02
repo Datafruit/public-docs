@@ -7,6 +7,7 @@ task类型: `lucene_upset`
 ## 参数解析
 - `filterColumns`: 指定主键列  
 - `actionColumn`: 指定操作列,比如`action`
+- `worker`: 制定task运行的worker节点，需要使用域名，或参考task管理界面的`Remote Workers`表格
 - `dataSchema`: 参考其他task的配置
 - `tuningConfig`: 可以不指定,使用默认配置.注意不能同时指定`maxRowsPerSegment`和`numShards`.建议通过配置将segment大小控制在300MB到600MB之间.
 - `tuningConfig.maxRowsPerSegment`: 指定每个segment的最大记录条数,建议每个segment内的记录数不超过500万,不低于100万.应根据字段数进行适当调整.比如小与30个字段配置400万,大于100个字段配置100万.
@@ -24,6 +25,7 @@ task类型: `lucene_upset`
     "filterColumns": [
         "old_card_no"
     ],
+    "worker":"node2.sugo.io:8091",
     "actionColumn": "action",
     "dataSchema": {
         "dataSource": "janpy_upset1",
