@@ -94,5 +94,5 @@
         * [嵌套json数据接入](developer/data-access/nested-json-parser.md)
         * [hadoop接入](developer/data-access/hadoop.md)
         * [数据段合并](developer/data-access/merge-druid.md)
-        * [upsert特效task](developer/data-access/lucene_upsert.md)
+        * [UpSert特性task](developer/data-access/lucene_upsert.md)
       * [parser 类型](developer/data-access/parser.md)
